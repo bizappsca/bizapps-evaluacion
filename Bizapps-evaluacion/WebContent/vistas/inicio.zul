@@ -29,7 +29,7 @@
 						<space></space>
 						<div hflex="2" align="center">
 							<label
-								value="GESTIÓN DE DESEMPEÑO EMPRESARIAL V1.5" 
+								value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" 
 								style="font-size:23px;color:white;font-weight: bold" />
 						</div>
 						<space></space>
@@ -51,7 +51,7 @@
 								</a>
 								<a style="color: white">
 									<space />
-									<label id="lblEditarCuenta" value="Editar Cuenta" />
+									<label id="lblEditarCuenta" value="Cambiar Contraseña" />
 									<!-- onClick='contenido.src="../vistas/seguridad/VEditarUsuario.zul"' -->
 								</a>
 							</vbox>
@@ -122,7 +122,7 @@
 				<borderlayout style="overflow-y:scroll;"
 					sclass="complex-layout">
 					<center border="none" flex="true" style="background-image: url('../public/imagenes/generales/LogoDusaAgua.png'); background-repeat:no-repeat;"
-						autoscroll="true">
+						>
 						<tabbox width="auto" id="tabBox" hflex="1">
 							<tabs>
 								<tab visible="false">Tab A</tab>

@@ -97,6 +97,7 @@ public class CReinicioPassword extends CGenerico {
 			}
 		};
 		botonera.getChildren().get(0).setVisible(false);
+		botonera.getChildren().get(2).setVisible(false);
 		botoneraReinicio.appendChild(botonera);
 	}
 

@@ -1,5 +1,5 @@
 <zk>
-	<window border="normal" height="auto" width="auto"
+	<window border="normal" height="auto" width="97%"
 		style="background-color:#8A0808;" id="winEvaluacionEmpleado"
 		apply="controlador.transacciones.CAgregarEvaluacion" closable="true" >
 		<separator></separator>
@@ -100,14 +100,13 @@
 										mold="rounded" rows="1" width="100%" readonly="true" id="txtResultados" />
 								</listcell>
 								<listcell>
-									<button id="btnOk" width="auto" height="auto" mold="trendy"
-										image="/public/imagenes/botones/seleccionar.png" style="background-color:#F8E0E0 ; ;">
+									<button id="btnOk"
+									class="abrir" 	image="/public/imagenes/botones/seleccionar.png">
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnCancelarO" width="auto" height="auto"
-										mold="trendy" image="/public/imagenes/botones/cancelar.png"
-										style="background-color:#F8E0E0 ; ;">
+									<button id="btnCancelarO" 
+										 class="abrir" image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
 							</listitem>
@@ -291,14 +290,12 @@
 										disabled="true" visible="false" />
 								</listcell>
 								<listcell>
-									<button id="btnOk2" width="auto" height="auto" mold="trendy"
-										image="/public/imagenes/botones/seleccionar.png" style="background-color:#F8E0E0 ; ;">
+									<button id="btnOk2" class="abrir"
+										image="/public/imagenes/botones/seleccionar.png" >
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnCancelarI" width="auto" height="auto"
-										mold="trendy" image="/public/imagenes/botones/cancelar.png"
-										style="background-color:#F8E0E0 ; ;">
+									<button id="btnCancelarI" class="abrir" image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
 							</listitem>
@@ -645,25 +642,23 @@
 									</combobox>
 								</listcell>
 								<listcell>
-									<button id="btnAgregarCapacitacion" width="auto" height="auto"
-										mold="trendy" image="/public/imagenes/botones/seleccionar.png"
-										style="background-color:#F8E0E0 ; ;">
+									<button id="btnAgregarCapacitacion" class="abrir"
+									 image="/public/imagenes/botones/seleccionar.png"	>								
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnQuitarCapacitacion" class= "btn"
-										 image="/public/imagenes/botones/cancelar.png"
-										style="background-color:#F8E0E0 ; ;">
+									<button id="btnQuitarCapacitacion" class="abrir"
+										 image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
 							</listitem>
 						</listbox>
 					</groupbox>
 					<div align="right" height="100%">
-						<button id="btnAgregarAcciones"  class= "btn"
-							label="Agregar" image="/public/imagenes/botones/agregar.png">
+						<button id="btnAgregarAcciones"  class="btn"
+							label="Agregar" image="/public/imagenes/botones/annadir.png">
 						</button>
-						<button id="btnEliminarAcciones" class= "btn"
+						<button id="btnEliminarAcciones" class="btn"
 							label="Eliminar" image="/public/imagenes/botones/eliminar.png">
 						</button>
 					</div>
@@ -772,7 +767,7 @@
 						tabindex="2" image="/public/imagenes/botones/salir.png">
 					</button>
 					<button id="btnImprimir" label="Imprimir" sclass="btn"
-						tabindex="2" image="/public/imagenes/botones/generar.png">
+						tabindex="2" image="/public/imagenes/botones/reporte.png">
 					</button>
 					<separator />
 				</div>

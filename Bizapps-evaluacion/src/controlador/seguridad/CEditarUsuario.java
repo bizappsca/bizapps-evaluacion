@@ -133,7 +133,7 @@ public class CEditarUsuario extends CGenerico {
 						usuario.setPassword(password);
 						usuario.setImagen(imagenUsuario);
 						servicioUsuario.guardar(usuario);
-						Messagebox.show("Su contraseña ha sido cambiada correctamente" , "Informacion",
+						Messagebox.show("Los Datos fueron modificados Satisfactoriamente" , "Informacion",
 								Messagebox.OK, Messagebox.INFORMATION);
 						limpiar();
 					} else {
@@ -154,6 +154,7 @@ public class CEditarUsuario extends CGenerico {
 			}
 		};
 		botonera.getChildren().get(0).setVisible(false);
+		botonera.getChildren().get(2).setVisible(false);
 		botoneraEditarUsuario.appendChild(botonera);
 	}
 

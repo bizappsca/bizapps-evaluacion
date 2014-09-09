@@ -156,7 +156,7 @@
 									<separator />
 									<hlayout width="100%">
 										<button type="submit" class="btn" label="Entrar"
-											image="/public/imagenes/botones/entrar.png" height="37px" width="170px" />
+											image="/public/imagenes/botones/entrar.png" style="font-size:18px" height="37px" width="170px" />
 									</hlayout>
 								</h:form>
 							</hlayout>

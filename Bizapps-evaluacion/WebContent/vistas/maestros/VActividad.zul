@@ -1,13 +1,13 @@
 <window id="wdwVActividad" border="normal" height="auto"
-	style="background-color:#8A0808;" apply="controlador.maestros.CActividad" width="70%">
-
+	style="background-color:#8A0808;" apply="controlador.maestros.CActividad"
+	width="70%">
 	<groupbox width="auto">
 		<separator />
 		<div id="botoneraActividad" />
 		<separator />
 		<separator />
-		<groupbox id="gpxRegistroActividad" width="auto" title="" class= "azul"
-			open="false">
+		<groupbox id="gpxRegistroActividad" width="auto" title=""
+			class="azul" open="false">
 			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para registrar una nueva actividad" />
 			<separator />
@@ -20,16 +20,14 @@
 				<rows>
 					<row>
 						<hbox>
-							<label value="Descripción:"
-								class="etiqueta" />
+							<label value="Descripción:" class="etiqueta" />
 							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
+							<label value="*" style="font-weight:bold;color:red">
 							</label>
 						</hbox>
 
-						<textbox id="txtDescripcionActividad"
-							width="90%" maxlength="250" tabindex="1"
+						<textbox id="txtDescripcionActividad" width="90%"
+							maxlength="250" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la actividad" />
 					</row>
 				</rows>
@@ -37,11 +35,10 @@
 		</groupbox>
 		<separator />
 		<separator />
-		<groupbox id="gpxDatosActividad" width="auto" title="" class = "azul">
+		<groupbox id="gpxDatosActividad" width="auto" title="" class="azul">
 			<caption label="Registros" style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para visualizar las actividades registradas" />
-			<div id="catalogoActividad"
-				tooltiptext="Seleccione la actividad para realizar una accion" />
+			<div id="catalogoActividad" tooltiptext="Seleccione la actividad para realizar una accion" />
 		</groupbox>
 		<separator />
 		<separator />

@@ -85,6 +85,8 @@
 	-moz-border-radius: 0.7em;
 	border-radius: 0.7em;
 	background: #952C2C;
+		width: 37px;
+	height: 34px;
 }
 
 .banner {
