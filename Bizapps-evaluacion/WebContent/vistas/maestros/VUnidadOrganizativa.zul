@@ -32,9 +32,11 @@
 						<textbox id="txtGerenciaUnidadOrganizativa"
 							tabindex="1" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui la gerencia" />
-						<button id="btnBuscarGerencia" label=""
+						<button id="btnBuscarGerencia" label="Buscar"
 							tooltiptext="Catalogo de gerencias" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Descripción:" class="etiqueta" />
@@ -42,6 +44,8 @@
 						<textbox id="txtDescripcionUnidadOrganizativa"
 							width="100%" maxlength="100" tabindex="2" rows="3" cols="100"
 							tooltiptext="Ingrese aqui la descripcion de la unidad organizativa" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Nivel:" class="etiqueta" />
@@ -50,6 +54,8 @@
 							constraint="no negative" width="100%" maxlength="100"
 							tabindex="3"
 							tooltiptext="Ingrese aqui el nivel de la unidad organizativa" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Sub-Nivel:" class="etiqueta" />
@@ -58,6 +64,8 @@
 							constraint="no negative" width="100%" maxlength="100"
 							tabindex="4"
 							tooltiptext="Ingrese aqui el sub-nivel de la unidad organizativa" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Empresa Auxiliar:"
@@ -67,6 +75,8 @@
 							id="txtEmpresaAuxiliarUnidadOrganizativa" width="100%"
 							tabindex="5"
 							tooltiptext="Ingrese aqui la empresa auxiliar de la unidad organizativa" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Unidad Organizativa Auxiliar:"
@@ -75,6 +85,8 @@
 						<textbox id="txtUnidadOrganizativaAuxiliar"
 							width="100%" tabindex="6"
 							tooltiptext="Ingrese aqui la unidad organizativa auxiliar" />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 			</grid>

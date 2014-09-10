@@ -30,7 +30,7 @@
 						<textbox id="txtCargoPerfilCargo" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del cargo" />
-						<button id="btnBuscarCargo" label=""
+						<button id="btnBuscarCargo" label="Buscar"
 							tooltiptext="Catalogo de cargos"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>

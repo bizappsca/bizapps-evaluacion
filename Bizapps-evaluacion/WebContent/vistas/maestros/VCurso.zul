@@ -29,7 +29,7 @@
 						</hbox>
 						<textbox id="txtAreaCurso" tabindex="1"
 							width="100%" maxlength="100" tooltiptext="Ingrese aqui el area" />
-						<button id="btnBuscarArea" label=""
+						<button id="btnBuscarArea" label="Buscar" class = "btn"
 							tooltiptext="Catalogo de areas"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>

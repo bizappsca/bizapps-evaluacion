@@ -30,6 +30,8 @@
 						<textbox id="txtDescripcionCompetencia"
 							width="60%" maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la competencia" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -47,6 +49,8 @@
 							<comboitem label="RECTORAS" />
 							<comboitem label="ESPECIFICAS" />
 						</combobox>
+						<hbox />
+							<hbox />
 					</row>
 
 
@@ -56,6 +60,8 @@
 						<textbox id="txtComentarioCompetencia"
 							width="60%" maxlength="5000" tabindex="3" rows="4" cols="100"
 							tooltiptext="Ingrese aqui el comentario de la competencia" />
+							<hbox />
+							<hbox />
 					</row>
 
 				</rows>

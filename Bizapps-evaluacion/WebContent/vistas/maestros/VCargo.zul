@@ -30,6 +30,8 @@
 						<textbox id="txtDescripcionCargo" width="60%"
 							maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del cargo" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Nómina:" class="etiqueta" />
@@ -37,6 +39,8 @@
 						<textbox id="txtNominaCargo" width="60%"
 							maxlength="50" tabindex="2"
 							tooltiptext="Ingrese aqui la nomina del cargo" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Cargo Auxiliar:" class="etiqueta" />
@@ -44,6 +48,8 @@
 						<textbox id="txtCargoAuxiliarCargo" width="60%"
 							maxlength="50" tabindex="3"
 							tooltiptext="Ingrese aqui el cargo auxiliar" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Empresa Auxiliar:"
@@ -52,6 +58,8 @@
 						<textbox id="txtEmpresaAuxiliarCargo"
 							width="60%" maxlength="50" tabindex="4"
 							tooltiptext="Ingrese aqui el nombre de la empresa auxiliar" />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 			</grid>

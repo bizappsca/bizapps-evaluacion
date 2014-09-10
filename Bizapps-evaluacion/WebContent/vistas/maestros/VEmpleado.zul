@@ -30,9 +30,11 @@
 						<textbox id="txtEmpresaEmpleado" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui la empresa" />
-						<button id="btnBuscarEmpresa" label=""
+						<button id="btnBuscarEmpresa" label="Buscar"
 							tooltiptext="Catalogo de empresas" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -45,9 +47,11 @@
 						<textbox id="txtCargoEmpleado" width="100%"
 							tabindex="2" maxlength="100"
 							tooltiptext="Ingrese aqui el cargo" />
-						<button id="btnBuscarCargo" label=""
+						<button id="btnBuscarCargo" label="Buscar"
 							tooltiptext="Catalogo de cargos" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -61,9 +65,11 @@
 						<textbox id="txtUnidadEmpleado" width="100%"
 							tabindex="3" maxlength="100"
 							tooltiptext="Ingrese aqui la unidad organizativa" />
-						<button id="btnBuscarUnidad" label="" class="btn"
+						<button id="btnBuscarUnidad" label="Buscar" class="btn"
 							tooltiptext="Catalogo de unidades organizativas"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Nombre:" class="etiqueta" />
@@ -71,6 +77,8 @@
 						<textbox id="txtNombreEmpleado" width="100%"
 							maxlength="100" tabindex="5"
 							tooltiptext="Ingrese aqui el nombre del empleado" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Nivel Académico:"
@@ -87,6 +95,8 @@
 							<comboitem
 								label="PROFESIONAL UNIVERSITARIO" />
 						</combobox>
+						<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Especialidad:" class="etiqueta" />
@@ -94,6 +104,8 @@
 						<textbox id="txtEspecialidadEmpleado"
 							width="100%" maxlength="100" tabindex="7"
 							tooltiptext="Ingrese aqui la especialidad del empleado" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Especialización:"
@@ -102,6 +114,8 @@
 						<textbox id="txtEspecializacionEmpleado" rows="3" cols="100"
 							width="100%" maxlength="100" tabindex="8"
 							tooltiptext="Ingrese aqui la especializacion del empleado" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Ficha:" class="etiqueta" />
@@ -109,6 +123,8 @@
 						<textbox id="txtFichaEmpleado" width="100%"
 							maxlength="100" tabindex="9"
 							tooltiptext="Ingrese aqui la ficha del empleado" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -123,9 +139,11 @@
 						<textbox id="txtFichaSupervisorEmpleado"
 							tabindex="10" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui la ficha del supervisor del empleado" />
-						<button id="btnBuscarSupervisor" label=""
+						<button id="btnBuscarSupervisor" label="Buscar"
 							tooltiptext="Catalogo de empleados" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Grado Auxiliar:" class="etiqueta" />
@@ -134,6 +152,8 @@
 							constraint="no negative" width="100%" maxlength="100"
 							tabindex="11"
 							tooltiptext="Ingrese aqui el grado auxiliar del empleado" />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 			</grid>

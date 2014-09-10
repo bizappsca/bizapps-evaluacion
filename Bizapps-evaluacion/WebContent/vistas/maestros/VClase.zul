@@ -30,7 +30,7 @@
 						<textbox id="txtCursoClase" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del curso" />
-						<button id="btnBuscarCurso" label=""
+						<button id="btnBuscarCurso" label="Buscar"
 							tooltiptext="Catalogo de cursos"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>

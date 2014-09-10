@@ -47,6 +47,8 @@
 							<comboitem label="EVIDENCIADO" />
 							<comboitem label="REQUERIDO" />
 						</combobox>
+						<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Comentario:" class="etiqueta" />

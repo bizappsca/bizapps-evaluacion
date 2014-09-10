@@ -32,7 +32,7 @@
 					</button>
 					<button id="btnCancelar" label="Cancelar"
 						sclass="btn" tabindex="5"
-						image="/public/imagenes/botones/limpiar.png">
+						image="/public/imagenes/botones/salir.png">
 					</button>
 
 					<separator />

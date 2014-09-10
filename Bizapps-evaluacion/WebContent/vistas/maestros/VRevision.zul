@@ -30,9 +30,11 @@
 						<textbox id="txtPeriodoRevision" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el periodo" />
-						<button id="btnBuscarPeriodo" label="" class="btn"
+						<button id="btnBuscarPeriodo" label="Buscar" class="btn"
 							tooltiptext="Catalogo de periodos"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Descripción:" class="etiqueta" />
@@ -40,6 +42,9 @@
 						<textbox id="txtDescripcionRevision"
 							width="100%" maxlength="100" tabindex="2"
 							tooltiptext="Ingrese aqui la descripcion de la revision" />
+							<hbox />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -56,6 +61,8 @@
 							<comboitem label="ACTIVO" />
 							<comboitem label="INACTIVO" />
 						</combobox>
+						<hbox />
+							<hbox />
 					</row>
 					<row>
 						<hbox>
@@ -66,6 +73,9 @@
 							width="100%" maxlength="255" tabindex="2"
 							tooltiptext="Ingrese aqui el mensaje de inicio de la revision" />
 
+						<hbox />
+							<hbox />
+							<hbox />
 						
 					</row>
 

@@ -38,6 +38,8 @@
 						<spinner id="spnOrdenPerspectiva"
 							constraint="no negative" width="91%" maxlength="100"
 							tabindex="2" tooltiptext="Ingrese aqui el orden de la perspectiva" />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 

@@ -1,5 +1,5 @@
 <window id="wdwVNivelCompetenciaCargo" border="normal" height="auto"
-	apply="controlador.maestros.CNivelCompetenciaCargo"
+	apply="controlador.maestros.CNivelCompetenciaCargo" width="80"
 	style="background-color:#8A0808;">
 
 	<groupbox width="auto" mold="3d" title="Nivel Competencia Cargo">
@@ -48,7 +48,7 @@
 						<textbox id="txtCargoNivelCompetenciaCargo"
 							tabindex="1" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del cargo" />
-						<button id="btnBuscarCargo" label=""
+						<button id="btnBuscarCargo" label="Buscar"
 							tooltiptext="Catalogo de cargos" class= "btn"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>

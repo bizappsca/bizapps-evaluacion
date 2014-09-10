@@ -30,9 +30,11 @@
 						<textbox id="txtTipoFormacionArea" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el tipo de formacion" />
-						<button id="btnBuscarTipoFormacion" label=""
+						<button id="btnBuscarTipoFormacion" label="Buscar"
 							tooltiptext="Catalogo de tipos de formacion" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
 					</row>
 					<row>
 						<label value="Descripción:" class="etiqueta" />
@@ -40,6 +42,9 @@
 						<textbox id="txtDescripcionArea" width="100%"
 							maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del area" />
+							<hbox />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 			</grid>

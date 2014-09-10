@@ -32,7 +32,7 @@
 						<textbox id="txtCompetenciaConductaCompetencia"
 							width="100%" tabindex="1" maxlength="100"
 							tooltiptext="Ingrese aqui la competencia" />
-						<button id="btnBuscarCompetencia" label="" class= "btn"
+						<button id="btnBuscarCompetencia" label="Buscar" class= "btn"
 							tooltiptext="Catalogo de competencias"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>
@@ -48,9 +48,13 @@
 						<textbox id="txtDominioConductaCompetencia"
 							width="100%" tabindex="2" maxlength="100"
 							tooltiptext="Ingrese el dominio" />
-						<button id="btnBuscarDominio" label=""
+						<button id="btnBuscarDominio" label="Buscar"
 							tooltiptext="Catalogo de dominios" class= "btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox />
+							<hbox />
+							<hbox />
+							
 					</row>
 					<row>
 						<label value="Descripción:" class="etiqueta" />
@@ -65,6 +69,9 @@
 						<spinner id="spnOrdenConductaCompetencia"
 							constraint="no negative" width="100%" maxlength="100"
 							tabindex="4" tooltiptext="Ingrese aqui el orden" />
+							<hbox />
+							<hbox />
+							<hbox />
 					</row>
 				</rows>
 			</grid>
