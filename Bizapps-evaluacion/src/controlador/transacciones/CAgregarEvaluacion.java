@@ -309,8 +309,8 @@ public class CAgregarEvaluacion extends CGenerico {
 	public Double calculo1 = 0.0;
 	public Double porcentaje1 = 0.0;
 	public Double resultadoCompetencia = 0.0;
-	public Integer resultadoPesoCompetencia = 0;
-	public Integer resultadoPesoObjetivo = 0;
+	public Double resultadoPesoCompetencia = 0.0;
+	public Double resultadoPesoObjetivo = 0.0;
 	
 	private Listbox listbox;
 	private String item;
@@ -802,6 +802,14 @@ public class CAgregarEvaluacion extends CGenerico {
 
 			}
 		}
+		
+		/*for(Evaluacion evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
+		{
+			calcularResultadoFinal(evaluacionAuxiliar);
+		}*/
+		
+		
+		
 
 	}
 
@@ -2154,6 +2162,21 @@ public class CAgregarEvaluacion extends CGenerico {
 
 		return acumulador;
 	}
+	
+	
+	private double calcularTotalResultadoObjetivos(Evaluacion evaluacionAuxiliar) {
+		Double acumulador = 0.0;
+		
+		List<EvaluacionObjetivo>objetivos = servicioEvaluacionObjetivo.buscarObjetivosEvaluar(evaluacionAuxiliar.getIdEvaluacion());
+
+		for (int i = 0; i < objetivos.size(); i++) {
+			EvaluacionObjetivo EvaluacionO = objetivos.get(i);
+			acumulador = acumulador + EvaluacionO.getResultado();
+		}
+
+		return acumulador;
+	}
+	
 
 	@Listen("onClick = #btnCalcular")
 	public void prueba() {
@@ -2594,12 +2617,11 @@ public class CAgregarEvaluacion extends CGenerico {
 			lblResultado1.setValue(r);
 			lblDistribucion.setValue(dO);
 			lblDistribucion1.setValue(dC);
-			resultadoPesoCompetencia = (int) Math
-					.round(((distC * resultadoCompetencia) / 100));
-			resultadoPesoObjetivo = (int) Math.round(((distO * resul1) / 100));
+			resultadoPesoCompetencia =  ((distC * resultadoCompetencia) / 100);
+			resultadoPesoObjetivo =  ((distO * resul1) / 100);
 			lblResultadoPeso.setValue(resultadoPesoObjetivo.toString());
 			lblResultadoPeso1.setValue(resultadoPesoCompetencia.toString());
-			int resultadoFinal = resultadoPesoObjetivo
+			double resultadoFinal = resultadoPesoObjetivo
 					+ resultadoPesoCompetencia;
 			String rf = String.valueOf(resultadoFinal);
 			txtResultadoFinal.setValue(rf);
@@ -2652,6 +2674,25 @@ public class CAgregarEvaluacion extends CGenerico {
 				}
 
 			}
+			
+			
+			List<EvaluacionCompetencia> listaCompetenciasEvidenciadas= servicioEvaluacionCompetencia.buscar(evaluacionAux);
+			Integer numeroCompetenciasEvidenciadas = 0;
+			
+			for (EvaluacionCompetencia evaluacionCompetencia : listaCompetenciasEvidenciadas) {
+				
+				if (evaluacionCompetencia.getIdDominio()!=1)
+				{
+					numeroCompetenciasEvidenciadas++;
+				}
+				
+			}
+			
+			if (numeroCompetenciasEvidenciadas>contadorCompetencias)
+			{
+				contadorCompetencias= numeroCompetenciasEvidenciadas;
+			}
+			
 
 			double pesoCompetencia = 0.0;
 			try {
@@ -2818,37 +2859,87 @@ public class CAgregarEvaluacion extends CGenerico {
 
 		try {
 
-			DecimalFormat f = new DecimalFormat("##.0");
+			DecimalFormat decimalFormat = new DecimalFormat("##.00");
 
 			int id = 1;
 			int id2 = 2;
 			Distribucion dis = servicioDistribucion.buscarDistribucion(id);
 			Distribucion dist = servicioDistribucion.buscarDistribucion(id2);
-			int distO = dis.getPorcentaje();
-			int distC = dist.getPorcentaje();
+			double distO = dis.getPorcentaje();
+			double distC = dist.getPorcentaje();
 			String dO = String.valueOf(distO);
 			String dC = String.valueOf(distC);
-
-			String r = f.format(resultadoCompetencia);
+			
+			
+			
+			DecimalFormat df=new DecimalFormat("0.00");
+			
+			try {
+				resultadoCompetencia = (Double)df.parse(df.format(resultadoCompetencia)) ;
+			} catch (Exception e) {
+				// TODO: handle exception
+				
+			}
+		
+			String r = decimalFormat.format(resultadoCompetencia);
 
 			txttotalCompetencia1.setValue(r);
 			txttotalCompetencia2.setValue(r);
+			
+			
+			Double resul1=0.0;
+			try {
+				resul1 = (Double)df.parse(df.format(calcularTotalResultadoObjetivos(evaluacionAux))) ;	
+			} catch (Exception e) {
+				// TODO: handle exception
+				resul1 = calcularTotalResultadoObjetivos(evaluacionAux) ;
+			}
+			
+			String o = String.valueOf(resul1);
 
-			String o = String.valueOf(calcularTotalResultadoObjetivos());
-			Double resul1 = Double.parseDouble(o);
 			lblResultado.setValue(o);
 			lblResultado1.setValue(r);
 			lblDistribucion.setValue(dO);
 			lblDistribucion1.setValue(dC);
-			resultadoPesoCompetencia = (int) Math
-					.round(((distC * resultadoCompetencia) / 100));
-			resultadoPesoObjetivo = (int) Math.round(((distO * resul1) / 100));
+
+			try {
+				resultadoPesoCompetencia = (Double)df.parse(df.format(((distC * resultadoCompetencia) / 100))) ; //((distC * resultadoCompetencia) / 100); 
+			} catch (Exception e) {
+				// TODO: handle exception
+				resultadoPesoCompetencia = (double)Math.round(((distC * resultadoCompetencia) / 100)) ; //((distC * resultadoCompetencia) / 100);
+			}
+			
+			
+			try {
+				resultadoPesoObjetivo =  (Double)df.parse(df.format(((distO * resul1) / 100))) ; 
+			} catch (Exception e) {
+				// TODO: handle exception
+				resultadoPesoObjetivo =  (double)Math.round((distO * resul1) / 100) ; 
+			}
+			
 			lblResultadoPeso.setValue(resultadoPesoObjetivo.toString());
 			lblResultadoPeso1.setValue(resultadoPesoCompetencia.toString());
-			int resultadoFinal = resultadoPesoObjetivo
-					+ resultadoPesoCompetencia;
+				
+			double resultadoFinal = 0.0;
+			
+			try {
+				resultadoFinal =  (Double)df.parse(df.format((resultadoPesoObjetivo 	+ resultadoPesoCompetencia))) ;  //    resultadoPesoObjetivo 	+ resultadoPesoCompetencia;
+			} catch (Exception e) {
+				// TODO: handle exception
+				resultadoFinal =  resultadoPesoObjetivo 	+ resultadoPesoCompetencia ;  //    resultadoPesoObjetivo 	+ resultadoPesoCompetencia;
+			}
+			
 			String rf = String.valueOf(resultadoFinal);
 			txtResultadoFinal.setValue(rf);
+			
+			evaluacionAux.setResultadoObjetivos(resultadoPesoObjetivo);
+			evaluacionAux.setResultadoCompetencias(resultadoPesoCompetencia);
+			evaluacionAux.setResultadoGeneral(resultadoFinal);
+			evaluacionAux.setResultadoFinal(resultadoFinal);
+			evaluacionAux.setValoracion(servicioUtilidad.obtenerValoracionFinalSimple(resultadoFinal));
+			evaluacionAux.setResultado(0.0);
+			
+			servicioEvaluacion.guardar(evaluacionAux);
 			/*
 			 * txtValoracionFinal.setValue(servicioUtilidad
 			 * .obtenerValoracionFinal((int) resultadoFinal));
