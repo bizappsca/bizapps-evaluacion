@@ -351,11 +351,11 @@ public class CConductaCompetencia extends CGenerico {
 				.buscarTodas();
 		catalogo = new Catalogo<ConductaCompetencia>(
 				catalogoConductaCompetencia,
-				"Catalogo de ConductaCompetencias", listConductaCompetencia,
+				"Catalogo de ConductaCompetencias", listConductaCompetencia, false,false,false,
 				"Competencia", "Dominio", "Descripción", "Orden") {
 
 			@Override
-			protected List<ConductaCompetencia> buscarCampos(
+			protected List<ConductaCompetencia> buscar(
 					List<String> valores) {
 				List<ConductaCompetencia> lista = new ArrayList<ConductaCompetencia>();
 
@@ -384,22 +384,6 @@ public class CConductaCompetencia extends CGenerico {
 				registros[3] = String.valueOf(conducta.getOrden());
 
 				return registros;
-			}
-
-			@Override
-			protected List<ConductaCompetencia> buscar(String valor,
-					String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Competencia"))
-					return servicioConductaCompetencia.filtroCompetencia(valor);
-				else if (combo.equals("Dominio"))
-					return servicioConductaCompetencia.filtroDominio(valor);
-				else if (combo.equals("Descripción"))
-					return servicioConductaCompetencia.filtroDescripcion(valor);
-				else if (combo.equals("Orden"))
-					return servicioConductaCompetencia.filtroOrden(valor);
-				else
-					return servicioConductaCompetencia.buscarTodas();
 			}
 
 		};
@@ -442,11 +426,11 @@ public class CConductaCompetencia extends CGenerico {
 		final List<Competencia> listCompetencia = servicioCompetencia
 				.buscarTodas();
 		catalogoCompetencia = new Catalogo<Competencia>(divCatalogoCompetencia,
-				"Catalogo de Competencias", listCompetencia, "Descripción",
+				"Catalogo de Competencias", listCompetencia,true,false,false, "Descripción",
 				"Nivel", "Comentario") {
 
 			@Override
-			protected List<Competencia> buscarCampos(List<String> valores) {
+			protected List<Competencia> buscar(List<String> valores) {
 				List<Competencia> lista = new ArrayList<Competencia>();
 
 				for (Competencia competencia : listCompetencia) {
@@ -473,19 +457,6 @@ public class CConductaCompetencia extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Competencia> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioCompetencia.filtroDescripcion(valor);
-				else if (combo.equals("Nivel"))
-					return servicioCompetencia.filtroNivel(valor);
-				else if (combo.equals("Comentario"))
-					return servicioCompetencia.filtroComentario(valor);
-				else
-					return servicioCompetencia.buscarTodas();
-			}
-
 		};
 
 		catalogoCompetencia.setClosable(true);
@@ -509,11 +480,11 @@ public class CConductaCompetencia extends CGenerico {
 	public void mostrarCatalogoDominio() {
 		final List<Dominio> listDominio = servicioDominio.buscarTodos();
 		catalogoDominio = new Catalogo<Dominio>(divCatalogoDominio,
-				"Catalogo de Dominios", listDominio, "Descripción", "Tipo",
+				"Catalogo de Dominios", listDominio,true,false,false, "Descripción", "Tipo",
 				"Comentario") {
 
 			@Override
-			protected List<Dominio> buscarCampos(List<String> valores) {
+			protected List<Dominio> buscar(List<String> valores) {
 				List<Dominio> lista = new ArrayList<Dominio>();
 
 				for (Dominio dominio : listDominio) {
@@ -538,19 +509,6 @@ public class CConductaCompetencia extends CGenerico {
 				registros[2] = dominio.getComentario();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Dominio> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioDominio.filtroDescripcion(valor);
-				else if (combo.equals("Tipo"))
-					return servicioDominio.filtroTipo(valor);
-				else if (combo.equals("Comentario"))
-					return servicioDominio.filtroComentario(valor);
-				else
-					return servicioDominio.buscarTodos();
 			}
 
 		};

@@ -304,10 +304,10 @@ public class CArea extends CGenerico {
 
 		final List<Area> listArea = servicioArea.buscarTodas();
 		catalogo = new Catalogo<Area>(catalogoArea, "Catalogo de Areas",
-				listArea, "Tipo de Formación", "Descripción") {
+				listArea,false,false,false, "Tipo de Formación", "Descripción") {
 
 			@Override
-			protected List<Area> buscarCampos(List<String> valores) {
+			protected List<Area> buscar(List<String> valores) {
 				List<Area> lista = new ArrayList<Area>();
 
 				for (Area area : listArea) {
@@ -331,17 +331,6 @@ public class CArea extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Area> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Tipo de Formación"))
-					return servicioArea.filtroTipoFormacion(valor);
-				else if (combo.equals("Descripción"))
-					return servicioArea.filtroNombre(valor);
-				else
-					return servicioArea.buscarTodas();
-			}
-
 		};
 		catalogo.setParent(catalogoArea);
 
@@ -353,10 +342,10 @@ public class CArea extends CGenerico {
 				.buscarTodos();
 		catalogoTipoFormacion = new Catalogo<TipoFormacion>(
 				divCatalogoTipoFormacion, "Catalogo de Tipos de Formacion",
-				listTipoFormacion, "Descripción") {
+				listTipoFormacion,true,false,false, "Descripción") {
 
 			@Override
-			protected List<TipoFormacion> buscarCampos(List<String> valores) {
+			protected List<TipoFormacion> buscar(List<String> valores) {
 				List<TipoFormacion> lista = new ArrayList<TipoFormacion>();
 
 				for (TipoFormacion tipoFormacion : listTipoFormacion) {
@@ -375,15 +364,6 @@ public class CArea extends CGenerico {
 				registros[0] = tipoFormacion.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<TipoFormacion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioTipoFormacion.filtroDescripcion(valor);
-				else
-					return servicioTipoFormacion.buscarTodos();
 			}
 
 		};

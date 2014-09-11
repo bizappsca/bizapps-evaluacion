@@ -94,10 +94,10 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	public void mostrarCatalogoCurso() {
 		final List<Curso> listCurso = cursosEmpleado();
 		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-				"Catalogo de Cursos", listCurso, "Área", "Nombre", "Duración") {
+				"Catalogo de Cursos", listCurso,true,false,false, "Área", "Nombre", "Duración") {
 
 			@Override
-			protected List<Curso> buscarCampos(List<String> valores) {
+			protected List<Curso> buscar(List<String> valores) {
 				List<Curso> lista = new ArrayList<Curso>();
 
 				for (Curso curso : listCurso) {
@@ -124,19 +124,6 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 						+ curso.getMedidaDuracion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Curso> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Área"))
-					return servicioCurso.filtroArea(valor);
-				else if (combo.equals("Nombre"))
-					return servicioCurso.filtroNombre(valor);
-				else if (combo.equals("Duración"))
-					return servicioCurso.filtroDuracion(valor);
-				else
-					return servicioCurso.buscarTodos();
 			}
 
 		};

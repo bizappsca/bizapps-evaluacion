@@ -80,12 +80,12 @@ public class CEmpleadoClase extends CGenerico {
 	public void mostrarCatalogoClase() {
 		final List<Clase> listClase = servicioClase.buscarTodas();
 		catalogoClase = new Catalogo<Clase>(divCatalogoClase,
-				"Catalogo de Clases", listClase, "Curso", "Contenido",
+				"Catalogo de Clases", listClase,true,false,false, "Curso", "Contenido",
 				"Objetivo", "Facilitador", "Entidad Didáctica", "Fecha",
 				"Duración", "Lugar", "Tipo de Entrenamiento", "Modalidad") {
 
 			@Override
-			protected List<Clase> buscarCampos(List<String> valores) {
+			protected List<Clase> buscar(List<String> valores) {
 				List<Clase> lista = new ArrayList<Clase>();
 
 				for (Clase clase : listClase) {
@@ -137,32 +137,7 @@ public class CEmpleadoClase extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Clase> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Curso"))
-					return servicioClase.filtroCurso(valor);
-				else if (combo.equals("Contenido"))
-					return servicioClase.filtroContenido(valor);
-				else if (combo.equals("Objetivo"))
-					return servicioClase.filtroObjetivo(valor);
-				else if (combo.equals("Facilitador"))
-					return servicioClase.filtroFacilitador(valor);
-				else if (combo.equals("Entidad Didáctica"))
-					return servicioClase.filtroEntidadDidactica(valor);
-				else if (combo.equals("Fecha"))
-					return servicioClase.filtroFecha(valor);
-				else if (combo.equals("Duración"))
-					return servicioClase.filtroDuracion(valor);
-				else if (combo.equals("Lugar"))
-					return servicioClase.filtroLugar(valor);
-				else if (combo.equals("Tipo de Entrenamiento"))
-					return servicioClase.filtroTipoEntrenamiento(valor);
-				else if (combo.equals("Modalidad"))
-					return servicioClase.filtroModalidad(valor);
-				return servicioClase.buscarTodas();
-			}
-
+		
 		};
 
 		catalogoClase.setClosable(true);

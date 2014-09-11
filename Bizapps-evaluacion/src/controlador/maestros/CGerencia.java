@@ -279,10 +279,10 @@ public class CGerencia extends CGenerico {
 
 		final List<Gerencia> listGerencia = servicioGerencia.buscarTodas();
 		catalogo = new Catalogo<Gerencia>(catalogoGerencia,
-				"Catalogo de Gerencias", listGerencia, "Descripción") {
+				"Catalogo de Gerencias", listGerencia,false,false,false, "Descripción") {
 
 			@Override
-			protected List<Gerencia> buscarCampos(List<String> valores) {
+			protected List<Gerencia> buscar(List<String> valores) {
 				List<Gerencia> lista = new ArrayList<Gerencia>();
 
 				for (Gerencia gerencia : listGerencia) {
@@ -301,15 +301,6 @@ public class CGerencia extends CGenerico {
 				registros[0] = gerencia.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Gerencia> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioGerencia.filtroDescripcion(valor);
-				else
-					return servicioGerencia.buscarTodas();
 			}
 
 		};

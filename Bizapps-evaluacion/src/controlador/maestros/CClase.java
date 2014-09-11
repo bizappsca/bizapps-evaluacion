@@ -374,12 +374,12 @@ public class CClase extends CGenerico {
 
 		final List<Clase> listClase = servicioClase.buscarTodas();
 		catalogo = new Catalogo<Clase>(catalogoClase, "Catalogo de Clases",
-				listClase, "Curso", "Contenido", "Objetivo", "Facilitador",
+				listClase,false,false,false, "Curso", "Contenido", "Objetivo", "Facilitador",
 				"Entidad Didáctica", "Fecha", "Duración", "Lugar",
 				"Tipo de Entrenamiento", "Modalidad") {
 
 			@Override
-			protected List<Clase> buscarCampos(List<String> valores) {
+			protected List<Clase> buscar(List<String> valores) {
 				List<Clase> lista = new ArrayList<Clase>();
 
 				for (Clase clase : listClase) {
@@ -432,32 +432,6 @@ public class CClase extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Clase> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Curso"))
-					return servicioClase.filtroCurso(valor);
-				else if (combo.equals("Contenido"))
-					return servicioClase.filtroContenido(valor);
-				else if (combo.equals("Objetivo"))
-					return servicioClase.filtroObjetivo(valor);
-				else if (combo.equals("Facilitador"))
-					return servicioClase.filtroFacilitador(valor);
-				else if (combo.equals("Entidad Didáctica"))
-					return servicioClase.filtroEntidadDidactica(valor);
-				else if (combo.equals("Fecha"))
-					return servicioClase.filtroFecha(valor);
-				else if (combo.equals("Duración"))
-					return servicioClase.filtroDuracion(valor);
-				else if (combo.equals("Lugar"))
-					return servicioClase.filtroLugar(valor);
-				else if (combo.equals("Tipo de Entrenamiento"))
-					return servicioClase.filtroTipoEntrenamiento(valor);
-				else if (combo.equals("Modalidad"))
-					return servicioClase.filtroModalidad(valor);
-				return servicioClase.buscarTodas();
-			}
-
 		};
 		catalogo.setParent(catalogoClase);
 
@@ -467,10 +441,10 @@ public class CClase extends CGenerico {
 	public void mostrarCatalogoCargo() {
 		final List<Curso> listCurso = servicioCurso.buscarTodos();
 		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-				"Catalogo de Cursos", listCurso, "Área", "Nombre", "Duración") {
+				"Catalogo de Cursos", listCurso, true,false,false,"Área", "Nombre", "Duración") {
 
 			@Override
-			protected List<Curso> buscarCampos(List<String> valores) {
+			protected List<Curso> buscar(List<String> valores) {
 				List<Curso> lista = new ArrayList<Curso>();
 
 				for (Curso curso : listCurso) {
@@ -496,19 +470,6 @@ public class CClase extends CGenerico {
 				registros[2] = String.valueOf(curso.getDuracion());
 
 				return registros;
-			}
-
-			@Override
-			protected List<Curso> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Área"))
-					return servicioCurso.filtroArea(valor);
-				else if (combo.equals("Nombre"))
-					return servicioCurso.filtroNombre(valor);
-				else if (combo.equals("Duración"))
-					return servicioCurso.filtroDuracion(valor);
-				else
-					return servicioCurso.buscarTodos();
 			}
 
 		};

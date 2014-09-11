@@ -346,11 +346,11 @@ public class CRevision extends CGenerico {
 	public void mostrarCatalogo() {
 		final List<Revision> listRevision = servicioRevision.buscarTodas();
 		catalogo = new Catalogo<Revision>(catalogoRevision,
-				"Catalogo de Revisiones", listRevision, "Periodo",
+				"Catalogo de Revisiones", listRevision, false,false,false,"Periodo",
 				"Descripción", "Estado") {
 
 			@Override
-			protected List<Revision> buscarCampos(List<String> valores) {
+			protected List<Revision> buscar(List<String> valores) {
 				List<Revision> lista = new ArrayList<Revision>();
 
 				for (Revision revision : listRevision) {
@@ -377,19 +377,6 @@ public class CRevision extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Revision> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Periodo"))
-					return servicioRevision.filtroPeriodo(valor);
-				else if (combo.equals("Descripción"))
-					return servicioRevision.filtroDescripcion(valor);
-				else if (combo.equals("Estado"))
-					return servicioRevision.filtroEstado(valor);
-				else
-					return servicioRevision.buscarTodas();
-			}
-
 		};
 		catalogo.setParent(catalogoRevision);
 
@@ -414,11 +401,11 @@ public class CRevision extends CGenerico {
 	public void mostrarCatalogoPeriodo() {
 		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
 		catalogoPeriodo = new Catalogo<Periodo>(divCatalogoPeriodo,
-				"Catalogo de Periodos", listPeriodo, "Nombre", "Descripción",
+				"Catalogo de Periodos", listPeriodo,true,false,false, "Nombre", "Descripción",
 				"Fecha Inicio", "Fecha Fin", "Estado") {
 
 			@Override
-			protected List<Periodo> buscarCampos(List<String> valores) {
+			protected List<Periodo> buscar(List<String> valores) {
 				List<Periodo> lista = new ArrayList<Periodo>();
 
 				for (Periodo periodo : listPeriodo) {
@@ -457,23 +444,6 @@ public class CRevision extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Periodo> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioPeriodo.filtroNombre(valor);
-				else if (combo.equals("Descripción"))
-					return servicioPeriodo.filtroDescripcion(valor);
-				else if (combo.equals("Fecha Inicio"))
-					return servicioPeriodo.filtroFechaInicio(valor);
-				else if (combo.equals("Fecha Fin"))
-					return servicioPeriodo.filtroFechaFin(valor);
-				else if (combo.equals("Estado"))
-					return servicioPeriodo.filtroEstado(valor);
-				else
-					return servicioPeriodo.buscarTodos();
-
-			}
 
 		};
 

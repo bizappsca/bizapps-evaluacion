@@ -316,12 +316,12 @@ public class CValoracion extends CGenerico {
 		final List<Valoracion> listValoracion = servicioValoracion
 				.buscarTodas();
 		catalogo = new Catalogo<Valoracion>(catalogoValoracion,
-				"Catalogo de Valoraciones", listValoracion, "Nombre",
+				"Catalogo de Valoraciones", listValoracion,false,false,false, "Nombre",
 				"Descripción", "Orden", "Rango inferior", "Rango superior",
 				"Valor") {
 
 			@Override
-			protected List<Valoracion> buscarCampos(List<String> valores) {
+			protected List<Valoracion> buscar(List<String> valores) {
 				List<Valoracion> lista = new ArrayList<Valoracion>();
 
 				for (Valoracion valoracion : listValoracion) {
@@ -355,25 +355,6 @@ public class CValoracion extends CGenerico {
 				registros[5] = String.valueOf(valoracion.getValor());
 
 				return registros;
-			}
-
-			@Override
-			protected List<Valoracion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioValoracion.filtroNombre(valor);
-				else if (combo.equals("Descripción"))
-					return servicioValoracion.filtroDescripcion(valor);
-				else if (combo.equals("Orden"))
-					return servicioValoracion.filtroOrden(valor);
-				else if (combo.equals("Rango inferior"))
-					return servicioValoracion.filtroRangoInferior(valor);
-				else if (combo.equals("Rango superior"))
-					return servicioValoracion.filtroRangoSuperior(valor);
-				else if (combo.equals("Valor"))
-					return servicioValoracion.filtroValor(valor);
-				else
-					return servicioValoracion.buscarTodas();
 			}
 
 		};

@@ -331,10 +331,10 @@ public class CCurso extends CGenerico {
 
 		final List<Curso> listCurso = servicioCurso.buscarTodos();
 		catalogo = new Catalogo<Curso>(catalogoCurso, "Catalogo de Cursos",
-				listCurso, "Área", "Nombre", "Duración") {
+				listCurso,false,false,false, "Área", "Nombre", "Duración") {
 
 			@Override
-			protected List<Curso> buscarCampos(List<String> valores) {
+			protected List<Curso> buscar(List<String> valores) {
 				List<Curso> lista = new ArrayList<Curso>();
 
 				for (Curso curso : listCurso) {
@@ -362,19 +362,6 @@ public class CCurso extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Curso> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Área"))
-					return servicioCurso.filtroArea(valor);
-				else if (combo.equals("Nombre"))
-					return servicioCurso.filtroNombre(valor);
-				else if (combo.equals("Duración"))
-					return servicioCurso.filtroDuracion(valor);
-				else
-					return servicioCurso.buscarTodos();
-			}
-
 		};
 		catalogo.setParent(catalogoCurso);
 
@@ -398,10 +385,10 @@ public class CCurso extends CGenerico {
 	public void mostrarCatalogoArea() {
 		final List<Area> listArea = servicioArea.buscarTodas();
 		catalogoArea = new Catalogo<Area>(divCatalogoArea, "Catalogo de Areas",
-				listArea, "Tipo de Formación", "Descripción") {
+				listArea, true,false,false,"Tipo de Formación", "Descripción") {
 
 			@Override
-			protected List<Area> buscarCampos(List<String> valores) {
+			protected List<Area> buscar(List<String> valores) {
 				List<Area> lista = new ArrayList<Area>();
 
 				for (Area area : listArea) {
@@ -423,17 +410,6 @@ public class CCurso extends CGenerico {
 				registros[1] = area.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Area> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Tipo de Formación"))
-					return servicioArea.filtroTipoFormacion(valor);
-				else if (combo.equals("Descripción"))
-					return servicioArea.filtroNombre(valor);
-				else
-					return servicioArea.buscarTodas();
 			}
 
 		};

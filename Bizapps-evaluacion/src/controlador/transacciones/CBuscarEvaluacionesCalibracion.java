@@ -159,10 +159,10 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	public void mostrarCatalogoEmpresa() {
 		final List<Empresa> listEmpresa = servicioEmpresa.buscarTodas();
 		catalogoEmpresa = new Catalogo<Empresa>(divCatalogoEmpresa,
-				"Catalogo de Empresas", listEmpresa, "Descripción") {
+				"Catalogo de Empresas", listEmpresa,true,false,false, "Descripción") {
 
 			@Override
-			protected List<Empresa> buscarCampos(List<String> valores) {
+			protected List<Empresa> buscar(List<String> valores) {
 				List<Empresa> lista = new ArrayList<Empresa>();
 
 				for (Empresa empresa : listEmpresa) {
@@ -181,15 +181,6 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				registros[0] = empresa.getNombre();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Empresa> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioEmpresa.filtroNombre(valor);
-				else
-					return servicioEmpresa.buscarTodas();
 			}
 
 		};
@@ -213,10 +204,10 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	public void mostrarCatalogoGerencia() {
 		final List<Gerencia> listGerencia = servicioGerencia.buscarTodas();
 		catalogoGerencia = new Catalogo<Gerencia>(divCatalogoGerencia,
-				"Catalogo de Gerencias", listGerencia, "Descripción") {
+				"Catalogo de Gerencias", listGerencia, true,false,false, "Descripción") {
 
 			@Override
-			protected List<Gerencia> buscarCampos(List<String> valores) {
+			protected List<Gerencia> buscar(List<String> valores) {
 				List<Gerencia> lista = new ArrayList<Gerencia>();
 
 				for (Gerencia gerencia : listGerencia) {
@@ -237,15 +228,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Gerencia> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioGerencia.filtroDescripcion(valor);
-				else
-					return servicioGerencia.buscarTodas();
-			}
-
+		
 		};
 
 		catalogoGerencia.setClosable(true);
@@ -267,10 +250,10 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	public void mostrarCatalogoTrabajador() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoTrabajador = new Catalogo<Empleado>(divCatalogoTrabajador,
-				"Catalogo de Empleados", listEmpleado, "Ficha", "Nombre") {
+				"Catalogo de Empleados", listEmpleado, true,false,false,"Ficha", "Nombre") {
 
 			@Override
-			protected List<Empleado> buscarCampos(List<String> valores) {
+			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
 				for (Empleado empleado : listEmpleado) {
@@ -292,15 +275,6 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				registros[1] = empleado.getNombre();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Empleado> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioEmpleado.filtroNombre(valor);
-				else
-					return servicioEmpleado.filtroFicha(valor);
 			}
 
 		};
@@ -324,10 +298,10 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	public void mostrarCatalogoEvaluador() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoEvaluador = new Catalogo<Empleado>(divCatalogoEvaluador,
-				"Catalogo de Empleados", listEmpleado, "Ficha","Nombre") {
+				"Catalogo de Empleados", listEmpleado,true,false,false, "Ficha","Nombre") {
 
 			@Override
-			protected List<Empleado> buscarCampos(List<String> valores) {
+			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
 				for (Empleado empleado : listEmpleado) {
@@ -351,14 +325,6 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Empleado> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioEmpleado.filtroNombre(valor);
-				else
-					return servicioEmpleado.filtroFicha(valor);
-			}
 
 		};
 
@@ -382,11 +348,11 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		final List<Valoracion> listValoracion = servicioValoracion
 				.buscarTodas();
 		catalogoValoracion = new Catalogo<Valoracion>(divCatalogoValoracion,
-				"Catalogo de Valoracion", listValoracion, "Nombre",
+				"Catalogo de Valoracion", listValoracion,true,false,false, "Nombre",
 				"Descripción") {
 
 			@Override
-			protected List<Valoracion> buscarCampos(List<String> valores) {
+			protected List<Valoracion> buscar(List<String> valores) {
 				List<Valoracion> lista = new ArrayList<Valoracion>();
 
 				for (Valoracion valoracion : listValoracion) {
@@ -408,15 +374,6 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				registros[1] = valoracion.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Valoracion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioValoracion.filtroNombre(valor);
-				else
-					return servicioValoracion.buscarTodas();
 			}
 
 		};

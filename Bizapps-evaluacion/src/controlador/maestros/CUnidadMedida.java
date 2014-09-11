@@ -282,11 +282,11 @@ public class CUnidadMedida extends CGenerico {
 		final List<UnidadMedida> listUnidadMedida = servicioUnidadMedida
 				.buscarTodas();
 		catalogo = new Catalogo<UnidadMedida>(catalogoUnidadMedida,
-				"Catalogo de Unidades de Medidas", listUnidadMedida,
+				"Catalogo de Unidades de Medidas", listUnidadMedida,false,false,false,
 				"Descripción") {
 
 			@Override
-			protected List<UnidadMedida> buscarCampos(List<String> valores) {
+			protected List<UnidadMedida> buscar(List<String> valores) {
 				List<UnidadMedida> lista = new ArrayList<UnidadMedida>();
 
 				for (UnidadMedida unidadMedida : listUnidadMedida) {
@@ -305,15 +305,6 @@ public class CUnidadMedida extends CGenerico {
 				registros[0] = unidadMedida.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<UnidadMedida> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioUnidadMedida.filtroDescripcion(valor);
-				else
-					return servicioUnidadMedida.buscarTodas();
 			}
 
 		};

@@ -110,11 +110,11 @@ public class CEvaluacionEficacia extends CGenerico {
 
 			final List<Curso> listCurso = cursosEmpleado();
 			catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-					"Catalogo de Cursos", listCurso, "Área", "Nombre",
+					"Catalogo de Cursos", listCurso,true,false,false, "Área", "Nombre",
 					"Duración") {
 
 				@Override
-				protected List<Curso> buscarCampos(List<String> valores) {
+				protected List<Curso> buscar(List<String> valores) {
 					List<Curso> lista = new ArrayList<Curso>();
 
 					for (Curso curso : listCurso) {
@@ -144,18 +144,6 @@ public class CEvaluacionEficacia extends CGenerico {
 					return registros;
 				}
 
-				@Override
-				protected List<Curso> buscar(String valor, String combo) {
-					// TODO Auto-generated method stub
-					if (combo.equals("Área"))
-						return servicioCurso.filtroArea(valor);
-					else if (combo.equals("Nombre"))
-						return servicioCurso.filtroNombre(valor);
-					else if (combo.equals("Duración"))
-						return servicioCurso.filtroDuracion(valor);
-					else
-						return servicioCurso.buscarTodos();
-				}
 
 			};
 
@@ -216,12 +204,12 @@ public class CEvaluacionEficacia extends CGenerico {
 	public void mostrarCatalogoEmpleado() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoEmpleado = new Catalogo<Empleado>(divCatalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado, "Empresa", "Cargo",
+				"Catalogo de Empleados", listEmpleado, true,false,false,"Empresa", "Cargo",
 				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
 				"Grado Auxiliar") {
 
 			@Override
-			protected List<Empleado> buscarCampos(List<String> valores) {
+			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
 				for (Empleado empleado : listEmpleado) {
@@ -260,27 +248,6 @@ public class CEvaluacionEficacia extends CGenerico {
 				registros[6] = String.valueOf(empleado.getGradoAuxiliar());
 
 				return registros;
-			}
-
-			@Override
-			protected List<Empleado> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Empresa"))
-					return servicioEmpleado.filtroEmpresa(valor);
-				else if (combo.equals("Cargo"))
-					return servicioEmpleado.filtroCargo(valor);
-				else if (combo.equals("Unidad Organizativa"))
-					return servicioEmpleado.filtroUnidadOrganizativa(valor);
-				else if (combo.equals("Nombre"))
-					return servicioEmpleado.filtroNombre(valor);
-				else if (combo.equals("Ficha"))
-					return servicioEmpleado.filtroFicha(valor);
-				else if (combo.equals("Ficha Supervisor"))
-					return servicioEmpleado.filtroFichaSupervisor(valor);
-				else if (combo.equals("Grado Auxiliar"))
-					return servicioEmpleado.filtroGradoAuxiliar(valor);
-				else
-					return servicioEmpleado.buscarTodos();
 			}
 
 		};

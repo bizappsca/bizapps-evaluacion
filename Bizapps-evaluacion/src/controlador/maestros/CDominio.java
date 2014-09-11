@@ -296,11 +296,11 @@ public class CDominio extends CGenerico {
 
 		final List<Dominio> listDominio = servicioDominio.buscarTodos();
 		catalogo = new Catalogo<Dominio>(catalogoDominio,
-				"Catalogo de Dominios", listDominio, "Descripción", "Tipo",
+				"Catalogo de Dominios", listDominio,false,false,false, "Descripción", "Tipo",
 				"Comentario") {
 
 			@Override
-			protected List<Dominio> buscarCampos(List<String> valores) {
+			protected List<Dominio> buscar(List<String> valores) {
 				List<Dominio> lista = new ArrayList<Dominio>();
 
 				for (Dominio dominio : listDominio) {
@@ -325,19 +325,6 @@ public class CDominio extends CGenerico {
 				registros[2] = dominio.getComentario();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Dominio> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioDominio.filtroDescripcion(valor);
-				else if (combo.equals("Tipo"))
-					return servicioDominio.filtroTipo(valor);
-				else if (combo.equals("Comentario"))
-					return servicioDominio.filtroComentario(valor);
-				else
-					return servicioDominio.buscarTodos();
 			}
 
 		};

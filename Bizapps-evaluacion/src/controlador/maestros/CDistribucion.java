@@ -291,11 +291,11 @@ public class CDistribucion extends CGenerico {
 		final List<Distribucion> listDistribucion = servicioDistribucion
 				.buscarTodas();
 		catalogo = new Catalogo<Distribucion>(catalogoDistribucion,
-				"Catalogo de Distribuciones", listDistribucion, "Descripción",
+				"Catalogo de Distribuciones", listDistribucion, false,false,false,"Descripción",
 				"Porcentaje") {
 
 			@Override
-			protected List<Distribucion> buscarCampos(List<String> valores) {
+			protected List<Distribucion> buscar(List<String> valores) {
 				List<Distribucion> lista = new ArrayList<Distribucion>();
 
 				for (Distribucion distribucion : listDistribucion) {
@@ -319,16 +319,6 @@ public class CDistribucion extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Distribucion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioDistribucion.filtroNombre(valor);
-				else if (combo.equals("Porcentaje"))
-					return servicioDistribucion.filtroPorcentaje(valor);
-				else
-					return servicioDistribucion.buscarTodas();
-			}
 
 		};
 		catalogo.setParent(catalogoDistribucion);

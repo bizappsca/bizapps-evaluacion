@@ -297,11 +297,11 @@ public class CCompetencia extends CGenerico {
 		final List<Competencia> listCompetencia = servicioCompetencia
 				.buscarTodas();
 		catalogo = new Catalogo<Competencia>(catalogoCompetencia,
-				"Catalogo de Competencias", listCompetencia, "Descripción",
+				"Catalogo de Competencias", listCompetencia, false,false,false,"Descripción",
 				"Nivel", "Comentario") {
 
 			@Override
-			protected List<Competencia> buscarCampos(List<String> valores) {
+			protected List<Competencia> buscar(List<String> valores) {
 				List<Competencia> lista = new ArrayList<Competencia>();
 
 				for (Competencia competencia : listCompetencia) {
@@ -326,19 +326,6 @@ public class CCompetencia extends CGenerico {
 				registros[2] = competencia.getComentario();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Competencia> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioCompetencia.filtroDescripcion(valor);
-				else if (combo.equals("Nivel"))
-					return servicioCompetencia.filtroNivel(valor);
-				else if (combo.equals("Comentario"))
-					return servicioCompetencia.filtroComentario(valor);
-				else
-					return servicioCompetencia.buscarTodas();
 			}
 
 		};

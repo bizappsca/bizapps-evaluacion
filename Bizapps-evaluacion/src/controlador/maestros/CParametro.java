@@ -290,10 +290,10 @@ public class CParametro extends CGenerico {
 
 		final List<Parametro> listParametro = servicioParametro.buscarTodos();
 		catalogo = new Catalogo<Parametro>(catalogoParametro,
-				"Catalogo de Parametros", listParametro, "Descripción", "Tipo") {
+				"Catalogo de Parametros", listParametro,false,false,false, "Descripción", "Tipo") {
 
 			@Override
-			protected List<Parametro> buscarCampos(List<String> valores) {
+			protected List<Parametro> buscar(List<String> valores) {
 				List<Parametro> lista = new ArrayList<Parametro>();
 
 				for (Parametro parametro : listParametro) {
@@ -315,17 +315,6 @@ public class CParametro extends CGenerico {
 				registros[1] = parametro.getTipo();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Parametro> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioParametro.filtroNombre(valor);
-				else if (combo.equals("Tipo"))
-					return servicioParametro.filtroTipo(valor);
-				else
-					return servicioParametro.buscarTodos();
 			}
 
 		};

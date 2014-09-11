@@ -288,11 +288,11 @@ public class CPerspectiva extends CGenerico {
 
 		final List<Perspectiva> listPerspectiva = servicioPerspectiva.buscar();
 		catalogo = new Catalogo<Perspectiva>(catalogoPerspectiva,
-				"Catalogo de Perspectivas", listPerspectiva, "Descripción",
+				"Catalogo de Perspectivas", listPerspectiva, false,false,false,"Descripción",
 				"Orden") {
 
 			@Override
-			protected List<Perspectiva> buscarCampos(List<String> valores) {
+			protected List<Perspectiva> buscar(List<String> valores) {
 				List<Perspectiva> lista = new ArrayList<Perspectiva>();
 
 				for (Perspectiva perspectiva : listPerspectiva) {
@@ -316,16 +316,6 @@ public class CPerspectiva extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Perspectiva> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioPerspectiva.filtroDescripcion(valor);
-				else if (combo.equals("Orden"))
-					return servicioPerspectiva.filtroOrden(valor);
-				else
-					return servicioPerspectiva.buscar();
-			}
 
 		};
 		catalogo.setParent(catalogoPerspectiva);

@@ -91,11 +91,11 @@ public class CNivelCompetenciaCargo extends CGenerico {
 	public void mostrarCatalogoCargo() {
 		final List<Cargo> listCargo = servicioCargo.buscarTodos();
 		catalogoCargo = new Catalogo<Cargo>(divCatalogoCargo,
-				"Catalogo de Cargos", listCargo, "Descripción", "Nómina",
+				"Catalogo de Cargos", listCargo,true,false,false, "Descripción", "Nómina",
 				"Cargo Auxiliar", "Empresa Auxiliar") {
 
 			@Override
-			protected List<Cargo> buscarCampos(List<String> valores) {
+			protected List<Cargo> buscar(List<String> valores) {
 				List<Cargo> lista = new ArrayList<Cargo>();
 
 				for (Cargo cargo : listCargo) {
@@ -123,21 +123,6 @@ public class CNivelCompetenciaCargo extends CGenerico {
 				registros[3] = cargo.getIdEmpresaAuxiliar();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Cargo> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioCargo.filtroDescripcion(valor);
-				else if (combo.equals("Nómina"))
-					return servicioCargo.filtroNomina(valor);
-				else if (combo.equals("Cargo Auxiliar"))
-					return servicioCargo.filtroCargoAuxiliar(valor);
-				else if (combo.equals("Empresa Auxiliar"))
-					return servicioCargo.filtroEmpresaAuxiliar(valor);
-				else
-					return servicioCargo.buscarTodos();
 			}
 
 		};

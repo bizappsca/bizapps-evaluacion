@@ -282,10 +282,10 @@ public class CMedicion extends CGenerico {
 
 		final List<Medicion> listMedicion = servicioMedicion.buscarTodas();
 		catalogo = new Catalogo<Medicion>(catalogoMedicion,
-				"Catalogo de Mediciones", listMedicion, "Descripción") {
+				"Catalogo de Mediciones", listMedicion, false,false,false,"Descripción") {
 
 			@Override
-			protected List<Medicion> buscarCampos(List<String> valores) {
+			protected List<Medicion> buscar(List<String> valores) {
 				List<Medicion> lista = new ArrayList<Medicion>();
 
 				for (Medicion medicion : listMedicion) {
@@ -304,15 +304,6 @@ public class CMedicion extends CGenerico {
 				registros[0] = medicion.getDescripcionMedicion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Medicion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioMedicion.filtroDescripcion(valor);
-				else
-					return servicioMedicion.buscarTodas();
 			}
 
 		};

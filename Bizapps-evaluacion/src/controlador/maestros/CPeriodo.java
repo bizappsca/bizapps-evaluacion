@@ -330,11 +330,11 @@ public class CPeriodo extends CGenerico {
 
 		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
 		catalogo = new Catalogo<Periodo>(catalogoPeriodo,
-				"Catalogo de Periodos", listPeriodo, "Nombre", "Descripción",
+				"Catalogo de Periodos", listPeriodo,false,false,false, "Nombre", "Descripción",
 				"Fecha Inicio", "Fecha Fin", "Estado") {
 
 			@Override
-			protected List<Periodo> buscarCampos(List<String> valores) {
+			protected List<Periodo> buscar(List<String> valores) {
 				List<Periodo> lista = new ArrayList<Periodo>();
 
 				for (Periodo periodo : listPeriodo) {
@@ -372,24 +372,6 @@ public class CPeriodo extends CGenerico {
 
 				return registros;
 			}
-
-			@Override
-			protected List<Periodo> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioPeriodo.filtroNombre(valor);
-				else if (combo.equals("Descripción"))
-					return servicioPeriodo.filtroDescripcion(valor);
-				else if (combo.equals("Fecha Inicio"))
-					return servicioPeriodo.filtroFechaInicio(valor);
-				else if (combo.equals("Fecha Fin"))
-					return servicioPeriodo.filtroFechaFin(valor);
-				else if (combo.equals("Estado"))
-					return servicioPeriodo.filtroEstado(valor);
-				else
-					return servicioPeriodo.buscarTodos();
-			}
-
 		};
 		catalogo.setParent(catalogoPeriodo);
 

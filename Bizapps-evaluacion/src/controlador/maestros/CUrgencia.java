@@ -285,10 +285,10 @@ public class CUrgencia extends CGenerico {
 
 		final List<Urgencia> listUrgencia = servicioUrgencia.buscarTodas();
 		catalogo = new Catalogo<Urgencia>(catalogoUrgencia,
-				"Catalogo de Urgencias", listUrgencia, "Descripción") {
+				"Catalogo de Urgencias", listUrgencia,false,false,false, "Descripción") {
 
 			@Override
-			protected List<Urgencia> buscarCampos(List<String> valores) {
+			protected List<Urgencia> buscar(List<String> valores) {
 				List<Urgencia> lista = new ArrayList<Urgencia>();
 
 				for (Urgencia urgencia : listUrgencia) {
@@ -308,16 +308,6 @@ public class CUrgencia extends CGenerico {
 
 				return registros;
 			}
-
-			@Override
-			protected List<Urgencia> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioUrgencia.filtroDescripcion(valor);
-				else
-					return servicioUrgencia.buscarTodas();
-			}
-
 		};
 		catalogo.setParent(catalogoUrgencia);
 

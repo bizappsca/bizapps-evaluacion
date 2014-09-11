@@ -293,11 +293,11 @@ public class CItemEvaluacion extends CGenerico {
 		final List<ItemEvaluacion> listItemEvaluacion = servicioItemEvaluacion
 				.buscarTodos();
 		catalogo = new Catalogo<ItemEvaluacion>(catalogoItemEvaluacion,
-				"Catalogo de Items de Evaluación", listItemEvaluacion,
+				"Catalogo de Items de Evaluación", listItemEvaluacion,false,false,false,
 				"Descripción", "Tipo de Ponderación") {
 
 			@Override
-			protected List<ItemEvaluacion> buscarCampos(List<String> valores) {
+			protected List<ItemEvaluacion> buscar(List<String> valores) {
 				List<ItemEvaluacion> lista = new ArrayList<ItemEvaluacion>();
 
 				for (ItemEvaluacion item : listItemEvaluacion) {
@@ -320,18 +320,6 @@ public class CItemEvaluacion extends CGenerico {
 
 				return registros;
 			}
-
-			@Override
-			protected List<ItemEvaluacion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioItemEvaluacion.filtroNombre(valor);
-				else if (combo.equals("Tipo"))
-					return servicioItemEvaluacion.filtroTipoPonderacion(valor);
-				else
-					return servicioItemEvaluacion.buscarTodos();
-			}
-
 		};
 		catalogo.setParent(catalogoItemEvaluacion);
 

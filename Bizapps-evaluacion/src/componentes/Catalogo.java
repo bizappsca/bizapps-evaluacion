@@ -3,12 +3,19 @@ package componentes;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.InputEvent;
-import org.zkoss.zul.Combobox;
+import org.zkoss.zk.ui.event.KeyEvent;
+import org.zkoss.zul.Auxhead;
+import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -18,23 +25,39 @@ import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Space;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Window;
+
 
 public abstract class Catalogo<Clase> extends Window {
 
 	private static final long serialVersionUID = 1L;
 	Listbox lsbCatalogo;
+	Button exportador;
+	Button pagineo;
+	Mensaje msj = new Mensaje();
+	Textbox txtSY;
+	Label labelSYNombre;
+	Textbox txtRT;
+	Label labelRTNombre;
+	Label labelBuscado;
+
+	private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+			"/META-INF/ConfiguracionAplicacion.xml");
+
 
 	public Catalogo(final Component cGenerico, String titulo,
-			List<Clase> lista, String... campos) {
-		super(titulo, "2", true);
+			List<Clase> lista, boolean emergente, boolean udc, boolean param2,
+			String... campos) {
+		super("", "2", false);
 		this.setId("cmpCatalogo" + titulo);
 		this.setStyle("background-header:#FF7925; background: #f4f2f2");
-		this.setClosable(false);
-		setWidth("100%");
-		crearLista(lista, campos);
+		// this.setWidth("auto");
+		crearLista(lista, campos, emergente, udc);
 		lsbCatalogo.addEventListener(Events.ON_SELECT,
 				new EventListener<Event>() {
 
@@ -42,51 +65,90 @@ public abstract class Catalogo<Clase> extends Window {
 					public void onEvent(Event arg0) throws Exception {
 						Events.postEvent(cGenerico, new Event("onSeleccion"));
 					}
-
 				});
 	}
 
-	public void crearLista(List<Clase> lista, String[] campos) {
-		Hbox hbxBusqueda = new Hbox();
-		final Label lblBuscar = new Label();
-		final Textbox txtBuscar = new Textbox();
-		final Separator separador1 = new Separator();
-		final Separator separador2 = new Separator();
-		txtBuscar.setWidth("20em");
-		txtBuscar.setPlaceholder("Introduzca el criterio de busqueda");
-		final Combobox cmbBuscarPor = new Combobox();
-		cmbBuscarPor.setPlaceholder("Seleccione el Campo");
-		txtBuscar.addEventListener(Events.ON_CHANGING,
-				new EventListener<InputEvent>() {
+	public void crearLista(List<Clase> lista, String[] campos,
+			final boolean emergente, boolean udc) {
+		exportador = new Button();
+		exportador.setTooltiptext("Exportar los Datos como un Archivo");
+		exportador.setSclass("catalogo");
+		exportador.setSrc("/public/imagenes/botones/exportar.png");
+		// ; float: right
+		exportador.addEventListener(Events.ON_CLICK,
+				new EventListener<Event>() {
 					@Override
-					public void onEvent(InputEvent e) throws Exception {
-						List<Clase> listaNueva = buscar(e.getValue(),
-								cmbBuscarPor.getValue());
-						lsbCatalogo.setModel(new ListModelList<Clase>(
-								listaNueva));
-						lsbCatalogo.setMultiple(false);
-						lsbCatalogo.setCheckmark(false);
-						lsbCatalogo.setMultiple(true);
-						lsbCatalogo.setCheckmark(true);
-						
+					public void onEvent(Event arg0) throws Exception {
+						exportar();
 					}
 				});
+		pagineo = new Button();
+		pagineo.setTooltiptext("Presione para mostrar todos los registros en una sola lista, sin pagineo");
+		pagineo.setSclass("catalogo");
+		pagineo.setSrc("/public/imagenes/botones/pagineo.png");
+		pagineo.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			@Override
+			public void onEvent(Event arg0) throws Exception {
+				pagineo();
+			}
+		});
+		Hbox box = new Hbox();
+		final Separator separador1 = new Separator();
+		final Separator separador2 = new Separator();
 		lsbCatalogo = new Listbox();
 		lsbCatalogo.setMold("paging");
+		lsbCatalogo.setPagingPosition("top");
 		lsbCatalogo.setPageSize(10);
+		final Auxhead cabecera = new Auxhead();
 		Listhead lhdEncabezado = new Listhead();
+		lhdEncabezado.setSizable(true);
 		for (int i = 0; i < campos.length; i++) {
-			lhdEncabezado.appendChild(new Listheader(campos[i]));
+			final Textbox cajaTexto = new Textbox();
+			cajaTexto.setContext(campos[i]);
+			cajaTexto.setHflex("1");
+			cajaTexto.setWidth("auto");
+			cajaTexto.addEventListener(Events.ON_OK,
+					new EventListener<KeyEvent>() {
+						@Override
+						public void onEvent(KeyEvent e) throws Exception {
+							List<String> valores = new ArrayList<>();
+							for (int i = 0; i < cabecera.getChildren().size(); i++) {
+								Auxheader cabeceraFila = (Auxheader) cabecera
+										.getChildren().get(i);
+								Textbox te = (Textbox) cabeceraFila
+										.getChildren().get(0);
+								valores.add(te.getValue());
+							}
+							;
+							String valor = cajaTexto.getValue();
+							List<Clase> listaNueva = buscar(valores);
+							lsbCatalogo.setModel(new ListModelList<Clase>(
+									listaNueva));
+							if (!emergente) {
+								lsbCatalogo.setMultiple(false);
+								lsbCatalogo.setCheckmark(false);
+								lsbCatalogo.setMultiple(true);
+								lsbCatalogo.setCheckmark(true);
+							}
+							cajaTexto.setValue(valor);
+						}
+					});
+			cajaTexto.setPlaceholder("Buscar....");
+			cajaTexto
+					.setTooltiptext("Presione Enter para Filtrar la Informacion");
+			Auxheader cabeceraFila = new Auxheader();
+			cabeceraFila.appendChild(cajaTexto);
+			cabecera.appendChild(cabeceraFila);
+			Listheader listheader = new Listheader(campos[i]);
+			lhdEncabezado.appendChild(listheader);
 		}
+		lsbCatalogo.appendChild(cabecera);
 		lsbCatalogo.appendChild(lhdEncabezado);
-		lhdEncabezado.setVisible(true);
-		lsbCatalogo.setWidth("100%");
 		lsbCatalogo.setSizedByContent(true);
+		lsbCatalogo.setSpan("true");
+		cabecera.setVisible(true);
+		lhdEncabezado.setVisible(true);
 		lsbCatalogo.setModel(new ListModelList<Clase>(lista));
-		lsbCatalogo.setMultiple(false);
-		lsbCatalogo.setCheckmark(false);
-		lsbCatalogo.setMultiple(true);
-		lsbCatalogo.setCheckmark(true);
 		lsbCatalogo.setItemRenderer(new ListitemRenderer<Clase>() {
 
 			@Override
@@ -101,19 +163,153 @@ public abstract class Catalogo<Clase> extends Window {
 			}
 		});
 
-		this.appendChild(separador1);
-		this.appendChild(hbxBusqueda);
-		lblBuscar.setValue("Buscar Por :  ");
-		hbxBusqueda.appendChild(lblBuscar);
-		cmbBuscarPor.setModel(new ListModelList<String>(campos));
-		hbxBusqueda.appendChild(cmbBuscarPor);
-		hbxBusqueda.appendChild(txtBuscar);
-		this.appendChild(separador2);
-		lsbCatalogo.setMultiple(false);
-		lsbCatalogo.setCheckmark(false);
-		lsbCatalogo.setMultiple(true);
-		lsbCatalogo.setCheckmark(true);
-		this.appendChild(lsbCatalogo);
+		if (emergente) {
+			this.setClosable(true);
+			this.setWidth("80%");
+			this.setTitle("Registros");
+			if (udc) {
+				Div div = new Div();
+				Hbox vbox1 = new Hbox();
+				vbox1.setWidth("100%");
+				vbox1.setHeight("12px");
+				vbox1.setAlign("start");
+				vbox1.setPack("start");
+				labelSYNombre = new Label("Cd producto: ");
+				labelSYNombre.setClass("etiqueta");
+				vbox1.appendChild(labelSYNombre);
+				txtSY = new Textbox();
+				txtSY.setDisabled(true);
+				Space space = new Space();
+				space.setWidth("9px");
+				vbox1.appendChild(space);
+				vbox1.appendChild(txtSY);
+				vbox1.appendChild(new Label());
+				Hbox vbox2 = new Hbox();
+				vbox2.setWidth("100%");
+				vbox2.setHeight("12px");
+				labelRTNombre = new Label("Cd def Usuario: ");
+				labelRTNombre.setClass("etiqueta");
+				vbox2.appendChild(labelRTNombre);
+				txtRT = new Textbox();
+				txtRT.setDisabled(true);
+				vbox2.appendChild(txtRT);
+				labelBuscado = new Label();
+				vbox2.appendChild(labelBuscado);
+				vbox2.setAlign("center");
+				vbox2.setPack("center");
+				Vbox cajaVertical = new Vbox();
+				cajaVertical.setWidth("100%");
+				cajaVertical.setAlign("center");
+				cajaVertical.setPack("center");
+				cajaVertical.appendChild(vbox1);
+				cajaVertical.appendChild(vbox2);
+				div.appendChild(cajaVertical);
+
+				this.appendChild(div);
+			}
+
+			this.appendChild(separador2);
+			this.appendChild(lsbCatalogo);
+			// this.exportador.setVisible(false);
+			// this.pagineo.setVisible(false);
+			lsbCatalogo.setMultiple(true);
+			lsbCatalogo.setCheckmark(true);
+			lsbCatalogo.setMultiple(false);
+			lsbCatalogo.setCheckmark(false);
+		} else {
+			Space espacio = new Space();
+			espacio.setHeight("10px");
+			espacio.setStyle("background:white");
+			box.appendChild(espacio);
+			box.setStyle("background:white");
+			box.appendChild(exportador);
+			box.appendChild(pagineo);
+			box.setWidth("100%");
+			box.setAlign("end");
+			box.setHeight("10px");
+			box.setWidths("96%,2%,2%");
+			this.setWidth("auto");
+			this.setClosable(false);
+			this.appendChild(separador1);
+			this.appendChild(box);
+			this.appendChild(separador2);
+			this.appendChild(lsbCatalogo);
+			lsbCatalogo.setMultiple(false);
+			lsbCatalogo.setCheckmark(false);
+			lsbCatalogo.setMultiple(true);
+			lsbCatalogo.setCheckmark(true);
+		}
+	}
+
+
+	protected void pagineo() {
+		if (lsbCatalogo.getPagingPosition().equals("top")) {
+			lsbCatalogo.setMold("default");
+			lsbCatalogo.setPagingPosition("both");
+			pagineo.setTooltiptext("Presione para mostrar la lista con pagineo");
+		} else {
+			lsbCatalogo.setMold("paging");
+			lsbCatalogo.setPagingPosition("top");
+			lsbCatalogo.setPageSize(10);
+			pagineo.setTooltiptext("Presione para mostrar todos los registros en una sola lista, sin pagineo");
+		}
+	}
+
+	protected void exportar() {
+		if (lsbCatalogo.getItemCount() != 0) {
+			String s = ";";
+			final StringBuffer sb = new StringBuffer();
+
+			for (Object head : lsbCatalogo.getHeads()) {
+				String h = "";
+				if (head instanceof Listhead) {
+					for (Object header : ((Listhead) head).getChildren()) {
+						h += ((Listheader) header).getLabel() + s;
+					}
+					sb.append(h + "\n");
+				}
+			}
+			for (Object item : lsbCatalogo.getItems()) {
+				String i = "";
+				for (Object cell : ((Listitem) item).getChildren()) {
+					i += ((Listcell) cell).getLabel() + s;
+				}
+				sb.append(i + "\n");
+			}
+			Messagebox.show(Mensaje.exportar, "Alerta", Messagebox.OK
+					| Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+						public void onEvent(Event evt)
+								throws InterruptedException {
+							if (evt.getName().equals("onOK")) {
+								Filedownload.save(sb.toString().getBytes(),
+										"text/plain", "datos.csv");
+							}
+						}
+					});
+		} else
+			msj.mensajeAlerta(Mensaje.noHayRegistros);
+	}
+
+	/**
+	 * Metodo que permite llamar un servicio dependiendo el controlador que
+	 * busque, es decir que haga un filtro dentro del catalogo, ayudando asi al
+	 * usuario a encontrar el registro buscado con mayor facilidad
+	 */
+	protected abstract List<Clase> buscar(List<String> valores);
+
+	/**
+	 * Metodo que permite por cada controlador indicar cuales son los registros
+	 * que quiere mostrar en su catalogo, formando una matriz de String
+	 */
+	protected abstract String[] crearRegistros(Clase objeto);
+
+	public Clase objetoSeleccionadoDelCatalogo() {
+		return lsbCatalogo.getSelectedItem().getValue();
+	}
+
+	public Listbox getListbox() {
+		return lsbCatalogo;
 	}
 
 	public void actualizarLista(List<Clase> lista) {
@@ -154,31 +350,4 @@ public abstract class Catalogo<Clase> extends Window {
 
 	}
 
-	/**
-	 * Metodo que permite llamar un servicio dependiendo el controlador que
-	 * busque, es decir que haga un filtro dentro del catalogo, ayudando asi al
-	 * usuario a encontrar el registro buscado con mayor facilidad
-	 */
-	protected abstract List<Clase> buscar(String valor, String combo);
-
-	/**
-	 * Metodo que permite llamar un servicio dependiendo el controlador que
-	 * busque, es decir que haga un filtro dentro del catalogo, ayudando asi al
-	 * usuario a encontrar el registro buscado con mayor facilidad
-	 */
-	protected abstract List<Clase> buscarCampos(List<String> valores);
-
-	/**
-	 * Metodo que permite por cada controlador indicar cuales son los registros
-	 * que quiere mostrar en su catalogo, formando una matriz de String
-	 */
-	protected abstract String[] crearRegistros(Clase objeto);
-
-	public Clase objetoSeleccionadoDelCatalogo() {
-		return lsbCatalogo.getSelectedItem().getValue();
-	}
-
-	public Listbox getListbox() {
-		return lsbCatalogo;
-	}
 }

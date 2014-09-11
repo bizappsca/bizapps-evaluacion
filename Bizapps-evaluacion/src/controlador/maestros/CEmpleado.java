@@ -425,12 +425,12 @@ public class CEmpleado extends CGenerico {
 
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogo = new Catalogo<Empleado>(catalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado, "Empresa", "Cargo",
+				"Catalogo de Empleados", listEmpleado,false,false,false, "Empresa", "Cargo",
 				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
 				"Grado Auxiliar") {
 
 			@Override
-			protected List<Empleado> buscarCampos(List<String> valores) {
+			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
 				for (Empleado empleado : listEmpleado) {
@@ -471,26 +471,6 @@ public class CEmpleado extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Empleado> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Empresa"))
-					return servicioEmpleado.filtroEmpresa(valor);
-				else if (combo.equals("Cargo"))
-					return servicioEmpleado.filtroCargo(valor);
-				else if (combo.equals("Unidad Organizativa"))
-					return servicioEmpleado.filtroUnidadOrganizativa(valor);
-				else if (combo.equals("Nombre"))
-					return servicioEmpleado.filtroNombre(valor);
-				else if (combo.equals("Ficha"))
-					return servicioEmpleado.filtroFicha(valor);
-				else if (combo.equals("Ficha Supervisor"))
-					return servicioEmpleado.filtroFichaSupervisor(valor);
-				else if (combo.equals("Grado Auxiliar"))
-					return servicioEmpleado.filtroGradoAuxiliar(valor);
-				else
-					return servicioEmpleado.buscarTodos();
-			}
 
 		};
 		catalogo.setParent(catalogoEmpleado);
@@ -557,11 +537,11 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoEmpresa() {
 		final List<Empresa> listEmpresa = servicioEmpresa.buscarTodas();
 		catalogoEmpresa = new Catalogo<Empresa>(divCatalogoEmpresa,
-				"Catalogo de Empresas", listEmpresa, "Nombre", "Dirección",
+				"Catalogo de Empresas", listEmpresa, true,false,false, "Nombre", "Dirección",
 				"Teléfono 1", "Teléfono 2", "Empresa Auxiliar") {
 
 			@Override
-			protected List<Empresa> buscarCampos(List<String> valores) {
+			protected List<Empresa> buscar(List<String> valores) {
 				List<Empresa> lista = new ArrayList<Empresa>();
 
 				for (Empresa empresa : listEmpresa) {
@@ -594,23 +574,6 @@ public class CEmpleado extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Empresa> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioEmpresa.filtroNombre(valor);
-				else if (combo.equals("Dirección"))
-					return servicioEmpresa.filtroDireccion(valor);
-				else if (combo.equals("Teléfono 1"))
-					return servicioEmpresa.filtroTelefono1(valor);
-				else if (combo.equals("Teléfono 2"))
-					return servicioEmpresa.filtroTelefono2(valor);
-				else if (combo.equals("Empresa Auxiliar"))
-					return servicioEmpresa.filtroEmpresaAuxiliar(valor);
-				else
-					return servicioEmpresa.buscarTodas();
-			}
-
 		};
 
 		catalogoEmpresa.setClosable(true);
@@ -631,11 +594,11 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoCargo() {
 		final List<Cargo> listCargo = servicioCargo.buscarTodos();
 		catalogoCargo = new Catalogo<Cargo>(divCatalogoCargo,
-				"Catalogo de Cargos", listCargo, "Descripción", "Nómina",
+				"Catalogo de Cargos", listCargo,true,false,false, "Descripción", "Nómina",
 				"Cargo Auxiliar", "Empresa Auxiliar") {
 
 			@Override
-			protected List<Cargo> buscarCampos(List<String> valores) {
+			protected List<Cargo> buscar(List<String> valores) {
 				List<Cargo> lista = new ArrayList<Cargo>();
 
 				for (Cargo cargo : listCargo) {
@@ -665,21 +628,6 @@ public class CEmpleado extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<Cargo> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioCargo.filtroDescripcion(valor);
-				else if (combo.equals("Nómina"))
-					return servicioCargo.filtroNomina(valor);
-				else if (combo.equals("Cargo Auxiliar"))
-					return servicioCargo.filtroCargoAuxiliar(valor);
-				else if (combo.equals("Empresa Auxiliar"))
-					return servicioCargo.filtroEmpresaAuxiliar(valor);
-				else
-					return servicioCargo.buscarTodos();
-			}
-
 		};
 
 		catalogoCargo.setClosable(true);
@@ -701,12 +649,12 @@ public class CEmpleado extends CGenerico {
 		final List<UnidadOrganizativa> listUnidadOrganizativa = servicioUnidadOrganizativa
 				.buscarTodas();
 		catalogoUnidad = new Catalogo<UnidadOrganizativa>(divCatalogoUnidad,
-				"Catalogo de UnidadOrganizativas", listUnidadOrganizativa,
+				"Catalogo de UnidadOrganizativas", listUnidadOrganizativa, true,false,false,
 				"Gerencia", "Descripción", "Nivel", "Sub-Nivel",
 				"Empresa Auxiliar", "Unidad Auxiliar") {
 
 			@Override
-			protected List<UnidadOrganizativa> buscarCampos(List<String> valores) {
+			protected List<UnidadOrganizativa> buscar(List<String> valores) {
 				List<UnidadOrganizativa> lista = new ArrayList<UnidadOrganizativa>();
 
 				for (UnidadOrganizativa unidad : listUnidadOrganizativa) {
@@ -742,27 +690,6 @@ public class CEmpleado extends CGenerico {
 				return registros;
 			}
 
-			@Override
-			protected List<UnidadOrganizativa> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Gerencia"))
-					return servicioUnidadOrganizativa.filtroGerencia(valor);
-				else if (combo.equals("Descripción"))
-					return servicioUnidadOrganizativa.filtroDescripcion(valor);
-				else if (combo.equals("Nivel"))
-					return servicioUnidadOrganizativa.filtroNivel(valor);
-				else if (combo.equals("Sub-Nivel"))
-					return servicioUnidadOrganizativa.filtroSubNivel(valor);
-				else if (combo.equals("Empresa Auxiliar"))
-					return servicioUnidadOrganizativa
-							.filtroEmpresaAuxiliar(valor);
-				else if (combo.equals("Unidad Auxiliar"))
-					return servicioUnidadOrganizativa
-							.filtroUnidadAuxiliar(valor);
-				else
-					return servicioUnidadOrganizativa.buscarTodas();
-			}
-
 		};
 
 		catalogoUnidad.setClosable(true);
@@ -784,12 +711,12 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoSupervisor() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoSupervisor = new Catalogo<Empleado>(divCatalogoSupervisor,
-				"Catalogo Empleados", listEmpleado, "Empresa", "Cargo",
+				"Catalogo Empleados", listEmpleado, true,false,false, "Empresa", "Cargo",
 				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
 				"Grado Auxiliar") {
 
 			@Override
-			protected List<Empleado> buscarCampos(List<String> valores) {
+			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
 				for (Empleado empleado : listEmpleado) {
@@ -828,27 +755,6 @@ public class CEmpleado extends CGenerico {
 				registros[6] = String.valueOf(empleado.getGradoAuxiliar());
 
 				return registros;
-			}
-
-			@Override
-			protected List<Empleado> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Empresa"))
-					return servicioEmpleado.filtroEmpresa(valor);
-				else if (combo.equals("Cargo"))
-					return servicioEmpleado.filtroCargo(valor);
-				else if (combo.equals("Unidad Organizativa"))
-					return servicioEmpleado.filtroUnidadOrganizativa(valor);
-				else if (combo.equals("Nombre"))
-					return servicioEmpleado.filtroNombre(valor);
-				else if (combo.equals("Ficha"))
-					return servicioEmpleado.filtroFicha(valor);
-				else if (combo.equals("Ficha Supervisor"))
-					return servicioEmpleado.filtroFichaSupervisor(valor);
-				else if (combo.equals("Grado Auxiliar"))
-					return servicioEmpleado.filtroGradoAuxiliar(valor);
-				else
-					return servicioEmpleado.buscarTodos();
 			}
 
 		};

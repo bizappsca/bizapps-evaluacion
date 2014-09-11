@@ -286,11 +286,11 @@ public class CTipoFormacion extends CGenerico {
 		final List<TipoFormacion> listTipoFormacion = servicioTipoFormacion
 				.buscarTodos();
 		catalogo = new Catalogo<TipoFormacion>(catalogoTipoFormacion,
-				"Catalogo de Tipos de Formacion", listTipoFormacion,
+				"Catalogo de Tipos de Formacion", listTipoFormacion, false,false,false,
 				"Descripción") {
 
 			@Override
-			protected List<TipoFormacion> buscarCampos(List<String> valores) {
+			protected List<TipoFormacion> buscar(List<String> valores) {
 				List<TipoFormacion> lista = new ArrayList<TipoFormacion>();
 
 				for (TipoFormacion tipoFormacion : listTipoFormacion) {
@@ -310,16 +310,6 @@ public class CTipoFormacion extends CGenerico {
 
 				return registros;
 			}
-
-			@Override
-			protected List<TipoFormacion> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioTipoFormacion.filtroDescripcion(valor);
-				else
-					return servicioTipoFormacion.buscarTodos();
-			}
-
 		};
 		catalogo.setParent(catalogoTipoFormacion);
 

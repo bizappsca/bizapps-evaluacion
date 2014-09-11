@@ -269,10 +269,10 @@ public class CActividad extends CGenerico {
 
 		final List<Actividad> listActividad = servicioActividad.buscarTodas();
 		catalogo = new Catalogo<Actividad>(catalogoActividad,
-				"Catalogo de Actividades", listActividad, "Descripción") {
+				"Catalogo de Actividades", listActividad, false,false,false,"Descripción") {
 
 			@Override
-			protected List<Actividad> buscarCampos(List<String> valores) {
+			protected List<Actividad> buscar(List<String> valores) {
 				List<Actividad> lista = new ArrayList<Actividad>();
 
 				for (Actividad actividad : listActividad) {
@@ -291,15 +291,6 @@ public class CActividad extends CGenerico {
 				registros[0] = actividad.getDescripcion();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Actividad> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Descripción"))
-					return servicioActividad.filtroNombre(valor);
-				else
-					return servicioActividad.buscarTodas();
 			}
 
 		};

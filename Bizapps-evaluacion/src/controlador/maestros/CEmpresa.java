@@ -309,11 +309,11 @@ public class CEmpresa extends CGenerico {
 
 		final List<Empresa> listEmpresa = servicioEmpresa.buscarTodas();
 		catalogo = new Catalogo<Empresa>(catalogoEmpresa,
-				"Catalogo de Empresas", listEmpresa, "Nombre", "Dirección",
+				"Catalogo de Empresas", listEmpresa,false,false,false, "Nombre", "Dirección",
 				"Teléfono 1", "Teléfono 2", "Empresa Auxiliar") {
 
 			@Override
-			protected List<Empresa> buscarCampos(List<String> valores) {
+			protected List<Empresa> buscar(List<String> valores) {
 				List<Empresa> lista = new ArrayList<Empresa>();
 
 				for (Empresa empresa : listEmpresa) {
@@ -344,23 +344,6 @@ public class CEmpresa extends CGenerico {
 				registros[4] = empresa.getIdEmpresaAuxiliar();
 
 				return registros;
-			}
-
-			@Override
-			protected List<Empresa> buscar(String valor, String combo) {
-				// TODO Auto-generated method stub
-				if (combo.equals("Nombre"))
-					return servicioEmpresa.filtroNombre(valor);
-				else if (combo.equals("Dirección"))
-					return servicioEmpresa.filtroDireccion(valor);
-				else if (combo.equals("Teléfono 1"))
-					return servicioEmpresa.filtroTelefono1(valor);
-				else if (combo.equals("Teléfono 2"))
-					return servicioEmpresa.filtroTelefono2(valor);
-				else if (combo.equals("Empresa Auxiliar"))
-					return servicioEmpresa.filtroEmpresaAuxiliar(valor);
-				else
-					return servicioEmpresa.buscarTodas();
 			}
 
 		};

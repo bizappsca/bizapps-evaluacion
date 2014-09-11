@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import modelo.maestros.Valoracion;
 import modelo.seguridad.Arbol;
 import modelo.seguridad.Grupo;
 
@@ -385,9 +386,9 @@ public class CGrupo extends CGenerico {
 	@Listen("onClick = #btnCatalogoGrupo")
 	public void buscarItem() {
 		metodoLimpiar();
-		List<Grupo> grupos = servicioGrupo.buscarTodos();
+		final List<Grupo> grupos = servicioGrupo.buscarTodos();
 		catalogo = new Catalogo<Grupo>(catalogoGrupo, "Catálogo de Grupos",
-				grupos, "Nombre") {
+				grupos,false,false,false, "Nombre") {
 			@Override
 			protected String[] crearRegistros(Grupo grupo) {
 				String[] registros = new String[1];
@@ -395,19 +396,27 @@ public class CGrupo extends CGenerico {
 				return registros;
 			}
 
+//			@Override
+//			protected List<Grupo> buscar(String valor, String combo) {
+//				if (combo.equals("Nombre"))
+//					return servicioGrupo.filtroNombre(valor);
+//				else
+//					return servicioGrupo.buscarTodos();
+//			}
 			@Override
-			protected List<Grupo> buscar(String valor, String combo) {
-				if (combo.equals("Nombre"))
-					return servicioGrupo.filtroNombre(valor);
-				else
-					return servicioGrupo.buscarTodos();
+			protected List<Grupo> buscar(List<String> valores) {
+				List<Grupo> lista = new ArrayList<Grupo>();
+
+				for (Grupo grupo : grupos) {
+					if (grupo.getNombre().toLowerCase()
+									.startsWith(valores.get(0))); {
+						lista.add(grupo);
+					}
+				}
+				return lista;
+
 			}
 
-			@Override
-			protected List<Grupo> buscarCampos(List<String> valores) {
-				// TODO Auto-generated method stub
-				return null;
-			}
 		};
 		catalogo.setParent(catalogoGrupo);
 		catalogo.doModal();
