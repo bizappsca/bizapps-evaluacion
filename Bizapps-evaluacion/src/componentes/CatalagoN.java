@@ -3,6 +3,8 @@ package componentes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SpinnerDateModel;
+
 import modelo.maestros.Evaluacion;
 
 import org.springframework.context.ApplicationContext;
@@ -16,6 +18,7 @@ import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Doublespinner;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Label;
@@ -155,13 +158,13 @@ public abstract class CatalagoN<Clase> extends Window {
             public void render(Listitem fila, Clase objeto, int arg2)
                             throws Exception {
                     fila.setValue(objeto);
-                    Spinner textbox = new Spinner();
+                   Doublespinner textbox = new Doublespinner();
                     String[] registros = crearRegistros(objeto);
                     for (int i = 0; i < registros.length; i++) {
                             Listcell celda = new Listcell();
                             if(i==registros.length-1){
                             	System.out.println("aqui");
-                            	textbox.setValue(Integer.valueOf(registros[i]));
+                            	textbox.setValue(Double.valueOf(registros[i]));
                             }
                             else 
                                 celda.setLabel(registros[i]);

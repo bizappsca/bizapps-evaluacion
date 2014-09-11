@@ -48,7 +48,7 @@ public class UtilidadDAO implements IUtilidadDAO {
 	
 	
 	@Transactional
-	public String obtenerValoracionFinal(Integer resultado) {
+	public String obtenerValoracionFinal(double resultado) {
 		// TODO Auto-generated method stub
 
 		String sentencia = "";
@@ -91,7 +91,7 @@ public class UtilidadDAO implements IUtilidadDAO {
 	}
 
 	@Transactional
-	public String obtenerValoracionFinalSimple(Integer resultado) {
+	public String obtenerValoracionFinalSimple(double resultado) {
 		// TODO Auto-generated method stub
 		String sentencia = "";
 		String aux="";

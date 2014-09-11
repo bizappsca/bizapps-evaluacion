@@ -80,16 +80,16 @@ public class Evaluacion implements Serializable {
 	private double resultado;
 
 	@Column(name="resultado_competencias")
-	private int resultadoCompetencias;
+	private double resultadoCompetencias;
 
 	@Column(name="resultado_final")
-	private int resultadoFinal;
+	private double resultadoFinal;
 
 	@Column(name="resultado_general")
-	private int resultadoGeneral;
+	private double resultadoGeneral;
 
 	@Column(name="resultado_objetivos")
-	private int resultadoObjetivos;
+	private double resultadoObjetivos;
 
 	private String resumen;
 
@@ -261,35 +261,37 @@ public class Evaluacion implements Serializable {
 		this.resultado = resultado;
 	}
 
-	public int getResultadoCompetencias() {
-		return this.resultadoCompetencias;
+	
+
+	public double getResultadoCompetencias() {
+		return resultadoCompetencias;
 	}
 
-	public void setResultadoCompetencias(int resultadoCompetencias) {
+	public void setResultadoCompetencias(double resultadoCompetencias) {
 		this.resultadoCompetencias = resultadoCompetencias;
 	}
 
-	public int getResultadoFinal() {
-		return this.resultadoFinal;
+	public double getResultadoFinal() {
+		return resultadoFinal;
 	}
 
-	public void setResultadoFinal(int resultadoFinal) {
+	public void setResultadoFinal(double resultadoFinal) {
 		this.resultadoFinal = resultadoFinal;
 	}
 
-	public int getResultadoGeneral() {
-		return this.resultadoGeneral;
+	public double getResultadoGeneral() {
+		return resultadoGeneral;
 	}
 
-	public void setResultadoGeneral(int resultadoGeneral) {
+	public void setResultadoGeneral(double resultadoGeneral) {
 		this.resultadoGeneral = resultadoGeneral;
 	}
 
-	public int getResultadoObjetivos() {
-		return this.resultadoObjetivos;
+	public double getResultadoObjetivos() {
+		return resultadoObjetivos;
 	}
 
-	public void setResultadoObjetivos(int resultadoObjetivos) {
+	public void setResultadoObjetivos(double resultadoObjetivos) {
 		this.resultadoObjetivos = resultadoObjetivos;
 	}
 

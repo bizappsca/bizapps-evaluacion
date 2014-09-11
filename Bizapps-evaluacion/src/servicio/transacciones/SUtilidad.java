@@ -23,14 +23,14 @@ public class SUtilidad {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String obtenerValoracionFinal(Integer resultado) {
+	public String obtenerValoracionFinal(double resultado) {
 
 		return servicioUtilidadDAO.obtenerValoracionFinal(resultado);
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String obtenerValoracionFinalSimple(Integer resultado) {
+	public String obtenerValoracionFinalSimple(double resultado) {
 		return servicioUtilidadDAO.obtenerValoracionFinalSimple(resultado);
 	}
 	
