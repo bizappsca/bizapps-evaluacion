@@ -1,6 +1,11 @@
 package controlador.transacciones;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -251,6 +256,8 @@ public class CAgregarEvaluacion extends CGenerico {
 	private Label txttotalCompetencia1;
 	@Wire
 	private Label txttotalCompetencia2;
+	
+	String content="";
 	/*
 	 * @Wire private Label txtValoracionFinal;
 	 */
@@ -808,9 +815,6 @@ public class CAgregarEvaluacion extends CGenerico {
 			calcularResultadoFinal(evaluacionAuxiliar);
 		}*/
 		
-		
-		
-
 	}
 
 	@Listen("onClick = #btnPendiente")
@@ -2838,7 +2842,31 @@ public class CAgregarEvaluacion extends CGenerico {
 						}
 
 					}
-
+					
+					Empleado empleado1 = servicioEmpleado.buscarPorFicha(evaluacionAux.getFicha());
+					String cargo1 = empleado1.getCargo().getDescripcion();
+					String unidadOrganizativa1 = empleado1
+							.getUnidadOrganizativa().getDescripcion();
+					String gerenciaReporte1 = empleado1
+							.getUnidadOrganizativa().getGerencia()
+							.getDescripcion();
+					
+					String dominioAuxR="";
+					
+					try
+					{
+						dominioAuxR= dominioRequerido.getDescripcionDominio();	
+					}
+					catch (Exception ex)
+					{
+						dominioAuxR="No APlica";
+					}
+					
+							
+					
+					/*String eol = System.getProperty("line.separator"); 
+					content = content  + evaluacionAux.getIdEvaluacionSecundario()+ ";" + evaluacionAux.getFicha() + ";"+ empleado1.getNombre()  +";" + cargo1 +";" + unidadOrganizativa1 +";" + gerenciaReporte1 +";" + competenciaRequerida.getDescripcion() +";" + dominioAuxR +";" + dominioEvidenciado.getDescripcionDominio() +";" + pesoCompetencia +";" + pesoDominioRequerido +";" + pesoDominioEvidenciado +";" +  pesoTotalDominioRequerido+";" + acumuladorPesoConducta + ";"  + acumuladorPesoCompetencia + ";"  + eol   ;*/
+					
 				}
 
 			}
@@ -2856,6 +2884,31 @@ public class CAgregarEvaluacion extends CGenerico {
 			System.out.println(e.toString());
 			resultadoCompetencia = 0.0;
 		}
+		
+		
+		/*File file = new File("c:/evaluacion/Datos.txt");
+		try (FileOutputStream fop = new FileOutputStream(file)) {
+ 
+			// if file doesn't exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+ 
+			// get the content in bytes
+			byte[] contentInBytes = content.getBytes();
+ 
+			fop.write(contentInBytes);
+			fop.flush();
+			fop.close();
+ 
+			System.out.println("Done");
+			
+		
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+		
 
 		try {
 
@@ -2940,6 +2993,7 @@ public class CAgregarEvaluacion extends CGenerico {
 			evaluacionAux.setResultado(0.0);
 			
 			servicioEvaluacion.guardar(evaluacionAux);
+			
 			/*
 			 * txtValoracionFinal.setValue(servicioUtilidad
 			 * .obtenerValoracionFinal((int) resultadoFinal));
