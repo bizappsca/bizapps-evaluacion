@@ -14,6 +14,7 @@ import java.util.List;
 import modelo.maestros.Area;
 import modelo.maestros.Bitacora;
 import modelo.maestros.Competencia;
+import modelo.maestros.ConfiguracionGeneral;
 import modelo.maestros.Distribucion;
 import modelo.maestros.Dominio;
 import modelo.maestros.Empleado;
@@ -279,7 +280,7 @@ public class CAgregarEvaluacion extends CGenerico {
 	List<EvaluacionConducta> evaluacionconductas = new ArrayList<EvaluacionConducta>();
 	List<NivelCompetenciaCargo> nivelCompetencia = new ArrayList<NivelCompetenciaCargo>();
 	List<NivelCompetenciaCargo> nivelCompetencia1 = new ArrayList<NivelCompetenciaCargo>();
-
+	private static int gradoAuxiliar; 
 	private int num;
 	private Integer idEva;
 	private boolean bool = false;
@@ -325,11 +326,19 @@ public class CAgregarEvaluacion extends CGenerico {
 	private boolean agregarW1=false;
 	private CListaPersonal controlador = new CListaPersonal();
 	private CEmpleado controlador1 = new CEmpleado();
+	private static String band;
 
 	@Override
 	public void inicializar() throws IOException {
 
-		
+		Authentication a = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Usuario u = servicioUsuario.buscarUsuarioPorNombre(a.getName());
+		String fichaEm = u.getFicha();
+		Empleado e = servicioEmpleado.buscarPorFicha(fichaEm);
+		int gradoA = e.getGradoAuxiliar();
+		gradoAuxiliar = gradoA;
 		
 		// ------------Codigo de Capacitacion------------
 		gpxAgregarCapacitacion.setOpen(false);
@@ -346,9 +355,16 @@ public class CAgregarEvaluacion extends CGenerico {
 		List<UnidadMedida> unidad = servicioUnidadMedida.buscar();
 		cmbUnidad.setModel(new ListModelList<UnidadMedida>(unidad));
 
+		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral.buscar();
+		String bandera = configuracion.get(0).getBandera();
+		band = bandera;
+		
+		
 		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("itemsCatalogo");
-
+		
+		if (bandera.equals("false") || gradoA >= 19){
+			System.out.println("AL IF");
 		if (map != null) {
 
 			if (map.get("modo") != null) {
@@ -531,12 +547,15 @@ public class CAgregarEvaluacion extends CGenerico {
 										listCapacitacion));
 
 					}
-
+					
 					// TERMINA MODO AGREGAR
 
-				} else {
+				} 
+				
+				
+				else {
 					// COMIENZA MODO EDITAR
-
+				
 					if (map != null) {
 						if (map.get("id") != null) {
 							Integer idEvaluacion = (Integer) map.get("id");
@@ -551,7 +570,7 @@ public class CAgregarEvaluacion extends CGenerico {
 							if (evaluacion.getEstadoEvaluacion().equals(
 									"EN EDICION")) {
 								btnPendiente.setVisible(true);
-								btnCambiarEstado.setVisible(false);
+								btnCambiarEstado.setVisible(true);
 							} else if (evaluacion.getEstadoEvaluacion().equals(
 									"PENDIENTE")) {
 								btnEnEdicion.setVisible(true);
@@ -781,7 +800,13 @@ public class CAgregarEvaluacion extends CGenerico {
 
 
 						}
+						
+						
 					}
+					
+					
+				}
+				
 					gpxAgregar.setOpen(false);
 					gpxObjetivosAgregados.setOpen(true);
 					gpxAgregarIndicador.setOpen(false);
@@ -810,15 +835,176 @@ public class CAgregarEvaluacion extends CGenerico {
 			}
 		}
 		
+	
 		/*for(Evaluacion evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
 		{
 			calcularResultadoFinal(evaluacionAuxiliar);
 		}*/
+		else{
+			System.out.println("AL ELSE");
+			if (map != null) {
+				if (map.get("id") != null) {
+					Integer idEvaluacion = (Integer) map.get("id");
+					idEva = idEvaluacion;
+					String fichaMap = (String) map.get("titulo");
+					fichaE = fichaMap;
+
+					Evaluacion evaluacion = servicioEvaluacion
+							.buscarEvaluacion(idEvaluacion);
+					
+					txtCompromisos
+							.setValue(evaluacion.getCompromisos());
+					txtFortalezas.setValue(evaluacion.getFortalezas());
+					txtOportunidades.setValue(evaluacion
+							.getOportunidades());
+					txtResumen.setValue(evaluacion.getResumen());
+					txtComentarios.setValue(evaluacion.getComentario());
+					Authentication auth = SecurityContextHolder
+							.getContext().getAuthentication();
+					u = servicioUsuario.buscarUsuarioPorNombre(auth
+							.getName());
+					String ficha = evaluacion.getFicha();
+					Integer numeroEvaluacion = evaluacion
+							.getIdEvaluacionSecundario();
+					num = numeroEvaluacion;
+					numero = numeroEvaluacion;
+					empleado = servicioEmpleado.buscarPorFicha(ficha);
+					evaluador = servicioEmpleado
+							.buscarPorFicha(empleado
+									.getFichaSupervisor());
+					// btnCambiarEstado
+					// String cargo =
+					// empleado.getCargo().getDescripcion();
+
+					// Permite saber el grado de la persona que se esta
+					// logueando
+					Empleado empleadoGrado = servicioEmpleado
+							.buscarPorFicha(u.getFicha());
+					Integer grado = empleadoGrado.getGradoAuxiliar();
+
+					String cargo = evaluacion.getCargo()
+							.getDescripcion();
+					String unidadOrganizativa = empleado
+							.getUnidadOrganizativa().getDescripcion();
+					String gerenciaReporte = empleado
+							.getUnidadOrganizativa().getGerencia()
+							.getDescripcion();
+					String nombreTrabajador = empleado.getNombre();
+					lblRevision.setValue(evaluacion.getRevision()
+							.getDescripcion());
+					// Combo de Objetivos
+					List<EvaluacionObjetivo> evaluacionObjetivo = servicioEvaluacionObjetivo
+							.buscarObjetivos(ficha, numeroEvaluacion);
+					cmbObjetivos
+							.setModel(new ListModelList<EvaluacionObjetivo>(
+									evaluacionObjetivo));
+
+					// Listbox que contiene los objetivos
+					objetivosG = servicioEvaluacionObjetivo
+							.buscarObjetivosEvaluar(idEvaluacion);
+					lbxObjetivosGuardados
+							.setModel(new ListModelList<EvaluacionObjetivo>(
+									objetivosG));
+
+					// Listbox que contine los indicadores
+					List<EvaluacionObjetivo> evaluacionObjetivoIndicadores = servicioEvaluacionObjetivo
+							.buscarObjetivosEvaluar(idEvaluacion);
+					cmbObjetivos
+							.setModel(new ListModelList<EvaluacionObjetivo>(
+									evaluacionObjetivoIndicadores));
+
+					List<NivelCompetenciaCargo> nivel = new ArrayList<NivelCompetenciaCargo>();
+					List<NivelCompetenciaCargo> nivel2 = new ArrayList<NivelCompetenciaCargo>();
+					List<NivelCompetenciaCargo> nivel3 = new ArrayList<NivelCompetenciaCargo>();
+					List<NivelCompetenciaCargo> nivel4 = new ArrayList<NivelCompetenciaCargo>();
+					NivelCompetenciaCargo nivelRectoras = new NivelCompetenciaCargo();
+					NivelCompetenciaCargo nivelEspecificas = new NivelCompetenciaCargo();
+
+					nivel = servicioNivelCompetenciaCargo
+							.buscar(evaluacion.getCargo());
+					for (int j = 0; j < nivel.size(); j++) {
+						if (nivel.get(j).getCompetencia().getNivel()
+								.equals("RECTORAS")) {
+							nivelRectoras = nivel.get(j);
+							nivel2.add(nivelRectoras);
+							nivelCompetencia = nivel2;
+						} else {
+							nivel.remove(j);
+						}
+						lbxCompetenciaRectora
+								.setModel(new ListModelList<NivelCompetenciaCargo>(
+										nivel2));
+					}
+					nivel4 = servicioNivelCompetenciaCargo
+							.buscar(evaluacion.getCargo());
+					for (int j = 0; j < nivel4.size(); j++) {
+						if (nivel4.get(j).getCompetencia().getNivel()
+								.equals("ESPECIFICAS")) {
+							nivelEspecificas = nivel4.get(j);
+							nivel3.add(nivelEspecificas);
+							nivelCompetencia1 = nivel3;
+						} else {
+							nivel4.remove(j);
+						}
+						lbxCompetenciaEspecifica
+								.setModel(new ListModelList<NivelCompetenciaCargo>(
+										nivel3));
+					}
+
+					lblFicha.setValue(ficha);
+					lblNombreTrabajador.setValue(nombreTrabajador);
+					lblCargo.setValue(cargo);
+					lblUnidadOrganizativa.setValue(unidadOrganizativa);
+					lblGerencia.setValue(gerenciaReporte);
+					lblEvaluacion.setValue(numeroEvaluacion.toString());
+					lblFechaCreacion.setValue(formatoFecha
+							.format(fechaHora));
+					
+				}
+			}
+			
+			
+		btnAgregar.setVisible(false);
+		btnEliminar.setVisible(false);
+		btnOk.setVisible(false);
+		btnOk2.setVisible(false);
+		btnAgregarIndicador.setVisible(false);
+		btnEliminarIndicador.setVisible(false);
+		btnAgregarAcciones.setVisible(false);
+		btnEliminarAcciones.setVisible(false);
+		btnCambiarEstado.setVisible(false);
+		btnCancelar.setVisible(true);
+		btnAgregarCapacitacion.setVisible(false);
 		
+		gpxAgregar.setOpen(false);
+		gpxObjetivosAgregados.setOpen(true);
+		gpxAgregarIndicador.setOpen(false);
+		gpxAgregados.setOpen(false);
+		evaluacionconductas = servicioEvaluacionConducta
+				.buscarConductas(idEva);
+		System.out.println(evaluacionconductas);
+		/*
+		 * if (evaluacionconductas.size() != 0) { }
+		 */
+		mostrarDominioRectora();
+		mostrarDominioEspecifica();
+
+		// evaluarIndicadores();
+		txttotalIndicador.setValue(String.valueOf(tind));
+
+		listCapacitacion = servicioEvaluacionCapacitacion
+				.buscarPorEvaluacion(idEva);
+		lbxAccionesGuardadas
+				.setModel(new ListModelList<EvaluacionCapacitacion>(
+						listCapacitacion));
+		refrescarCalculosEvaluacion();
+		}
+
 	}
 
 	@Listen("onClick = #btnPendiente")
 	public void pasarPendiente() {
+		
 		cambiarEstado();
 		if (validar == false){
 			String estado = "PENDIENTE";

@@ -1,0 +1,48 @@
+<window id="wdwVConfiguracion" border="normal" height="auto"
+	style="background-color:#8A0808;" width="70%" apply="controlador.maestros.CConfiguracionGeneral">
+
+	<groupbox width="auto" mold="3d" title="Configuración General">
+		<separator />
+		<div id="botoneraConfiguracionGeneral" />
+		<separator />
+		<separator />
+		<groupbox id="gpxRegistroArea" width="auto" open="true"
+			class="azul">
+			<caption label="Cambiar Valor de Bandera"
+				style="font-weight:bold; font-size: 13px"
+				tooltiptext="Presione para registrar una nueva area" />
+			<separator />
+			<grid width="100%">
+				<columns visible="false">
+					<column label="" width="20%" />
+					<column label="" width="45%" />
+					<column label="" width="17%" />
+					<column label="" width="18" />
+				</columns>
+				<rows>
+					<row>
+						<hbox>
+							<label value="Bandera:" class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+
+						<combobox id="cmbConfiguracion"
+							readonly="true"
+							tooltiptext="Seleccione el valor de la bandera"
+							width="60%" tabindex="9">
+							<comboitem label="true" />
+							<comboitem label="false" />
+						</combobox>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator />
+		<separator />
+		<separator />
+		<separator />
+	</groupbox>
+</window>
