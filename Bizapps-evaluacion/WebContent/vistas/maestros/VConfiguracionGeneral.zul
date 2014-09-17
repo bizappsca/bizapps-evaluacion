@@ -8,7 +8,7 @@
 		<separator />
 		<groupbox id="gpxRegistroArea" width="auto" open="true"
 			class="azul">
-			<caption label="Cambiar Valor de Bandera"
+			<caption label="Modificar Evaluaciones"
 				style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para registrar una nueva area" />
 			<separator />
@@ -22,7 +22,7 @@
 				<rows>
 					<row>
 						<hbox>
-							<label value="Bandera:" class="etiqueta" />
+							<label value="Evitar que el personal con grado menor a 19 modifique evaluaciones ?:" class="etiqueta" />
 							<space />
 							<label value="*"
 								style="font-weight:bold;color:red">
@@ -31,10 +31,10 @@
 
 						<combobox id="cmbConfiguracion"
 							readonly="true"
-							tooltiptext="Seleccione el valor de la bandera"
+							tooltiptext="bandera"
 							width="60%" tabindex="9">
-							<comboitem label="true" />
-							<comboitem label="false" />
+							<comboitem label="SI" />
+							<comboitem label="NO" />
 						</combobox>
 					</row>
 				</rows>

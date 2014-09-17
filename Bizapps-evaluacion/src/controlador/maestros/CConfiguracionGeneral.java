@@ -78,6 +78,16 @@ public class CConfiguracionGeneral extends CGenerico {
 		
 						String bandera = cmbConfiguracion
 								.getValue();
+						
+						if (bandera.compareTo("SI")==0)
+						{
+							bandera="true";
+						}
+						else
+						{
+
+							bandera="false";
+						}
 						ConfiguracionGeneral configuracionGeneral = servicioConfiguracionGeneral.buscarBandera(1);
 						configuracionGeneral.setBandera(bandera);
 						servicioConfiguracionGeneral.guardar(configuracionGeneral);
