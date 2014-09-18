@@ -354,9 +354,9 @@ public abstract class CatalagoN<Clase> extends Window {
 		lsbCatalagoN.setCheckmark(true);
 	}
 
-	public Integer obtenertext(){
+	public Double obtenertext(){
 		Listitem listItem = lsbCatalagoN.getSelectedItem();
-		Integer aprobado = ((Spinner) ((listItem.getChildren().get(listItem.getChildren().size()-1)))
+		Double aprobado = ((Doublespinner) ((listItem.getChildren().get(listItem.getChildren().size()-1)))
 				.getFirstChild()).getValue();
 		return aprobado;
 	}

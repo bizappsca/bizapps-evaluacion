@@ -10,6 +10,7 @@ import java.util.List;
 import modelo.maestros.Bitacora;
 import modelo.maestros.Cargo;
 import modelo.maestros.ConductaCompetencia;
+import modelo.maestros.ConfiguracionGeneral;
 import modelo.maestros.Empleado;
 import modelo.maestros.Evaluacion;
 import modelo.maestros.EvaluacionCapacitacion;
@@ -113,6 +114,7 @@ public class CEmpleado extends CGenerico {
 	private String fichaE;
 	private boolean tienePersonal = false;
 	List<Evaluacion> evaluacion1 = new ArrayList<Evaluacion>();
+	String bandera;
 
 	Mensaje msj = new Mensaje();
 
@@ -134,7 +136,8 @@ public class CEmpleado extends CGenerico {
 			msj.mensajeAlerta(Mensaje.personalCargo);
 			cerrarVentana(winArbolPersonal, "De Personal a Cargo", tabs);
 		}
-
+		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral.buscar();
+		bandera = configuracion.get(0).getBandera();
 	}
 
 	/* Permite asignarle los nodos cargados con el metodo getFooRoot() al arbol */
@@ -405,7 +408,7 @@ public class CEmpleado extends CGenerico {
 
 	@Listen("onClick = #btnCopiar")
 	public void copiar() {
-
+		if (bandera.equals("false")){
 		if (lbxEvaluacion.getItemCount() != 0) {
 
 			Listitem listItem = lbxEvaluacion.getSelectedItem();
@@ -635,6 +638,10 @@ public class CEmpleado extends CGenerico {
 				msj.mensajeAlerta(Mensaje.noSeleccionoRegistro);
 
 		}
+		}
+		else{
+			msj.mensajeError(Mensaje.noSePuedeCopiar);
+		}
 	}
 
 	@Listen("onDoubleClick = #lbxEvaluacion")
@@ -662,6 +669,7 @@ public class CEmpleado extends CGenerico {
 					map.put("modo", "EDITAR");
 					map.put("id", evaluacion.getIdEvaluacion());
 					map.put("titulo", evaluacion.getFicha());
+					map.put("listbox", lbxEvaluacion);
 					Sessions.getCurrent().setAttribute("itemsCatalogo", map);
 					winEvaluacionEmpleado = (Window) Executions
 							.createComponents(
@@ -680,6 +688,7 @@ public class CEmpleado extends CGenerico {
 
 	@Listen("onClick = #btnAgregar")
 	public void selectedNodeA() {
+		if (bandera.equals("false")){
 		if (arbolPersonal.getSelectedItem() != null) {
 			String item = String.valueOf(arbolPersonal.getSelectedItem()
 					.getContext());
@@ -748,6 +757,10 @@ public class CEmpleado extends CGenerico {
 
 			}
 		}
+		}
+		else {
+			msj.mensajeError(Mensaje.noSePuedeCrear);
+		}
 
 	}
 
@@ -759,7 +772,10 @@ public class CEmpleado extends CGenerico {
 		servicioEmpleado = servicioEm;
 		fichaE = new String();
 		fichaE = item;
-		evaluacion1 = servicioEvaluacion.buscar(fichaE);
+		System.out.println("ojo" +item);
+		evaluacion1 = new ArrayList<Evaluacion>();
+		evaluacion1 = servicioEvaluacion.buscar(item);
+		System.out.println("eva"+evaluacion1);
 		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion1));
 		lbxEvaluacion.renderAll();
 		for (int j = 0; j < lbxEvaluacion.getItems().size(); j++) {

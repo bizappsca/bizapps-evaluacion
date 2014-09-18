@@ -547,9 +547,11 @@ public class CCalibracionEvaluacion extends CGenerico {
 					.buscarEvaluacionCalibracionGrado(grado);
 		} else {
 			Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
+			if (eva != null){
 			String ficha = eva.getFicha();
 			evaluaciones = servicioEvaluacion.buscarEvaluacionCalibracion(
 					empresa, nombreE, ficha, gerencia, valoracion);
+		}
 		}
 		catalogoEvaluacion.actualizarLista(evaluaciones);
 	}
@@ -569,7 +571,7 @@ public class CCalibracionEvaluacion extends CGenerico {
 			int idEvaluacion = eva.getIdEvaluacion();
 			Evaluacion evaluacion = servicioEvaluacion
 					.buscarEvaluacion(idEvaluacion);
-			int resultado = Integer.valueOf(catalogoEvaluacion.obtenertext());
+			Double resultado = Double.valueOf(catalogoEvaluacion.obtenertext());
 			if (resultado < 25) {
 				valoracion = "NC";
 			} else if (resultado < 85 && resultado > 24) {

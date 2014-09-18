@@ -4,7 +4,7 @@
 	<div id="botoneraUnidadOrganizativa" />
 	<separator />
 	
-	<groupbox id="gpxFiltros" width="auto" mold="3d" title="Buscar Calibración">
+	<groupbox id="gpxFiltros" width="auto" mold="3d" title="Buscar Evaluación">
 			
 			<grid width="100%">
 		<columns visible="false">

@@ -324,6 +324,7 @@ public class CAgregarEvaluacion extends CGenerico {
 	private String item;
 	private boolean agregarW=false;
 	private boolean agregarW1=false;
+	private boolean agregarW2=false;
 	private CListaPersonal controlador = new CListaPersonal();
 	private CEmpleado controlador1 = new CEmpleado();
 	private static String band;
@@ -560,9 +561,19 @@ public class CAgregarEvaluacion extends CGenerico {
 						if (map.get("id") != null) {
 							Integer idEvaluacion = (Integer) map.get("id");
 							idEva = idEvaluacion;
+							listbox =  (Listbox) map.get("listbox");
+							item = (String) map.get("titulo");
+							revision = servicioRevision.buscarPorEstado("ACTIVO");
 							String fichaMap = (String) map.get("titulo");
 							fichaE = fichaMap;
-
+							Authentication autho = SecurityContextHolder.getContext()
+									.getAuthentication();
+							u = servicioUsuario.buscarUsuarioPorNombre(autho.getName());
+							String ficha1 = u.getCedula();
+							System.out.println(item + ficha1);
+							if (!item.equals(ficha1)){
+								agregarW2= true;
+							}
 							Evaluacion evaluacion = servicioEvaluacion
 									.buscarEvaluacion(idEvaluacion);
 							
@@ -1008,10 +1019,19 @@ public class CAgregarEvaluacion extends CGenerico {
 		cambiarEstado();
 		if (validar == false){
 			String estado = "PENDIENTE";
+			String estadoR = "REVISADA";
+			String estadoA = "APROBADA";
+			String estadoC = "CALIBRADA";
 			revision = servicioRevision.buscarPorEstado("ACTIVO");
 			List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
+			List<Evaluacion> evaRevision = new ArrayList<Evaluacion>();
+			List<Evaluacion> evaAprobada = new ArrayList<Evaluacion>();
+			List<Evaluacion> evaCalibrada = new ArrayList<Evaluacion>();
 			evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
-			if (evaluacion.size() == 0){
+			evaRevision = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoR);
+			evaAprobada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoA);
+			evaCalibrada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoC);
+			if (evaluacion.size() == 0 && evaRevision.size() == 0 &&  evaAprobada.size() == 0 && evaCalibrada.size() == 0){
 		Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
 		eva.setEstadoEvaluacion("PENDIENTE");
 		servicioEvaluacion.guardar(eva);
@@ -1062,6 +1082,11 @@ public class CAgregarEvaluacion extends CGenerico {
 	@Listen("onClick = #btnRevisada")
 	public void pasarRevisada() {
 		Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
+		String estado = "REVISADA";
+		revision = servicioRevision.buscarPorEstado("ACTIVO");
+		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("REVISADA");
 		servicioEvaluacion.guardar(eva);
 		Bitacora bitacora = new Bitacora();
@@ -1078,12 +1103,17 @@ public class CAgregarEvaluacion extends CGenerico {
 		btnEnEdicion.setVisible(false);
 		btnCalibrada.setVisible(false);
 		btnFinalizada.setVisible(false);
-	
+		}
 	}
 	
 	@Listen("onClick = #btnAprobada")
 	public void PasarAprobada() {
 		Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
+		String estado = "APROBADA";
+		revision = servicioRevision.buscarPorEstado("ACTIVO");
+		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("APROBADA");
 		servicioEvaluacion.guardar(eva);
 		Bitacora bitacora = new Bitacora();
@@ -1100,12 +1130,18 @@ public class CAgregarEvaluacion extends CGenerico {
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
 		btnFinalizada.setVisible(false);
+		}
 		
 	}
 	
 	@Listen("onClick = #btnCalibrada")
 	public void pasarCalibrada() {
 		Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
+		String estado = "CALIBRADA";
+		revision = servicioRevision.buscarPorEstado("ACTIVO");
+		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("CALIBRADA");
 		servicioEvaluacion.guardar(eva);
 		Bitacora bitacora = new Bitacora();
@@ -1122,7 +1158,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
 		btnRevisada.setVisible(false);
-		
+		}
 	}
 	
 	@Listen("onClick = #btnFinalizada")
@@ -1241,6 +1277,15 @@ public class CAgregarEvaluacion extends CGenerico {
 			System.out.println(agregarW +""+ agregarW1);
 			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
 			agregarW1= false;
+		}
+		if (!agregarW1 && !agregarW && !agregarW2){
+			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado);
+		}
+		
+		if (!agregarW1 && !agregarW && agregarW2){
+			System.out.println("i"+item);
+			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
+			agregarW2= false;
 		}
 		cerrarVentana1(winEvaluacionEmpleado, "Personal");
 	}

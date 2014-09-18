@@ -107,7 +107,7 @@
 			</north>
 			<west title="Inicio" id="west" size="15%" splittable="false"
 				collapsible="true" autoscroll="true" flex="true">
-				<tree id="arbolMenu" width="99%" zclass="z-tree">
+				<tree id="arbolMenu" width="99%" zclass="z-vfiletree">
 					<!-- 				"z-tree","z-dottree","z-filetree"  #F8E0E0 ; -->
 					<template name="model">
 						<treeitem context="menupopup">

@@ -516,11 +516,12 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		} 
 		else {
 			Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
+			if (eva != null){
 			String ficha = eva.getFicha();
 			evaluaciones = servicioEvaluacion.buscarEvaluacionCalibracion(
 					empresa, nombreE, ficha, gerencia, valoracion);
 		}
-		
+		}
 //		try {
 //			catalogoEvaluacion.setParent(catalogoEvaluaciones);
 			catalogoEvaluacion.actualizarLista(evaluaciones);

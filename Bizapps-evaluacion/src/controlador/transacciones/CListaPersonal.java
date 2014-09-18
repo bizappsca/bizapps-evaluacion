@@ -7,6 +7,7 @@ import java.util.List;
 
 import modelo.maestros.Bitacora;
 import modelo.maestros.Cargo;
+import modelo.maestros.ConfiguracionGeneral;
 import modelo.maestros.Empleado;
 import modelo.maestros.Evaluacion;
 import modelo.maestros.EvaluacionCapacitacion;
@@ -69,6 +70,8 @@ public class CListaPersonal extends CGenerico {
 	List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	Evaluacion evaluacionN;
+	String bandera = "";
+
 
 	@Override
 	public void inicializar() throws IOException {
@@ -101,6 +104,8 @@ public class CListaPersonal extends CGenerico {
 			((Label) ((listItem.getChildren().get(5))).getFirstChild())
 			.setValue(nombre);
 		}
+		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral.buscar();
+		bandera = configuracion.get(0).getBandera();
 	}
 
 	@Listen("onClick = #btnSalir")
@@ -110,6 +115,7 @@ public class CListaPersonal extends CGenerico {
 
 	@Listen("onClick = #btnAgregar")
 	public void AgregarEvaluacion() {
+		if (bandera.equals("false")){
 		//winListaPersonal.onClose();
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -175,7 +181,10 @@ public class CListaPersonal extends CGenerico {
 		winEvaluacionEmpleado.doModal();
 		
 	}
-
+		else{
+			msj.mensajeError(Mensaje.noSePuedeCrear);
+		}
+	}
 	@Listen("onClick = #btnEliminar")
 	public void eliminar() {
 		
@@ -254,7 +263,7 @@ public class CListaPersonal extends CGenerico {
 	
 	@Listen("onClick = #btnCopiar")
 	public void copiar() {
-		
+		if (bandera.equals("false")){
 		if (lbxEvaluacion.getItemCount() != 0) {
 
 			Listitem listItem = lbxEvaluacion.getSelectedItem();
@@ -423,6 +432,10 @@ public class CListaPersonal extends CGenerico {
 			} else
 				msj.mensajeAlerta(Mensaje.noSeleccionoRegistro);
 
+		}
+		}
+		else {
+			msj.mensajeError(Mensaje.noSePuedeCopiar);
 		}
 	}
 	

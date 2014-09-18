@@ -757,7 +757,7 @@
 					<button id="btnAprobada" label="Aprobada" visible="false"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/aprobada.png">
 					</button>
-					<button id="btnCalibrada" label="Calibarada" visible="false"
+					<button id="btnCalibrada" label="Calibrada" visible="false"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/calibrada.png">
 					</button>
 					<button id="btnFinalizada" label="Finalizada" visible="false"

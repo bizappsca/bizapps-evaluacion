@@ -59,6 +59,9 @@ public class CConfiguracionGeneral extends CGenerico {
 				mapa = null;
 			}
 		}
+		List<ConfiguracionGeneral> conf = servicioConfiguracionGeneral.buscar();
+		String valorConf = conf.get(0).getBandera();
+		cmbConfiguracion.setValue(valorConf);
 		botonera = new Botonera() {
 
 			@Override

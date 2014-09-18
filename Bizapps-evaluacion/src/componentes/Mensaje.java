@@ -57,7 +57,9 @@ public class Mensaje {
 	public static String calibrada = "Su evaluación ahora esta en estado calibrada";
 	public static String finalizada = "Su evaluación ahora esta en estado finalizada";
 	public static String personalCargo = "No tiene Personal a Cargo";
-	public static String yaExistenPendiente = "Ya tiene una evaluación pendiente";
+	public static String yaExistenPendiente = "Ya tiene una evaluación en estado pendiente o superior en este periodo, no puede promover otra evaluación";
+	public static String noSePuedeCopiar = "El periodo está inactivo no puede copiar evaluaciones";
+	public static String noSePuedeCrear = "El periodo está inactivo no puede crear evaluaciones";
 
 	public void mensajeInformacion(String msj) {
 		Messagebox.show(msj, "Informacion", Messagebox.OK,
