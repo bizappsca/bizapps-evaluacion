@@ -61,6 +61,16 @@ public class CConfiguracionGeneral extends CGenerico {
 		}
 		List<ConfiguracionGeneral> conf = servicioConfiguracionGeneral.buscar();
 		String valorConf = conf.get(0).getBandera();
+		
+		if (valorConf.compareTo("true")==0)
+		{
+			valorConf="SI";
+		}
+		else
+		{
+			valorConf="NO";
+		}
+		
 		cmbConfiguracion.setValue(valorConf);
 		botonera = new Botonera() {
 
@@ -126,7 +136,7 @@ public class CConfiguracionGeneral extends CGenerico {
 	}
 
 	public void limpiarCampos() {
-		cmbConfiguracion.setValue("");
+		//cmbConfiguracion.setValue("");
 
 	}
 
