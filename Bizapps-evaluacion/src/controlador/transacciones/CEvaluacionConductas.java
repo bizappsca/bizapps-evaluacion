@@ -1,6 +1,7 @@
 package controlador.transacciones;
 
 import java.io.IOException;
+import org.zkoss.zul.Label;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,13 +59,17 @@ public class CEvaluacionConductas extends CGenerico {
 	private int idDominio;
 	private int numeroEvaluacion;
 	private Integer idEva;
-
+	private CAgregarEvaluacion controlador = new CAgregarEvaluacion();
+	
 	EvaluacionCompetencia evaluacionCompetencia = new EvaluacionCompetencia();
 	EvaluacionConducta evaluacionConducta = new EvaluacionConducta();
 	EvaluacionCompetenciaPK evaluacionCompetenciaPk = new EvaluacionCompetenciaPK();
 	EvaluacionConductaPK evaluacionConductaPk = new EvaluacionConductaPK();
 	Evaluacion evaluacion;
 	List<EvaluacionConducta> conductasE = new ArrayList<EvaluacionConducta>();
+	private Label resultado;
+	private Label resultadoC1;
+	private Label resultadoC2;
 
 	@Override
 	public void inicializar() throws IOException {
@@ -79,6 +84,10 @@ public class CEvaluacionConductas extends CGenerico {
 				System.out.println("vi" + idEva);
 				idDominio = Integer.parseInt(dominio1);
 				idCompetencia = (Integer) map.get("id");
+				resultado = (Label) map.get("resultado");
+				resultadoC1 = (Label) map.get("totalCompetencia1");
+				resultadoC2 = (Label) map.get("totalCompetencia2");
+				
 				conductasE = (List<EvaluacionConducta>) map.get("conductas");
 				Competencia competencia = servicioCompetencia
 						.buscarCompetencia(idCompetencia);
@@ -178,6 +187,7 @@ public class CEvaluacionConductas extends CGenerico {
 		evaluacion = servicioEvaluacion.buscarEvaluacion(idEva);
 		Competencia competencia = servicioCompetencia
 				.buscarCompetencia(idCompetencia);
+		String nivelC = competencia.getNivel();
 		evaluacionCompetencia.setCompetencia(competencia);
 		evaluacionCompetencia.setEvaluacion(evaluacion);
 		evaluacionCompetencia.setIdDominio(idDominio);
@@ -199,6 +209,14 @@ public class CEvaluacionConductas extends CGenerico {
 			evaluacionConducta.setEvaluacion(evaluacion);
 			evaluacionConducta.setObservacion(observacion);
 			servicioEvaluacionConducta.guardar(evaluacionConducta);
+			if (nivelC.equals("ESPECIFICAS")){
+			controlador.guardarCompetenciasEspecificas();
+			controlador.calcularResultadoFinal(evaluacion);
+			}
+			else{
+			controlador.guardarCompetenciasRectoras();
+			controlador.calcularResultadoFinal(evaluacion);
+			}
 
 		}
 

@@ -59,6 +59,10 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import servicio.maestros.SEmpleado;
+import servicio.seguridad.SUsuario;
+import servicio.transacciones.SEvaluacion;
+
 import componentes.Mensaje;
 
 import controlador.maestros.CGenerico;
@@ -857,6 +861,9 @@ public class CAgregarEvaluacion extends CGenerico {
 				if (map.get("id") != null) {
 					Integer idEvaluacion = (Integer) map.get("id");
 					idEva = idEvaluacion;
+					listbox =  (Listbox) map.get("listbox");
+					item = (String) map.get("titulo");
+					revision = servicioRevision.buscarPorEstado("ACTIVO");
 					String fichaMap = (String) map.get("titulo");
 					fichaE = fichaMap;
 
@@ -986,6 +993,12 @@ public class CAgregarEvaluacion extends CGenerico {
 		btnCambiarEstado.setVisible(false);
 		btnCancelar.setVisible(true);
 		btnAgregarCapacitacion.setVisible(false);
+		btnPendiente.setVisible(false);
+		btnRevisada.setVisible(false);
+		btnAprobada.setVisible(false);
+		btnCalibrada.setVisible(false);
+		btnFinalizada.setVisible(false);
+		btnEnEdicion.setVisible(false);
 		
 		gpxAgregar.setOpen(false);
 		gpxObjetivosAgregados.setOpen(true);
@@ -1284,6 +1297,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		
 		if (!agregarW1 && !agregarW && agregarW2){
 			System.out.println("i"+item);
+			if (listbox != null)
 			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
 			agregarW2= false;
 		}
@@ -1868,6 +1882,9 @@ public class CAgregarEvaluacion extends CGenerico {
 					map.put("idnivel", nivel);
 					map.put("titulo", titulo);
 					map.put("periodoActivo", periodoActivo);
+					map.put("resultado", txtResultadoFinal);
+					map.put("totalCompetencia1", txttotalCompetencia1);
+					map.put("totalCompetencia2", txttotalCompetencia1);
 
 					evaluacionconductas = servicioEvaluacionConducta
 							.buscarConductas(idEva);
@@ -2871,7 +2888,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		}
 	}
 
-	private void calcularResultadoFinal(Evaluacion evaluacionAux) {
+	public void calcularResultadoFinal(Evaluacion evaluacionAux) {
 
 		double acumuladorPesoCompetencia = 0.0;
 		double ndr = 0;
@@ -3236,7 +3253,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		}
 	}
 
-	private void guardarCompetenciasEspecificas() {
+	public void guardarCompetenciasEspecificas() {
 
 		try {
 
@@ -3303,7 +3320,7 @@ public class CAgregarEvaluacion extends CGenerico {
 
 	}
 
-	private void guardarCompetenciasRectoras() {
+	public void guardarCompetenciasRectoras() {
 
 		try {
 
@@ -3538,6 +3555,13 @@ public class CAgregarEvaluacion extends CGenerico {
 						.getDescripcionUrgencia());
 			}
 		}
+	}
+	
+	public void actualizame(Label label, Label label1, Label label2) {
+		label = txttotalCompetencia1;
+		label1 = txttotalCompetencia2;
+		label2 = txtResultadoFinal;
+
 	}
 
 }

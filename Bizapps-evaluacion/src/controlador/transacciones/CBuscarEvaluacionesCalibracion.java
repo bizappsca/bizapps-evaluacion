@@ -91,7 +91,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	private String ficha = "";
 	private String nombre = "";
 	
-	CatalagoN<Evaluacion> catalogoEvaluacion;
+	
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<UnidadOrganizativa> catalogo;
@@ -99,6 +99,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	Catalogo<Empresa> catalogoEmpresa;
 	Catalogo<Empleado> catalogoEvaluador;
 	Catalogo<Empleado> catalogoTrabajador;
+	Catalogo<Evaluacion> catalogoEvaluacion;
 	List<Evaluacion> evaluaciones;
 	
 	@Override
@@ -398,7 +399,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	public void mostrarCatalogo() {
 		
 		evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
-		catalogoEvaluacion = new CatalagoN <Evaluacion> (catalogoEvaluaciones, "Catalogo", evaluaciones,
+		catalogoEvaluacion = new Catalogo <Evaluacion> (catalogoEvaluaciones, "Catalogo", evaluaciones,
 				false, false, true,"Ficha", "Nombre Empleado", "Fecha Revisión","Estado Evaluacion","Ficha Evaluador", 
 				"Nombre Evaluador","Resultado Objetivos", "Resultado Competencias", "Resultado General", "Valoración", "Resultado Final") {
 			
@@ -546,7 +547,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 
 		if (catalogoEvaluacion.obtenerSeleccionados().size() == 1){
 			
-			Evaluacion eva = catalogoEvaluacion.objetoSeleccionadoDelCatalagoN();
+			Evaluacion eva = catalogoEvaluacion.objetoSeleccionadoDelCatalogo();
 			
 				Usuario usuario =servicioUsuario.buscarId(eva.getIdUsuario());
 				String fichaUsuario = usuario.getFicha();

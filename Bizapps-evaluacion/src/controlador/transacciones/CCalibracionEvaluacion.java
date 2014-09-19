@@ -565,6 +565,7 @@ public class CCalibracionEvaluacion extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardarValoracion() {
 		String valoracion = "";
+		try{
 		if (catalogoEvaluacion.obtenerSeleccionados().size() == 1) {
 			Evaluacion eva = catalogoEvaluacion
 					.objetoSeleccionadoDelCatalagoN();
@@ -595,11 +596,16 @@ public class CCalibracionEvaluacion extends CGenerico {
 			Messagebox.show("Debe seleccionar una evaluación", "Alerta",
 					Messagebox.OK, Messagebox.EXCLAMATION);
 		}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.toString());
+		}
 
 	}
 
 	@Listen("onClick = #btnLimpiar")
 	public void limpiar() {
+		try{
 		catalogoEvaluaciones.detach();
 		txtEmpresa.setValue("");
 		txtEvaluador.setValue("");
@@ -608,11 +614,15 @@ public class CCalibracionEvaluacion extends CGenerico {
 		txtValoracion.setValue("");
 		catalogoEvaluacion.actualizarLista(new ArrayList<Evaluacion>());
 		txtGrado.setText("0");
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println(e.toString());
+	}
 	}
 
 	@Listen("onClick = #btnVer")
 	public void mostrarEvaluacion() {
-
+		try{
 		if (catalogoEvaluacion.obtenerSeleccionados().size() == 1) {
 
 			Evaluacion eva = catalogoEvaluacion
@@ -645,6 +655,10 @@ public class CCalibracionEvaluacion extends CGenerico {
 					Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println(e.toString());
+	}
 	}
 
 }

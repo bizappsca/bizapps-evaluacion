@@ -187,7 +187,7 @@ public class CListaPersonal extends CGenerico {
 	}
 	@Listen("onClick = #btnEliminar")
 	public void eliminar() {
-		
+		if (bandera.equals("false")){
 		if (lbxEvaluacion.getItemCount() != 0) {
 
 			Listitem listItem = lbxEvaluacion.getSelectedItem();
@@ -255,6 +255,10 @@ public class CListaPersonal extends CGenerico {
 			} else
 				msj.mensajeAlerta(Mensaje.noSeleccionoRegistro);
 
+		}
+		}
+		else {
+			msj.mensajeError(Mensaje.noSePuedeEliminar);
 		}
 	}
 	

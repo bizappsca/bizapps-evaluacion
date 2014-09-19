@@ -60,6 +60,7 @@ public class Mensaje {
 	public static String yaExistenPendiente = "Ya tiene una evaluación en estado pendiente o superior en este periodo, no puede promover otra evaluación";
 	public static String noSePuedeCopiar = "El periodo está inactivo no puede copiar evaluaciones";
 	public static String noSePuedeCrear = "El periodo está inactivo no puede crear evaluaciones";
+	public static String noSePuedeEliminar = "El periodo está inactivo no puede eliminar evaluaciones";
 
 	public void mensajeInformacion(String msj) {
 		Messagebox.show(msj, "Informacion", Messagebox.OK,
