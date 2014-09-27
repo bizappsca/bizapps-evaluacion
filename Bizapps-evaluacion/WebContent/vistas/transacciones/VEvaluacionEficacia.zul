@@ -1,152 +1,155 @@
-<window id="wdwVEvaluacionEficacia" border="normal" height="auto"
-	apply="controlador.transacciones.CEvaluacionEficacia"
-	style="background-color:#8A0808;">
+<zk>
+	<style src="/public/Estilo.css" />
 
-	<style>
-		#tabla { border:1px solid black; border-collapse:collapse; }
-	</style>
+	<window id="wdwVEvaluacionEficacia" border="normal" height="auto"
+		apply="controlador.transacciones.CEvaluacionEficacia"
+		style="background-color:#8A0808;">
 
-	<groupbox width="auto">
-		<separator />
-		<panel border="normal" width="100%">
-			<panelchildren>
+		<style>
+			#tabla { border:1px solid black; border-collapse:collapse; }
+		</style>
+
+		<groupbox width="auto" mold="3d"
+			title="Evaluación de eficacia">
+			<separator />
+			<panel border="normal" width="100%">
+				<panelchildren>
+					<separator />
+					<div align="left">
+						<button id="btnBuscar" tooltiptext="Buscar" class="btn"
+							style="margin-left:5px" label="Buscar"
+							image="/public/imagenes/botones/buscar.png">
+						</button>
+						<button id="btnGuardar" tooltiptext="Guardar" class="btn"
+							label="Guardar" image="/public/imagenes/botones/guardar.png">
+						</button>
+						<button id="btnLimpiar" label="Limpiar" class="btn"
+							tooltiptext="Limpiar"
+							image="/public/imagenes/botones/limpiar.png">
+						</button>
+						<button id="btnSalir" label="Salir" class="btn"
+							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
+						</button>
+						<separator />
+					</div>
+				</panelchildren>
+			</panel>
+			<separator />
+			<separator />
+			<groupbox>
+				<separator />
+				<separator />
+				<div align="right">
+					<label value="Fecha:" class="etiqueta"
+						style="margin-right:10px">
+					</label>
+					<datebox id="dbfecha" width="130px"
+						style="margin-right:30px;color:black !important;" disabled="true"
+						format="short" onCreate="self.value = new Date()">
+					</datebox>
+				</div>
+				<separator />
+				<separator />
+				<grid width="100%" style="border:0px">
+					<columns visible="false">
+						<column label="" width="15%" />
+						<column label="" width="55%" />
+						<column label="" width="30%" />
+					</columns>
+					<rows>
+						<row>
+							<hbox>
+								<label class="etiqueta" value="Curso:" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+							<textbox id="txtCursoEvaluacionEficacia"
+								tabindex="1" width="100%" maxlength="100"
+								tooltiptext="Ingrese aqui el nombre del curso" />
+							<button id="btnBuscarCurso" label="Buscar" class="btn"
+								tooltiptext="Catalogo de cursos"
+								image="/public/imagenes/botones/buscar.png" />
+						</row>
+					</rows>
+				</grid>
+				<separator />
+				<separator />
+				<separator />
+				<listbox id="lsbEmpleadoEvaluacionEficacia" width="100%"
+					mold="paging" pageSize="7" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado un empleado">
+					<listhead>
+						<listheader label="Ficha" width="8%" />
+						<listheader label="Nombre" width="15%" />
+						<listheader label="Cargo" />
+						<listheader label="Unidad Organizativa" />
+						<listheader label="Gerencia" width="20%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.ficha}"></listcell>
+							<listcell label="${each.nombre}"></listcell>
+							<listcell
+								label="${each.cargo.descripcion}">
+							</listcell>
+							<listcell
+								label="${each.unidadOrganizativa.descripcion}">
+							</listcell>
+							<listcell
+								label="${each.unidadOrganizativa.gerencia.descripcion}">
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+				<separator />
 				<separator />
 				<div align="left">
-					<button id="btnBuscar" tooltiptext="Buscar"
-						style="height:27px;width:90px;margin-left:5px" label="Buscar"
-						image="/public/imagenes/botones/buscar.png">
-					</button>
-					<button id="btnGuardar" tooltiptext="Guardar"
-						style="height:27px;width:90px" label="Guardar"
-						image="/public/imagenes/botones/guardar.png">
-					</button>
-					<button id="btnLimpiar" label="Limpiar"
-						tooltiptext="Limpiar" style=" height:27px; width:90px"
-						image="/public/imagenes/botones/limpiar.png">
-					</button>
-					<button id="btnSalir" label="Salir"
-						style=" height:27px; width:80px " tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
-					</button>
-					<separator />
-				</div>
-			</panelchildren>
-		</panel>
-		<separator />
-		<separator />
-		<groupbox>
-			<separator />
-			<separator />
-			<div align="right">
-				<label value="Fecha:" class="etiqueta"
-					style="margin-right:10px">
-				</label>
-				<datebox id="dbfecha" width="130px"
-					style="margin-right:30px;color:black !important;" disabled="true"
-					format="short" onCreate="self.value = new Date()">
-				</datebox>
-			</div>
-			<separator />
-			<separator />
-			<grid width="100%" style="border:0px">
-				<columns visible="false">
-					<column label="" width="15%" />
-					<column label="" width="45%" />
-					<column label="" width="8%" />
-					<column label="" width="27%" />
-				</columns>
-				<rows>
-					<row>
-						<hbox>
-							<label class="etiqueta" value="Curso:" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-						<textbox id="txtCursoEvaluacionEficacia"
-							tabindex="1" width="100%" maxlength="100"
-							tooltiptext="Ingrese aqui el nombre del curso" />
-						<button id="btnBuscarCurso" label=""
-							tooltiptext="Catalogo de cursos"
-							image="/public/imagenes/botones/buscar.png" />
-					</row>
-				</rows>
-			</grid>
-			<separator />
-			<separator />
-			<separator />
-			<listbox id="lsbEmpleadoEvaluacionEficacia" width="100%"
-				mold="paging" pageSize="7" oddRowSclass="non-odd"
-				emptyMessage="No ha seleccionado un empleado">
-				<listhead>
-					<listheader label="Ficha" width="8%" />
-					<listheader label="Nombre" width="15%" />
-					<listheader label="Cargo" />
-					<listheader label="Unidad Organizativa" />
-					<listheader label="Gerencia" width="20%" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell label="${each.ficha}"></listcell>
-						<listcell label="${each.nombre}"></listcell>
-						<listcell label="${each.cargo.descripcion}"></listcell>
-						<listcell
-							label="${each.unidadOrganizativa.descripcion}">
-						</listcell>
-						<listcell
-							label="${each.unidadOrganizativa.gerencia.descripcion}">
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
-			<separator />
-			<separator />
-			<separator />
-			<separator />
-			<div align="left">
-				<label
-					value="INSTRUCCIONES: CON EL OBJETIVO DE EVALUAR LA EFICACIA DEL ADIESTRAMIENTO IMPARTIDO,
+					<label
+						value="INSTRUCCIONES: CON EL OBJETIVO DE EVALUAR LA EFICACIA DEL ADIESTRAMIENTO IMPARTIDO,
 					 LE PRESENTAMOS LA CAPACITACIÓN RECIBIDA POR EL TRABAJADOR, A FIN DE SER EVALUADA"
-					style="font-style:italic; margin-left:10px; font-weight:bold" />
-			</div>
-			<separator />
-			<separator />
-			<listbox id="lsbItemEvaluacionCualitativa" width="100%"
-				mold="paging" pageSize="7" oddRowSclass="non-odd"
-				emptyMessage="No ha seleccionado un empleado">
-				<listhead>
-					<listheader label="Código Item" visible="false" />
-					<listheader label="Item de Evaluación" />
-					<listheader label="Si" width="10%" />
-					<listheader label="No" width="10%" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell>
-							<intbox value="${each.id}" width="auto"
-								style="border:none" readonly="true" />
-						</listcell>
-						<listcell label="${each.descripcion}"></listcell>
-						<listcell>
-							<checkbox />
-						</listcell>
-						<listcell>
-							<checkbox />
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
-			<separator />
-			<separator />
-			<div align="left">
-				<label
-					value="EN QUE % CONSIDERA USTED QUE HA MEJORADO EL DESEMPEÑO DEL TRABAJADOR SEGÚN LOS SIGUIENTES CRITERIOS"
-					style="font-style:italic; margin-left:10px; font-weight:bold" />
-			</div>
-			<separator />
-			<separator />
-			<html>
+						style="font-style:italic; margin-left:10px; font-weight:bold" />
+				</div>
+				<separator />
+				<separator />
+				<listbox id="lsbItemEvaluacionCualitativa" width="100%"
+					mold="paging" pageSize="7" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado un empleado">
+					<listhead>
+						<listheader label="Código Item" visible="false" />
+						<listheader label="Item de Evaluación" />
+						<listheader label="Si" width="10%" />
+						<listheader label="No" width="10%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<intbox value="${each.id}" width="auto"
+									style="border:none" readonly="true" />
+							</listcell>
+							<listcell label="${each.descripcion}"></listcell>
+							<listcell>
+								<checkbox />
+							</listcell>
+							<listcell>
+								<checkbox />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+				<div align="left">
+					<label
+						value="EN QUE % CONSIDERA USTED QUE HA MEJORADO EL DESEMPEÑO DEL TRABAJADOR SEGÚN LOS SIGUIENTES CRITERIOS"
+						style="font-style:italic; margin-left:10px; font-weight:bold" />
+				</div>
+				<separator />
+				<separator />
+				<html>
 
 
 
@@ -154,20 +157,23 @@
 
 
 
-				
-				<![CDATA[ <table id="tabla" align="center"
-				style="width:220px"> <tr> <td id="tabla"
-				bgcolor="#9ACD32" >100 &nbsp81</td> <td id="tabla"
-				bgcolor="#9ACD32">EXCELENTE</td> </tr> <tr> <td
-				id="tabla" bgcolor="#F0FFFF">80 &nbsp&nbsp 61</td> <td
-				id="tabla" bgcolor="#F0FFFF">SOBRESALIENTE</td> </tr>
-				<tr> <td id="tabla" bgcolor="#FFFFE0">60 &nbsp&nbsp
-				41</td> <td id="tabla" bgcolor="#FFFFE0">BUENO</td>
-				</tr> <tr> <td id="tabla" bgcolor="#FFE4C4">40
-				&nbsp&nbsp 21</td> <td id="tabla"
-				bgcolor="#FFE4C4">REGULAR</td> </tr> <tr> <td id="tabla"
-				bgcolor="red">20 &nbsp&nbsp 0</td> <td id="tabla"
-				bgcolor="red">DEFICIENTE</td> </tr> </table> ]]>
+
+					
+					<![CDATA[ <table id="tabla" align="center"
+					style="width:220px"> <tr> <td id="tabla"
+					bgcolor="#9ACD32" >100 &nbsp81</td> <td id="tabla"
+					bgcolor="#9ACD32">EXCELENTE</td> </tr> <tr> <td
+					id="tabla" bgcolor="#F0FFFF">80 &nbsp&nbsp 61</td>
+					<td id="tabla" bgcolor="#F0FFFF">SOBRESALIENTE</td>
+					</tr> <tr> <td id="tabla" bgcolor="#FFFFE0">60
+					&nbsp&nbsp 41</td> <td id="tabla"
+					bgcolor="#FFFFE0">BUENO</td> </tr> <tr> <td
+					id="tabla" bgcolor="#FFE4C4">40 &nbsp&nbsp 21</td>
+					<td id="tabla" bgcolor="#FFE4C4">REGULAR</td> </tr>
+					<tr> <td id="tabla" bgcolor="red">20 &nbsp&nbsp
+					0</td> <td id="tabla" bgcolor="red">DEFICIENTE</td>
+					</tr> </table> ]]>
+					
 				
 				
 				
@@ -177,56 +183,59 @@
 				
 				
 			</html>
-			<separator />
-			<separator />
-			<separator />
-			<listbox id="lsbItemEvaluacionCuantitativa" width="100%"
-				mold="paging" pageSize="7" oddRowSclass="non-odd"
-				emptyMessage="No ha seleccionado un empleado">
-				<listhead>
-					<listheader label="Código Item" visible="false" />
-					<listheader label="Item de Evaluación" width="80%" />
-					<listheader label="Porcentaje" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell>
-							<intbox value="${each.id}" width="auto"
-								style="border:none" readonly="true" />
-						</listcell>
-						<listcell label="${each.descripcion}"></listcell>
-						<listcell>
+				<separator />
+				<separator />
+				<separator />
+				<listbox id="lsbItemEvaluacionCuantitativa" width="100%"
+					mold="paging" pageSize="7" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado un empleado">
+					<listhead>
+						<listheader label="Código Item" visible="false" />
+						<listheader label="Item de Evaluación"
+							width="80%" />
+						<listheader label="Porcentaje" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<intbox value="${each.id}" width="auto"
+									style="border:none" readonly="true" />
+							</listcell>
+							<listcell label="${each.descripcion}"></listcell>
+							<listcell>
 
-							<textbox width="90%" />
+								<textbox width="90%" />
 
-						</listcell>
-						<listcell>
-							<checkbox />
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
-			<separator />
-			<separator />
-			<separator />
-			<separator />
-			<div align="right">
-				<hbox>
-					<label value="PORCENTAJE DE EFICACIA INDIVIDUAL: "
-						style="font-style:italic; margin-left:10px; font-weight:bold" />
-					<textbox id="txtPorcentajeEvaluacionEficacia"
-						style="color:black !important;" tabindex="2" width="90%"
-						maxlength="100" disabled="true" />
-					<button id="btnCalcularPorcentaje" label=""
-						tooltiptext="Calcular porcentaje de eficacia"
-						image="/public/imagenes/botones/calcular.png" />
+							</listcell>
+							<listcell>
+								<checkbox />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+				<separator />
+				<separator />
+				<div align="right">
+					<hbox>
+						<label
+							value="PORCENTAJE DE EFICACIA INDIVIDUAL: "
+							style="font-style:italic; margin-left:10px; font-weight:bold" />
+						<textbox id="txtPorcentajeEvaluacionEficacia"
+							style="color:black !important;" tabindex="2" width="90%"
+							maxlength="100" disabled="true" />
+						<button id="btnCalcularPorcentaje" label=""
+							tooltiptext="Calcular porcentaje de eficacia"
+							image="/public/imagenes/botones/calcular.png" />
 
-				</hbox>
-			</div>
+					</hbox>
+				</div>
+			</groupbox>
 		</groupbox>
-	</groupbox>
-	<div id="divCatalogoEmpleado"
-		tooltiptext="Click para Seleccionar un empleado" />
-	<div id="divCatalogoCurso"
-		tooltiptext="Click para Seleccionar un curso" />
-</window>
+		<div id="divCatalogoEmpleado"
+			tooltiptext="Click para Seleccionar un empleado" />
+		<div id="divCatalogoCurso"
+			tooltiptext="Click para Seleccionar un curso" />
+	</window>
+</zk>

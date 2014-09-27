@@ -1,7 +1,10 @@
-<window id="wdwVItemEvaluacion" border="normal" height="auto"
+<zk>
+	<style src="/public/Estilo.css" />
+
+<window id="wdwVItemEvaluacion" border="normal" height="auto" width="80%"
 	apply="controlador.maestros.CItemEvaluacion"
 	style="background-color:#8A0808;">
-	<groupbox width="auto">
+	<groupbox width="auto" mold="3d" title="Item de Evaluación">
 		<separator />
 		<div id="botoneraItemEvaluacion" />
 		<separator />
@@ -14,9 +17,8 @@
 			<grid width="100%">
 				<columns visible="false">
 					<column label="" width="20%" />
-					<column label="" width="45%" />
-					<column label="" width="8%" />
-					<column label="" width="27%" />
+					<column label="" width="55%" />
+					<column label="" width="25%" />
 				</columns>
 				<rows>
 					<row>
@@ -32,6 +34,9 @@
 						<textbox id="txtDescripcionItemEvaluacion"
 							rows="3" cols="100" width="100%" maxlength="250" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del item" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -42,6 +47,7 @@
 								style="font-weight:bold;color:red">
 							</label>
 						</hbox>
+						
 
 						<combobox id="cmbPonderacionItemEvaluacion"
 							readonly="true"
@@ -50,6 +56,9 @@
 							<comboitem label="CUALITATIVA" />
 							<comboitem label="CUANTITATIVA" />
 						</combobox>
+						
+						<hbox/>
+						<hbox/>
 					</row>
 
 
@@ -68,3 +77,5 @@
 		<separator />
 	</groupbox>
 </window>
+
+</zk>

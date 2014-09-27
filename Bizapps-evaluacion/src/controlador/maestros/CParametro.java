@@ -125,7 +125,7 @@ public class CParametro extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVParametro, "Parametro",tabs);
+				cerrarVentana(wdwVParametro, "Parametro de Evaluacion",tabs);
 			}
 
 			@Override

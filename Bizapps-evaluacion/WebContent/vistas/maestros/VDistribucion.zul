@@ -1,8 +1,11 @@
+<zk>
+	<style src="/public/Estilo.css" />
+
 <window id="wdwVDistribucion" border="normal" height="auto"
 	apply="controlador.maestros.CDistribucion"
 	style="background-color:#8A0808;">
 
-	<groupbox width="auto">
+	<groupbox width="auto"  mold="3d" title="Distribución">
 		<separator />
 		<div id="botoneraDistribucion" />
 		<separator />
@@ -62,3 +65,4 @@
 		<separator />
 	</groupbox>
 </window>
+</zk>

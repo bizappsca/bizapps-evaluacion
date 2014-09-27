@@ -1,7 +1,10 @@
+<zk>
+	<style src="/public/Estilo.css" />
+
 <window id="wdwVParametro" border="normal" height="auto"
 	apply="controlador.maestros.CParametro"
 	style="background-color:#8A0808;">
-	<groupbox width="auto">
+	<groupbox width="auto" mold="3d" title="Parametro de Evaluación">
 		<separator />
 		<div id="botoneraParametro" />
 		<separator />
@@ -14,9 +17,8 @@
 			<grid width="100%">
 				<columns visible="false">
 					<column label="" width="20%" />
-					<column label="" width="45%" />
-					<column label="" width="8%" />
-					<column label="" width="27%" />
+					<column label="" width="60%" />
+					<column label="" width="20%" />
 				</columns>
 				<rows>
 					<row>
@@ -32,6 +34,9 @@
 						<textbox id="txtDescripcionParametro" rows="3"
 							cols="100" width="100%" maxlength="250" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del parametro" />
+						
+						<hbox/>
+						<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -53,6 +58,9 @@
 								label="EVALUACION EQUIPOS E INFRAESTRUCTURA" />
 							<comboitem label="EVALUACION RESUMEN" />
 						</combobox>
+						
+						<hbox/>
+						<hbox/>
 					</row>
 
 
@@ -71,3 +79,5 @@
 		<separator />
 	</groupbox>
 </window>
+
+</zk>

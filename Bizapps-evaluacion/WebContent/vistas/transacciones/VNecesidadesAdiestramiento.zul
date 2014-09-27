@@ -1,104 +1,168 @@
-<window id="wdwVNecesidadesAdiestramiento" border="normal" height="auto"
-	apply="controlador.transacciones.CNecesidadesAdiestramiento"
-	style="background-color:#8A0808;">
+<zk>
+	<style src="/public/Estilo.css" />
 
-	<groupbox width="auto">
-		<separator />
-		<panel border="normal" width="100%">
-			<panelchildren>
-				<separator />
-				<div align="left">
-					<button id="btnBuscar" tooltiptext="Buscar"
-						style="height:27px;width:90px;margin-left:5px" label="Buscar"
-						image="/public/imagenes/botones/buscar.png">
-					</button>
-					<button id="btnGuardar" tooltiptext="Guardar"
-						style="height:27px;width:90px" label="Guardar"
-						image="/public/imagenes/botones/guardar.png">
-					</button>
-					<button id="btnLimpiar" label="Limpiar"
-						tooltiptext="Limpiar" style=" height:27px; width:90px"
-						image="/public/imagenes/botones/limpiar.png">
-					</button>
-					<button id="btnSalir" label="Salir"
-						style=" height:27px; width:80px " tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
-					</button>
+	<window id="wdwVNecesidadesAdiestramiento" border="normal"
+		height="auto"
+		apply="controlador.transacciones.CNecesidadesAdiestramiento"
+		style="background-color:#8A0808;">
+
+		<groupbox width="auto" mold="3d"
+			title="Detección de Necesidades de Adiestramiento">
+			<separator />
+			<panel border="normal" width="100%">
+				<panelchildren>
 					<separator />
+					<div align="left">
+						<button id="btnBuscar" tooltiptext="Buscar" class="btn"
+							style="margin-left:5px" label="Buscar"
+							image="/public/imagenes/botones/buscar.png">
+						</button>
+						<button id="btnGuardar" tooltiptext="Guardar" class="btn"
+							label="Guardar" image="/public/imagenes/botones/guardar.png">
+						</button>
+						<button id="btnLimpiar" label="Limpiar" class="btn"
+							tooltiptext="Limpiar"
+							image="/public/imagenes/botones/limpiar.png">
+						</button>
+						<button id="btnSalir" label="Salir" class="btn"
+							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
+						</button>
+						<separator />
+					</div>
+				</panelchildren>
+			</panel>
+			<separator />
+			<separator />
+			<groupbox>
+				<separator />
+				<separator />
+				<div align="right">
+					<label value="Fecha:" class="etiqueta"
+						style="margin-right:10px">
+					</label>
+					<datebox id="dbfecha" width="130px"
+						style="margin-right:30px;color:black !important;" disabled="true"
+						format="short" onCreate="self.value = new Date()">
+					</datebox>
 				</div>
-			</panelchildren>
-		</panel>
-		<separator />
-		<separator />
-		<groupbox>
+				<separator />
+				<separator />
+				<grid width="100%" style="border:0px">
+					<columns visible="false">
+						<column label="" width="15%" />
+						<column label="" width="55%" />
+						<column label="" width="30%" />
+					</columns>
+					<rows>
+						<row>
+							<hbox>
+								<label class="etiqueta"
+									value="Periodo:" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+							<textbox
+								id="txtPeriodoNecesidadesAdiestramiento" tabindex="1"
+								width="100%" maxlength="100"
+								tooltiptext="Ingrese aqui el nombre del periodo" />
+							<button id="btnBuscarPeriodo" label="Buscar" class="btn"
+								tooltiptext="Catalogo de periodos"
+								image="/public/imagenes/botones/buscar.png" />
+						</row>
+					</rows>
+				</grid>
+				<separator />
+				<separator />
+				<div align="center" style="background-color:#F8E0E0">
+					<label value="DATOS DEL EMPLEADO A EVALUAR"
+						style="font-weight:bold" />
+				</div>
+				<separator />
+				<separator />
+				<listbox id="lsbEmpleadoDatos" width="100%"
+					mold="paging" pageSize="7" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado un empleado">
+					<listhead>
+						<listheader label="Ficha" width="8%" />
+						<listheader label="Nombre" width="15%" />
+						<listheader label="Cargo" />
+						<listheader label="Unidad Organizativa" />
+						<listheader label="Gerencia" width="20%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.ficha}"></listcell>
+							<listcell label="${each.nombre}"></listcell>
+							<listcell
+								label="${each.cargo.descripcion}">
+							</listcell>
+							<listcell
+								label="${each.unidadOrganizativa.descripcion}">
+							</listcell>
+							<listcell
+								label="${each.unidadOrganizativa.gerencia.descripcion}">
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+				<div align="center"
+					style="background-color:#F8E0E0 ; ;">
+					<label
+						value="DATOS DE LA FORMACIÓN ACADÉMICA DEL EMPLEADO"
+						style="font-weight:bold" />
+				</div>
+				<separator />
+				<separator />
+				<listbox id="lsbEmpleadoFormacion" width="100%"
+					mold="paging" pageSize="7" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado un empleado">
+					<listhead>
+						<listheader label="Nivel Académico" width="25%" />
+						<listheader label="Especialidad" width="30%" />
+						<listheader label="Especialización" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.nivelAcademico}"></listcell>
+							<listcell label="${each.especialidad}"></listcell>
+							<listcell label="${each.especializacion}"></listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+			</groupbox>
 			<separator />
 			<separator />
-			<div align="right">
-				<label value="Fecha:" class="etiqueta"
-					style="margin-right:10px">
-				</label>
-				<datebox id="dbfecha" width="130px"
-					style="margin-right:30px;color:black !important;" disabled="true"
-					format="short" onCreate="self.value = new Date()">
-				</datebox>
-			</div>
-			<separator />
-			<separator />
-			<grid width="100%" style="border:0px">
-				<columns visible="false">
-					<column label="" width="15%" />
-					<column label="" width="45%" />
-					<column label="" width="8%" />
-					<column label="" width="27%" />
-				</columns>
-				<rows>
-					<row>
-						<hbox>
-							<label class="etiqueta" value="Periodo:" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-						<textbox
-							id="txtPeriodoNecesidadesAdiestramiento" tabindex="1"
-							width="100%" maxlength="100"
-							tooltiptext="Ingrese aqui el nombre del periodo" />
-						<button id="btnBuscarPeriodo" label=""
-							tooltiptext="Catalogo de periodos"
-							image="/public/imagenes/botones/buscar.png" />
-					</row>
-				</rows>
-			</grid>
-			<separator />
-			<separator />
-			<div align="center" style="background-color:#F8E0E0">
-				<label value="DATOS DEL EMPLEADO A EVALUAR"
+			<div align="center" style="background-color:#F8E0E0 ; ;">
+				<label value="PERFIL REQUERIDO DEL CARGO"
 					style="font-weight:bold" />
 			</div>
 			<separator />
 			<separator />
-			<listbox id="lsbEmpleadoDatos" width="100%" mold="paging"
+			<listbox id="lsbPerfilCargo" width="100%" mold="paging"
 				pageSize="7" oddRowSclass="non-odd"
 				emptyMessage="No ha seleccionado un empleado">
 				<listhead>
-					<listheader label="Ficha" width="8%" />
-					<listheader label="Nombre" width="15%" />
-					<listheader label="Cargo" />
-					<listheader label="Unidad Organizativa" />
-					<listheader label="Gerencia" width="20%" />
+					<listheader label="Nivel Académico" />
+					<listheader label="Especialidad" />
+					<listheader label="Especialización" />
+					<listheader label="Experiencia Previa" />
+					<listheader label="Idioma Requerido" />
+					<listheader label="Observaciones" />
 				</listhead>
 				<template name="model">
 					<listitem>
-						<listcell label="${each.ficha}"></listcell>
-						<listcell label="${each.nombre}"></listcell>
-						<listcell label="${each.cargo.descripcion}"></listcell>
-						<listcell
-							label="${each.unidadOrganizativa.descripcion}">
-						</listcell>
-						<listcell
-							label="${each.unidadOrganizativa.gerencia.descripcion}">
-						</listcell>
+						<listcell label="${each.nivelAcademico}"></listcell>
+						<listcell label="${each.especialidad}"></listcell>
+						<listcell label="${each.especializacion}"></listcell>
+						<listcell label="${each.experienciaPrevia}"></listcell>
+						<listcell label="${each.idioma}"></listcell>
+						<listcell label="${each.observaciones}"></listcell>
 					</listitem>
 				</template>
 			</listbox>
@@ -106,153 +170,98 @@
 			<separator />
 			<div align="center" style="background-color:#F8E0E0 ; ;">
 				<label
-					value="DATOS DE LA FORMACIÓN ACADÉMICA DEL EMPLEADO"
+					value="DIAGNOSTICO DEL TRABAJADOR EN MATERIA DE FORMACIÓN Y CONOCIMIENTOS"
 					style="font-weight:bold" />
 			</div>
 			<separator />
 			<separator />
-			<listbox id="lsbEmpleadoFormacion" width="100%"
-				mold="paging" pageSize="7" oddRowSclass="non-odd"
-				emptyMessage="No ha seleccionado un empleado">
-				<listhead>
-					<listheader label="Nivel Académico" width="25%" />
-					<listheader label="Especialidad" width="30%" />
-					<listheader label="Especialización" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell label="${each.nivelAcademico}"></listcell>
-						<listcell label="${each.especialidad}"></listcell>
-						<listcell label="${each.especializacion}"></listcell>
-					</listitem>
-				</template>
-			</listbox>
-			<separator />
-			<separator />
+			<tabbox id="tbFormacionEmpleadoCurso">
+				<tabs>
+					<tab label="Cursos Realizados" />
+					<tab label="Cursos Disponibles" />
+				</tabs>
+				<tabpanels>
+					<tabpanel height="auto">
+						<separator />
+						<separator />
+						<separator />
+						<separator />
+						<div align="right">
+							<label value="Horas Acumuladas:"
+								class="etiqueta" style="margin-right:10px">
+							</label>
+							<textbox id="txtHorasAcumuladas"
+								width="130px" style="margin-right:30px;color:black !important;"
+								disabled="true">
+							</textbox>
+						</div>
+						<separator />
+						<separator />
+						<listbox id="lsbCursosRealizados" width="100%"
+							mold="paging" pageSize="8" oddRowSclass="non-odd"
+							emptyMessage="No se ha seleccionado un empleado">
+							<listhead>
+								<listheader label="Área" width="35%" />
+								<listheader label="Curso" />
+								<listheader label="Duración (Hrs.)"
+									width="20%" />
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="${each.area.descripcion}">
+									</listcell>
+									<listcell label="${each.nombre}">
+									</listcell>
+									<listcell
+										label="${each.duracion}">
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+						<separator />
+						<separator />
+					</tabpanel>
+					<tabpanel height="auto">
+
+						<separator />
+						<separator />
+						<listbox id="lsbCursosDisponibles" width="100%"
+							mold="paging" pageSize="8" oddRowSclass="non-odd"
+							emptyMessage="No se ha seleccionado un empleado">
+							<listhead>
+								<listheader label="Área" width="25%" />
+								<listheader label="Curso" />
+								<listheader label="Duración (Hrs.)"
+									width="15%" />
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="${each.area.descripcion}">
+									</listcell>
+									<listcell label="${each.nombre}">
+									</listcell>
+									<listcell
+										label="${each.duracion}">
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+						<separator />
+						<separator />
+
+
+
+
+
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
 		</groupbox>
-		<separator />
-		<separator />
-		<div align="center" style="background-color:#F8E0E0 ; ;">
-			<label value="PERFIL REQUERIDO DEL CARGO"
-				style="font-weight:bold" />
-		</div>
-		<separator />
-		<separator />
-		<listbox id="lsbPerfilCargo" width="100%" mold="paging"
-			pageSize="7" oddRowSclass="non-odd"
-			emptyMessage="No ha seleccionado un empleado">
-			<listhead>
-				<listheader label="Nivel Académico" />
-				<listheader label="Especialidad" />
-				<listheader label="Especialización" />
-				<listheader label="Experiencia Previa" />
-				<listheader label="Idioma Requerido" />
-				<listheader label="Observaciones" />
-			</listhead>
-			<template name="model">
-				<listitem>
-					<listcell label="${each.nivelAcademico}"></listcell>
-					<listcell label="${each.especialidad}"></listcell>
-					<listcell label="${each.especializacion}"></listcell>
-					<listcell label="${each.experienciaPrevia}"></listcell>
-					<listcell label="${each.idioma}"></listcell>
-					<listcell label="${each.observaciones}"></listcell>
-				</listitem>
-			</template>
-		</listbox>
-		<separator />
-		<separator />
-		<div align="center" style="background-color:#F8E0E0 ; ;">
-			<label
-				value="DIAGNOSTICO DEL TRABAJADOR EN MATERIA DE FORMACIÓN Y CONOCIMIENTOS"
-				style="font-weight:bold" />
-		</div>
-		<separator />
-		<separator />
-		<tabbox id="tbFormacionEmpleadoCurso">
-			<tabs>
-				<tab label="Cursos Realizados" />
-				<tab label="Cursos Disponibles" />
-			</tabs>
-			<tabpanels>
-				<tabpanel height="auto">
-					<separator />
-					<separator />
-					<separator />
-					<separator />
-					<div align="right">
-						<label value="Horas Acumuladas:"
-							class="etiqueta" style="margin-right:10px">
-						</label>
-						<textbox id="txtHorasAcumuladas" width="130px"
-							style="margin-right:30px;color:black !important;"
-							disabled="true">
-						</textbox>
-					</div>
-					<separator />
-					<separator />
-					<listbox id="lsbCursosRealizados" width="100%"
-						mold="paging" pageSize="8" oddRowSclass="non-odd"
-						emptyMessage="No se ha seleccionado un empleado">
-						<listhead>
-							<listheader label="Área" width="35%" />
-							<listheader label="Curso" />
-							<listheader label="Duración (Hrs.)"
-								width="20%" />
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell
-									label="${each.area.descripcion}">
-								</listcell>
-								<listcell label="${each.nombre}">
-								</listcell>
-								<listcell label="${each.duracion}">
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
-					<separator />
-					<separator />
-				</tabpanel>
-				<tabpanel height="auto">
-
-					<separator />
-					<separator />
-					<listbox id="lsbCursosDisponibles" width="100%"
-						mold="paging" pageSize="8" oddRowSclass="non-odd"
-						emptyMessage="No se ha seleccionado un empleado">
-						<listhead>
-							<listheader label="Área" width="25%" />
-							<listheader label="Curso" />
-							<listheader label="Duración (Hrs.)"
-								width="15%" />
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell
-									label="${each.area.descripcion}">
-								</listcell>
-								<listcell label="${each.nombre}">
-								</listcell>
-								<listcell label="${each.duracion}">
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
-					<separator />
-					<separator />
-
-
-
-
-
-				</tabpanel>
-			</tabpanels>
-		</tabbox>
-	</groupbox>
-	<div id="divCatalogoEmpleado"
-		tooltiptext="Click para Seleccionar un empleado" />
-	<div id="divCatalogoPeriodo"
-		tooltiptext="Click para Seleccionar un periodo" />
-</window>
+		<div id="divCatalogoEmpleado"
+			tooltiptext="Click para Seleccionar un empleado" />
+		<div id="divCatalogoPeriodo"
+			tooltiptext="Click para Seleccionar un periodo" />
+	</window>
+</zk>

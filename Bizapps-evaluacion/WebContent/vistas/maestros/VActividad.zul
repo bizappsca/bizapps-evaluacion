@@ -1,46 +1,56 @@
-<window id="wdwVActividad" border="normal" height="auto"
-	style="background-color:#8A0808;" apply="controlador.maestros.CActividad"
-	width="70%">
-	<groupbox width="auto">
-		<separator />
-		<div id="botoneraActividad" />
-		<separator />
-		<separator />
-		<groupbox id="gpxRegistroActividad" width="auto" title=""
-			class="azul" open="false">
-			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
-				tooltiptext="Presione para registrar una nueva actividad" />
-			<separator />
-			<grid width="100%">
-				<columns visible="false">
-					<column label="" width="20%" />
-					<column label="" width="55%" />
-					<column label="" width="25%" />
-				</columns>
-				<rows>
-					<row>
-						<hbox>
-							<label value="Descripción:" class="etiqueta" />
-							<space />
-							<label value="*" style="font-weight:bold;color:red">
-							</label>
-						</hbox>
+<zk>
+	<style src="/public/Estilo.css" />
 
-						<textbox id="txtDescripcionActividad" width="90%"
-							maxlength="250" tabindex="1"
-							tooltiptext="Ingrese aqui la descripcion de la actividad" />
-					</row>
-				</rows>
-			</grid>
+	<window id="wdwVActividad" border="normal" height="auto"
+		style="background-color:#8A0808;"
+		apply="controlador.maestros.CActividad" width="70%">
+		<groupbox width="auto" mold="3d" title="Actividad">
+			<separator />
+			<div id="botoneraActividad" />
+			<separator />
+			<separator />
+			<groupbox id="gpxRegistroActividad" width="auto" title=""
+				class="azul" open="false">
+				<caption label="Nuevo"
+					style="font-weight:bold; font-size: 13px"
+					tooltiptext="Presione para registrar una nueva actividad" />
+				<separator />
+				<grid width="100%">
+					<columns visible="false">
+						<column label="" width="20%" />
+						<column label="" width="80%" />
+						
+					</columns>
+					<rows>
+						<row>
+							<hbox>
+								<label value="Descripción:"
+									class="etiqueta" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+
+							<textbox id="txtDescripcionActividad" rows="3" cols="100"
+								width="90%" maxlength="250" tabindex="1"
+								tooltiptext="Ingrese aqui la descripcion de la actividad" />
+						</row>
+					</rows>
+				</grid>
+			</groupbox>
+			<separator />
+			<separator />
+			<groupbox id="gpxDatosActividad" width="auto" title=""
+				class="azul">
+				<caption label="Registros"
+					style="font-weight:bold; font-size: 13px"
+					tooltiptext="Presione para visualizar las actividades registradas" />
+				<div id="catalogoActividad"
+					tooltiptext="Seleccione la actividad para realizar una accion" />
+			</groupbox>
+			<separator />
+			<separator />
 		</groupbox>
-		<separator />
-		<separator />
-		<groupbox id="gpxDatosActividad" width="auto" title="" class="azul">
-			<caption label="Registros" style="font-weight:bold; font-size: 13px"
-				tooltiptext="Presione para visualizar las actividades registradas" />
-			<div id="catalogoActividad" tooltiptext="Seleccione la actividad para realizar una accion" />
-		</groupbox>
-		<separator />
-		<separator />
-	</groupbox>
-</window>
+	</window>
+</zk>

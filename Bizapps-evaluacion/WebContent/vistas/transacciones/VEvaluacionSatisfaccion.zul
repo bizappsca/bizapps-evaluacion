@@ -1,23 +1,26 @@
+<zk>
+	<style src="/public/Estilo.css" />
+
 <window id="wdwVEvaluacionSatisfaccion" border="normal" height="auto"
 	apply="controlador.transacciones.CEvaluacionSatisfaccion"
 	style="background-color:#8A0808;">
 
-	<groupbox width="auto">
+	<groupbox width="auto" mold="3d" title="Evaluación de Satisfacción">
 		<separator />
 		<panel border="normal" width="100%">
 			<panelchildren>
 				<separator />
 				<div align="left">
-					<button id="btnGuardar" tooltiptext="Guardar"
-						style="height:27px;width:90px;margin-left:5px" label="Guardar"
+					<button id="btnGuardar" tooltiptext="Guardar" class="btn"
+						style="margin-left:5px" label="Guardar"
 						image="/public/imagenes/botones/guardar.png">
 					</button>
-					<button id="btnLimpiar" label="Limpiar"
-						tooltiptext="Limpiar" style=" height:27px; width:90px"
+					<button id="btnLimpiar" label="Limpiar" class="btn"
+						tooltiptext="Limpiar"
 						image="/public/imagenes/botones/limpiar.png">
 					</button>
-					<button id="btnSalir" label="Salir"
-						style=" height:27px; width:80px " tooltiptext="Salir"
+					<button id="btnSalir" label="Salir" class="btn"
+						 tooltiptext="Salir"
 						image="/public/imagenes/botones/salir.png">
 					</button>
 					<separator />
@@ -43,9 +46,8 @@
 			<grid width="100%" style="border:0px">
 				<columns visible="false">
 					<column label="" width="15%" />
-					<column label="" width="45%" />
-					<column label="" width="8%" />
-					<column label="" width="27%" />
+					<column label="" width="55%" />
+					<column label="" width="30%" />
 				</columns>
 				<rows>
 					<row>
@@ -59,7 +61,7 @@
 						<textbox id="txtCursoEvaluacionSatisfaccion"
 							tabindex="1" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del curso" />
-						<button id="btnBuscarCurso" label=""
+						<button id="btnBuscarCurso" label="Buscar" class="btn"
 							tooltiptext="Catalogo de cursos"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>
@@ -295,3 +297,4 @@
 	<div id="divCatalogoCurso"
 		tooltiptext="Click para Seleccionar un curso" />
 </window>
+</zk>

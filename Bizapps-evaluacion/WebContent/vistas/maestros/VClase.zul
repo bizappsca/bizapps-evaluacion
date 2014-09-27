@@ -1,8 +1,11 @@
-<window id="wdwVClase" border="normal" height="auto"
+<zk>
+	<style src="/public/Estilo.css" />
+
+<window id="wdwVClase" border="normal" height="auto" width="80%"
 	apply="controlador.maestros.CClase"
 	style="background-color:#8A0808;">
 
-	<groupbox width="auto">
+	<groupbox width="auto"  mold="3d" title="Clase">
 		<separator />
 		<div id="botoneraClase" />
 		<separator />
@@ -15,8 +18,8 @@
 			<grid width="100%" style="border:0px">
 				<columns visible="false">
 					<column label="" width="20%" />
-					<column label="" width="45%" />
-					<column label="" width="15%" />
+					<column label="" width="55%" />
+					<column label="" width="25%" />
 				</columns>
 				<rows>
 					<row>
@@ -30,9 +33,11 @@
 						<textbox id="txtCursoClase" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del curso" />
-						<button id="btnBuscarCurso" label="Buscar"
+						<button id="btnBuscarCurso" label="Buscar" class="btn"
 							tooltiptext="Catalogo de cursos"
 							image="/public/imagenes/botones/buscar.png" />
+							
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -46,6 +51,9 @@
 						<textbox id="txtContenidoClase" width="100%"
 							maxlength="250" tabindex="2"
 							tooltiptext="Ingrese aqui el contenido de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Objetivo:" class="etiqueta" />
@@ -53,6 +61,9 @@
 						<textbox id="txtObjetivoClase" width="100%"
 							maxlength="250" tabindex="3" rows="3" cols="100"
 							tooltiptext="Ingrese aqui el objetivo de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Facilitador:" class="etiqueta" />
@@ -60,6 +71,9 @@
 						<textbox id="txtFacilitadorClase" width="100%"
 							maxlength="250" tabindex="4"
 							tooltiptext="Ingrese aqui el nombre del facilitador de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Entidad Didáctica:"
@@ -68,6 +82,9 @@
 						<textbox id="txtEntidadDidacticaClase"
 							width="100%" maxlength="250" tabindex="5"
 							tooltiptext="Ingrese aqui la entidad didactica de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Fecha:" class="etiqueta" />
@@ -75,6 +92,9 @@
 						<datebox readonly="true" width="100%"
 							tabindex="6" id="dtbFechaClase" format="dd-MM-yyyy"
 							tooltiptext="Ingrese aqui la fecha de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -96,7 +116,10 @@
 							<comboitem label="DIAS" />
 							<comboitem label="HORAS" />
 							<comboitem label="MINUTOS" />
+							
 						</combobox>
+						
+						<hbox/>
 					</row>
 					<row>
 						<label value="Lugar:" class="etiqueta" />
@@ -104,6 +127,9 @@
 						<textbox id="txtLugarClase" width="100%"
 							maxlength="250" tabindex="8"
 							tooltiptext="Ingrese aqui el lugar de la clase" />
+							
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Tipo de Entrenamiento:"
@@ -116,6 +142,9 @@
 							<comboitem label="TECNICO" />
 							<comboitem label="CONDUCTUAL" />
 						</combobox>
+						
+						<hbox/>
+						<hbox/>
 					</row>
 					<row>
 						<label value="Modalidad:" class="etiqueta" />
@@ -126,7 +155,11 @@
 							<comboitem label="IN COMPANY" />
 							<comboitem label="EXTERNO" />
 						</combobox>
+						
+						<hbox/>
+						<hbox/>
 					</row>
+					
 				</rows>
 			</grid>
 		</groupbox>
@@ -144,3 +177,4 @@
 	<div id="divCatalogoCurso"
 		tooltiptext="Click para Seleccionar un curso" />
 </window>
+</zk>

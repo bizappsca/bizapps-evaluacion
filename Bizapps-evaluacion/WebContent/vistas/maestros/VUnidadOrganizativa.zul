@@ -1,110 +1,115 @@
 <zk>
 	<style src="/public/Estilo.css" />
-<window id="wdwVUnidadOrganizativa"
-	apply="controlador.maestros.CUnidadOrganizativa" border="normal"
-	height="auto" style="background-color:#8A0808;" width="70%">
-	<groupbox width="auto" mold="3d" title="Unidad Organizativa">
-		<separator />
-		<div id="botoneraUnidadOrganizativa" />
-		<separator />
-		<separator />
-		<groupbox id="gpxRegistroUnidadOrganizativa" width="auto" class = "azul"
-			title="" open="false">
-			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
-				tooltiptext="Presione para registrar una nueva unidad organizativa" />
+	<window id="wdwVUnidadOrganizativa"
+		apply="controlador.maestros.CUnidadOrganizativa" border="normal"
+		height="auto" style="background-color:#8A0808;" width="70%">
+		<groupbox width="auto" mold="3d" title="Unidad Organizativa">
 			<separator />
-			<grid width="100%">
-				<columns visible="false">
-					<column label="" width="20%" />
-					<column label="" width="45%" />
-					<column label="" width="17%" />
-					<column label="" width="18%" />
-				</columns>
-				<rows>
-					<row>
-						<hbox>
-							<label class="etiqueta" value="Gerencia:" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-						<textbox id="txtGerenciaUnidadOrganizativa"
-							tabindex="1" width="100%" maxlength="100"
-							tooltiptext="Ingrese aqui la gerencia" />
-						<button id="btnBuscarGerencia" label="Buscar"
-							tooltiptext="Catalogo de gerencias" class="btn"
-							image="/public/imagenes/botones/buscar.png" />
+			<div id="botoneraUnidadOrganizativa" />
+			<separator />
+			<separator />
+			<groupbox id="gpxRegistroUnidadOrganizativa" width="auto"
+				class="azul" title="" open="false">
+				<caption label="Nuevo"
+					style="font-weight:bold; font-size: 13px"
+					tooltiptext="Presione para registrar una nueva unidad organizativa" />
+				<separator />
+				<grid width="100%">
+					<columns visible="false">
+						<column label="" width="20%" />
+						<column label="" width="45%" />
+						<column label="" width="17%" />
+						<column label="" width="18%" />
+					</columns>
+					<rows>
+						<row>
+							<hbox>
+								<label class="etiqueta"
+									value="Gerencia:" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+							<textbox id="txtGerenciaUnidadOrganizativa"
+								tabindex="1" width="100%" maxlength="100"
+								tooltiptext="Ingrese aqui la gerencia" />
+							<button id="btnBuscarGerencia"
+								label="Buscar" tooltiptext="Catalogo de gerencias" class="btn"
+								image="/public/imagenes/botones/buscar.png" />
 							<hbox />
 							<hbox />
-					</row>
-					<row>
-						<label value="Descripción:" class="etiqueta" />
+						</row>
+						<row>
+							<label value="Descripción:"
+								class="etiqueta" />
 
-						<textbox id="txtDescripcionUnidadOrganizativa"
-							width="100%" maxlength="100" tabindex="2" rows="3" cols="100"
-							tooltiptext="Ingrese aqui la descripcion de la unidad organizativa" />
+							<textbox
+								id="txtDescripcionUnidadOrganizativa" width="100%"
+								maxlength="100" tabindex="2" rows="3" cols="100"
+								tooltiptext="Ingrese aqui la descripcion de la unidad organizativa" />
 							<hbox />
 							<hbox />
-					</row>
-					<row>
-						<label value="Nivel:" class="etiqueta" />
+						</row>
+						<row>
+							<label value="Nivel:" class="etiqueta" />
 
-						<spinner id="spnNivelUnidadOrganizativa"
-							constraint="no negative" width="100%" maxlength="100"
-							tabindex="3"
-							tooltiptext="Ingrese aqui el nivel de la unidad organizativa" />
+							<spinner id="spnNivelUnidadOrganizativa"
+								constraint="no negative" width="100%" maxlength="100"
+								tabindex="3"
+								tooltiptext="Ingrese aqui el nivel de la unidad organizativa" />
 							<hbox />
 							<hbox />
-					</row>
-					<row>
-						<label value="Sub-Nivel:" class="etiqueta" />
+						</row>
+						<row>
+							<label value="Sub-Nivel:" class="etiqueta" />
 
-						<spinner id="spnSubNivelUnidadOrganizativa"
-							constraint="no negative" width="100%" maxlength="100"
-							tabindex="4"
-							tooltiptext="Ingrese aqui el sub-nivel de la unidad organizativa" />
+							<spinner id="spnSubNivelUnidadOrganizativa"
+								constraint="no negative" width="100%" maxlength="100"
+								tabindex="4"
+								tooltiptext="Ingrese aqui el sub-nivel de la unidad organizativa" />
 							<hbox />
 							<hbox />
-					</row>
-					<row>
-						<label value="Empresa Auxiliar:"
-							class="etiqueta" />
+						</row>
+						<row>
+							<label value="Empresa Auxiliar:"
+								class="etiqueta" />
 
-						<textbox
-							id="txtEmpresaAuxiliarUnidadOrganizativa" width="100%"
-							tabindex="5"
-							tooltiptext="Ingrese aqui la empresa auxiliar de la unidad organizativa" />
+							<textbox
+								id="txtEmpresaAuxiliarUnidadOrganizativa" width="100%"
+								tabindex="5"
+								tooltiptext="Ingrese aqui la empresa auxiliar de la unidad organizativa" />
 							<hbox />
 							<hbox />
-					</row>
-					<row>
-						<label value="Unidad Organizativa Auxiliar:"
-							class="etiqueta" />
+						</row>
+						<row>
+							<label value="Unidad Organizativa Auxiliar:"
+								class="etiqueta" />
 
-						<textbox id="txtUnidadOrganizativaAuxiliar"
-							width="100%" tabindex="6"
-							tooltiptext="Ingrese aqui la unidad organizativa auxiliar" />
+							<textbox id="txtUnidadOrganizativaAuxiliar"
+								width="100%" tabindex="6"
+								tooltiptext="Ingrese aqui la unidad organizativa auxiliar" />
 							<hbox />
 							<hbox />
-					</row>
-				</rows>
-			</grid>
+						</row>
+					</rows>
+				</grid>
+			</groupbox>
+			<separator />
+			<separator />
+			<groupbox id="gpxDatosUnidadOrganizativa" width="auto"
+				class="azul" title="">
+				<caption label="Registros"
+					style="font-weight:bold; font-size: 13px"
+					tooltiptext="Presione para visualizar las unidades organizativas registradas" />
+				<div id="catalogoUnidadOrganizativa"
+					tooltiptext="Seleccione la unidad organizativa para realizar una accion" />
+			</groupbox>
+			<separator />
+			<separator />
 		</groupbox>
-		<separator />
-		<separator />
-		<groupbox id="gpxDatosUnidadOrganizativa" width="auto" class = "azul"
-			title="">
-			<caption label="Registros" style="font-weight:bold; font-size: 13px"
-				tooltiptext="Presione para visualizar las unidades organizativas registradas" />
-			<div id="catalogoUnidadOrganizativa"
-				tooltiptext="Seleccione la unidad organizativa para realizar una accion" />
-		</groupbox>
-		<separator />
-		<separator />
-	</groupbox>
-	<div id="divCatalogoGerencia"
-		tooltiptext="Click para Seleccionar una gerencia" />
-</window>
+		<div id="divCatalogoGerencia"
+			tooltiptext="Click para Seleccionar una gerencia" />
+	</window>
 
 </zk>
