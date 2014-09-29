@@ -105,7 +105,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 	@Listen("onClick = #btnBuscarCurso")
 	public void mostrarCatalogoCurso() {
-		final List<Curso> listCurso = cursosEmpleado();
+		final List<Curso> listCurso = cursosEmpleado();		
 		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
 				"Catalogo de Cursos", listCurso,true,false,false, "Área", "Nombre", "Duración") {
 

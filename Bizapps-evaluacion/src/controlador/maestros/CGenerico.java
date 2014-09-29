@@ -17,9 +17,13 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -187,6 +191,10 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 	/* Titulos de Mensaje */
 	public String informacion = "INFORMACION";
 	public String alerta = "ALERTA";
+	
+	private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+			"/META-INF/PropiedadesBaseDatos.xml");
+
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -318,6 +326,20 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public String damePath() {
+		return Executions.getCurrent().getContextPath() + "/";
+	}
+
+	public List<String> obtenerPropiedades() {
+		List<String> arreglo = new ArrayList<String>();
+		DriverManagerDataSource ds = (DriverManagerDataSource) applicationContext
+				.getBean("dataSource");
+		arreglo.add(ds.getUsername());
+		arreglo.add(ds.getPassword());
+		arreglo.add(ds.getUrl());
+		return arreglo;
 	}
 	
 }

@@ -116,7 +116,10 @@ public class CArbol extends CGenerico {
 		
 		Revision revision=servicioRevision.buscarRevisionActiva();
 		
-		Messagebox.show(revision.getMensajeInicio(), "Informacion", Messagebox.OK, Messagebox.INFORMATION);
+		if (revision!=null)
+		{
+		  Messagebox.show(revision.getMensajeInicio(), "Informacion", Messagebox.OK, Messagebox.INFORMATION);
+		}
 	}
 
 	/* Permite asignarle los nodos cargados con el metodo getFooRoot() al arbol */

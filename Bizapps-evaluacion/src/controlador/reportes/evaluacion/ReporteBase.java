@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.io.IOException;
 
@@ -23,7 +24,9 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import java.util.ResourceBundle;
 
-public class ReporteBase {
+import controlador.maestros.CGenerico;
+
+public class ReporteBase extends CGenerico {
 	
 	 protected Connection conexion;
 
@@ -74,10 +77,15 @@ public class ReporteBase {
 	        
 	            fis = (cl.getResourceAsStream("controlador/reportes/evaluacion/jasper/reporteEvaluacion.jasper"));
 
-	            String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	            String url = "jdbc:sqlserver://172.23.20.72:1433;databaseName=dusa_evaluacion";
+	           
+	            /*String url = "jdbc:sqlserver://172.23.20.72:1433;databaseName=dusa_evaluacion";
 	            String user = "client";
-	            String password = "123";
+	            String password = "123";*/
+	            
+	            List<String> lista = obtenerPropiedades();
+				String user = lista.get(0);
+				String password = lista.get(1);
+				String url = lista.get(2);
 
 	            try {
 	                
@@ -123,5 +131,11 @@ public class ReporteBase {
 	        return fichero;
 
 	    }
+
+		@Override
+		public void inicializar() throws IOException {
+			// TODO Auto-generated method stub
+			
+		}
 
 }
