@@ -15,6 +15,7 @@ import modelo.maestros.EvaluacionCompetencia;
 import modelo.maestros.EvaluacionConducta;
 import modelo.maestros.EvaluacionIndicador;
 import modelo.maestros.EvaluacionObjetivo;
+import modelo.maestros.Periodo;
 import modelo.maestros.Revision;
 import modelo.maestros.UnidadOrganizativa;
 import modelo.seguridad.Usuario;
@@ -187,6 +188,7 @@ public class CListaPersonal extends CGenerico {
 	}
 	@Listen("onClick = #btnEliminar")
 	public void eliminar() {
+		
 		if (bandera.equals("false")){
 		if (lbxEvaluacion.getItemCount() != 0) {
 
@@ -195,6 +197,7 @@ public class CListaPersonal extends CGenerico {
 
 				Evaluacion evaluacionE = (Evaluacion) listItem.getValue();
 				eva = evaluacionE;
+				if (eva.getRevision().getId() == revision.getId()){
 				Integer id = evaluacionE.getIdEvaluacion();
 				idEva = id;
 				Messagebox.show(Mensaje.deseaEliminar, "Alerta", Messagebox.OK
@@ -258,6 +261,10 @@ public class CListaPersonal extends CGenerico {
 		}
 		}
 		else {
+			msj.mensajeError(Mensaje.noSePuedeEliminar);
+		}
+		}
+		else{
 			msj.mensajeError(Mensaje.noSePuedeEliminar);
 		}
 	}

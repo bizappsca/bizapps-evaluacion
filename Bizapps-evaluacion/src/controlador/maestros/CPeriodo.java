@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Periodo;
+import modelo.maestros.Revision;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -107,7 +108,7 @@ public class CPeriodo extends CGenerico {
 				boolean guardar = true;
 				guardar = validar();
 				if (guardar) {
-
+						
 					if (!validarEstadoActivo()) {
 
 						String nombre = txtNombrePeriodo.getValue();
@@ -123,12 +124,18 @@ public class CPeriodo extends CGenerico {
 						Periodo periodo = new Periodo(idPeriodo, descripcion,
 								estadoPeriodo, fechaAuditoria, fechaFin,
 								fechaInicio, horaAuditoria, nombre, usuario);
+						Revision revision = servicioRevision.buscarRevisionPorPeriodo(periodo);
+						if (estadoPeriodo.equals("INACTIVO") && revision != null){
+							msj.mensajeAlerta(Mensaje.revisionesActivas);
+							
+						}
+						else{
 						servicioPeriodo.guardar(periodo);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
 						catalogo.actualizarLista(servicioPeriodo.buscarTodos());
 						abrirCatalogo();
-
+						}
 					} else {
 
 						msj.mensajeAlerta(Mensaje.periodoActivo);

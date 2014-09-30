@@ -544,7 +544,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 	
 	@Listen("onClick = #btnGuardar")
 	public void mostrarEvaluacion() {
-
+		try{
 		if (catalogoEvaluacion.obtenerSeleccionados().size() == 1){
 			
 			Evaluacion eva = catalogoEvaluacion.objetoSeleccionadoDelCatalogo();
@@ -586,11 +586,16 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 					Messagebox.OK,
 					Messagebox.EXCLAMATION);
 		}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.toString());
+		}
 
 		}
 	
 	@Listen("onClick = #btnLimpiar")
 	public void limpiar() {
+		try{
 		txtEmpresa.setValue("");
 		txtEvaluador.setValue("");
 		txtGerencia.setValue("");
@@ -598,7 +603,12 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		txtValoracion.setValue("");
 		catalogoEvaluacion.actualizarLista(new ArrayList<Evaluacion>());
 		txtGrado.setText("0");
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println(e.toString());
 	}
+	}
+	
 
 	}
 	

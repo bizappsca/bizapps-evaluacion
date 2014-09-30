@@ -1024,6 +1024,17 @@ public class CAgregarEvaluacion extends CGenerico {
 		refrescarCalculosEvaluacion();
 		}
 
+		Revision re = servicioRevision.buscarPorEstado("ACTIVO");
+		System.out.println("re"+re);
+		if (re==null){
+			System.out.println("epa");
+			btnEnEdicion.setVisible(false);
+			btnPendiente.setVisible(false);
+			btnRevisada.setVisible(false);
+			btnAprobada.setVisible(false);
+			btnCalibrada.setVisible(false);
+			btnFinalizada.setVisible(false);
+		}
 	}
 
 	@Listen("onClick = #btnPendiente")
@@ -1961,7 +1972,7 @@ public class CAgregarEvaluacion extends CGenerico {
 
 	}
 
-	private void guardarEvaluacion(boolean mostrarMensaje) {
+	public void guardarEvaluacion(boolean mostrarMensaje) {
 		guardarCompetenciasEspecificas();
 		guardarCompetenciasRectoras();
 		refrescarCalculosEvaluacion();
@@ -3561,6 +3572,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		label = txttotalCompetencia1;
 		label1 = txttotalCompetencia2;
 		label2 = txtResultadoFinal;
+		
 
 	}
 

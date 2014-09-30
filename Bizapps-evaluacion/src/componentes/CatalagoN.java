@@ -288,6 +288,7 @@ public abstract class CatalagoN<Clase> extends Window {
 			pagineo.setTooltiptext("Presione para mostrar todos los registros en una sola lista, sin pagineo");
 		}
 	}
+	
 
 	protected void exportar() {
 		if (lsbCatalagoN.getItemCount() != 0) {

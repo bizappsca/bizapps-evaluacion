@@ -329,7 +329,7 @@ public class CRevision extends CGenerico {
 
 		//CAMBIAR ***----
 		if (cmbEstadoRevision.getValue().equals("ACTIVO") && revision != null) {
-			return false;
+			return true;
 		}
 
 		return false;
