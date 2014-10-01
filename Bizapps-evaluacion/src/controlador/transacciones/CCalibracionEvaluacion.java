@@ -590,6 +590,7 @@ public class CCalibracionEvaluacion extends CGenerico {
 			servicioEvaluacion.guardar(evaluacion);
 			Messagebox.show("Calibración Guardada exitosamente", "Información",
 					Messagebox.OK, Messagebox.INFORMATION);
+			actualizarCatalogo();
 		}
 
 		else {
