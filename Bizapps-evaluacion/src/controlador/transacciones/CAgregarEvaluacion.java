@@ -1993,17 +1993,17 @@ public class CAgregarEvaluacion extends CGenerico {
 			evaluacionEmpleado.setOportunidades(oportunidades);
 			evaluacionEmpleado.setResumen(resumen);
 			evaluacionEmpleado.setComentario(comentario);
-			evaluacionEmpleado.setResultadoObjetivos(Integer
-					.parseInt(lblResultadoPeso.getValue()));
-			evaluacionEmpleado.setResultadoCompetencias(Integer
-					.parseInt(lblResultadoPeso1.getValue()));
-			evaluacionEmpleado.setResultadoGeneral(Integer
-					.parseInt(txtResultadoFinal.getValue()));
-			evaluacionEmpleado.setResultadoFinal(Integer
-					.parseInt(txtResultadoFinal.getValue()));
+			evaluacionEmpleado.setResultadoObjetivos(Double
+					.parseDouble(lblResultadoPeso.getValue()));
+			evaluacionEmpleado.setResultadoCompetencias(Double
+					.parseDouble(lblResultadoPeso1.getValue()));
+			evaluacionEmpleado.setResultadoGeneral(Double
+					.parseDouble(txtResultadoFinal.getValue()));
+			evaluacionEmpleado.setResultadoFinal(Double
+					.parseDouble(txtResultadoFinal.getValue()));
 			evaluacionEmpleado.setValoracion(servicioUtilidad
-					.obtenerValoracionFinalSimple(Integer
-							.parseInt(txtResultadoFinal.getValue())));
+					.obtenerValoracionFinalSimple(Double
+							.parseDouble(txtResultadoFinal.getValue())));
 			evaluacionEmpleado.setPeso(Double.parseDouble(txttotalPesoObjetivos
 					.getValue()));
 			evaluacionEmpleado.setResultado(Double
