@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Bitacora;
 import modelo.maestros.Empleado;
 import modelo.maestros.Empresa;
 import modelo.maestros.Evaluacion;
@@ -17,6 +18,8 @@ import modelo.maestros.Gerencia;
 import modelo.maestros.UnidadOrganizativa;
 import modelo.seguridad.Usuario;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -566,35 +569,53 @@ public class CCalibracionEvaluacion extends CGenerico {
 	public void guardarValoracion() {
 		String valoracion = "";
 		try{
-		if (catalogoEvaluacion.obtenerSeleccionados().size() == 1) {
-			Evaluacion eva = catalogoEvaluacion
-					.objetoSeleccionadoDelCatalagoN();
-			int idEvaluacion = eva.getIdEvaluacion();
-			Evaluacion evaluacion = servicioEvaluacion
-					.buscarEvaluacion(idEvaluacion);
-			Double resultado = Double.valueOf(catalogoEvaluacion.obtenertext());
-			if (resultado < 25) {
-				valoracion = "NC";
-			} else if (resultado < 85 && resultado > 24) {
-				valoracion = "PDE";
-			} else if (resultado < 95 && resultado > 84) {
-				valoracion = "ME";
-			} else if (resultado < 101 && resultado > 94) {
-				valoracion = "CE";
-			} else if (resultado < 1001 && resultado > 100) {
-				valoracion = "EE";
+			
+			List<Evaluacion> lista = new ArrayList<Evaluacion>();
+			lista= catalogoEvaluacion.obtenerSeleccionados();
+			
+		if (lista.size() > 0) {
+			
+			
+			for (Evaluacion eva : lista) {
+				
+				
+				/*Evaluacion eva = catalogoEvaluacion
+						.objetoSeleccionadoDelCatalagoN();*/
+				int idEvaluacion = eva.getIdEvaluacion();
+				Evaluacion evaluacion = servicioEvaluacion
+						.buscarEvaluacion(idEvaluacion);
+				Double resultado = Double.valueOf(catalogoEvaluacion.obtenertext());
+	
+				evaluacion.setResultadoFinal(resultado);
+				evaluacion.setValoracion(valoracion);
+				evaluacion.setValoracion(servicioUtilidad
+						.obtenerValoracionFinalSimple(Double
+								.parseDouble(resultado.toString())));
+				evaluacion.setEstadoEvaluacion("FINALIZADA");
+				servicioEvaluacion.guardar(evaluacion);
+				Bitacora bitacora = new Bitacora();
+				bitacora.setEstadoEvaluacion("PENDIENTE");
+				bitacora.setEvaluacion(evaluacion);
+				bitacora.setFechaAuditoria(fechaHora);
+				bitacora.setHoraAuditoria(horaAuditoria);
+				Authentication a = SecurityContextHolder.getContext()
+						.getAuthentication();
+				bitacora.setIdUsuario(servicioUsuario.buscarUsuarioPorNombre(a.getName()));
+				servicioBitacora.guardar(bitacora);
+				
+				
+				
 			}
-
-			evaluacion.setResultadoFinal(resultado);
-			evaluacion.setValoracion(valoracion);
-			servicioEvaluacion.guardar(evaluacion);
+			
+			actualizarCatalogo();
 			Messagebox.show("Calibración Guardada exitosamente", "Información",
 					Messagebox.OK, Messagebox.INFORMATION);
-			actualizarCatalogo();
+			
+			
 		}
 
 		else {
-			Messagebox.show("Debe seleccionar una evaluación", "Alerta",
+			Messagebox.show("Debe seleccionar al menos una evaluación", "Alerta",
 					Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 		} catch (Exception e) {
