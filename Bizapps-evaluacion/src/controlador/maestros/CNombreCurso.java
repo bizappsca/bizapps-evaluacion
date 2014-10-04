@@ -334,9 +334,9 @@ public class CNombreCurso extends CGenerico {
 
 				for (NombreCurso curso : listCurso) {
 					if (curso.getArea().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombre().toLowerCase()
-									.startsWith(valores.get(1))) {
+							.contains(valores.get(1).toLowerCase())) {
 						lista.add(curso);
 					}
 				}
@@ -385,9 +385,9 @@ public class CNombreCurso extends CGenerico {
 
 				for (Area area : listArea) {
 					if (area.getTipoFormacion().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& area.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))) {
+							.contains(valores.get(1).toLowerCase())) {
 						lista.add(area);
 					}
 				}

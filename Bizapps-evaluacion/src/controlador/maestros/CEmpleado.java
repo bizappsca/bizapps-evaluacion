@@ -237,7 +237,7 @@ public class CEmpleado extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVEmpleado, "Empleado",tabs);
+				cerrarVentana(wdwVEmpleado, "Empleado", tabs);
 			}
 
 			@Override
@@ -425,9 +425,9 @@ public class CEmpleado extends CGenerico {
 
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogo = new Catalogo<Empleado>(catalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado,false,false,false, "Empresa", "Cargo",
-				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
-				"Grado Auxiliar") {
+				"Catalogo de Empleados", listEmpleado, false, false, false,
+				"Empresa", "Cargo", "Unidad Organizativa", "Nombre", "Ficha",
+				"Ficha Supervisor", "Grado Auxiliar") {
 
 			@Override
 			protected List<Empleado> buscar(List<String> valores) {
@@ -435,20 +435,22 @@ public class CEmpleado extends CGenerico {
 
 				for (Empleado empleado : listEmpleado) {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().startsWith(valores.get(1))
+									.toLowerCase()
+									.contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& empleado.getNombre().toLowerCase()
-									.startsWith(valores.get(3))
+									.contains(valores.get(3).toLowerCase())
 							&& empleado.getFicha().toLowerCase()
-									.startsWith(valores.get(4))
+									.contains(valores.get(4).toLowerCase())
 							&& empleado.getFichaSupervisor().toLowerCase()
-									.startsWith(valores.get(5))
+									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().startsWith(valores.get(6))) {
+									.toLowerCase()
+									.contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -470,7 +472,6 @@ public class CEmpleado extends CGenerico {
 
 				return registros;
 			}
-
 
 		};
 		catalogo.setParent(catalogoEmpleado);
@@ -537,8 +538,9 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoEmpresa() {
 		final List<Empresa> listEmpresa = servicioEmpresa.buscarTodas();
 		catalogoEmpresa = new Catalogo<Empresa>(divCatalogoEmpresa,
-				"Catalogo de Empresas", listEmpresa, true,false,false, "Nombre", "Dirección",
-				"Teléfono 1", "Teléfono 2", "Empresa Auxiliar") {
+				"Catalogo de Empresas", listEmpresa, true, false, false,
+				"Nombre", "Dirección", "Teléfono 1", "Teléfono 2",
+				"Empresa Auxiliar") {
 
 			@Override
 			protected List<Empresa> buscar(List<String> valores) {
@@ -546,15 +548,15 @@ public class CEmpleado extends CGenerico {
 
 				for (Empresa empresa : listEmpresa) {
 					if (empresa.getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empresa.getDireccion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& empresa.getTelefono1().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& empresa.getTelefono2().toLowerCase()
-									.startsWith(valores.get(3))
+									.contains(valores.get(3).toLowerCase())
 							&& empresa.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(4))) {
+									.contains(valores.get(4).toLowerCase())) {
 						lista.add(empresa);
 					}
 				}
@@ -594,8 +596,8 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoCargo() {
 		final List<Cargo> listCargo = servicioCargo.buscarTodos();
 		catalogoCargo = new Catalogo<Cargo>(divCatalogoCargo,
-				"Catalogo de Cargos", listCargo,true,false,false, "Descripción", "Nómina",
-				"Cargo Auxiliar", "Empresa Auxiliar") {
+				"Catalogo de Cargos", listCargo, true, false, false,
+				"Descripción", "Nómina", "Cargo Auxiliar", "Empresa Auxiliar") {
 
 			@Override
 			protected List<Cargo> buscar(List<String> valores) {
@@ -603,13 +605,13 @@ public class CEmpleado extends CGenerico {
 
 				for (Cargo cargo : listCargo) {
 					if (cargo.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& cargo.getNomina().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& cargo.getIdCargoAuxiliar().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& cargo.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(3))) {
+									.contains(valores.get(3).toLowerCase())) {
 						lista.add(cargo);
 					}
 				}
@@ -649,9 +651,9 @@ public class CEmpleado extends CGenerico {
 		final List<UnidadOrganizativa> listUnidadOrganizativa = servicioUnidadOrganizativa
 				.buscarTodas();
 		catalogoUnidad = new Catalogo<UnidadOrganizativa>(divCatalogoUnidad,
-				"Catalogo de UnidadOrganizativas", listUnidadOrganizativa, true,false,false,
-				"Gerencia", "Descripción", "Nivel", "Sub-Nivel",
-				"Empresa Auxiliar", "Unidad Auxiliar") {
+				"Catalogo de UnidadOrganizativas", listUnidadOrganizativa,
+				true, false, false, "Gerencia", "Descripción", "Nivel",
+				"Sub-Nivel", "Empresa Auxiliar", "Unidad Auxiliar") {
 
 			@Override
 			protected List<UnidadOrganizativa> buscar(List<String> valores) {
@@ -659,17 +661,19 @@ public class CEmpleado extends CGenerico {
 
 				for (UnidadOrganizativa unidad : listUnidadOrganizativa) {
 					if (unidad.getGerencia().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& unidad.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& String.valueOf(unidad.getNivel()).toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& String.valueOf(unidad.getSubNivel())
-									.toLowerCase().startsWith(valores.get(3))
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
 							&& unidad.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(4))
+									.contains(valores.get(4).toLowerCase())
 							&& unidad.getIdUnidadOrganizativaAuxiliar()
-									.toLowerCase().startsWith(valores.get(5))) {
+									.toLowerCase()
+									.contains(valores.get(5).toLowerCase())) {
 						lista.add(unidad);
 					}
 				}
@@ -711,9 +715,9 @@ public class CEmpleado extends CGenerico {
 	public void mostrarCatalogoSupervisor() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoSupervisor = new Catalogo<Empleado>(divCatalogoSupervisor,
-				"Catalogo Empleados", listEmpleado, true,false,false, "Empresa", "Cargo",
-				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
-				"Grado Auxiliar") {
+				"Catalogo Empleados", listEmpleado, true, false, false,
+				"Empresa", "Cargo", "Unidad Organizativa", "Nombre", "Ficha",
+				"Ficha Supervisor", "Grado Auxiliar") {
 
 			@Override
 			protected List<Empleado> buscar(List<String> valores) {
@@ -721,20 +725,22 @@ public class CEmpleado extends CGenerico {
 
 				for (Empleado empleado : listEmpleado) {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().startsWith(valores.get(1))
+									.toLowerCase()
+									.contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& empleado.getNombre().toLowerCase()
-									.startsWith(valores.get(3))
+									.contains(valores.get(3).toLowerCase())
 							&& empleado.getFicha().toLowerCase()
-									.startsWith(valores.get(4))
+									.contains(valores.get(4).toLowerCase())
 							&& empleado.getFichaSupervisor().toLowerCase()
-									.startsWith(valores.get(5))
+									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().startsWith(valores.get(6))) {
+									.toLowerCase()
+									.contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}

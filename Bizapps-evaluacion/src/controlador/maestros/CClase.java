@@ -380,26 +380,27 @@ public class CClase extends CGenerico {
 
 				for (Clase clase : listClase) {
 					if (clase.getCurso().getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& clase.getContenido().toLowerCase()
-									.startsWith(valores.get(1))
+							.contains(valores.get(1).toLowerCase())
 							&& clase.getObjetivo().toLowerCase()
-									.startsWith(valores.get(2))
+							.contains(valores.get(2).toLowerCase())
 							&& clase.getEntidadDidactica().toLowerCase()
-									.startsWith(valores.get(3))
+							.contains(valores.get(3).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(clase
 													.getFecha())).toLowerCase()
-									.startsWith(valores.get(4))
+													.contains(valores.get(4).toLowerCase())
 							&& String.valueOf(clase.getDuracion())
-									.toLowerCase().startsWith(valores.get(5))
+									.toLowerCase()
+									.contains(valores.get(5).toLowerCase())
 							&& clase.getLugar().toLowerCase()
-									.startsWith(valores.get(6))
+							.contains(valores.get(6).toLowerCase())
 							&& clase.getTipoEntrenamiento().toLowerCase()
-									.startsWith(valores.get(7))
+							.contains(valores.get(7).toLowerCase())
 							&& clase.getModalidad().toLowerCase()
-									.startsWith(valores.get(8))) {
+							.contains(valores.get(8).toLowerCase())) {
 						lista.add(clase);
 					}
 				}
@@ -443,9 +444,9 @@ public class CClase extends CGenerico {
 
 				for (NombreCurso curso : listCurso) {
 					if (curso.getArea().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombre().toLowerCase()
-									.startsWith(valores.get(1))) {
+							.contains(valores.get(1).toLowerCase())) {
 						lista.add(curso);
 					}
 				}

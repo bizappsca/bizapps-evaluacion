@@ -298,9 +298,9 @@ public class CParametro extends CGenerico {
 
 				for (Parametro parametro : listParametro) {
 					if (parametro.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& parametro.getTipo().toLowerCase()
-									.startsWith(valores.get(1))) {
+							.contains(valores.get(1).toLowerCase())) {
 						lista.add(parametro);
 					}
 				}

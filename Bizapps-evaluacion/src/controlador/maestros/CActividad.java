@@ -54,7 +54,7 @@ public class CActividad extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
 		if (mapa != null) {
@@ -120,7 +120,7 @@ public class CActividad extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVActividad, "Actividad",tabs);
+				cerrarVentana(wdwVActividad, "Actividad", tabs);
 			}
 
 			@Override
@@ -282,7 +282,8 @@ public class CActividad extends CGenerico {
 
 		final List<Actividad> listActividad = servicioActividad.buscarTodas();
 		catalogo = new Catalogo<Actividad>(catalogoActividad,
-				"Catalogo de Actividades", listActividad, false,false,false,"Descripción") {
+				"Catalogo de Actividades", listActividad, false, false, false,
+				"Descripción") {
 
 			@Override
 			protected List<Actividad> buscar(List<String> valores) {
@@ -290,8 +291,9 @@ public class CActividad extends CGenerico {
 
 				for (Actividad actividad : listActividad) {
 					if (actividad.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(actividad);
+
 					}
 				}
 				return lista;
@@ -310,5 +312,4 @@ public class CActividad extends CGenerico {
 		catalogo.setParent(catalogoActividad);
 
 	}
-
 }

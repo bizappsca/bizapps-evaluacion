@@ -373,21 +373,21 @@ public class CPerfilCargo extends CGenerico {
 
 				for (PerfilCargo perfilCargo : listPerfilCargo) {
 					if (perfilCargo.getCargo().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& perfilCargo.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))
+							.contains(valores.get(1).toLowerCase())
 							&& perfilCargo.getNivelAcademico().toLowerCase()
-									.startsWith(valores.get(2))
+							.contains(valores.get(2).toLowerCase())
 							&& perfilCargo.getEspecialidad().toLowerCase()
-									.startsWith(valores.get(3))
+							.contains(valores.get(3).toLowerCase())
 							&& perfilCargo.getEspecializacion().toLowerCase()
-									.startsWith(valores.get(4))
+							.contains(valores.get(4).toLowerCase())
 							&& perfilCargo.getExperienciaPrevia().toLowerCase()
-									.startsWith(valores.get(5))
+							.contains(valores.get(5).toLowerCase())
 							&& perfilCargo.getIdioma().toLowerCase()
-									.startsWith(valores.get(6))
+							.contains(valores.get(6).toLowerCase())
 							&& perfilCargo.getObservaciones().toLowerCase()
-									.startsWith(valores.get(7))) {
+							.contains(valores.get(7).toLowerCase())) {
 						lista.add(perfilCargo);
 					}
 				}
@@ -442,13 +442,13 @@ public class CPerfilCargo extends CGenerico {
 
 				for (Cargo cargo : listCargo) {
 					if (cargo.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& cargo.getNomina().toLowerCase()
-									.startsWith(valores.get(1))
+							.contains(valores.get(1).toLowerCase())
 							&& cargo.getIdCargoAuxiliar().toLowerCase()
-									.startsWith(valores.get(2))
+							.contains(valores.get(2).toLowerCase())
 							&& cargo.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(3))) {
+							.contains(valores.get(3).toLowerCase())) {
 						lista.add(cargo);
 					}
 				}

@@ -302,9 +302,9 @@ public class CItemEvaluacion extends CGenerico {
 
 				for (ItemEvaluacion item : listItemEvaluacion) {
 					if (item.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& item.getPonderacion().toLowerCase()
-									.startsWith(valores.get(1))) {
+							.contains(valores.get(1).toLowerCase())) {
 						lista.add(item);
 					}
 				}
