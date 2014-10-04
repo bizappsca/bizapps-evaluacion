@@ -131,9 +131,9 @@ public class CEvaluacionEficacia extends CGenerico {
 					List<Curso> lista = new ArrayList<Curso>();
 
 					for (Curso curso : listCurso) {
-						if (curso.getArea().getDescripcion().toLowerCase()
+						if (curso.getNombreCurso().getArea().getDescripcion().toLowerCase()
 								.startsWith(valores.get(0))
-								&& curso.getNombre().toLowerCase()
+								&& curso.getNombreCurso().getNombre().toLowerCase()
 										.startsWith(valores.get(1))
 
 								&& String.valueOf(curso.getDuracion())
@@ -149,8 +149,8 @@ public class CEvaluacionEficacia extends CGenerico {
 				@Override
 				protected String[] crearRegistros(Curso curso) {
 					String[] registros = new String[3];
-					registros[0] = curso.getArea().getDescripcion();
-					registros[1] = curso.getNombre();
+					registros[0] = curso.getNombreCurso().getArea().getDescripcion();
+					registros[1] = curso.getNombreCurso().getNombre();
 					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
 							+ curso.getMedidaDuracion();
 
@@ -185,7 +185,7 @@ public class CEvaluacionEficacia extends CGenerico {
 		if (cursoEmpleado.getEstadoCurso().equals("APROBADO")
 				|| cursoEmpleado.getEstadoCurso().equals("REPROBADO")) {
 
-			txtCursoEvaluacionEficacia.setValue(curso.getNombre());
+			txtCursoEvaluacionEficacia.setValue(curso.getNombreCurso().getNombre());
 			llenarLista();
 
 		} else {

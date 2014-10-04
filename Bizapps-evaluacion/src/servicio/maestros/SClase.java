@@ -66,13 +66,6 @@ public class SClase {
 		return claseDAO.findByObjetivoStartingWithAllIgnoreCase(valor);
 	}
 	
-	/*
-	 * Servicio que permite filtrar las clases de una lista de acuerdo al
-	 * facilitador
-	 */
-	public List<Clase> filtroFacilitador(String valor) {
-		return claseDAO.findByFacilitadorStartingWithAllIgnoreCase(valor);
-	}
 	
 	/*
 	 * Servicio que permite filtrar las clases de una lista de acuerdo a la

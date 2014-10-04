@@ -1,7 +1,7 @@
 <zk>
 	<style src="/public/Estilo.css" />
 
-<window id="wdwVClase" border="normal" height="auto" width="80%"
+<window id="wdwVClase" border="normal" height="auto" width="100%"
 	apply="controlador.maestros.CClase"
 	style="background-color:#8A0808;">
 
@@ -66,21 +66,11 @@
 							<hbox/>
 					</row>
 					<row>
-						<label value="Facilitador:" class="etiqueta" />
-
-						<textbox id="txtFacilitadorClase" width="100%"
-							maxlength="250" tabindex="4"
-							tooltiptext="Ingrese aqui el nombre del facilitador de la clase" />
-							
-							<hbox/>
-							<hbox/>
-					</row>
-					<row>
 						<label value="Entidad Didáctica:"
 							class="etiqueta" />
 
 						<textbox id="txtEntidadDidacticaClase"
-							width="100%" maxlength="250" tabindex="5"
+							width="100%" maxlength="250" tabindex="4"
 							tooltiptext="Ingrese aqui la entidad didactica de la clase" />
 							
 							<hbox/>
@@ -90,7 +80,7 @@
 						<label value="Fecha:" class="etiqueta" />
 
 						<datebox readonly="true" width="100%"
-							tabindex="6" id="dtbFechaClase" format="dd-MM-yyyy"
+							tabindex="5" id="dtbFechaClase" format="dd-MM-yyyy"
 							tooltiptext="Ingrese aqui la fecha de la clase" />
 							
 							<hbox/>
@@ -107,12 +97,12 @@
 
 						<spinner id="spnDuracionClase"
 							constraint="no negative" width="100%" maxlength="100"
-							tabindex="7" tooltiptext="Ingrese aqui la duracion de la clase" />
+							tabindex="6" tooltiptext="Ingrese aqui la duracion de la clase" />
 
 						<combobox id="cmbUnidadMedidaClase"
 							readonly="true"
 							tooltiptext="Seleccione la unidad de medida de la duracion"
-							width="60%" tabindex="9">
+							width="60%" tabindex="7">
 							<comboitem label="DIAS" />
 							<comboitem label="HORAS" />
 							<comboitem label="MINUTOS" />

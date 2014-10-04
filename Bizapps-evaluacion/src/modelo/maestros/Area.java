@@ -41,7 +41,7 @@ public class Area implements Serializable {
 
 	// bi-directional many-to-one association to Curso
 	@OneToMany(mappedBy = "area")
-	private List<Curso> cursos;
+	private List<NombreCurso> cursos;
 
 	public Area() {
 	}
@@ -106,11 +106,11 @@ public class Area implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public List<Curso> getCursos() {
+	public List<NombreCurso> getCursos() {
 		return cursos;
 	}
 
-	public void setCursos(List<Curso> cursos) {
+	public void setCursos(List<NombreCurso> cursos) {
 		this.cursos = cursos;
 	}
 	

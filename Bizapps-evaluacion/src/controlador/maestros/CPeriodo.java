@@ -157,7 +157,7 @@ public class CPeriodo extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVPeriodo, "Periodo",tabs);
+				cerrarVentana(wdwVPeriodo, "Periodos",tabs);
 			}
 
 			@Override

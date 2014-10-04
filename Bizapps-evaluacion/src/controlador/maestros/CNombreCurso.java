@@ -12,6 +12,7 @@ import java.util.List;
 import modelo.maestros.Area;
 import modelo.maestros.Clase;
 import modelo.maestros.Curso;
+import modelo.maestros.NombreCurso;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -33,7 +34,7 @@ import componentes.Botonera;
 import componentes.Catalogo;
 import componentes.Mensaje;
 
-public class CCurso extends CGenerico {
+public class CNombreCurso extends CGenerico {
 
 	@Wire
 	private Window wdwVCurso;
@@ -48,12 +49,6 @@ public class CCurso extends CGenerico {
 	@Wire
 	private Button btnBuscarArea;
 	@Wire
-	private Spinner spnDuracionCurso;
-	@Wire
-	private Combobox cmbEstadoCurso;
-	@Wire
-	private Combobox cmbUnidadMedidaCurso;
-	@Wire
 	private Groupbox gpxDatosCurso;
 	@Wire
 	private Div catalogoCurso;
@@ -67,7 +62,7 @@ public class CCurso extends CGenerico {
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
-	Catalogo<Curso> catalogo;
+	Catalogo<NombreCurso> catalogo;
 	Catalogo<Area> catalogoArea;
 
 	@Override
@@ -83,7 +78,6 @@ public class CCurso extends CGenerico {
 			}
 		}
 		txtAreaCurso.setFocus(true);
-		cmbUnidadMedidaCurso.setValue("HORAS");
 		mostrarCatalogo();
 		botonera = new Botonera() {
 
@@ -94,14 +88,12 @@ public class CCurso extends CGenerico {
 					if (catalogo.obtenerSeleccionados().size() == 1) {
 						mostrarBotones(false);
 						abrirRegistro();
-						Curso curso = catalogo.objetoSeleccionadoDelCatalogo();
+						NombreCurso curso = catalogo
+								.objetoSeleccionadoDelCatalogo();
 						idCurso = curso.getId();
 						idArea = curso.getArea().getId();
 						txtNombreCurso.setValue(curso.getNombre());
 						txtAreaCurso.setValue(curso.getArea().getDescripcion());
-						spnDuracionCurso.setValue((int) mostrarDuracion(curso));
-						cmbUnidadMedidaCurso.setValue(curso.getMedidaDuracion());
-						cmbEstadoCurso.setValue(curso.getEstado());
 						txtAreaCurso.setFocus(true);
 					} else
 						msj.mensajeAlerta(Mensaje.editarSoloUno);
@@ -118,25 +110,35 @@ public class CCurso extends CGenerico {
 				if (guardar) {
 
 					Area area = servicioArea.buscarArea(idArea);
+					NombreCurso nombreCurso = servicioNombreCurso
+							.buscarPorNombre(txtNombreCurso.getValue());
 
 					if (area != null) {
 
-						String nombre = txtNombreCurso.getValue();
-						float duracion = transformarDuracion(spnDuracionCurso
-								.getValue());
-						String medidaDuracion = cmbUnidadMedidaCurso.getValue();
-						String estado = cmbEstadoCurso.getValue();
-						String usuario = nombreUsuarioSesion();
-						Timestamp fechaAuditoria = new Timestamp(
-								new Date().getTime());
-						Curso curso = new Curso(idCurso, area, nombre, duracion,
-								medidaDuracion,  estado, fechaAuditoria,
-								 horaAuditoria, usuario);
-						servicioCurso.guardar(curso);
-						msj.mensajeInformacion(Mensaje.guardado);
-						limpiar();
-						catalogo.actualizarLista(servicioCurso.buscarTodos());
-						abrirCatalogo();
+						if (nombreCurso != null) {
+							
+							msj.mensajeAlerta(Mensaje.nombreCurso);
+							txtNombreCurso.setFocus(true);
+
+						} else {
+
+							String nombre = txtNombreCurso.getValue();
+							String usuario = nombreUsuarioSesion();
+							Timestamp fechaAuditoria = new Timestamp(
+									new Date().getTime());
+							NombreCurso curso = new NombreCurso(idCurso, area,
+									nombre, fechaAuditoria, horaAuditoria,
+									usuario);
+
+							servicioNombreCurso.guardar(curso);
+							msj.mensajeInformacion(Mensaje.guardado);
+							limpiar();
+							catalogo.actualizarLista(servicioNombreCurso
+									.buscarTodos());
+							abrirCatalogo();
+
+						}
+
 					} else {
 
 						msj.mensajeAlerta(Mensaje.codigoArea);
@@ -157,7 +159,7 @@ public class CCurso extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVCurso, "Curso",tabs);
+				cerrarVentana(wdwVCurso, "Curso", tabs);
 			}
 
 			@Override
@@ -166,7 +168,7 @@ public class CCurso extends CGenerico {
 				if (gpxDatosCurso.isOpen()) {
 					/* Elimina Varios Registros */
 					if (validarSeleccion()) {
-						final List<Curso> eliminarLista = catalogo
+						final List<NombreCurso> eliminarLista = catalogo
 								.obtenerSeleccionados();
 						Messagebox
 								.show("¿Desea Eliminar los "
@@ -179,10 +181,10 @@ public class CCurso extends CGenerico {
 													throws InterruptedException {
 												if (evt.getName()
 														.equals("onOK")) {
-													servicioCurso
+													servicioNombreCurso
 															.eliminarVariosCursos(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioCurso
+													catalogo.actualizarLista(servicioNombreCurso
 															.buscarTodos());
 												}
 											}
@@ -201,11 +203,11 @@ public class CCurso extends CGenerico {
 													throws InterruptedException {
 												if (evt.getName()
 														.equals("onOK")) {
-													servicioCurso
+													servicioNombreCurso
 															.eliminarUnCurso(idCurso);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioCurso
+													catalogo.actualizarLista(servicioNombreCurso
 															.buscarTodos());
 													abrirCatalogo();
 												}
@@ -229,9 +231,6 @@ public class CCurso extends CGenerico {
 		idArea = 0;
 		txtNombreCurso.setValue("");
 		txtAreaCurso.setValue("");
-		spnDuracionCurso.setValue(null);
-		cmbEstadoCurso.setValue("");
-		cmbUnidadMedidaCurso.setValue("HORAS");
 		catalogo.limpiarSeleccion();
 		txtAreaCurso.setFocus(true);
 
@@ -239,9 +238,7 @@ public class CCurso extends CGenerico {
 
 	public boolean camposEditando() {
 		if (txtAreaCurso.getText().compareTo("") != 0
-				|| txtNombreCurso.getText().compareTo("") != 0
-				|| spnDuracionCurso.getText().compareTo("") != 0
-				|| cmbEstadoCurso.getText().compareTo("") != 0) {
+				|| txtNombreCurso.getText().compareTo("") != 0) {
 			return true;
 		} else
 			return false;
@@ -285,7 +282,7 @@ public class CCurso extends CGenerico {
 	}
 
 	public boolean validarSeleccion() {
-		List<Curso> seleccionados = catalogo.obtenerSeleccionados();
+		List<NombreCurso> seleccionados = catalogo.obtenerSeleccionados();
 		if (seleccionados == null) {
 			msj.mensajeAlerta(Mensaje.noHayRegistros);
 			return false;
@@ -301,10 +298,7 @@ public class CCurso extends CGenerico {
 
 	public boolean camposLLenos() {
 		if (txtAreaCurso.getText().compareTo("") == 0
-				|| txtNombreCurso.getText().compareTo("") == 0
-				|| spnDuracionCurso.getText().compareTo("") == 0
-				|| cmbUnidadMedidaCurso.getText().compareTo("") == 0
-				|| cmbEstadoCurso.getText().compareTo("") == 0) {
+				|| txtNombreCurso.getText().compareTo("") == 0) {
 			return false;
 		} else
 			return true;
@@ -329,22 +323,20 @@ public class CCurso extends CGenerico {
 
 	public void mostrarCatalogo() {
 
-		final List<Curso> listCurso = servicioCurso.buscarTodos();
-		catalogo = new Catalogo<Curso>(catalogoCurso, "Catalogo de Cursos",
-				listCurso,false,false,false, "Área", "Nombre", "Duración") {
+		final List<NombreCurso> listCurso = servicioNombreCurso.buscarTodos();
+		catalogo = new Catalogo<NombreCurso>(catalogoCurso,
+				"Catalogo de Cursos", listCurso, false, false, false, "Área",
+				"Nombre") {
 
 			@Override
-			protected List<Curso> buscar(List<String> valores) {
-				List<Curso> lista = new ArrayList<Curso>();
+			protected List<NombreCurso> buscar(List<String> valores) {
+				List<NombreCurso> lista = new ArrayList<NombreCurso>();
 
-				for (Curso curso : listCurso) {
+				for (NombreCurso curso : listCurso) {
 					if (curso.getArea().getDescripcion().toLowerCase()
 							.startsWith(valores.get(0))
 							&& curso.getNombre().toLowerCase()
-									.startsWith(valores.get(1))
-
-							&& String.valueOf(curso.getDuracion())
-									.toLowerCase().startsWith(valores.get(2))) {
+									.startsWith(valores.get(1))) {
 						lista.add(curso);
 					}
 				}
@@ -353,11 +345,10 @@ public class CCurso extends CGenerico {
 			}
 
 			@Override
-			protected String[] crearRegistros(Curso curso) {
-				String[] registros = new String[3];
+			protected String[] crearRegistros(NombreCurso curso) {
+				String[] registros = new String[2];
 				registros[0] = curso.getArea().getDescripcion();
 				registros[1] = curso.getNombre();
-				registros[2] = String.valueOf(mostrarDuracion(curso)) + " " + curso.getMedidaDuracion();
 
 				return registros;
 			}
@@ -385,7 +376,8 @@ public class CCurso extends CGenerico {
 	public void mostrarCatalogoArea() {
 		final List<Area> listArea = servicioArea.buscarTodas();
 		catalogoArea = new Catalogo<Area>(divCatalogoArea, "Catalogo de Areas",
-				listArea, true,false,false,"Tipo de Formación", "Descripción") {
+				listArea, true, false, false, "Tipo de Formación",
+				"Descripción") {
 
 			@Override
 			protected List<Area> buscar(List<String> valores) {
@@ -426,45 +418,6 @@ public class CCurso extends CGenerico {
 		idArea = area.getId();
 		txtAreaCurso.setValue(area.getDescripcion());
 		catalogoArea.setParent(null);
-	}
-	
-	public float transformarDuracion(int duracion) {
-
-		float duracionTransformada = 0;
-
-		if (cmbUnidadMedidaCurso.getValue().equals("HORAS")) {
-
-			duracionTransformada = duracion;
-			return duracionTransformada;
-
-		} else if (cmbUnidadMedidaCurso.getValue().equals("DIAS")) {
-
-			duracionTransformada = spnDuracionCurso.getValue() * 24;
-			return duracionTransformada;
-
-		} 
-
-		return duracion;
-
-	}
-
-	public float mostrarDuracion(Curso curso) {
-
-		float duracionTransformada = 0;
-
-		if (curso.getMedidaDuracion().equals("HORAS")) {
-
-			duracionTransformada = curso.getDuracion();
-			return duracionTransformada;
-
-		} else if (curso.getMedidaDuracion().equals("DIAS")) {
-
-			duracionTransformada = curso.getDuracion() / 24;
-			return duracionTransformada;
-		} 
-
-		return duracionTransformada;
-
 	}
 
 }

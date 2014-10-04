@@ -22,17 +22,14 @@ public class Clase implements Serializable {
 
 	// bi-directional many-to-one association to Curso
 	@ManyToOne
-	@JoinColumn(name = "id_curso")
-	private Curso curso;
+	@JoinColumn(name = "id_nombre_curso")
+	private NombreCurso curso;
 
 	@Column(name = "contenido")
 	private String contenido;
 
 	@Column(name = "objetivo")
 	private String objetivo;
-
-	@Column(name = "facilitador")
-	private String facilitador;
 
 	@Column(name = "entidad_didactica")
 	private String entidadDidactica;
@@ -42,7 +39,7 @@ public class Clase implements Serializable {
 
 	@Column(name = "duracion")
 	private float duracion;
-	
+
 	@Column(name = "medida_duracion")
 	private String medidaDuracion;
 
@@ -63,24 +60,22 @@ public class Clase implements Serializable {
 
 	@Column(name = "usuario")
 	private String usuario;
-	
-	
+
 	public Clase() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Clase(int id, Curso curso, String contenido, String objetivo,
-			String facilitador, String entidadDidactica, Timestamp fecha,
-			float duracion, String medidaDuracion, String lugar,
-			String tipoEntrenamiento, String modalidad,
-			Timestamp fechaAuditoria, String horaAuditoria, String usuario) {
+	public Clase(int id, NombreCurso curso, String contenido, String objetivo,
+			String entidadDidactica, Timestamp fecha, float duracion,
+			String medidaDuracion, String lugar, String tipoEntrenamiento,
+			String modalidad, Timestamp fechaAuditoria, String horaAuditoria,
+			String usuario) {
 		super();
 		this.id = id;
 		this.curso = curso;
 		this.contenido = contenido;
 		this.objetivo = objetivo;
-		this.facilitador = facilitador;
 		this.entidadDidactica = entidadDidactica;
 		this.fecha = fecha;
 		this.duracion = duracion;
@@ -101,11 +96,11 @@ public class Clase implements Serializable {
 		this.id = id;
 	}
 
-	public Curso getCurso() {
+	public NombreCurso getCurso() {
 		return curso;
 	}
 
-	public void setCurso(Curso curso) {
+	public void setCurso(NombreCurso curso) {
 		this.curso = curso;
 	}
 
@@ -123,14 +118,6 @@ public class Clase implements Serializable {
 
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
-	}
-
-	public String getFacilitador() {
-		return facilitador;
-	}
-
-	public void setFacilitador(String facilitador) {
-		this.facilitador = facilitador;
 	}
 
 	public String getEntidadDidactica() {
@@ -155,6 +142,14 @@ public class Clase implements Serializable {
 
 	public void setDuracion(float duracion) {
 		this.duracion = duracion;
+	}
+
+	public String getMedidaDuracion() {
+		return medidaDuracion;
+	}
+
+	public void setMedidaDuracion(String medidaDuracion) {
+		this.medidaDuracion = medidaDuracion;
 	}
 
 	public String getLugar() {
@@ -205,16 +200,5 @@ public class Clase implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public String getMedidaDuracion() {
-		return medidaDuracion;
-	}
-
-	public void setMedidaDuracion(String medidaDuracion) {
-		this.medidaDuracion = medidaDuracion;
-	}
 	
-	
-	
-	
-
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 import modelo.maestros.Curso;
 import modelo.maestros.Empleado;
+import modelo.maestros.NombreCurso;
+import modelo.maestros.Periodo;
 import modelo.seguridad.Grupo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +35,29 @@ public class SCurso {
 	/* Servicio que permite buscar un curso de acuerdo al nombre */
 	public Curso buscarPorNombre(String nombre) {
 		Curso curso;
-		curso = cursoDAO.findByNombre(nombre);
+		curso = cursoDAO.findByNombreCursoNombre(nombre);
 		return curso;
 	}
 
 	/* Servicio que permite buscar todos las cursos */
 	public List<Curso> buscarTodos() {
 		List<Curso> cursos;
-		cursos = cursoDAO.findByEstadoOrderByAreaAsc(estado[0]);
+		cursos = cursoDAO.findByEstadoOrderByNombreCursoAreaAsc(estado[0]);
 		return cursos;
+	}
+	
+	/* Servicio que permite buscar todos los cursos por periodo */
+	public List<Curso> buscarPorPeriodo(Periodo periodo) {
+		List<Curso> cursos;
+		cursos = cursoDAO.findByPeriodo(periodo);
+		return cursos;
+	}
+	
+	/* Servicio que permite buscar todos los cursos por periodo */
+	public Curso buscarPorCursoYPeriodo(NombreCurso curso, Periodo periodo) {
+		Curso cursoPeriodo;
+		cursoPeriodo = cursoDAO.findByNombreCursoAndPeriodo(curso, periodo);
+		return cursoPeriodo;
 	}
 
 	/* Servicio que permite eliminar una curso */
@@ -55,11 +71,11 @@ public class SCurso {
 	}
 
 	/*
-	 * Servicio que permite filtrar las cursoes de una lista de acuerdo a la
+	 * Servicio que permite filtrar las cursos de una lista de acuerdo a la
 	 * descripcion
 	 */
 	public List<Curso> filtroNombre(String valor) {
-		return cursoDAO.findByNombreStartingWithAllIgnoreCase(valor);
+		return cursoDAO.findByNombreCursoNombreStartingWithAllIgnoreCase(valor);
 	}
 
 	/*
@@ -78,17 +94,11 @@ public class SCurso {
 		return cursoDAO.findByEstadoStartingWithAllIgnoreCase(valor);
 	}
 
-	/*
-	 * Servicio que permite filtrar las cursoes de una lista de acuerdo al area
-	 */
-	public List<Curso> filtroArea(String valor) {
-		return cursoDAO.findByAreaDescripcionStartingWithAllIgnoreCase(valor);
-	}
-	
+		
 	/* Servicio que permite buscar un curso de acuerdo al nombre */
 	public List<Curso> buscarPorNombres(String nombre) {
 		List<Curso> cursos;
-		cursos = cursoDAO.findByNombreAllIgnoreCase(nombre);
+		cursos = cursoDAO.findByNombreCursoNombreAllIgnoreCase(nombre);
 		return cursos;
 	}
 

@@ -1,7 +1,9 @@
 package controlador.transacciones;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import modelo.maestros.Clase;
 import modelo.maestros.Curso;
 import modelo.maestros.Empleado;
 import modelo.maestros.EmpleadoCurso;
+import modelo.maestros.Periodo;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -46,23 +49,29 @@ public class CActividadCurso extends CGenerico {
 	@Wire
 	private Textbox txtCursoActividadCurso;
 	@Wire
-	private Datebox dbfecha;
+	private Textbox txtPeriodoActividadCurso;
+	@Wire
+	private Datebox dtbFecha;
 	@Wire
 	private Button btnBuscarCurso;
 	@Wire
 	private Listbox lsbActividad;
 	@Wire
 	private Div divCatalogoCurso;
+	@Wire
+	private Div divCatalogoPeriodo;
 	List<ActividadCurso> actividadesCurso = new ArrayList<ActividadCurso>();
 	private int idCurso = 0;
+	private int idPeriodo = 0;
 
 	Mensaje msj = new Mensaje();
 	Catalogo<Curso> catalogoCurso;
+	Catalogo<Periodo> catalogoPeriodo;
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
 		if (mapa != null) {
@@ -73,59 +82,76 @@ public class CActividadCurso extends CGenerico {
 			}
 		}
 
-		txtCursoActividadCurso.setFocus(true);
+		txtPeriodoActividadCurso.setFocus(true);
 
 	}
 
 	@Listen("onClick = #btnBuscarCurso")
 	public void mostrarCatalogoCurso() {
-		final List<Curso> listCurso = servicioCurso.buscarTodos();
-		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-				"Catalogo de Cursos", listCurso, true,false,false,"Área", "Nombre", "Duración") {
 
-			@Override
-			protected List<Curso> buscar(List<String> valores) {
-				List<Curso> lista = new ArrayList<Curso>();
+		if (idPeriodo != 0) {
+			
+			Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
 
-				for (Curso curso : listCurso) {
-					if (curso.getArea().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
-							&& curso.getNombre().toLowerCase()
-									.startsWith(valores.get(1))
+			final List<Curso> listCurso = servicioCurso.buscarPorPeriodo(periodo);
+			catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
+					"Catalogo de Cursos", listCurso, true, false, false,
+					"Área", "Nombre", "Duración") {
 
-							&& String.valueOf(curso.getDuracion())
-									.toLowerCase().startsWith(valores.get(2))) {
-						lista.add(curso);
+				@Override
+				protected List<Curso> buscar(List<String> valores) {
+					List<Curso> lista = new ArrayList<Curso>();
+
+					for (Curso curso : listCurso) {
+						if (curso.getNombreCurso().getArea().getDescripcion()
+								.toLowerCase().startsWith(valores.get(0))
+								&& curso.getNombreCurso().getNombre()
+										.toLowerCase()
+										.startsWith(valores.get(1))
+
+								&& String.valueOf(curso.getDuracion())
+										.toLowerCase()
+										.startsWith(valores.get(2))) {
+							lista.add(curso);
+						}
 					}
+					return lista;
+
 				}
-				return lista;
 
-			}
+				@Override
+				protected String[] crearRegistros(Curso curso) {
+					String[] registros = new String[3];
+					registros[0] = curso.getNombreCurso().getArea()
+							.getDescripcion();
+					registros[1] = curso.getNombreCurso().getNombre();
+					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
+							+ curso.getMedidaDuracion();
 
-			@Override
-			protected String[] crearRegistros(Curso curso) {
-				String[] registros = new String[3];
-				registros[0] = curso.getArea().getDescripcion();
-				registros[1] = curso.getNombre();
-				registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
-						+ curso.getMedidaDuracion();
+					return registros;
+				}
 
-				return registros;
-			}
+			};
 
-		};
+			catalogoCurso.setClosable(true);
+			catalogoCurso.setWidth("80%");
+			catalogoCurso.setParent(divCatalogoCurso);
+			catalogoCurso.doModal();
 
-		catalogoCurso.setClosable(true);
-		catalogoCurso.setWidth("80%");
-		catalogoCurso.setParent(divCatalogoCurso);
-		catalogoCurso.doModal();
+		} else {
+
+			Messagebox.show("Debe selecionar el periodo", "Advertencia",
+					Messagebox.OK, Messagebox.EXCLAMATION);
+
+		}
+
 	}
 
 	@Listen("onSeleccion = #divCatalogoCurso")
 	public void seleccionCurso() {
 		Curso curso = catalogoCurso.objetoSeleccionadoDelCatalogo();
 		idCurso = curso.getId();
-		txtCursoActividadCurso.setValue(curso.getNombre());
+		txtCursoActividadCurso.setValue(curso.getNombreCurso().getNombre());
 		catalogoCurso.setParent(null);
 		llenarLista();
 	}
@@ -145,12 +171,76 @@ public class CActividadCurso extends CGenerico {
 
 	}
 
+	@Listen("onClick = #btnBuscarPeriodo")
+	public void buscarPeriodo() {
+
+		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
+		catalogoPeriodo = new Catalogo<Periodo>(divCatalogoPeriodo,
+				"Catalogo de Periodos", listPeriodo, true, false, false,
+				"Nombre", "Descripción", "Fecha Inicio", "Fecha Fin", "Estado") {
+
+			@Override
+			protected List<Periodo> buscar(List<String> valores) {
+				List<Periodo> lista = new ArrayList<Periodo>();
+
+				for (Periodo periodo : listPeriodo) {
+					if (periodo.getNombre().toLowerCase()
+							.startsWith(valores.get(0))
+							&& periodo.getDescripcion().toLowerCase()
+									.startsWith(valores.get(1))
+							&& String
+									.valueOf(
+											formatoFecha.format(periodo
+													.getFechaInicio()))
+									.toLowerCase().startsWith(valores.get(2))
+							&& String
+									.valueOf(
+											formatoFecha.format(periodo
+													.getFechaFin()))
+									.toLowerCase().startsWith(valores.get(3))
+							&& periodo.getEstadoPeriodo().toLowerCase()
+									.startsWith(valores.get(4))) {
+						lista.add(periodo);
+					}
+				}
+				return lista;
+
+			}
+
+			@Override
+			protected String[] crearRegistros(Periodo periodo) {
+				String[] registros = new String[6];
+				registros[0] = periodo.getNombre();
+				registros[1] = periodo.getDescripcion();
+				registros[2] = formatoFecha.format(periodo.getFechaInicio());
+				registros[3] = formatoFecha.format(periodo.getFechaFin());
+				registros[4] = periodo.getEstadoPeriodo();
+
+				return registros;
+			}
+		};
+		catalogoPeriodo.setClosable(true);
+		catalogoPeriodo.setWidth("80%");
+		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.doModal();
+
+	}
+
+	@Listen("onSeleccion = #divCatalogoPeriodo")
+	public void seleccionPeriodo() {
+		Periodo periodo = catalogoPeriodo.objetoSeleccionadoDelCatalogo();
+		idPeriodo = periodo.getId();
+		txtPeriodoActividadCurso.setValue(periodo.getNombre());
+		catalogoPeriodo.setParent(null);
+	}
+
 	@Listen("onClick = #btnLimpiar")
 	public void limpiarCampos() {
 		idCurso = 0;
 		txtCursoActividadCurso.setValue("");
+		txtPeriodoActividadCurso.setValue("");
 		lsbActividad.setModel(new ListModelList<Actividad>());
-		txtCursoActividadCurso.setFocus(true);
+		txtPeriodoActividadCurso.setFocus(true);
 	}
 
 	public boolean camposLLenos() {
@@ -173,7 +263,7 @@ public class CActividadCurso extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVActividadCurso, "Check List de Actividades",tabs);
+		cerrarVentana(wdwVActividadCurso, "Check List de Actividades", tabs);
 	}
 
 	public void llenarLista() {
@@ -197,8 +287,13 @@ public class CActividadCurso extends CGenerico {
 						if (actividadesCurso.get(j).getValor()
 								.equals("REVISADO")) {
 
-							((Checkbox) ((listItem.getChildren().get(2)))
+							Date fecha = actividadesCurso.get(j).getFecha();
+
+							((Checkbox) ((listItem.getChildren().get(3)))
 									.getFirstChild()).setChecked(true);
+
+							((Datebox) ((listItem.getChildren().get(2)))
+									.getFirstChild()).setValue(fecha);
 
 						}
 
@@ -216,6 +311,7 @@ public class CActividadCurso extends CGenerico {
 	public void guardar() {
 
 		boolean guardar = true;
+		boolean error = false;
 		guardar = validar();
 		if (guardar) {
 
@@ -229,31 +325,85 @@ public class CActividadCurso extends CGenerico {
 
 						Listitem listItem = lsbActividad.getItemAtIndex(i);
 
-						int codigoActividad = ((Intbox) ((listItem.getChildren()
-								.get(0))).getFirstChild()).getValue();
+						int codigoActividad = ((Intbox) ((listItem
+								.getChildren().get(0))).getFirstChild())
+								.getValue();
 
 						String valor = null;
+						Timestamp fecha = null;
 
-						if (((Checkbox) ((listItem.getChildren().get(2)))
+						if (((Checkbox) ((listItem.getChildren().get(3)))
 								.getFirstChild()).isChecked()) {
 							valor = "REVISADO";
+
+							if (((Datebox) ((listItem.getChildren().get(2)))
+									.getFirstChild()).getValue() != null) {
+
+								fecha = new java.sql.Timestamp(
+										((Datebox) ((listItem.getChildren()
+												.get(2))).getFirstChild())
+												.getValue().getTime());
+							} else {
+
+								error = true;
+							}
 
 						} else {
 
 							valor = "SIN REVISAR";
 						}
 
-						Actividad actividad = servicioActividad.buscarActividad(codigoActividad);
-						ActividadCurso actividadCurso = new ActividadCurso(actividad, curso, valor);
-						servicioActividadCurso.guardar(actividadCurso);
 					}
 
-					msj.mensajeInformacion(Mensaje.guardado);
-					limpiarCampos();
+					if (error) {
+
+						msj.mensajeAlerta(Mensaje.noSeleccionoFecha);
+
+					} else {
+
+						for (int i = 0; i < lsbActividad.getItemCount(); i++) {
+
+							Listitem listItem = lsbActividad.getItemAtIndex(i);
+
+							int codigoActividad = ((Intbox) ((listItem
+									.getChildren().get(0))).getFirstChild())
+									.getValue();
+
+							String valor = null;
+							Timestamp fecha = null;
+
+							if (((Checkbox) ((listItem.getChildren().get(3)))
+									.getFirstChild()).isChecked()) {
+								valor = "REVISADO";
+
+								fecha = new java.sql.Timestamp(
+										((Datebox) ((listItem.getChildren()
+												.get(2))).getFirstChild())
+												.getValue().getTime());
+								System.out.println(fecha);
+
+							} else {
+
+								valor = "SIN REVISAR";
+							}
+
+							Actividad actividad = servicioActividad
+									.buscarActividad(codigoActividad);
+							ActividadCurso actividadCurso = new ActividadCurso(
+									actividad, curso, valor, fecha);
+							servicioActividadCurso.guardar(actividadCurso);
+
+						}
+
+						msj.mensajeInformacion(Mensaje.guardado);
+						limpiarCampos();
+
+					}
+
 				} else {
 
 					Messagebox
-							.show("Actualmente no existen empleados asignados en el curso seleccionado",
+							.show("Actualmente no se encuentran registradas actividades",
 									"Advertencia", Messagebox.OK,
 									Messagebox.EXCLAMATION);
 

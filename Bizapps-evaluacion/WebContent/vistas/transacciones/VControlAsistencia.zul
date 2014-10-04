@@ -1,113 +1,124 @@
 <zk>
 	<style src="/public/Estilo.css" />
 
-<window id="wdwVControlAsistencia" border="normal" height="auto"
-	apply="controlador.transacciones.CControlAsistencia"
-	style="background-color:#8A0808;">
+	<window id="wdwVControlAsistencia" border="normal" height="auto"
+		apply="controlador.transacciones.CControlAsistencia"
+		style="background-color:#8A0808;">
 
-	<groupbox width="auto" mold="3d" title="Control de Aistencia">
-		<separator />
-		<panel border="normal" width="100%">
-			<panelchildren>
-				<separator />
-				<div align="left">
-					<button id="btnGuardar" tooltiptext="Guardar" class="btn"
-						style="margin-left:5px" label="Guardar"
-						image="/public/imagenes/botones/guardar.png">
-					</button>
-					<button id="btnLimpiar" label="Limpiar" class="btn"
-						tooltiptext="Limpiar"
-						image="/public/imagenes/botones/limpiar.png">
-					</button>
-					<button id="btnSalir" label="Salir" class="btn"
-						 tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
-					</button>
+		<groupbox width="auto" mold="3d" title="Control de Asistencia">
+			<separator />
+			<panel border="normal" width="100%">
+				<panelchildren>
 					<separator />
-				</div>
-			</panelchildren>
-		</panel>
-		<separator />
-		<separator />
-		<groupbox>
+					<div align="left">
+						<button id="btnGuardar" tooltiptext="Guardar"
+							class="btn" style="margin-left:5px" label="Guardar"
+							image="/public/imagenes/botones/guardar.png">
+						</button>
+						<button id="btnLimpiar" label="Limpiar"
+							class="btn" tooltiptext="Limpiar"
+							image="/public/imagenes/botones/limpiar.png">
+						</button>
+						<button id="btnSalir" label="Salir" class="btn"
+							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
+						</button>
+						<separator />
+					</div>
+				</panelchildren>
+			</panel>
 			<separator />
 			<separator />
-			<div align="right">
-				<label value="Fecha:" class="etiqueta"
-					style="margin-right:10px">
-				</label>
-				<datebox id="dbfecha" width="130px"
-					style="margin-right:30px;color:black !important;" disabled="true"
-					format="short" onCreate="self.value = new Date()">
-				</datebox>
-			</div>
-			<separator />
-			<grid width="100%" style="border:0px">
-				<columns visible="false">
-					<column label="" width="15%" />
-					<column label="" width="45%" />
-					<column label="" width="40%" />
-				</columns>
-				<rows>
-					<row>
-						<hbox>
-							<label class="etiqueta" value="Curso:" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-						<textbox id="txtCursoControlAsistencia"
-							tabindex="1" width="100%" maxlength="100"
-							tooltiptext="Ingrese aqui el nombre del curso" />
-						<button id="btnBuscarCurso" label="Buscar" class="btn"
-							tooltiptext="Catalogo de cursos"
-							image="/public/imagenes/botones/buscar.png" />
-					</row>
-				</rows>
-			</grid>
-			<separator />
-			<separator />
+			<groupbox>
+				<separator />
+				<separator />
+				<grid width="100%" style="border:0px">
+					<columns visible="false">
+						<column label="" width="15%" />
+						<column label="" width="45%" />
+						<column label="" width="40%" />
+					</columns>
+					<rows>
+						<row>
+							<hbox>
+								<label class="etiqueta"
+									value="Periodo:" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+							<textbox id="txtPeriodoControlAsistencia"
+								tabindex="1" width="100%" maxlength="100"
+								tooltiptext="Ingrese aqui el nombre del periodo" />
+							<button id="btnBuscarPeriodo" label="Buscar"
+								style="margin-left:10px" class="btn"
+								tooltiptext="Catalogo de periodos"
+								image="/public/imagenes/botones/buscar.png" />
+						</row>
+						<row>
+							<hbox>
+								<label class="etiqueta" value="Curso:" />
+								<space />
+								<label value="*"
+									style="font-weight:bold;color:red">
+								</label>
+							</hbox>
+							<textbox id="txtCursoControlAsistencia"
+								tabindex="1" width="100%" maxlength="100"
+								tooltiptext="Ingrese aqui el nombre del curso" />
+							<button id="btnBuscarCurso" label="Buscar"
+								style="margin-left:10px" class="btn"
+								tooltiptext="Catalogo de cursos"
+								image="/public/imagenes/botones/buscar.png" />
+						</row>
+					</rows>
+				</grid>
+				<separator />
+				<separator />
 
-			<listbox id="lsbEmpleado" width="100%" mold="paging"
-				pageSize="10" oddRowSclass="non-odd"
-				emptyMessage="No ha seleccionado el curso">
-				<listhead>
-					<listheader label="Código Empleado" width="15%"
-						visible="false" />
-					<listheader label="Ficha" width="10%" />
-					<listheader label="Nombre" />
-					<listheader label="Cargo" />
-					<listheader label="Gerencia" />
-					<listheader label="Asistencia" width="10%" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell>
+				<listbox id="lsbEmpleado" width="100%" mold="paging"
+					pageSize="10" oddRowSclass="non-odd"
+					emptyMessage="No ha seleccionado el curso">
+					<listhead>
+						<listheader label="Código Empleado" width="15%"
+							visible="false" />
+						<listheader label="Ficha" width="10%" />
+						<listheader label="Nombre" />
+						<listheader label="Cargo" />
+						<listheader label="Gerencia" />
+						<listheader label="Asistencia" width="10%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
 
-							<intbox value="${each.id}" width="auto"
-								style="border:none" readonly="true" />
+								<intbox value="${each.id}" width="auto"
+									style="border:none" readonly="true" />
 
-						</listcell>
-						<listcell label="${each.ficha}"></listcell>
-						<listcell label="${each.nombre}"></listcell>
-						<listcell label="${each.cargo.descripcion}"></listcell>
-						<listcell
-							label="${each.unidadOrganizativa.gerencia.descripcion}">
-						</listcell>
-						<listcell>
-							<checkbox />
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
+							</listcell>
+							<listcell label="${each.ficha}"></listcell>
+							<listcell label="${each.nombre}"></listcell>
+							<listcell
+								label="${each.cargo.descripcion}">
+							</listcell>
+							<listcell
+								label="${each.unidadOrganizativa.gerencia.descripcion}">
+							</listcell>
+							<listcell>
+								<checkbox />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<separator />
+			</groupbox>
 			<separator />
 			<separator />
 		</groupbox>
-		<separator />
-		<separator />
-	</groupbox>
-	<div id="divCatalogoCurso"
-		tooltiptext="Click para Seleccionar un curso" />
-</window>
+		<div id="divCatalogoCurso"
+			tooltiptext="Click para Seleccionar un curso" />
+		<div id="divCatalogoPeriodo"
+			tooltiptext="Click para Seleccionar un periodo" />
+	</window>
 </zk>

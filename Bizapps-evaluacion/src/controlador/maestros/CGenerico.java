@@ -49,6 +49,7 @@ import servicio.maestros.SEmpresa;
 import servicio.maestros.SGerencia;
 import servicio.maestros.SItemEvaluacion;
 import servicio.maestros.SMedicion;
+import servicio.maestros.SNombreCurso;
 import servicio.maestros.SParametro;
 import servicio.maestros.SPerfilCargo;
 import servicio.maestros.SPeriodo;
@@ -171,6 +172,8 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 	protected SEvaluacionCapacitacion servicioEvaluacionCapacitacion;
 	@WireVariable("SConfiguracionGeneral")
 	protected SConfiguracionGeneral servicioConfiguracionGeneral;
+	@WireVariable("SNombreCurso")
+	protected SNombreCurso servicioNombreCurso;
 
 	protected SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 	public Mensaje msj = new Mensaje();

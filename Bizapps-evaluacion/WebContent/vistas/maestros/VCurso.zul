@@ -2,7 +2,7 @@
 	<style src="/public/Estilo.css" />
 
 <window id="wdwVCurso" border="normal" height="auto"
-	apply="controlador.maestros.CCurso"
+	apply="controlador.maestros.CNombreCurso"
 	style="background-color:#8A0808;" width="80%">
 
 	<groupbox width="auto" mold="3d" title="Curso">
@@ -47,53 +47,12 @@
 							</label>
 						</hbox>
 
-						<textbox id="txtNombreCurso" width="100%"
+						<textbox id="txtNombreCurso" width="100%" rows="3" cols="100"
 							maxlength="100" tabindex="2"
 							tooltiptext="Ingrese aqui el nombre del curso" />
 							
 							<hbox/>
 							<hbox/>
-					</row>
-					<row>
-						<hbox>
-							<label value="Duración:" class="etiqueta" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-
-						<spinner id="spnDuracionCurso"
-							constraint="no negative" width="100%" maxlength="100"
-							tabindex="3" tooltiptext="Ingrese aqui las horas del curso" />
-						<combobox id="cmbUnidadMedidaCurso"
-							readonly="true"
-							tooltiptext="Seleccione la unidad de medida de la duracion"
-							width="60%" tabindex="9">
-							<comboitem label="DIAS" />
-							<comboitem label="HORAS" />
-						</combobox>
-						<hbox/>
-					</row>
-
-					<row>
-						<hbox>
-							<label value="Estado:" class="etiqueta" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-
-						<combobox id="cmbEstadoCurso" readonly="true"
-							tooltiptext="Seleccione el estado del curso" width="100%"
-							tabindex="4">
-							<comboitem label="ACTIVO" />
-							<comboitem label="INACTIVO" />
-						</combobox>
-						
-						<hbox/>
-						<hbox/>
 					</row>
 				</rows>
 			</grid>

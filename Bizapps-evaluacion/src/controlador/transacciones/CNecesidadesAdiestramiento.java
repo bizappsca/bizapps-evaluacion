@@ -41,8 +41,6 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	@Wire
 	private Button btnSalir;
 	@Wire
-	private Datebox dbfecha;
-	@Wire
 	private Textbox txtPeriodoNecesidadesAdiestramiento;
 	@Wire
 	private Textbox txtHorasAcumuladas;
@@ -80,8 +78,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
-		
+
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
 		if (mapa != null) {
@@ -100,8 +97,8 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	public void mostrarCatalogoPeriodo() {
 		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
 		catalogoPeriodo = new Catalogo<Periodo>(divCatalogoPeriodo,
-				"Catalogo de Periodos", listPeriodo, true,false,false,"Nombre", "Descripción",
-				"Fecha Inicio", "Fecha Fin", "Estado") {
+				"Catalogo de Periodos", listPeriodo, true, false, false,
+				"Nombre", "Descripción", "Fecha Inicio", "Fecha Fin", "Estado") {
 
 			@Override
 			protected List<Periodo> buscar(List<String> valores) {
@@ -157,6 +154,9 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 		idPeriodo = periodo.getId();
 		txtPeriodoNecesidadesAdiestramiento.setValue(periodo.getNombre());
 		catalogoPeriodo.setParent(null);
+
+		if (idEmpleado != 0)
+			llenarLista();
 	}
 
 	@Listen("onChange = #txtPeriodoNecesidadesAdiestramiento")
@@ -178,9 +178,9 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	public void mostrarCatalogoEmpleado() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoEmpleado = new Catalogo<Empleado>(divCatalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado,true,false,false, "Empresa", "Cargo",
-				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
-				"Grado Auxiliar") {
+				"Catalogo de Empleados", listEmpleado, true, false, false,
+				"Empresa", "Cargo", "Unidad Organizativa", "Nombre", "Ficha",
+				"Ficha Supervisor", "Grado Auxiliar") {
 
 			@Override
 			protected List<Empleado> buscar(List<String> valores) {
@@ -252,6 +252,10 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 		lsbPerfilCargo.setModel(new ListModelList<PerfilCargo>());
 		lsbCursosDisponibles.setModel(new ListModelList<Curso>());
 		lsbCursosRealizados.setModel(new ListModelList<Curso>());
+		lsbCursosDisponibles
+				.setEmptyMessage("No se ha seleccionado un empleado");
+		lsbCursosRealizados
+				.setEmptyMessage("No se ha seleccionado un empleado");
 		txtPeriodoNecesidadesAdiestramiento.setFocus(true);
 	}
 
@@ -274,12 +278,14 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-		
-		cerrarVentana(wdwVNecesidadesAdiestramiento, "Deteccion de Necesidades de Adiestramiento",tabs);
+
+		cerrarVentana(wdwVNecesidadesAdiestramiento,
+				"Deteccion de Necesidades de Adiestramiento", tabs);
 
 	}
 
 	public void llenarLista() {
+
 		empleadoDatos = new ArrayList<Empleado>();
 		empleadoFormacion = new ArrayList<Empleado>();
 		perfilCargo = new ArrayList<PerfilCargo>();
@@ -307,11 +313,6 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 
 		if (cursosEmpleado.size() != 0) {
 
-			if (cursosEmpleado.get(0).getPeriodo() != null)
-				txtPeriodoNecesidadesAdiestramiento.setValue(cursosEmpleado
-						.get(0).getPeriodo().getNombre());
-			idPeriodo = cursosEmpleado.get(0).getPeriodo().getId();
-
 			for (int i = 0; i < cursosEmpleado.size(); i++) {
 
 				if (cursosEmpleado.get(i).getEstadoCurso().equals("APROBADO")) {
@@ -323,6 +324,10 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 				}
 
 			}
+			
+			if (idPeriodo == 0)
+				lsbCursosDisponibles
+						.setEmptyMessage("No se ha seleccionado un periodo");
 
 			txtHorasAcumuladas.setValue(String.valueOf(horasAcumuladas));
 			lsbCursosRealizados.setModel(new ListModelList<Curso>(
@@ -330,14 +335,42 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 
 		} else {
 
-			lsbCursosDisponibles.setModel(new ListModelList<Curso>(cursos));
-			lsbCursosDisponibles.setMultiple(false);
-			lsbCursosDisponibles.setCheckmark(false);
-			lsbCursosDisponibles.setMultiple(true);
-			lsbCursosDisponibles.setCheckmark(true);
+			lsbCursosRealizados
+					.setEmptyMessage("El empleado no posee cursos realizados");
+
+			if (idPeriodo == 0)
+				lsbCursosDisponibles
+						.setEmptyMessage("No se ha seleccionado un periodo");
+			else {
+
+				Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
+
+				for (int i = 0; i < cursos.size(); i++) {
+
+					if (cursos.get(i).getPeriodo().getId() != periodo.getId()) {
+
+						cursos.remove(i);
+
+					}
+
+				}
+
+				System.out.println(cursos.size());
+
+				lsbCursosDisponibles.setModel(new ListModelList<Curso>(cursos));
+				lsbCursosDisponibles.renderAll();
+				lsbCursosDisponibles.setMultiple(false);
+				lsbCursosDisponibles.setCheckmark(false);
+				lsbCursosDisponibles.setMultiple(true);
+				lsbCursosDisponibles.setCheckmark(true);
+
+			}
+
 		}
 
 		if (cursosEmpleado.size() != 0 && cursos.size() != 0) {
+
+			System.out.println("Entre");
 
 			for (int i = 0; i < cursos.size(); i++) {
 
@@ -356,27 +389,51 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 
 			}
 
-			lsbCursosDisponibles.setModel(new ListModelList<Curso>(cursos));
-			lsbCursosDisponibles.renderAll();
-			lsbCursosDisponibles.setMultiple(false);
-			lsbCursosDisponibles.setCheckmark(false);
-			lsbCursosDisponibles.setMultiple(true);
-			lsbCursosDisponibles.setCheckmark(true);
+			if (idEmpleado != 0 && idPeriodo != 0) {
 
-			for (int i = 0; i < lsbCursosDisponibles.getItems().size(); i++) {
+				Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
 
-				Listitem listItem = lsbCursosDisponibles.getItemAtIndex(i);
-				Curso curso = listItem.getValue();
-				EmpleadoCurso cursosSeleccionados = servicioEmpleadoCurso
-						.buscarPorempleadoYCurso(empleado, curso);
-				if (cursosSeleccionados != null) {
+				for (int i = 0; i < cursos.size(); i++) {
 
-					if (cursosSeleccionados.getEstadoCurso().equals(
-							"EN TRAMITE")) {
+					if (cursos.get(i).getPeriodo().getId() != periodo.getId()) {
 
-						listItem.setSelected(true);
+						cursos.remove(i);
 
 					}
+
+				}
+
+				lsbCursosDisponibles.setModel(new ListModelList<Curso>(cursos));
+				lsbCursosDisponibles.renderAll();
+				lsbCursosDisponibles.setMultiple(false);
+				lsbCursosDisponibles.setCheckmark(false);
+				lsbCursosDisponibles.setMultiple(true);
+				lsbCursosDisponibles.setCheckmark(true);
+
+				for (int i = 0; i < lsbCursosDisponibles.getItems().size(); i++) {
+
+					Listitem listItem = lsbCursosDisponibles.getItemAtIndex(i);
+					Curso curso = listItem.getValue();
+					EmpleadoCurso cursosSeleccionados = servicioEmpleadoCurso
+							.buscarPorempleadoYCurso(empleado, curso);
+					if (cursosSeleccionados != null) {
+
+						if (cursosSeleccionados.getEstadoCurso().equals(
+								"EN TRAMITE")) {
+
+							listItem.setSelected(true);
+
+						}
+
+					}
+
+				}
+			} else {
+
+				if (idPeriodo != 0) {
+
+					lsbCursosDisponibles
+							.setEmptyMessage("No se ha seleccionado un periodo");
 
 				}
 
@@ -440,8 +497,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 									String estadoCurso = "EN TRAMITE";
 
 									EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
-											curso, empleado, periodo,
-											estadoCurso);
+											curso, empleado, estadoCurso);
 									servicioEmpleadoCurso
 											.guardar(cursosEmpleado);
 

@@ -81,7 +81,7 @@ public class CEmpleadoClase extends CGenerico {
 		final List<Clase> listClase = servicioClase.buscarTodas();
 		catalogoClase = new Catalogo<Clase>(divCatalogoClase,
 				"Catalogo de Clases", listClase,true,false,false, "Curso", "Contenido",
-				"Objetivo", "Facilitador", "Entidad Didáctica", "Fecha",
+				"Objetivo", "Entidad Didáctica", "Fecha",
 				"Duración", "Lugar", "Tipo de Entrenamiento", "Modalidad") {
 
 			@Override
@@ -95,23 +95,21 @@ public class CEmpleadoClase extends CGenerico {
 									.startsWith(valores.get(1))
 							&& clase.getObjetivo().toLowerCase()
 									.startsWith(valores.get(2))
-							&& clase.getFacilitador().toLowerCase()
-									.startsWith(valores.get(3))
 							&& clase.getEntidadDidactica().toLowerCase()
-									.startsWith(valores.get(4))
+									.startsWith(valores.get(3))
 							&& String
 									.valueOf(
 											formatoFecha.format(clase
 													.getFecha())).toLowerCase()
-									.startsWith(valores.get(5))
+									.startsWith(valores.get(4))
 							&& String.valueOf(clase.getDuracion())
-									.toLowerCase().startsWith(valores.get(6))
+									.toLowerCase().startsWith(valores.get(5))
 							&& clase.getLugar().toLowerCase()
-									.startsWith(valores.get(7))
+									.startsWith(valores.get(6))
 							&& clase.getTipoEntrenamiento().toLowerCase()
-									.startsWith(valores.get(8))
+									.startsWith(valores.get(7))
 							&& clase.getModalidad().toLowerCase()
-									.startsWith(valores.get(10))) {
+									.startsWith(valores.get(8))) {
 						lista.add(clase);
 					}
 				}
@@ -121,18 +119,17 @@ public class CEmpleadoClase extends CGenerico {
 
 			@Override
 			protected String[] crearRegistros(Clase clase) {
-				String[] registros = new String[10];
+				String[] registros = new String[9];
 				registros[0] = clase.getCurso().getNombre();
 				registros[1] = clase.getContenido();
 				registros[2] = clase.getObjetivo();
-				registros[3] = clase.getFacilitador();
-				registros[4] = clase.getEntidadDidactica();
-				registros[5] = String.valueOf(formatoFecha.format(clase
+				registros[3] = clase.getEntidadDidactica();
+				registros[4] = String.valueOf(formatoFecha.format(clase
 						.getFecha()));
-				registros[6] = String.valueOf(clase.getDuracion());
-				registros[7] = clase.getLugar();
-				registros[8] = clase.getTipoEntrenamiento();
-				registros[9] = clase.getModalidad();
+				registros[5] = String.valueOf(clase.getDuracion());
+				registros[6] = clase.getLugar();
+				registros[7] = clase.getTipoEntrenamiento();
+				registros[8] = clase.getModalidad();
 
 				return registros;
 			}

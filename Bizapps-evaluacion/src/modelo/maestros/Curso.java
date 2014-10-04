@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * The persistent class for the actividad database table.
+ * The persistent class for the curso database table.
  * 
  */
 @Entity
@@ -20,19 +20,28 @@ public class Curso implements Serializable {
 	@Column(name = "id_curso")
 	private int id;
 
-	// bi-directional many-to-one association to Area
 	@ManyToOne
-	@JoinColumn(name = "id_area")
-	private Area area;
+	@JoinColumn(name = "id_periodo")
+	private Periodo periodo;
 
-	@Column(name = "nombre")
-	private String nombre;
+	@ManyToOne
+	@JoinColumn(name = "id_nombre_curso")
+	private NombreCurso nombreCurso;
+
+	@Column(name = "fecha_inicio")
+	private Timestamp fechaInicio;
+
+	@Column(name = "fecha_fin")
+	private Timestamp fechaFin;
 
 	@Column(name = "duracion")
 	private float duracion;
-	
+
 	@Column(name = "medida_duracion")
 	private String medidaDuracion;
+	
+	@Column(name = "facilitador")
+	private String facilitador;
 
 	@Column(name = "estado")
 	private String estado;
@@ -45,32 +54,30 @@ public class Curso implements Serializable {
 
 	@Column(name = "usuario")
 	private String usuario;
-	
-	// bi-directional many-to-one association to Curso
-		@OneToMany(mappedBy = "curso")
-		private List<Clase> clases;
 
 	public Curso() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public Curso(int id, Area area, String nombre, float duracion,
-			String medidaDuracion, String estado, Timestamp fechaAuditoria,
-			String horaAuditoria, String usuario) {
+	public Curso(int id, Periodo periodo, NombreCurso nombreCurso,
+			Timestamp fechaInicio, Timestamp fechaFin, float duracion,
+			String medidaDuracion, String facilitador, String estado,
+			Timestamp fechaAuditoria, String horaAuditoria, String usuario) {
 		super();
 		this.id = id;
-		this.area = area;
-		this.nombre = nombre;
+		this.periodo = periodo;
+		this.nombreCurso = nombreCurso;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
 		this.duracion = duracion;
 		this.medidaDuracion = medidaDuracion;
+		this.facilitador = facilitador;
 		this.estado = estado;
 		this.fechaAuditoria = fechaAuditoria;
 		this.horaAuditoria = horaAuditoria;
 		this.usuario = usuario;
 	}
-
 
 	public int getId() {
 		return id;
@@ -80,28 +87,36 @@ public class Curso implements Serializable {
 		this.id = id;
 	}
 
-	public Area getArea() {
-		return area;
+	public Periodo getPeriodo() {
+		return periodo;
 	}
 
-	public void setArea(Area area) {
-		this.area = area;
+	public void setPeriodo(Periodo periodo) {
+		this.periodo = periodo;
 	}
 
-	public List<Clase> getClases() {
-		return clases;
+	public NombreCurso getNombreCurso() {
+		return nombreCurso;
 	}
 
-	public void setClases(List<Clase> clases) {
-		this.clases = clases;
+	public void setNombreCurso(NombreCurso nombreCurso) {
+		this.nombreCurso = nombreCurso;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public Timestamp getFechaInicio() {
+		return fechaInicio;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setFechaInicio(Timestamp fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Timestamp getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Timestamp fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public float getDuracion() {
@@ -110,6 +125,22 @@ public class Curso implements Serializable {
 
 	public void setDuracion(float duracion) {
 		this.duracion = duracion;
+	}
+
+	public String getMedidaDuracion() {
+		return medidaDuracion;
+	}
+
+	public void setMedidaDuracion(String medidaDuracion) {
+		this.medidaDuracion = medidaDuracion;
+	}
+
+	public String getFacilitador() {
+		return facilitador;
+	}
+
+	public void setFacilitador(String facilitador) {
+		this.facilitador = facilitador;
 	}
 
 	public String getEstado() {
@@ -144,17 +175,4 @@ public class Curso implements Serializable {
 		this.usuario = usuario;
 	}
 
-
-	public String getMedidaDuracion() {
-		return medidaDuracion;
-	}
-
-
-	public void setMedidaDuracion(String medidaDuracion) {
-		this.medidaDuracion = medidaDuracion;
-	}
-	
-	
-	
-	
 }

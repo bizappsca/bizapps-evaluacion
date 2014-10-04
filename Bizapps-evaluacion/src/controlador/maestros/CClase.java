@@ -13,6 +13,7 @@ import modelo.maestros.Cargo;
 import modelo.maestros.Clase;
 import modelo.maestros.Curso;
 import modelo.maestros.Empleado;
+import modelo.maestros.NombreCurso;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -51,8 +52,6 @@ public class CClase extends CGenerico {
 	@Wire
 	private Textbox txtObjetivoClase;
 	@Wire
-	private Textbox txtFacilitadorClase;
-	@Wire
 	private Textbox txtEntidadDidacticaClase;
 	@Wire
 	private Datebox dtbFechaClase;
@@ -80,7 +79,7 @@ public class CClase extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Clase> catalogo;
-	Catalogo<Curso> catalogoCurso;
+	Catalogo<NombreCurso> catalogoCurso;
 
 	@Override
 	public void inicializar() throws IOException {
@@ -112,7 +111,6 @@ public class CClase extends CGenerico {
 						txtCursoClase.setValue(clase.getCurso().getNombre());
 						txtContenidoClase.setValue(clase.getContenido());
 						txtObjetivoClase.setValue(clase.getObjetivo());
-						txtFacilitadorClase.setValue(clase.getFacilitador());
 						txtEntidadDidacticaClase.setValue(clase
 								.getEntidadDidactica());
 						dtbFechaClase.setValue(clase.getFecha());
@@ -138,13 +136,12 @@ public class CClase extends CGenerico {
 				guardar = validar();
 				if (guardar) {
 
-					Curso curso = servicioCurso.buscarCurso(idCurso);
+					NombreCurso curso = servicioNombreCurso.buscarCurso(idCurso);
 
 					if (curso != null) {
 
 						String contenido = txtContenidoClase.getValue();
 						String objetivo = txtObjetivoClase.getValue();
-						String facilitador = txtFacilitadorClase.getValue();
 						String entidadDidactica = txtEntidadDidacticaClase
 								.getValue();
 						Timestamp fecha = new java.sql.Timestamp(dtbFechaClase
@@ -160,10 +157,11 @@ public class CClase extends CGenerico {
 						Timestamp fechaAuditoria = new Timestamp(
 								new Date().getTime());
 						Clase clase = new Clase(idClase, curso, contenido,
-								objetivo, facilitador, entidadDidactica, fecha,
-								duracion, medidaDuracion, lugar,
-								tipoEntrenamiento, modalidad, fechaAuditoria,
-								horaAuditoria, usuario);
+								objetivo, entidadDidactica, fecha, duracion,
+								medidaDuracion, lugar, tipoEntrenamiento,
+								modalidad, fechaAuditoria, horaAuditoria,
+								usuario);
+						
 						servicioClase.guardar(clase);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
@@ -190,7 +188,7 @@ public class CClase extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVClase, "Clase",tabs);
+				cerrarVentana(wdwVClase, "Clase", tabs);
 			}
 
 			@Override
@@ -263,7 +261,6 @@ public class CClase extends CGenerico {
 		txtCursoClase.setValue("");
 		txtContenidoClase.setValue("");
 		txtObjetivoClase.setValue("");
-		txtFacilitadorClase.setValue("");
 		txtEntidadDidacticaClase.setValue("");
 		dtbFechaClase.setValue(null);
 		spnDuracionClase.setValue(null);
@@ -279,7 +276,6 @@ public class CClase extends CGenerico {
 		if (txtCursoClase.getText().compareTo("") != 0
 				|| txtContenidoClase.getText().compareTo("") != 0
 				|| txtObjetivoClase.getText().compareTo("") != 0
-				|| txtFacilitadorClase.getText().compareTo("") != 0
 				|| txtEntidadDidacticaClase.getText().compareTo("") != 0
 				|| dtbFechaClase.getText().compareTo("") != 0
 				|| spnDuracionClase.getText().compareTo("") != 0
@@ -374,8 +370,8 @@ public class CClase extends CGenerico {
 
 		final List<Clase> listClase = servicioClase.buscarTodas();
 		catalogo = new Catalogo<Clase>(catalogoClase, "Catalogo de Clases",
-				listClase,false,false,false, "Curso", "Contenido", "Objetivo", "Facilitador",
-				"Entidad Didáctica", "Fecha", "Duración", "Lugar",
+				listClase, false, false, false, "Curso", "Contenido",
+				"Objetivo", "Entidad Didáctica", "Fecha", "Duración", "Lugar",
 				"Tipo de Entrenamiento", "Modalidad") {
 
 			@Override
@@ -389,23 +385,21 @@ public class CClase extends CGenerico {
 									.startsWith(valores.get(1))
 							&& clase.getObjetivo().toLowerCase()
 									.startsWith(valores.get(2))
-							&& clase.getFacilitador().toLowerCase()
-									.startsWith(valores.get(3))
 							&& clase.getEntidadDidactica().toLowerCase()
-									.startsWith(valores.get(4))
+									.startsWith(valores.get(3))
 							&& String
 									.valueOf(
 											formatoFecha.format(clase
 													.getFecha())).toLowerCase()
-									.startsWith(valores.get(5))
+									.startsWith(valores.get(4))
 							&& String.valueOf(clase.getDuracion())
-									.toLowerCase().startsWith(valores.get(6))
+									.toLowerCase().startsWith(valores.get(5))
 							&& clase.getLugar().toLowerCase()
-									.startsWith(valores.get(7))
+									.startsWith(valores.get(6))
 							&& clase.getTipoEntrenamiento().toLowerCase()
-									.startsWith(valores.get(8))
+									.startsWith(valores.get(7))
 							&& clase.getModalidad().toLowerCase()
-									.startsWith(valores.get(10))) {
+									.startsWith(valores.get(8))) {
 						lista.add(clase);
 					}
 				}
@@ -415,19 +409,18 @@ public class CClase extends CGenerico {
 
 			@Override
 			protected String[] crearRegistros(Clase clase) {
-				String[] registros = new String[10];
+				String[] registros = new String[9];
 				registros[0] = clase.getCurso().getNombre();
 				registros[1] = clase.getContenido();
 				registros[2] = clase.getObjetivo();
-				registros[3] = clase.getFacilitador();
-				registros[4] = clase.getEntidadDidactica();
-				registros[5] = String.valueOf(formatoFecha.format(clase
+				registros[3] = clase.getEntidadDidactica();
+				registros[4] = String.valueOf(formatoFecha.format(clase
 						.getFecha()));
-				registros[6] = String.valueOf(mostrarDuracion(clase)) + " "
+				registros[5] = String.valueOf(mostrarDuracion(clase)) + " "
 						+ clase.getMedidaDuracion();
-				registros[7] = clase.getLugar();
-				registros[8] = clase.getTipoEntrenamiento();
-				registros[9] = clase.getModalidad();
+				registros[6] = clase.getLugar();
+				registros[7] = clase.getTipoEntrenamiento();
+				registros[8] = clase.getModalidad();
 
 				return registros;
 			}
@@ -439,22 +432,20 @@ public class CClase extends CGenerico {
 
 	@Listen("onClick = #btnBuscarCurso")
 	public void mostrarCatalogoCargo() {
-		final List<Curso> listCurso = servicioCurso.buscarTodos();
-		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-				"Catalogo de Cursos", listCurso, true,false,false,"Área", "Nombre", "Duración") {
+		final List<NombreCurso> listCurso = servicioNombreCurso.buscarTodos();
+		catalogoCurso = new Catalogo<NombreCurso>(divCatalogoCurso,
+				"Catalogo de Cursos", listCurso, true, false, false, "Área",
+				"Nombre") {
 
 			@Override
-			protected List<Curso> buscar(List<String> valores) {
-				List<Curso> lista = new ArrayList<Curso>();
+			protected List<NombreCurso> buscar(List<String> valores) {
+				List<NombreCurso> lista = new ArrayList<NombreCurso>();
 
-				for (Curso curso : listCurso) {
+				for (NombreCurso curso : listCurso) {
 					if (curso.getArea().getDescripcion().toLowerCase()
 							.startsWith(valores.get(0))
 							&& curso.getNombre().toLowerCase()
-									.startsWith(valores.get(1))
-
-							&& String.valueOf(curso.getDuracion())
-									.toLowerCase().startsWith(valores.get(2))) {
+									.startsWith(valores.get(1))) {
 						lista.add(curso);
 					}
 				}
@@ -463,11 +454,10 @@ public class CClase extends CGenerico {
 			}
 
 			@Override
-			protected String[] crearRegistros(Curso curso) {
-				String[] registros = new String[3];
+			protected String[] crearRegistros(NombreCurso curso) {
+				String[] registros = new String[2];
 				registros[0] = curso.getArea().getDescripcion();
 				registros[1] = curso.getNombre();
-				registros[2] = String.valueOf(curso.getDuracion());
 
 				return registros;
 			}
@@ -482,7 +472,7 @@ public class CClase extends CGenerico {
 
 	@Listen("onSeleccion = #divCatalogoCurso")
 	public void seleccionCurso() {
-		Curso curso = catalogoCurso.objetoSeleccionadoDelCatalogo();
+		NombreCurso curso = catalogoCurso.objetoSeleccionadoDelCatalogo();
 		idCurso = curso.getId();
 		txtCursoClase.setValue(curso.getNombre());
 		catalogoCurso.setParent(null);
@@ -490,14 +480,16 @@ public class CClase extends CGenerico {
 
 	@Listen("onChange = #txtCursoClase")
 	public void buscarCurso() {
-		List<Curso> cursos = servicioCurso.buscarPorNombres(txtCursoClase
+		NombreCurso curso = servicioNombreCurso.buscarPorNombre(txtCursoClase
 				.getValue());
-		if (cursos.size() == 0) {
+		if (curso != null) {
+
+			idCurso = curso.getId();
+
+		} else {
 			msj.mensajeAlerta(Mensaje.codigoCurso);
 			txtCursoClase.setFocus(true);
-		} else {
 
-			idCurso = cursos.get(0).getId();
 		}
 
 	}

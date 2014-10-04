@@ -54,4 +54,7 @@ public interface IEmpleadoDAO extends JpaRepository<Empleado, Integer> {
 
 	public List<Empleado> findByUnidadOrganizativaDescripcionStartingWithAllIgnoreCase(
 			String valor);
+
+
+	public Empleado findByFicha(String ficha);
 }

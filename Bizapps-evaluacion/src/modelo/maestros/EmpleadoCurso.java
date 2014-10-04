@@ -25,11 +25,6 @@ public class EmpleadoCurso implements Serializable {
 	@JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")
 	private Empleado empleado;
 
-	// bi-directional many-to-one association to TipoFormacion
-	@ManyToOne
-	@JoinColumn(name = "id_periodo")
-	private Periodo periodo;
-
 	@Column(name = "estado_curso")
 	private String estadoCurso;
 
@@ -38,13 +33,10 @@ public class EmpleadoCurso implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public EmpleadoCurso(Curso curso, Empleado empleado, Periodo periodo,
-			String estadoCurso) {
+	public EmpleadoCurso(Curso curso, Empleado empleado, String estadoCurso) {
 		super();
 		this.curso = curso;
 		this.empleado = empleado;
-		this.periodo = periodo;
 		this.estadoCurso = estadoCurso;
 	}
 
@@ -72,12 +64,4 @@ public class EmpleadoCurso implements Serializable {
 		this.estadoCurso = estadoCurso;
 	}
 
-	public Periodo getPeriodo() {
-		return periodo;
-	}
-
-	public void setPeriodo(Periodo periodo) {
-		this.periodo = periodo;
-	}
-	
 }

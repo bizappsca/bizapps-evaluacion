@@ -1,6 +1,8 @@
 package modelo.maestros;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 import modelo.pk.ActividadCursoPK;
@@ -27,18 +29,22 @@ public class ActividadCurso implements Serializable {
 
 	@Column(name = "valor")
 	private String valor;
+	
+	@Column(name="fecha")
+	private Timestamp fecha;
 
 	public ActividadCurso() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public ActividadCurso(Actividad actividad, Curso curso, String valor) {
+
+	public ActividadCurso(Actividad actividad, Curso curso, String valor,
+			Timestamp fecha) {
 		super();
 		this.actividad = actividad;
 		this.curso = curso;
 		this.valor = valor;
+		this.fecha = fecha;
 	}
 
 	public Actividad getActividad() {
@@ -63,6 +69,14 @@ public class ActividadCurso implements Serializable {
 
 	public void setValor(String valor) {
 		this.valor = valor;
+	}
+
+	public Timestamp getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Timestamp fecha) {
+		this.fecha = fecha;
 	}
 	
 }
