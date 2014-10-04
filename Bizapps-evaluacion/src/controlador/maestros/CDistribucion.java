@@ -300,9 +300,9 @@ public class CDistribucion extends CGenerico {
 
 				for (Distribucion distribucion : listDistribucion) {
 					if (distribucion.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& String.valueOf(distribucion.getPorcentaje())
-									.toLowerCase().startsWith(valores.get(1))) {
+									.toLowerCase().contains(valores.get(1).toLowerCase())) {
 						lista.add(distribucion);
 					}
 				}

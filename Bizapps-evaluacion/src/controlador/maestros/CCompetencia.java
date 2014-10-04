@@ -306,11 +306,11 @@ public class CCompetencia extends CGenerico {
 
 				for (Competencia competencia : listCompetencia) {
 					if (competencia.getDescripcion().toLowerCase()
-									.startsWith(valores.get(0))
+									.contains(valores.get(0).toLowerCase())
 							&& competencia.getNivel().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& competencia.getComentario().toLowerCase()
-									.startsWith(valores.get(2))) {
+									.contains(valores.get(2).toLowerCase())) {
 						lista.add(competencia);
 					}
 				}

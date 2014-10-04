@@ -297,9 +297,9 @@ public class CPerspectiva extends CGenerico {
 
 				for (Perspectiva perspectiva : listPerspectiva) {
 					if (perspectiva.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& String.valueOf(perspectiva.getOrden())
-									.toLowerCase().startsWith(valores.get(1))) {
+									.toLowerCase().contains(valores.get(1).toLowerCase())) {
 						lista.add(perspectiva);
 					}
 				}

@@ -361,13 +361,13 @@ public class CConductaCompetencia extends CGenerico {
 
 				for (ConductaCompetencia conducta : listConductaCompetencia) {
 					if (conducta.getCompetencia().getDescripcion()
-							.toLowerCase().startsWith(valores.get(0))
+							.toLowerCase().contains(valores.get(0).toLowerCase())
 							&& conducta.getDominio().getDescripcionDominio()
-									.toLowerCase().startsWith(valores.get(1))
+									.toLowerCase().contains(valores.get(1).toLowerCase())
 							&& conducta.getDescripcion().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& String.valueOf(conducta.getOrden())
-									.toLowerCase().startsWith(valores.get(3))) {
+									.toLowerCase().contains(valores.get(3).toLowerCase())) {
 						lista.add(conducta);
 					}
 				}
@@ -435,11 +435,11 @@ public class CConductaCompetencia extends CGenerico {
 
 				for (Competencia competencia : listCompetencia) {
 					if (competencia.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& competencia.getNivel().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& competencia.getComentario().toLowerCase()
-									.startsWith(valores.get(2))) {
+									.contains(valores.get(2).toLowerCase())) {
 						lista.add(competencia);
 					}
 				}
@@ -489,11 +489,11 @@ public class CConductaCompetencia extends CGenerico {
 
 				for (Dominio dominio : listDominio) {
 					if (dominio.getDescripcionDominio().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& dominio.getTipo().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& dominio.getComentario().toLowerCase()
-									.startsWith(valores.get(2))) {
+									.contains(valores.get(2).toLowerCase())) {
 						lista.add(dominio);
 					}
 				}

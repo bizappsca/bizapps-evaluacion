@@ -305,11 +305,11 @@ public class CDominio extends CGenerico {
 
 				for (Dominio dominio : listDominio) {
 					if (dominio.getDescripcionDominio().toLowerCase()
-									.startsWith(valores.get(0))
+									.contains(valores.get(0).toLowerCase())
 							&& dominio.getTipo().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& dominio.getComentario().toLowerCase()
-									.startsWith(valores.get(2))) {
+									.contains(valores.get(2).toLowerCase())) {
 						lista.add(dominio);
 					}
 				}

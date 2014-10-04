@@ -326,17 +326,17 @@ public class CValoracion extends CGenerico {
 
 				for (Valoracion valoracion : listValoracion) {
 					if (valoracion.getNombre().toLowerCase()
-									.startsWith(valores.get(0))
+									.contains(valores.get(0).toLowerCase())
 							&& valoracion.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& String.valueOf(valoracion.getOrden())
-									.toLowerCase().startsWith(valores.get(2))
+									.toLowerCase().contains(valores.get(2).toLowerCase())
 							&& String.valueOf(valoracion.getRangoInferior())
-									.toLowerCase().startsWith(valores.get(3))
+									.toLowerCase().contains(valores.get(3).toLowerCase())
 							&& String.valueOf(valoracion.getRangoSuperior())
-									.toLowerCase().startsWith(valores.get(4))
+									.toLowerCase().contains(valores.get(4).toLowerCase())
 							&& String.valueOf(valoracion.getValor())
-									.toLowerCase().startsWith(valores.get(5))) {
+									.toLowerCase().contains(valores.get(5).toLowerCase())) {
 						lista.add(valoracion);
 					}
 				}

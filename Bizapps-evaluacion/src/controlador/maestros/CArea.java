@@ -312,9 +312,9 @@ public class CArea extends CGenerico {
 
 				for (Area area : listArea) {
 					if (area.getTipoFormacion().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& area.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(area);
 					}
 				}
@@ -350,8 +350,9 @@ public class CArea extends CGenerico {
 
 				for (TipoFormacion tipoFormacion : listTipoFormacion) {
 					if (tipoFormacion.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(tipoFormacion);
+
 					}
 				}
 				return lista;

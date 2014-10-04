@@ -291,7 +291,7 @@ public class CUnidadMedida extends CGenerico {
 
 				for (UnidadMedida unidadMedida : listUnidadMedida) {
 					if (unidadMedida.getDescripcion().toLowerCase()
-									.startsWith(valores.get(0))) {
+									.contains(valores.get(0).toLowerCase())) {
 						lista.add(unidadMedida);
 					}
 				}

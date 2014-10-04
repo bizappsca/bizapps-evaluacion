@@ -356,17 +356,17 @@ public class CUnidadOrganizativa extends CGenerico {
 
 				for (UnidadOrganizativa unidad : listUnidadOrganizativa) {
 					if (unidad.getGerencia().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& unidad.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& String.valueOf(unidad.getNivel()).toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& String.valueOf(unidad.getSubNivel())
-									.toLowerCase().startsWith(valores.get(3))
+									.toLowerCase().contains(valores.get(3).toLowerCase())
 							&& unidad.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(4))
+									.contains(valores.get(4).toLowerCase())
 							&& unidad.getIdUnidadOrganizativaAuxiliar()
-									.toLowerCase().startsWith(valores.get(5))) {
+									.toLowerCase().contains(valores.get(5).toLowerCase())) {
 						lista.add(unidad);
 					}
 				}
@@ -417,7 +417,7 @@ public class CUnidadOrganizativa extends CGenerico {
 
 				for (Gerencia gerencia : listGerencia) {
 					if (gerencia.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(gerencia);
 					}
 				}

@@ -287,7 +287,7 @@ public class CGerencia extends CGenerico {
 
 				for (Gerencia gerencia : listGerencia) {
 					if (gerencia.getDescripcion().toLowerCase()
-									.startsWith(valores.get(0))) {
+									.contains(valores.get(0).toLowerCase())) {
 						lista.add(gerencia);
 					}
 				}

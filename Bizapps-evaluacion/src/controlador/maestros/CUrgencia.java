@@ -293,7 +293,7 @@ public class CUrgencia extends CGenerico {
 
 				for (Urgencia urgencia : listUrgencia) {
 					if (urgencia.getDescripcionUrgencia().toLowerCase()
-									.startsWith(valores.get(0))) {
+									.contains(valores.get(0).toLowerCase())) {
 						lista.add(urgencia);
 					}
 				}

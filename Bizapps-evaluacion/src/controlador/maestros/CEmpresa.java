@@ -318,15 +318,15 @@ public class CEmpresa extends CGenerico {
 
 				for (Empresa empresa : listEmpresa) {
 					if (empresa.getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empresa.getDireccion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& empresa.getTelefono1().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& empresa.getTelefono2().toLowerCase()
-									.startsWith(valores.get(3))
+									.contains(valores.get(3).toLowerCase())
 							&& empresa.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(4))) {
+									.contains(valores.get(4).toLowerCase())) {
 						lista.add(empresa);
 					}
 				}

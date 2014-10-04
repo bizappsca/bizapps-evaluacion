@@ -290,7 +290,7 @@ public class CMedicion extends CGenerico {
 
 				for (Medicion medicion : listMedicion) {
 					if (medicion.getDescripcionMedicion().toLowerCase()
-									.startsWith(valores.get(0))) {
+									.contains(valores.get(0).toLowerCase())) {
 						lista.add(medicion);
 					}
 				}

@@ -100,13 +100,13 @@ public class CNivelCompetenciaCargo extends CGenerico {
 
 				for (Cargo cargo : listCargo) {
 					if (cargo.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& cargo.getNomina().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& cargo.getIdCargoAuxiliar().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& cargo.getIdEmpresaAuxiliar().toLowerCase()
-									.startsWith(valores.get(3))) {
+									.contains(valores.get(3).toLowerCase())) {
 						lista.add(cargo);
 					}
 				}

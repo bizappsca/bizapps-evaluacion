@@ -295,7 +295,7 @@ public class CTipoFormacion extends CGenerico {
 
 				for (TipoFormacion tipoFormacion : listTipoFormacion) {
 					if (tipoFormacion.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(tipoFormacion);
 					}
 				}
