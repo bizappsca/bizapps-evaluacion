@@ -39,17 +39,6 @@
 			<groupbox>
 				<separator />
 				<separator />
-				<div align="right">
-					<label value="Fecha:" class="etiqueta"
-						style="margin-right:10px">
-					</label>
-					<datebox id="dbfecha" width="130px"
-						style="margin-right:30px;color:black !important;" disabled="true"
-						format="short" onCreate="self.value = new Date()">
-					</datebox>
-				</div>
-				<separator />
-				<separator />
 				<grid width="100%" style="border:0px">
 					<columns visible="false">
 						<column label="" width="15%" />

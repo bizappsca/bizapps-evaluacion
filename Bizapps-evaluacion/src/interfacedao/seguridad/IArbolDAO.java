@@ -21,6 +21,8 @@ public interface IArbolDAO extends JpaRepository<Arbol, Long> {
 
 	public List<Arbol> findByGruposArbol(Grupo grupo);
 
+	public List<Arbol> findByNombreAllIgnoreCase(String nombre);
+
 		
 	
 }

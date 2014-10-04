@@ -28,7 +28,9 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Window;
 
 import componentes.Mensaje;
@@ -175,6 +177,8 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 	@WireVariable("SNombreCurso")
 	protected SNombreCurso servicioNombreCurso;
 
+	public Tabbox tabBox;
+	public Include contenido;
 	protected SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 	public Mensaje msj = new Mensaje();
 	public List<Tab> tabs = new ArrayList<Tab>();

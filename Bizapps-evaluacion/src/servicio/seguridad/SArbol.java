@@ -35,6 +35,10 @@ public class SArbol {
 		arbol = arbolDAO.findByNombre(nombre);
 		return arbol;
 	}
+	
+	public List<Arbol> buscarPorArbolPorNombre(String nombre) {
+		return arbolDAO.findByNombreAllIgnoreCase(nombre);
+	}
 
 	public List<Arbol> ordenarPorID(ArrayList<Long> ids) {
 

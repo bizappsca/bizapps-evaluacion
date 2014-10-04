@@ -1,0 +1,89 @@
+<zk>
+
+	<style src="/public/Estilo.css" />
+	<window id="wdwVBuscarEvaluacionsatisfaccion" border="normal"
+		apply="controlador.transacciones.CBuscarEvaluacionSatisfaccion"
+		height="auto" style="background-color:#8A0808;">
+		<separator />
+
+		<groupbox id="gpxFiltros" width="auto" mold="3d"
+			title="Buscar Evaluación de Satisfacción">
+			<separator />
+			<panel border="normal" width="100%">
+				<panelchildren>
+					<separator />
+					<div align="left">
+						<button id="btnCargarEvaluacion"
+							tooltiptext="Cargar evaluación" class="btn"
+							style="margin-left:5px" label="Cargar"
+							image="/public/imagenes/botones/generar.png">
+						</button>
+						<button id="btnLimpiar" label="Limpiar"
+							class="btn" tooltiptext="Limpiar"
+							image="/public/imagenes/botones/limpiar.png">
+						</button>
+						<button id="btnSalir" label="Salir" class="btn"
+							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
+						</button>
+						<separator />
+					</div>
+				</panelchildren>
+			</panel>
+			<separator />
+			<separator />
+
+			<grid width="100%">
+				<columns visible="false">
+					<column label="" width="12%" />
+					<column label="" width="30%" />
+					<column label="" width="20%" />
+					<column label="" width="38%" />
+				</columns>
+				<rows>
+					<row>
+						<hbox>
+							<label class="etiqueta" value="Empleado:" />
+							<space />
+						</hbox>
+						<textbox id="txtTrabajador" tabindex="1"
+							width="100%" maxlength="100"
+							tooltiptext="Ingrese aqui el nombre del trabajador " />
+						<button id="btnBuscarTrabajador"
+							image="/public/imagenes/botones/buscar.png"
+							tooltiptext="Catalogo de Trabajador" class="btn" label="Buscar" />
+						<hbox />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator />
+		<div id="divCatalogoEmpleado"
+			tooltiptext="Click para Seleccionar un empleado" />
+		<groupbox id="gpxDatos" width="auto" title="">
+			<caption label="Registros" style="font-weight:bold"
+				tooltiptext="Presione para Visualizar los cursos" />
+			<listbox id="lsbCursosRealizados" width="100%" mold="paging"
+				pageSize="8" oddRowSclass="non-odd"
+				emptyMessage="No se ha seleccionado un empleado">
+				<listhead>
+					<listheader label="Área" width="35%" />
+					<listheader label="Curso" />
+					<listheader label="Duración (Hrs.)" width="15%" />
+					<listheader label="Periodo" width="20%" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell
+							label="${each.nombreCurso.area.descripcion}">
+						</listcell>
+						<listcell label="${each.nombreCurso.nombre}">
+						</listcell>
+						<listcell label="${each.duracion}"></listcell>
+						<listcell label="${each.periodo.nombre}">
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</groupbox>
+	</window>
+</zk>

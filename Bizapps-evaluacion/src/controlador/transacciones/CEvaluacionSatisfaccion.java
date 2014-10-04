@@ -21,12 +21,14 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -61,11 +63,16 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	@Wire
 	private Listbox lsbParametroResumen;
 	@Wire
+	private Listbox lsbEmpleadoEvaluacionSatisfaccion;
+	@Wire
 	private Div divCatalogoCurso;
 	List<EmpleadoCurso> empleadosCurso = new ArrayList<EmpleadoCurso>();
 	List<EmpleadoParametro> empleadoParametros = new ArrayList<EmpleadoParametro>();
+	List<Empleado> empleadoMap = new ArrayList<Empleado>();
 	private int idCurso = 0;
+	private int idEmpleado = 0;
 	private Empleado empleado;
+	private Curso curso;
 
 	Mensaje msj = new Mensaje();
 	Catalogo<Curso> catalogoCurso;
@@ -74,6 +81,11 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
 		
+		contenido = (Include) wdwVEvaluacionSatisfaccion.getParent();
+		Tabbox tabox = (Tabbox) wdwVEvaluacionSatisfaccion.getParent().getParent()
+				.getParent().getParent();
+		tabBox = tabox;
+		tab = (Tab) tabox.getTabs().getLastChild();
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
 		if (mapa != null) {
@@ -83,11 +95,48 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 				mapa = null;
 			}
 		}
+		
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
+				.getCurrent().getAttribute("itemsCatalogo");
+		if (map != null) {
+			if (map.get("id") != null) {
+				
+				idCurso = (Integer) map.get("idCurso");
+				idEmpleado = (Integer) map.get("idEmpleado");
+				empleado = servicioEmpleado.buscarPorId(idEmpleado);
+				curso = servicioCurso.buscarCurso(idCurso);
+				map.clear();
+				map = null;
+				
+				EmpleadoCurso cursoEmpleado = servicioEmpleadoCurso
+						.buscarPorempleadoYCurso(empleado, curso);
 
-		txtCursoEvaluacionSatisfaccion.setFocus(true);
-		String nombreUsuario = nombreUsuarioSesion();
-		empleado = servicioEmpleado.buscarPorFicha(servicioUsuario
-				.buscarUsuarioPorNombre(nombreUsuario).getFicha());
+				if (cursoEmpleado.getEstadoCurso().equals("APROBADO")
+						|| cursoEmpleado.getEstadoCurso().equals("REPROBADO")) {
+
+					txtCursoEvaluacionSatisfaccion.setValue(curso.getNombreCurso().getNombre());
+					llenarLista();
+
+				} 
+				
+				
+				empleadoMap.add(empleado);
+				lsbEmpleadoEvaluacionSatisfaccion.setModel(new ListModelList<Empleado>(
+						empleadoMap));
+				lsbEmpleadoEvaluacionSatisfaccion.setVisible(true);
+			
+			}
+		}else{
+			
+			
+			txtCursoEvaluacionSatisfaccion.setFocus(true);
+			String nombreUsuario = nombreUsuarioSesion();
+			empleado = servicioEmpleado.buscarPorFicha(servicioUsuario
+					.buscarUsuarioPorNombre(nombreUsuario).getFicha());
+			
+		}
+
+	
 				
 		System.out.println(empleado);
 
@@ -203,6 +252,8 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 				.setModel(new ListModelList<Parametro>());
 		lsbParametroEquipos.setModel(new ListModelList<Parametro>());
 		lsbParametroResumen.setModel(new ListModelList<Parametro>());
+		lsbEmpleadoEvaluacionSatisfaccion.setModel(new ListModelList<Empleado>());
+		lsbEmpleadoEvaluacionSatisfaccion.setVisible(false);
 		txtCursoEvaluacionSatisfaccion.setFocus(true);
 	}
 
