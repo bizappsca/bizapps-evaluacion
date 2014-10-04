@@ -4,115 +4,103 @@
 	<script src="/public/progress.js" />
 	<window title="" border="0" height="100%" width="100%"
 		contentStyle="overflow:auto" apply="arbol.CArbol">
-		<borderlayout height="100%" width="100%"
-			style="background-color:#fff;">
-			<north height="5em">
-
-				<div vflex="1" hflex="1" class="banner">
-					<hbox vflex="1" hflex="1" align="rigth">
-						<div align="left" class="banner-head">
-							<image
-								src="../public/imagenes/generales/LogoDusa.png" height="5em"
-								width="13em" />
-						</div>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<space></space>
-						<div hflex="2" align="center">
-							<label
-								value="GESTIÓN DE DESEMPEÑO EMPRESARIAL"
-								style="font-size:23px;color:white;font-weight: bold" />
-						</div>
-						<space></space>
-						<space></space>
-						<div align="center" width="100%">
-							<hbox>
-								<vbox>
-									<separator />
-									<image id="imagenes" width="60px"
-										height="55px" />
-								</vbox>
+		<borderlayout height="100%" style="background-color:#fff;">
+			<north height="12%" class="banner">
+				<hbox hflex="1">
+					<div align="left" class="banner-head">
+						<image src="../public/imagenes/generales/LogoDusa.png"
+							height="5em" width="13em" />
+					</div>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<space></space>
+					<div hflex="2" align="center">
+						<label value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" style="font-size:23px;color:white;font-weight: bold" />
+					</div>
+					<space></space>
+					<space></space>
+					<div align="center" width="100%">
+						<hbox>
+							<vbox>
 								<separator />
-								<vbox>
-									<separator />
-									<label
-										style="color: white;font-weight: bold" id="lblUsuario" />
-									<a
-										href="../j_spring_security_logout" style="color: white">
-										<space />
-										<label value="Cerrar Sesion" />
-									</a>
-									<a style="color: white">
-										<space />
-										<label id="lblEditarCuenta"
-											value="Cambiar Contraseña"/>
-										<!-- onClick='contenido.src="../vistas/seguridad/VEditarUsuario.zul"' -->
-									</a>
-								</vbox>
+								<image id="imagenes" width="60px" height="55px" />
+							</vbox>
+							<separator />
+							<vbox>
 								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<vbox>
-									<listbox style="border:none"
-										width="200px" id="ltbRoles">
-										<template name="model">
-											<listitem>
-												<listcell
-													style="color:white;font-weight: bold; background:#661313"
-													label="${each.nombre}">
-												</listcell>
-											</listitem>
-										</template>
-									</listbox>
-								</vbox>
-							</hbox>
-						</div>
-						<!-- 						<div align="rigth" hflex="1"> -->
-						<!-- 							<hbox> -->
-						<!-- 								<vbox> -->
-						<!-- 									<separator /> -->
-						<!-- 									<image id="imagenes" width="60px" -->
-						<!-- 										height="55px" /> -->
-						<!-- 								</vbox> -->
-						<!-- 								<vbox> -->
-						<!-- 									<separator /> -->
-						<!-- 									<label -->
-						<!-- 										style="color: red; color: red; font-style: Arial; font-weight: bold; font-size: 15px;" -->
-						<!-- 										id="lblUsuario" /> -->
-						<!-- 									<a -->
-						<!-- 										href="../j_spring_security_logout"> -->
-						<!-- 										<space /> -->
-						<!-- 										<label value="Cerrar Sesion" -->
-						<!-- 											style="color: blue; font-style: Arial; font-weight: bold;" /> -->
-						<!-- 									</a> -->
-						<!-- 									<a -->
-						<!-- 										style="color: blue; font-style: Arial; font-weight: bold;"> -->
-						<!-- 										<space /> -->
-						<!-- 										<label id="lblEditarCuenta" -->
-						<!-- 											value="Cambiar Contraseña" -->
-						<!-- 											style="color: blue; font-style: Arial; font-weight: bold;" -->
-						<!-- 											 /> -->
-						<!-- 									</a> -->
-						<!-- 								</vbox> -->
-						<!-- 							</hbox> -->
-						<!-- 						</div> -->
-					</hbox>
-				</div>
+								<label style="color: white;font-weight: bold" id="lblUsuario" />
+								<a href="../j_spring_security_logout" style="color: white">
+									<space />
+									<label value="Cerrar Sesion" />
+								</a>
+								<a style="color: white">
+									<space />
+									<label id="lblEditarCuenta" value="Cambiar Contraseña" />
+									<!-- onClick='contenido.src="../vistas/seguridad/VEditarUsuario.zul"' -->
+								</a>
+							</vbox>
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<vbox>
+								<listbox style="border:none" width="200px" id="ltbRoles">
+									<template name="model">
+										<listitem>
+											<listcell style="color:white;font-weight: bold; background:#661313"
+												label="${each.nombre}">
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</vbox>
+						</hbox>
+					</div>
+					<!-- <div align="rigth" hflex="1"> -->
+					<!-- <hbox> -->
+					<!-- <vbox> -->
+					<!-- <separator /> -->
+					<!-- <image id="imagenes" width="60px" -->
+					<!-- height="55px" /> -->
+					<!-- </vbox> -->
+					<!-- <vbox> -->
+					<!-- <separator /> -->
+					<!-- <label -->
+					<!-- style="color: red; color: red; font-style: Arial; font-weight: 
+						bold; font-size: 15px;" -->
+					<!-- id="lblUsuario" /> -->
+					<!-- <a -->
+					<!-- href="../j_spring_security_logout"> -->
+					<!-- <space /> -->
+					<!-- <label value="Cerrar Sesion" -->
+					<!-- style="color: blue; font-style: Arial; font-weight: bold;" /> -->
+					<!-- </a> -->
+					<!-- <a -->
+					<!-- style="color: blue; font-style: Arial; font-weight: bold;"> -->
+					<!-- <space /> -->
+					<!-- <label id="lblEditarCuenta" -->
+					<!-- value="Cambiar Contraseña" -->
+					<!-- style="color: blue; font-style: Arial; font-weight: bold;" -->
+					<!-- /> -->
+					<!-- </a> -->
+					<!-- </vbox> -->
+					<!-- </hbox> -->
+					<!-- </div> -->
+				</hbox>
 			</north>
 			<west title="Inicio" id="west" size="15%" splittable="false"
 				collapsible="true" autoscroll="true" flex="true">
 				<tree id="arbolMenu" width="99%" zclass="z-vfiletree">
-					<!-- 				"z-tree","z-dottree","z-filetree"  #F8E0E0 ; -->
+					<!-- "z-tree","z-dottree","z-filetree" #F8E0E0 ; -->
 					<template name="model">
 						<treeitem context="menupopup">
 							<treerow>
@@ -123,16 +111,14 @@
 				</tree>
 			</west>
 			<center border="none">
-				<borderlayout style="overflow-y:scroll;"
-					sclass="complex-layout">
-					<center border="none" flex="true"
+				<borderlayout sclass="complex-layout">
+					<center border="none"
 						style="background-image: url('../public/imagenes/generales/LogoDusaAgua.png'); background-repeat:no-repeat;"
 						autoscroll="true">
-						<tabbox width="auto" id="tabBox" hflex="1">
+						<tabbox width="100%" id="tabBox" hflex="1">
 							<tabs>
 								<tab visible="false">Tab A</tab>
-								<tab id="tab" label="+"
-									visible="false">
+								<tab id="tab" label="+" visible="false">
 								</tab>
 							</tabs>
 							<tabpanels>
@@ -145,20 +131,18 @@
 					</center>
 				</borderlayout>
 			</center>
-			<south class="banner" vflex="2" border="0" height="3em"
-				collapsible="false">
+			<south class="banner" border="0" height="5%" collapsible="false">
 				<div align="center" sclass="footer">
-					<a style="color: white"
-						href="../j_spring_security_logout">
-						<label value="INICIO"></label>
+					<a style="color: white" href="../j_spring_security_logout">
+						<label value="INICIO">
+						</label>
 					</a>
 					<separator></separator>
 					<label style="padding-center:35%;color: white"
-						value="© 2014 Destilería Unidas S.A | RIF: J-30940783-0 | Todos los derechos reservados | Desarrollado por BIZAPPS,C.A">
+						value="© 2014 Elaborado por BIZAPPS,C.A. All Rights Reserved. Terms Privacy    (Version 1.0)">
 					</label>
 				</div>
 			</south>
-
 		</borderlayout>
 	</window>
 </zk>
