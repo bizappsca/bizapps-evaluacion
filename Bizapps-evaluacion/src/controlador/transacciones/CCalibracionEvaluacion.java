@@ -188,44 +188,44 @@ public class CCalibracionEvaluacion extends CGenerico {
 									.getFichaEvaluador());
 
 					if (evaluacionCampos.getFicha().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& String.valueOf(empleado.getNombre())
-									.toLowerCase().startsWith(valores.get(1))
+									.toLowerCase().contains(valores.get(1).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos.getFechaRevision())
-									.toLowerCase().startsWith(valores.get(2))
+									.toLowerCase().contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getEstadoEvaluacion())
-									.toLowerCase().startsWith(valores.get(3))
+									.toLowerCase().contains(valores.get(3).toLowerCase())
 							&& evaluacionCampos.getFichaEvaluador()
-									.toLowerCase().startsWith(valores.get(4))
+									.toLowerCase().contains(valores.get(4).toLowerCase())
 							&& String.valueOf(empleado1.getNombre())
-									.toLowerCase().startsWith(valores.get(5))
+									.toLowerCase().contains(valores.get(5).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getResultadoObjetivos())
-									.toLowerCase().startsWith(valores.get(6))
+									.toLowerCase().contains(valores.get(6).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getResultadoCompetencias())
-									.toLowerCase().startsWith(valores.get(7))
+									.toLowerCase().contains(valores.get(7).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getResultadoGeneral())
-									.toLowerCase().startsWith(valores.get(8))
+									.toLowerCase().contains(valores.get(8).toLowerCase())
 							&& String.valueOf(evaluacionCampos.getValoracion())
-									.toLowerCase().startsWith(valores.get(9))
+									.toLowerCase().contains(valores.get(9).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getResultadoFinal())
-									.toLowerCase().startsWith(valores.get(10))) {
+									.toLowerCase().contains(valores.get(10).toLowerCase())) {
 						evaluacion.add(evaluacionCampos);
 					}
 				}
@@ -275,7 +275,7 @@ public class CCalibracionEvaluacion extends CGenerico {
 
 				for (Empresa empresa : listEmpresa) {
 					if (empresa.getNombre().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(empresa);
 					}
 				}
@@ -320,7 +320,7 @@ public class CCalibracionEvaluacion extends CGenerico {
 
 				for (Gerencia gerencia : listGerencia) {
 					if (gerencia.getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(gerencia);
 					}
 				}
@@ -365,9 +365,9 @@ public class CCalibracionEvaluacion extends CGenerico {
 
 				for (Empleado empleado : listEmpleado) {
 					if (empleado.getFicha().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empleado.getNombre().toLowerCase()
-									.startsWith(valores.get(1))) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -414,9 +414,9 @@ public class CCalibracionEvaluacion extends CGenerico {
 
 				for (Empleado empleado : listEmpleado) {
 					if (empleado.getFicha().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empleado.getNombre().toLowerCase()
-									.startsWith(valores.get(1))) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -465,9 +465,9 @@ public class CCalibracionEvaluacion extends CGenerico {
 
 				for (Valoracion valoracion : listValoracion) {
 					if (valoracion.getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& valoracion.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(valoracion);
 					}
 				}
