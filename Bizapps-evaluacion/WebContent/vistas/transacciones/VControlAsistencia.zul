@@ -64,7 +64,7 @@
 								</label>
 							</hbox>
 							<textbox id="txtCursoControlAsistencia"
-								tabindex="1" width="100%" maxlength="100"
+								tabindex="1" width="100%" maxlength="500"
 								tooltiptext="Ingrese aqui el nombre del curso" />
 							<button id="btnBuscarCurso" label="Buscar"
 								style="margin-left:10px" class="btn"

@@ -27,6 +27,10 @@ public interface ICursoDAO extends JpaRepository<Curso, Integer> {
 	Curso findByNombreCursoNombre(String nombre);
 
 	public Curso findByNombreCursoAndPeriodo(NombreCurso curso, Periodo periodo);
+	
+	/* Busca ultimo curso registrado */
+	@Query("select max(c.id) from Curso c")
+	public int ultimoCursoRegistrado();
 
 
 }

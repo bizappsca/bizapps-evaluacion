@@ -61,6 +61,13 @@ public class SNombreCurso {
 		nombreCursoDAO.delete(eliminar);
 	}
 	
+	//Buscar ultimo curso registrado
+	public NombreCurso buscarUltimoCurso() {
+		NombreCurso ultimoCurso;
+		ultimoCurso = nombreCursoDAO.findOne(nombreCursoDAO.ultimoCursoRegistrado());
+		return ultimoCurso;
+	}
+	
 
 }
 

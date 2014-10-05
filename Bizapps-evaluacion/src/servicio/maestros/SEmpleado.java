@@ -55,6 +55,10 @@ public class SEmpleado {
 		return empleadoDAO.findByFichaOrderByGradoAuxiliarDescNombreAsc(ficha);
 	}
 	
+	public Empleado buscarPorFichaYNombre(String ficha, String nombre) {
+		return empleadoDAO.findByFichaAndNombre(ficha, nombre);
+	}
+	
 	public Empleado buscarEmpleadoPorFicha(String ficha) {
 		return empleadoDAO.findByFicha(ficha);
 	}

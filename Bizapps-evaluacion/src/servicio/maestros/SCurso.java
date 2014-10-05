@@ -101,6 +101,15 @@ public class SCurso {
 		cursos = cursoDAO.findByNombreCursoNombreAllIgnoreCase(nombre);
 		return cursos;
 	}
+	
+	
+	//Buscar ultimo curso registrado
+		public Curso buscarUltimoCurso() {
+			Curso ultimoCurso;
+			ultimoCurso = cursoDAO.findOne(cursoDAO.ultimoCursoRegistrado());
+			return ultimoCurso;
+		}
+	
 
 
 }

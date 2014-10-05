@@ -80,10 +80,10 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		contenido = (Include) wdwVEvaluacionSatisfaccion.getParent();
-		Tabbox tabox = (Tabbox) wdwVEvaluacionSatisfaccion.getParent().getParent()
-				.getParent().getParent();
+		Tabbox tabox = (Tabbox) wdwVEvaluacionSatisfaccion.getParent()
+				.getParent().getParent().getParent();
 		tabBox = tabox;
 		tab = (Tab) tabox.getTabs().getLastChild();
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
@@ -95,49 +95,46 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 				mapa = null;
 			}
 		}
-		
+
 		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("itemsCatalogo");
 		if (map != null) {
 			if (map.get("id") != null) {
-				
+
 				idCurso = (Integer) map.get("idCurso");
 				idEmpleado = (Integer) map.get("idEmpleado");
 				empleado = servicioEmpleado.buscarPorId(idEmpleado);
 				curso = servicioCurso.buscarCurso(idCurso);
 				map.clear();
 				map = null;
-				
+
 				EmpleadoCurso cursoEmpleado = servicioEmpleadoCurso
 						.buscarPorempleadoYCurso(empleado, curso);
 
 				if (cursoEmpleado.getEstadoCurso().equals("APROBADO")
 						|| cursoEmpleado.getEstadoCurso().equals("REPROBADO")) {
 
-					txtCursoEvaluacionSatisfaccion.setValue(curso.getNombreCurso().getNombre());
+					txtCursoEvaluacionSatisfaccion.setValue(curso
+							.getNombreCurso().getNombre());
 					llenarLista();
 
-				} 
-				
-				
+				}
+
 				empleadoMap.add(empleado);
-				lsbEmpleadoEvaluacionSatisfaccion.setModel(new ListModelList<Empleado>(
-						empleadoMap));
+				lsbEmpleadoEvaluacionSatisfaccion
+						.setModel(new ListModelList<Empleado>(empleadoMap));
 				lsbEmpleadoEvaluacionSatisfaccion.setVisible(true);
-			
+
 			}
-		}else{
-			
-			
+		} else {
+
 			txtCursoEvaluacionSatisfaccion.setFocus(true);
 			String nombreUsuario = nombreUsuarioSesion();
 			empleado = servicioEmpleado.buscarPorFicha(servicioUsuario
 					.buscarUsuarioPorNombre(nombreUsuario).getFicha());
-			
+
 		}
 
-	
-				
 		System.out.println(empleado);
 
 	}
@@ -146,7 +143,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 		List<Curso> cursos = new ArrayList<Curso>();
 		empleadosCurso = servicioEmpleadoCurso.buscarCursos(empleado);
-		
+
 		System.out.println(empleadosCurso.size());
 
 		for (int i = 0; i < empleadosCurso.size(); i++) {
@@ -159,22 +156,25 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 	@Listen("onClick = #btnBuscarCurso")
 	public void mostrarCatalogoCurso() {
-		final List<Curso> listCurso = cursosEmpleado();		
+		final List<Curso> listCurso = cursosEmpleado();
 		catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-				"Catalogo de Cursos", listCurso,true,false,false, "Área", "Nombre", "Duración") {
+				"Catalogo de Cursos", listCurso, true, false, false, "Área",
+				"Nombre", "Duración") {
 
 			@Override
 			protected List<Curso> buscar(List<String> valores) {
 				List<Curso> lista = new ArrayList<Curso>();
 
 				for (Curso curso : listCurso) {
-					if (curso.getNombreCurso().getArea().getDescripcion().toLowerCase()
+					if (curso.getNombreCurso().getArea().getDescripcion()
+							.toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombreCurso().getNombre().toLowerCase()
 									.contains(valores.get(1).toLowerCase())
 
 							&& String.valueOf(curso.getDuracion())
-									.toLowerCase().contains(valores.get(2).toLowerCase())) {
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())) {
 						lista.add(curso);
 					}
 				}
@@ -185,10 +185,14 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 			@Override
 			protected String[] crearRegistros(Curso curso) {
 				String[] registros = new String[3];
-				registros[0] = curso.getNombreCurso().getArea().getDescripcion();
+				registros[0] = curso.getNombreCurso().getArea()
+						.getDescripcion();
 				registros[1] = curso.getNombreCurso().getNombre();
-				registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
-						+ curso.getMedidaDuracion();
+				if (curso.getDuracion() != 0)
+					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
+							+ curso.getMedidaDuracion();
+				else
+					registros[2] = String.valueOf(curso.getDuracion());
 
 				return registros;
 			}
@@ -213,7 +217,8 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 		if (cursoEmpleado.getEstadoCurso().equals("APROBADO")
 				|| cursoEmpleado.getEstadoCurso().equals("REPROBADO")) {
 
-			txtCursoEvaluacionSatisfaccion.setValue(curso.getNombreCurso().getNombre());
+			txtCursoEvaluacionSatisfaccion.setValue(curso.getNombreCurso()
+					.getNombre());
 			llenarLista();
 
 		} else {
@@ -252,7 +257,8 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 				.setModel(new ListModelList<Parametro>());
 		lsbParametroEquipos.setModel(new ListModelList<Parametro>());
 		lsbParametroResumen.setModel(new ListModelList<Parametro>());
-		lsbEmpleadoEvaluacionSatisfaccion.setModel(new ListModelList<Empleado>());
+		lsbEmpleadoEvaluacionSatisfaccion
+				.setModel(new ListModelList<Empleado>());
 		lsbEmpleadoEvaluacionSatisfaccion.setVisible(false);
 		txtCursoEvaluacionSatisfaccion.setFocus(true);
 	}
@@ -277,8 +283,9 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVEvaluacionSatisfaccion, "Evaluacion  de Satisfacion",tabs);
-		
+		cerrarVentana(wdwVEvaluacionSatisfaccion, "Evaluacion  de Satisfacion",
+				tabs);
+
 	}
 
 	public void llenarLista() {

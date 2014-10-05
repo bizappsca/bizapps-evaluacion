@@ -88,11 +88,11 @@ public class CControlAsistencia extends CGenerico {
 		if (idPeriodo != 0) {
 
 			Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
-			
+
 			final List<Curso> listCurso = servicioCurso.buscarTodos();
 			catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-					"Catalogo de Cursos", listCurso, true, false, false, "Área",
-					"Nombre", "Duración") {
+					"Catalogo de Cursos", listCurso, true, false, false,
+					"Área", "Nombre", "Duración") {
 
 				@Override
 				protected List<Curso> buscar(List<String> valores) {
@@ -100,12 +100,15 @@ public class CControlAsistencia extends CGenerico {
 
 					for (Curso curso : listCurso) {
 						if (curso.getNombreCurso().getArea().getDescripcion()
-								.toLowerCase().contains(valores.get(0).toLowerCase())
-								&& curso.getNombreCurso().getNombre().toLowerCase()
+								.toLowerCase()
+								.contains(valores.get(0).toLowerCase())
+								&& curso.getNombreCurso().getNombre()
+										.toLowerCase()
 										.contains(valores.get(1).toLowerCase())
 
 								&& String.valueOf(curso.getDuracion())
-										.toLowerCase().contains(valores.get(2).toLowerCase())) {
+										.toLowerCase()
+										.contains(valores.get(2).toLowerCase())) {
 							lista.add(curso);
 						}
 					}
@@ -119,8 +122,11 @@ public class CControlAsistencia extends CGenerico {
 					registros[0] = curso.getNombreCurso().getArea()
 							.getDescripcion();
 					registros[1] = curso.getNombreCurso().getNombre();
-					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
-							+ curso.getMedidaDuracion();
+					if (curso.getDuracion() == 0)
+						registros[2] = String.valueOf(curso.getDuracion());
+					else
+						registros[2] = String.valueOf(mostrarDuracion(curso))
+						+ " " + curso.getMedidaDuracion();
 
 					return registros;
 				}
@@ -131,14 +137,12 @@ public class CControlAsistencia extends CGenerico {
 			catalogoCurso.setWidth("80%");
 			catalogoCurso.setParent(divCatalogoCurso);
 			catalogoCurso.doModal();
-		}else{
-			
-			
+		} else {
+
 			Messagebox.show("Debe selecionar el periodo", "Advertencia",
 					Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 
-		
 	}
 
 	@Listen("onSeleccion = #divCatalogoCurso")
@@ -186,12 +190,14 @@ public class CControlAsistencia extends CGenerico {
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaInicio()))
-									.toLowerCase().contains(valores.get(2).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaFin()))
-									.toLowerCase().contains(valores.get(3).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
 							&& periodo.getEstadoPeriodo().toLowerCase()
 									.contains(valores.get(4).toLowerCase())) {
 						lista.add(periodo);

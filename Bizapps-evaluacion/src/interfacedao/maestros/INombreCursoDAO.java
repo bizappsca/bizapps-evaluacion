@@ -14,6 +14,10 @@ public interface INombreCursoDAO extends JpaRepository<NombreCurso, Integer> {
 	NombreCurso findByNombreAllIgnoreCase(String nombre);
 
 	NombreCurso findByAreaAndNombreAllIgnoreCase(Area area, String nombre);
+	
+	/* Busca ultimo curso registrado */
+	@Query("select max(c.id) from NombreCurso c")
+	public int ultimoCursoRegistrado();
 
 
 

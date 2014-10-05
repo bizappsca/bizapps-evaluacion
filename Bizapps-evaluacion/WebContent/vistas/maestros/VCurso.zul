@@ -48,7 +48,7 @@
 						</hbox>
 
 						<textbox id="txtNombreCurso" width="100%" rows="3" cols="100"
-							maxlength="100" tabindex="2"
+							maxlength="500" tabindex="2"
 							tooltiptext="Ingrese aqui el nombre del curso" />
 							
 							<hbox/>

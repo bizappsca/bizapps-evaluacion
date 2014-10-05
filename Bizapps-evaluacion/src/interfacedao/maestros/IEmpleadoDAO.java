@@ -57,4 +57,7 @@ public interface IEmpleadoDAO extends JpaRepository<Empleado, Integer> {
 
 
 	public Empleado findByFicha(String ficha);
+
+
+	public Empleado findByFichaAndNombre(String ficha, String nombre);
 }

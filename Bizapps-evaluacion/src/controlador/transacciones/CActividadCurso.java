@@ -90,10 +90,11 @@ public class CActividadCurso extends CGenerico {
 	public void mostrarCatalogoCurso() {
 
 		if (idPeriodo != 0) {
-			
+
 			Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
 
-			final List<Curso> listCurso = servicioCurso.buscarPorPeriodo(periodo);
+			final List<Curso> listCurso = servicioCurso
+					.buscarPorPeriodo(periodo);
 			catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
 					"Catalogo de Cursos", listCurso, true, false, false,
 					"Área", "Nombre", "Duración") {
@@ -104,7 +105,8 @@ public class CActividadCurso extends CGenerico {
 
 					for (Curso curso : listCurso) {
 						if (curso.getNombreCurso().getArea().getDescripcion()
-								.toLowerCase().contains(valores.get(0).toLowerCase())
+								.toLowerCase()
+								.contains(valores.get(0).toLowerCase())
 								&& curso.getNombreCurso().getNombre()
 										.toLowerCase()
 										.contains(valores.get(1).toLowerCase())
@@ -125,10 +127,13 @@ public class CActividadCurso extends CGenerico {
 					registros[0] = curso.getNombreCurso().getArea()
 							.getDescripcion();
 					registros[1] = curso.getNombreCurso().getNombre();
-					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
-							+ curso.getMedidaDuracion();
+					if (curso.getDuracion() != 0)
+						registros[2] = String.valueOf(mostrarDuracion(curso))
+								+ " " + curso.getMedidaDuracion();
+					else
+						registros[2] = String.valueOf(curso.getDuracion());
 
-					return registros;
+						return registros;
 				}
 
 			};
@@ -192,12 +197,14 @@ public class CActividadCurso extends CGenerico {
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaInicio()))
-									.toLowerCase().contains(valores.get(2).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaFin()))
-									.toLowerCase().contains(valores.get(3).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
 							&& periodo.getEstadoPeriodo().toLowerCase()
 									.contains(valores.get(4).toLowerCase())) {
 						lista.add(periodo);

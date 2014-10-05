@@ -154,22 +154,25 @@ public class CConfigurarCurso extends CGenerico {
 
 				dtbFechaInicio.setValue(cursoPeriodo.getFechaInicio());
 				dtbFechaFin.setValue(cursoPeriodo.getFechaFin());
-				spnDuracionCurso.setValue((int) mostrarDuracion(cursoPeriodo));
+				if (cursoPeriodo.getDuracion() != 0)
+					spnDuracionCurso
+							.setValue((int) mostrarDuracion(cursoPeriodo));
+				else
+					spnDuracionCurso.setValue(0);
 				cmbUnidadMedidaCurso.setValue(cursoPeriodo.getMedidaDuracion());
 				cmbEstadoCurso.setValue(cursoPeriodo.getEstado());
 				txtFacilitadorConfiguracionCurso.setValue(cursoPeriodo
 						.getFacilitador());
 
-			}else{
-				
-				
+			} else {
+
 				dtbFechaInicio.setValue(null);
 				dtbFechaFin.setValue(null);
 				spnDuracionCurso.setValue(null);
 				cmbEstadoCurso.setValue("");
 				txtFacilitadorConfiguracionCurso.setValue("");
 				cmbUnidadMedidaCurso.setValue("HORAS");
-				
+
 			}
 
 		}
@@ -197,12 +200,14 @@ public class CConfigurarCurso extends CGenerico {
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaInicio()))
-									.toLowerCase().contains(valores.get(2).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaFin()))
-									.toLowerCase().contains(valores.get(3).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
 							&& periodo.getEstadoPeriodo().toLowerCase()
 									.contains(valores.get(4).toLowerCase())) {
 						lista.add(periodo);
@@ -254,8 +259,8 @@ public class CConfigurarCurso extends CGenerico {
 				txtFacilitadorConfiguracionCurso.setValue(curso
 						.getFacilitador());
 
-			}else{
-				
+			} else {
+
 				dtbFechaInicio.setValue(null);
 				dtbFechaFin.setValue(null);
 				spnDuracionCurso.setValue(null);

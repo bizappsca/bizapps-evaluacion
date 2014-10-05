@@ -87,7 +87,7 @@ public class CEvaluacionEficacia extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
 		if (mapa != null) {
@@ -123,17 +123,19 @@ public class CEvaluacionEficacia extends CGenerico {
 
 			final List<Curso> listCurso = cursosEmpleado();
 			catalogoCurso = new Catalogo<Curso>(divCatalogoCurso,
-					"Catalogo de Cursos", listCurso,true,false,false, "Área", "Nombre",
-					"Duración") {
+					"Catalogo de Cursos", listCurso, true, false, false,
+					"Área", "Nombre", "Duración") {
 
 				@Override
 				protected List<Curso> buscar(List<String> valores) {
 					List<Curso> lista = new ArrayList<Curso>();
 
 					for (Curso curso : listCurso) {
-						if (curso.getNombreCurso().getArea().getDescripcion().toLowerCase()
+						if (curso.getNombreCurso().getArea().getDescripcion()
+								.toLowerCase()
 								.contains(valores.get(0).toLowerCase())
-								&& curso.getNombreCurso().getNombre().toLowerCase()
+								&& curso.getNombreCurso().getNombre()
+										.toLowerCase()
 										.contains(valores.get(1).toLowerCase())
 
 								&& String.valueOf(curso.getDuracion())
@@ -149,14 +151,17 @@ public class CEvaluacionEficacia extends CGenerico {
 				@Override
 				protected String[] crearRegistros(Curso curso) {
 					String[] registros = new String[3];
-					registros[0] = curso.getNombreCurso().getArea().getDescripcion();
+					registros[0] = curso.getNombreCurso().getArea()
+							.getDescripcion();
 					registros[1] = curso.getNombreCurso().getNombre();
-					registros[2] = String.valueOf(mostrarDuracion(curso)) + " "
-							+ curso.getMedidaDuracion();
+					if (curso.getDuracion() != 0)
+						registros[2] = String.valueOf(mostrarDuracion(curso))
+								+ " " + curso.getMedidaDuracion();
+					else
+						registros[2] = String.valueOf(curso.getDuracion());
 
 					return registros;
 				}
-
 
 			};
 
@@ -185,7 +190,8 @@ public class CEvaluacionEficacia extends CGenerico {
 		if (cursoEmpleado.getEstadoCurso().equals("APROBADO")
 				|| cursoEmpleado.getEstadoCurso().equals("REPROBADO")) {
 
-			txtCursoEvaluacionEficacia.setValue(curso.getNombreCurso().getNombre());
+			txtCursoEvaluacionEficacia.setValue(curso.getNombreCurso()
+					.getNombre());
 			llenarLista();
 
 		} else {
@@ -217,9 +223,9 @@ public class CEvaluacionEficacia extends CGenerico {
 	public void mostrarCatalogoEmpleado() {
 		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
 		catalogoEmpleado = new Catalogo<Empleado>(divCatalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado, true,false,false,"Empresa", "Cargo",
-				"Unidad Organizativa", "Nombre", "Ficha", "Ficha Supervisor",
-				"Grado Auxiliar") {
+				"Catalogo de Empleados", listEmpleado, true, false, false,
+				"Empresa", "Cargo", "Unidad Organizativa", "Nombre", "Ficha",
+				"Ficha Supervisor", "Grado Auxiliar") {
 
 			@Override
 			protected List<Empleado> buscar(List<String> valores) {
@@ -229,7 +235,8 @@ public class CEvaluacionEficacia extends CGenerico {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().contains(valores.get(1).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
 									.contains(valores.get(2).toLowerCase())
@@ -240,7 +247,8 @@ public class CEvaluacionEficacia extends CGenerico {
 							&& empleado.getFichaSupervisor().toLowerCase()
 									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().contains(valores.get(6).toLowerCase())) {
+									.toLowerCase()
+									.contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -370,8 +378,8 @@ public class CEvaluacionEficacia extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-		
-		cerrarVentana(wdwVEvaluacionEficacia, "Evaluacion de Eficacia",tabs);
+
+		cerrarVentana(wdwVEvaluacionEficacia, "Evaluacion de Eficacia", tabs);
 
 	}
 

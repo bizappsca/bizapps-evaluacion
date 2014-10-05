@@ -1,0 +1,55 @@
+<zk>
+	<style src="/public/Estilo.css" />
+
+	<window id="wdwVResultadoImportacion" border="normal" height="auto"
+		apply="controlador.transacciones.CResultadoImportacion"
+		style="background-color:#8A0808;">
+
+		<groupbox width="auto" mold="3d"
+			title="Resultado de la Importación">
+			<separator />
+			<div id="botonera" />
+			<separator />
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" id="lblEncabezado" />
+			</div>
+			<separator />
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" id="lblResultado" />
+			</div>
+			<separator />
+			<separator />
+			<separator />
+			<separator />
+			<separator />
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" value="RESUMEN:" />
+			</div>
+			<separator />
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" id="lblLineasEvaluadas" />
+			</div>
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" id="lblLineasValidas" />
+			</div>
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta" id="lblLineasInvalidas" />
+			</div>
+			<separator />
+			<separator />
+			<separator />
+			<div style="margin-left:10px">
+				<label class="etiqueta"
+					value="*Los registros serán importados al portal si y solo si la cantidad de lineas invalidas es igual a cero (0)" />
+			</div>
+			<separator />
+			<separator />
+		</groupbox>
+	</window>
+</zk>
