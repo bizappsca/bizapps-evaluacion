@@ -102,6 +102,7 @@ public abstract class CatalagoN<Clase> extends Window {
 		lsbCatalagoN.setMold("paging");
 		lsbCatalagoN.setPagingPosition("top");
 		lsbCatalagoN.setPageSize(10);
+		
 		final Auxhead cabecera = new Auxhead();
 		Listhead lhdEncabezado = new Listhead();
 		lhdEncabezado.setSizable(true);
@@ -163,7 +164,6 @@ public abstract class CatalagoN<Clase> extends Window {
                     for (int i = 0; i < registros.length; i++) {
                             Listcell celda = new Listcell();
                             if(i==registros.length-1){
-                            	System.out.println("aqui");
                             	textbox.setValue(Double.valueOf(registros[i]));
                             }
                             else 
@@ -277,16 +277,42 @@ public abstract class CatalagoN<Clase> extends Window {
 	}
 
 	protected void pagineo() {
+		try{
 		if (lsbCatalagoN.getPagingPosition().equals("top")) {
 			lsbCatalagoN.setMold("default");
 			lsbCatalagoN.setPagingPosition("both");
+			lsbCatalagoN.setPageSize(10);
 			pagineo.setTooltiptext("Presione para mostrar la lista con pagineo");
+//			lsbCatalagoN.setHeight("10px");
+//			lsbCatalagoN.setStyle("height:50px");
+//			lsbCatalagoN.setVflex(true);
+//			lsbCatalagoN.setHflex("1");
+//			lsbCatalagoN.setStyle("overflow:auto !important; data-scrollable:true");
+//			lsbCatalagoN.setSclass("vertical-scroll !important; data-scrollable:true");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.listbox.initRodSize", "10");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.listbox.rod", "true");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.client.rod", "true");
+
+			
 		} else {
 			lsbCatalagoN.setMold("paging");
 			lsbCatalagoN.setPagingPosition("top");
 			lsbCatalagoN.setPageSize(10);
 			pagineo.setTooltiptext("Presione para mostrar todos los registros en una sola lista, sin pagineo");
+//			lsbCatalagoN.setHeight("10px");
+//			lsbCatalagoN.setStyle("height:50px");
+//			lsbCatalagoN.setVflex(true);
+//			lsbCatalagoN.setHflex("1");
+//			lsbCatalagoN.setStyle("overflow:auto !important; data-scrollable:true");
+//			lsbCatalagoN.setSclass("vertical-scroll !important; data-scrollable:true");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.listbox.initRodSize", "10");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.listbox.rod", "true");
+//			lsbCatalagoN.setAttribute("org.zkoss.zul.client.rod", "true");
 		}
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println(e.toString());
+	}
 	}
 	
 

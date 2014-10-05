@@ -97,21 +97,21 @@ public class CEmpleadoCurso extends CGenerico {
 
 				for (Periodo periodo : listPeriodo) {
 					if (periodo.getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& periodo.getDescripcion().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaInicio()))
-									.toLowerCase().startsWith(valores.get(2))
+									.toLowerCase().contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaFin()))
-									.toLowerCase().startsWith(valores.get(3))
+									.toLowerCase().contains(valores.get(3).toLowerCase())
 							&& periodo.getEstadoPeriodo().toLowerCase()
-									.startsWith(valores.get(4))) {
+									.contains(valores.get(4).toLowerCase())) {
 						lista.add(periodo);
 					}
 				}
@@ -175,20 +175,20 @@ public class CEmpleadoCurso extends CGenerico {
 
 				for (Empleado empleado : listEmpleado) {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().startsWith(valores.get(1))
+									.toLowerCase().contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& empleado.getNombre().toLowerCase()
-									.startsWith(valores.get(3))
+									.contains(valores.get(3).toLowerCase())
 							&& empleado.getFicha().toLowerCase()
-									.startsWith(valores.get(4))
+									.contains(valores.get(4))
 							&& empleado.getFichaSupervisor().toLowerCase()
-									.startsWith(valores.get(5))
+									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().startsWith(valores.get(6))) {
+									.toLowerCase().contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}

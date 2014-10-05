@@ -169,12 +169,12 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 				for (Curso curso : listCurso) {
 					if (curso.getNombreCurso().getArea().getDescripcion().toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombreCurso().getNombre().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 
 							&& String.valueOf(curso.getDuracion())
-									.toLowerCase().startsWith(valores.get(2))) {
+									.toLowerCase().contains(valores.get(2).toLowerCase())) {
 						lista.add(curso);
 					}
 				}
