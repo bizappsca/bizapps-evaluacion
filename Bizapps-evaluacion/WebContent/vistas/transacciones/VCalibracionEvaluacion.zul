@@ -93,7 +93,7 @@
 	</groupbox>
 	<separator />
 	<div width="100%" align="right">
-		<button id="btnVer" label="Ver Evaluación"  image="/public/imagenes/botones/buscar.png" class="btn" width="12%"/>
+		<button id="btnVer" label="Ver Evaluación"  image="/public/imagenes/botones/buscar.png" class="btn" width="15%"/>
 		<button id="btnGuardar" label="Guardar"  image="/public/imagenes/botones/guardar.png" class="btn"/>
 		<button id="btnLimpiar" label="Limpiar"  image="/public/imagenes/botones/limpiar.png" class="btn"/>
 		<button id="btnBuscar" label="Refrescar"  image="/public/imagenes/botones/generar.png" class="btn"/>
@@ -111,10 +111,10 @@
 		tooltiptext="Click para Seleccionar una Valoración" />
 	<div id="divCatalogoGrado"
 		tooltiptext="Click para Seleccionar un grado" />
-	<groupbox id="gpxDatos" width="auto" title="">
+	<groupbox id="gpxDatos" width="auto" title="" contentStyle="overflow:auto;">
 		<caption label="Registros" style="font-weight:bold"
 			tooltiptext="Presione para Visualizar las Evaluaciones" />
-		<div id="catalogoEvaluaciones"
-			tooltiptext="Seleccione la Evaluación para Realizar una Accion" />
+		<div id="catalogoEvaluaciones" style="autoscroll:true" 
+			tooltiptext="Seleccione la Evaluación para Realizar una Acción" />
 	</groupbox>
 </zk>

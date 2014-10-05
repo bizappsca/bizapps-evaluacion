@@ -131,7 +131,7 @@
 					</center>
 				</borderlayout>
 			</center>
-			<south class="banner" border="0" height="5%" collapsible="false">
+			<south class="banner" border="0" height="6%" collapsible="false">
 				<div align="center" sclass="footer">
 					<a style="color: white" href="../j_spring_security_logout">
 						<label value="INICIO">
