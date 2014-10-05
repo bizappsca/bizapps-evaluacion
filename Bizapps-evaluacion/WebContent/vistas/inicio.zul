@@ -22,7 +22,7 @@
 					<space></space>
 					<space></space>
 					<space></space>
-					<div hflex="2" align="center">
+					<div hflex="2" align="center" style="margin-top:20px">
 						<label value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" style="font-size:23px;color:white;font-weight: bold" />
 					</div>
 					<space></space>
