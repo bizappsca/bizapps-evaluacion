@@ -90,6 +90,11 @@ public class SEvaluacion {
 		return evaluacionDAO.buscarEvaluacionCalibracionGrado(grado);
 	}
 	
+	public List<Evaluacion> buscarEvaluacionCalibracion (String empresa, String nombreE, String fichaE, String gerencia, String valoracion,Integer grado) {
+		return evaluacionDAO.buscarEvaluacionCalibracion(empresa, nombreE, fichaE, gerencia, valoracion,grado);
+	}
+	
+	
 	public void eliminarUno(Integer id) {
 		evaluacionDAO.delete(id);
 	}

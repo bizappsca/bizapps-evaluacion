@@ -58,8 +58,6 @@ public class CCalibracionEvaluacion extends CGenerico {
 	@Wire
 	private Textbox txtValoracio;
 	@Wire
-	private Spinner txtGrado;
-	@Wire
 	private Button btnBuscarGrado;
 	@Wire
 	private Button btnBuscarGerencia;
@@ -154,7 +152,9 @@ public class CCalibracionEvaluacion extends CGenerico {
 		// botonera.getChildren().get(1).setVisible(true);
 		// botonera.getChildren().get(3).setVisible(true);
 		// botoneraCalibracion.appendChild(botonera);
-
+		
+		
+		//actualizarCatalogo();
 	}
 
 	public void mostrarBotones(boolean bol) {
@@ -165,12 +165,12 @@ public class CCalibracionEvaluacion extends CGenerico {
 	}
 
 	public void mostrarCatalogo() {
-		System.out.println("size"+catalogoEvaluaciones.getChildren().size());
+		//System.out.println("size"+catalogoEvaluaciones.getChildren().size());
 		evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
 
 		catalogoEvaluacion = new CatalagoN<Evaluacion>(catalogoEvaluaciones,
 				"Catalogo", evaluaciones, false, false, true, "Ficha",
-				"Nombre Empleado", "Fecha Revisión", "Estado Evaluacion",
+				"Nombre Empleado", "Grado","Gerencia", "Estado Evaluacion",
 				"Ficha Evaluador", "Nombre Evaluador", "Resultado Objetivos",
 				"Resultado Competencias", "Resultado General", "Valoración",
 				"Resultado Final") {
@@ -193,39 +193,43 @@ public class CCalibracionEvaluacion extends CGenerico {
 									.toLowerCase().contains(valores.get(1).toLowerCase())
 							&& String
 									.valueOf(
-											evaluacionCampos.getFechaRevision())
+											empleado.getGradoAuxiliar())
 									.toLowerCase().contains(valores.get(2).toLowerCase())
+							&& String
+									.valueOf(
+											empleado.getUnidadOrganizativa().getGerencia().getDescripcion())
+									.toLowerCase().contains(valores.get(3).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getEstadoEvaluacion())
-									.toLowerCase().contains(valores.get(3).toLowerCase())
-							&& evaluacionCampos.getFichaEvaluador()
 									.toLowerCase().contains(valores.get(4).toLowerCase())
-							&& String.valueOf(empleado1.getNombre())
+							&& evaluacionCampos.getFichaEvaluador()
 									.toLowerCase().contains(valores.get(5).toLowerCase())
-							&& String
-									.valueOf(
-											evaluacionCampos
-													.getResultadoObjetivos())
+							&& String.valueOf(empleado1.getNombre())
 									.toLowerCase().contains(valores.get(6).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
-													.getResultadoCompetencias())
+													.getResultadoObjetivos())
 									.toLowerCase().contains(valores.get(7).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
-													.getResultadoGeneral())
+													.getResultadoCompetencias())
 									.toLowerCase().contains(valores.get(8).toLowerCase())
-							&& String.valueOf(evaluacionCampos.getValoracion())
+							&& String
+									.valueOf(
+											evaluacionCampos
+													.getResultadoGeneral())
 									.toLowerCase().contains(valores.get(9).toLowerCase())
+							&& String.valueOf(evaluacionCampos.getValoracion())
+									.toLowerCase().contains(valores.get(10).toLowerCase())
 							&& String
 									.valueOf(
 											evaluacionCampos
 													.getResultadoFinal())
-									.toLowerCase().contains(valores.get(10).toLowerCase())) {
+									.toLowerCase().contains(valores.get(11).toLowerCase())) {
 						evaluacion.add(evaluacionCampos);
 					}
 				}
@@ -238,22 +242,23 @@ public class CCalibracionEvaluacion extends CGenerico {
 						.getFicha());
 				Empleado empleado1 = servicioEmpleado
 						.buscarPorFicha(evaluacionE.getFichaEvaluador());
-				String[] registros = new String[11];
+				String[] registros = new String[12];
 				registros[0] = evaluacionE.getFicha();
 				registros[1] = empleado.getNombre();
-				registros[2] = String.valueOf(evaluacionE.getFechaRevision());
-				registros[3] = String
+				registros[2] = String.valueOf(empleado.getGradoAuxiliar());
+				registros[3] = String.valueOf(empleado.getUnidadOrganizativa().getGerencia().getDescripcion());
+				registros[4] = String
 						.valueOf(evaluacionE.getEstadoEvaluacion());
-				registros[4] = evaluacionE.getFichaEvaluador();
-				registros[5] = empleado1.getNombre();
-				registros[6] = String.valueOf(evaluacionE
-						.getResultadoObjetivos());
+				registros[5] = evaluacionE.getFichaEvaluador();
+				registros[6] = empleado1.getNombre();
 				registros[7] = String.valueOf(evaluacionE
+						.getResultadoObjetivos());
+				registros[8] = String.valueOf(evaluacionE
 						.getResultadoCompetencias());
-				registros[8] = String
+				registros[9] = String
 						.valueOf(evaluacionE.getResultadoGeneral());
-				registros[9] = String.valueOf(evaluacionE.getValoracion());
-				registros[10] = (String
+				registros[10] = String.valueOf(evaluacionE.getValoracion());
+				registros[11] = (String
 						.valueOf(evaluacionE.getResultadoFinal()));
 				return registros;
 
@@ -511,14 +516,28 @@ public class CCalibracionEvaluacion extends CGenerico {
 		String nombreEv = txtEvaluador.getValue();
 		String gerencia = txtGerencia.getValue();
 		String valoracion = txtValoracion.getValue();
-		Integer grado = txtGrado.getValue();
-		System.out.println(empresa);
-		System.out.println(nombreE + nombreEv + gerencia + valoracion);
+		//Integer grado = txtGrado.getValue();
+		
+		String fichaAux = "";
+		
 		if (empresa.equals("") && nombreE.equals("") && nombreEv.equals("")
-				&& gerencia.equals("") && valoracion.equals("") && grado == 0) {
-			System.out.println("entrooooooo");
+				&& gerencia.equals("") && valoracion.equals("") ) {
+		
 			evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
-		} else if (nombreE.equals("") && nombreEv.equals("")
+		}
+		
+		else
+		{
+			
+			if (nombreEv.trim().equals("")==false ) {
+				Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
+				fichaAux = eva.getFicha();
+			}
+			
+			evaluaciones= servicioEvaluacion.buscarEvaluacionCalibracion(empresa, nombreE, fichaAux, gerencia, valoracion, 0);
+		}
+		
+		/*else if (nombreE.equals("") && nombreEv.equals("")
 				&& gerencia.equals("") && valoracion.equals("") && grado == 0) {
 			evaluaciones = servicioEvaluacion
 					.buscarEvaluacionCalibracionEmpresa(empresa);
@@ -529,12 +548,12 @@ public class CCalibracionEvaluacion extends CGenerico {
 		} else if (empresa.equals("") && nombreE.equals("")
 				&& gerencia.equals("") && valoracion.equals("") && grado == 0) {
 			Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
-			System.out.println(nombreEv);
+			
 
-			String ficha = eva.getFicha();
-			System.out.println(ficha);
+			fichaAux = eva.getFicha();
+			
 			evaluaciones = servicioEvaluacion
-					.buscarEvaluacionCalibracionEvaluador(ficha);
+					.buscarEvaluacionCalibracionEvaluador(fichaAux);
 		} else if (empresa.equals("") && nombreE.equals("")
 				&& nombreEv.equals("") && valoracion.equals("") && grado == 0) {
 			evaluaciones = servicioEvaluacion
@@ -555,7 +574,8 @@ public class CCalibracionEvaluacion extends CGenerico {
 			evaluaciones = servicioEvaluacion.buscarEvaluacionCalibracion(
 					empresa, nombreE, ficha, gerencia, valoracion);
 		}
-		}
+		}*/
+
 		catalogoEvaluacion.actualizarLista(evaluaciones);
 	}
 
@@ -628,14 +648,14 @@ public class CCalibracionEvaluacion extends CGenerico {
 	@Listen("onClick = #btnLimpiar")
 	public void limpiar() {
 		try{
-		catalogoEvaluaciones.detach();
+		//catalogoEvaluaciones.detach();
 		txtEmpresa.setValue("");
 		txtEvaluador.setValue("");
 		txtGerencia.setValue("");
 		txtTrabajador.setValue("");
 		txtValoracion.setValue("");
 		catalogoEvaluacion.actualizarLista(new ArrayList<Evaluacion>());
-		txtGrado.setText("0");
+		//txtGrado.setText("0");
 	} catch (Exception e) {
 		// TODO: handle exception
 		System.out.println(e.toString());

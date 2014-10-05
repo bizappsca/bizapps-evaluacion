@@ -104,11 +104,29 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 			"em.unidadOrganizativa.id = uo.id and " +
 			"uo.gerencia.id = g.id and " +
 			"em.gradoAuxiliar = ?1 ")
+	
 	public List<Evaluacion> buscarEvaluacionCalibracionGrado(Integer Grado);
 	
 	@Query("select e from Evaluacion e, Revision r " +
 			"where r.id = e.revision.id and" +
 			" r.estadoRevision = 'ACTIVO'")
 	public List<Evaluacion> buscarEvaluacionesRevision();
+	
+	
+	
+	@Query("select distinct(ev) from Empleado em, Evaluacion ev, Empresa e, Revision r , UnidadOrganizativa uo, Gerencia g " +
+			"where " +
+			"em.ficha = ev.ficha and " +
+			"r.id = ev.revision.id " +
+			"and r.estadoRevision = 'ACTIVO' AND " +
+			"em.unidadOrganizativa.id = uo.id and " +
+			"uo.gerencia.id = g.id and " +
+			"e.nombre like  CONCAT('%' , ?1 , '%') AND  " +
+			"em.nombre like CONCAT('%' , ?2 , '%') and " +
+			"em.fichaSupervisor like CONCAT('%' , ?3 , '%') and " +
+			"g.descripcion like CONCAT('%' , ?4 , '%') and " +
+			"ev.valoracion like CONCAT('%' , ?5 , '%') and "+ 
+			"em.gradoAuxiliar >= ?6 ")
+	public List<Evaluacion> buscarEvaluacionCalibracion(String empresa,String nombreE,String fichaE,String gerencia,String valoracion,Integer Grado);
 	
 }

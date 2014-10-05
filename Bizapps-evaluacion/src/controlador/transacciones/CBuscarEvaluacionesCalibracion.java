@@ -478,12 +478,30 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		String nombreEv = txtEvaluador.getValue();
 		String gerencia = txtGerencia.getValue();
 		String valoracion = txtValoracion.getValue();
-		Integer grado = txtGrado.getValue();
-		System.out.println(empresa);
-		System.out.println(nombreE+ nombreEv+gerencia+valoracion);
+		
+	
+		String fichaAux = "";
+		
 		if (empresa.equals("") && nombreE.equals("") && nombreEv.equals("")
+				&& gerencia.equals("") && valoracion.equals("") ) {
+			evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
+		}
+		
+		else
+		{
+			if (nombreEv.trim().equals("")==false ) {
+				Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
+				fichaAux = eva.getFicha();
+			}
+			
+			evaluaciones= servicioEvaluacion.buscarEvaluacionCalibracion(empresa, nombreE, fichaAux, gerencia, valoracion, 0);
+		}
+		
+		catalogoEvaluacion.actualizarLista(evaluaciones);
+		
+		/*if (empresa.equals("") && nombreE.equals("") && nombreEv.equals("")
 				&& gerencia.equals("") && valoracion.equals("") && grado == 0) {
-			System.out.println("entrooooooo");
+			
 			evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
 		} 
 		else if (nombreE.equals("") && nombreEv.equals("")
@@ -496,11 +514,9 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		}
 		else if (empresa.equals("") && nombreE.equals("")
 				&& gerencia.equals("") && valoracion.equals("") && grado  == 0) {
-			Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);
-			System.out.println(nombreEv);
-			
+			Empleado eva = servicioEmpleado.buscarPorNombre(nombreEv);			
 			String ficha = eva.getFicha();
-			System.out.println(ficha);
+			
 			evaluaciones = servicioEvaluacion.buscarEvaluacionCalibracionEvaluador(ficha);
 		}
 		else if (empresa.equals("") && nombreE.equals("") && nombreEv.equals("")
@@ -523,9 +539,11 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 					empresa, nombreE, ficha, gerencia, valoracion);
 		}
 		}
+		*/
+		
 //		try {
 //			catalogoEvaluacion.setParent(catalogoEvaluaciones);
-			catalogoEvaluacion.actualizarLista(evaluaciones);
+			//catalogoEvaluacion.actualizarLista(evaluaciones);
 //			
 //		} catch (Exception e) {
 //			// TODO: handle exception

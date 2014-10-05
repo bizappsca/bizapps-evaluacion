@@ -21,7 +21,7 @@
 					<space />
 				</hbox>
 				<textbox id="txtEmpresa" tabindex="1" width="100%"
-					maxlength="100" tooltiptext="Ingrese aqui la gerencia" />
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
 				<button id="btnBuscarEmpresa" class="btn" label="Buscar"
 					tooltiptext="Catalogo de Empresas"  image="/public/imagenes/botones/buscar.png" />
 				<hbox />
@@ -32,7 +32,7 @@
 					<space />
 				</hbox>
 				<textbox id="txtGerencia" tabindex="1" width="100%"
-					maxlength="100" tooltiptext="Ingrese aqui la gerencia" />
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
 				<button id="btnBuscarGerencia"  image="/public/imagenes/botones/buscar.png"
 					tooltiptext="Catalogo de gerencias" class="btn" label="Buscar"/>
 				<hbox />
@@ -43,7 +43,7 @@
 					<space />
 				</hbox>
 				<textbox id="txtTrabajador" tabindex="1" width="100%"
-					maxlength="100" tooltiptext="Ingrese aqui la gerencia" />
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
 				<button id="btnBuscarTrabajador"  image="/public/imagenes/botones/buscar.png"
 					tooltiptext="Catalogo de Trabajador" class="btn" label="Buscar"/>
 				<hbox />
@@ -54,7 +54,7 @@
 					<space />
 				</hbox>
 				<textbox id="txtEvaluador" tabindex="1" width="100%"
-					maxlength="100" tooltiptext="Ingrese aqui la gerencia" />
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
 				<button id="btnBuscarEvaluador"  image="/public/imagenes/botones/buscar.png"
 					tooltiptext="Catalogo de Evaluador" class="btn" label="Buscar" />
 				<hbox />
@@ -65,22 +65,13 @@
 					<space />
 				</hbox>
 				<textbox id="txtValoracion" tabindex="1" width="100%"
-					maxlength="100" tooltiptext="Ingrese aqui la gerencia" />
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
 				<button id="btnBuscarValoracion" image="/public/imagenes/botones/buscar.png"
 					tooltiptext="Catalogo de Evaluador" class="btn" label="Buscar"/>
 				<hbox />
 				<hbox />
 			</row>
-			<row>
-				<hbox>
-					<label class="etiqueta" value="Grado:" />
-					<space />
-				</hbox>
-				<spinner value = "0" constraint="min 0; max 25"
-				mold="rounded" width="100%" id="txtGrado" maxlength="3" />
-				<hbox />
-				<hbox />
-			</row>
+			
 		</rows>
 	</grid>
 		
