@@ -16,6 +16,8 @@ import java.io.File;
 import jxl.*;
 import jxl.read.biff.BiffException;
 
+import modelo.maestros.Actividad;
+import modelo.maestros.ActividadCurso;
 import modelo.maestros.Area;
 import modelo.maestros.Curso;
 import modelo.maestros.Empleado;
@@ -36,9 +38,13 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Radio;
+import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Textbox;
@@ -68,14 +74,37 @@ public class CGestionarAdiestramiento extends CGenerico {
 	private Div botoneraAdiestramiento;
 	@Wire
 	private Media mediaAdiestramiento;
+	@Wire
+	private Textbox txtPeriodoGestionarAdiestramiento;
+	@Wire
+	private Button btnBuscarPeriodo;
+	@Wire
+	private Radiogroup rdgGestionarAdiestramiento;
+	@Wire
+	private Radio rbExportar;
+	@Wire
+	private Radio rbImportar;
+	@Wire
+	private Groupbox gbImportar;
+	@Wire
+	private Groupbox gbExportar;
+	@Wire
+	private Listbox lsbAdiestramientos;
+	@Wire
+	private Div divCatalogoPeriodo;
+
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd/MM/yyyy");
 	DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 	DateFormat df1 = DateFormat.getDateInstance(DateFormat.MEDIUM);
 	List<String> erroresGenerados = new ArrayList<String>();
+	List<Curso> cursos = new ArrayList<Curso>();
+	List<EmpleadoCurso> empleadoCursos = new ArrayList<EmpleadoCurso>();
+	List<EmpleadoCurso> cursosPeriodo = new ArrayList<EmpleadoCurso>();
 	private int idRow = 0;
 	private int idNombreCurso = 0;
 	private int idCurso = 0;
+	private int idPeriodo = 0;
 	Curso curso = new Curso();
 	NombreCurso nombreCurso = new NombreCurso();
 	Periodo periodo = new Periodo();
@@ -91,6 +120,8 @@ public class CGestionarAdiestramiento extends CGenerico {
 	int errores = 0;
 	int errorLinea = 0;
 	boolean parar = false;
+
+	Catalogo<Periodo> catalogoPeriodo;
 
 	private CArbol cArbol = new CArbol();
 
@@ -216,7 +247,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 					String nombrePeriodo = sheet.getCell(5, fila).getContents();
 					String gerencia = sheet.getCell(6, fila).getContents();
 					String cargo = sheet.getCell(7, fila).getContents();
-					String grado = sheet.getCell(8, fila).getContents();
+					
 
 					// VALIDACION FICHA
 					empleado = servicioEmpleado.buscarPorFichaYNombre(ficha,
@@ -288,7 +319,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 			}
 
 			if (lineasInvalidas > 0) {
-				
+
 				System.out.println("Entre 1");
 
 				limpiarCampos();
@@ -308,7 +339,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 				}
 
 			} else {
-				
+
 				System.out.println("Entre 2");
 
 				// Copiar archivo excel en el directorio C:\files\
@@ -335,8 +366,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 						errorLinea = 0;
 
-						String ficha = sheet.getCell(0, fila)
-								.getContents();
+						String ficha = sheet.getCell(0, fila).getContents();
 						String nombreEmpleado = sheet.getCell(1, fila)
 								.getContents();
 						String nombrecurso = sheet.getCell(2, fila)
@@ -347,12 +377,9 @@ public class CGestionarAdiestramiento extends CGenerico {
 								.getContents();
 						String nombrePeriodo = sheet.getCell(5, fila)
 								.getContents();
-						String gerencia = sheet.getCell(6, fila)
-								.getContents();
-						String cargo = sheet.getCell(7, fila)
-								.getContents();
-						String grado = sheet.getCell(8, fila)
-								.getContents();
+						String gerencia = sheet.getCell(6, fila).getContents();
+						String cargo = sheet.getCell(7, fila).getContents();
+						
 
 						// VALIDACION FICHA
 						empleado = servicioEmpleado.buscarPorFicha(ficha);
@@ -388,7 +415,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 								errores = errores + 1;
 
 							} else {
-								
+
 								System.out.println("Entre 3");
 
 								NombreCurso curso = new NombreCurso(
@@ -397,14 +424,14 @@ public class CGestionarAdiestramiento extends CGenerico {
 								servicioNombreCurso.guardar(curso);
 
 								System.out.println(periodo);
-								
+
 								if (periodo != null) {
-									
+
 									System.out.println("Entre 4");
 
 									NombreCurso ultimoCurso = servicioNombreCurso
 											.buscarUltimoCurso();
-									
+
 									System.out.println(ultimoCurso);
 
 									Curso configurarCurso = new Curso(idCurso,
@@ -416,7 +443,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 									Curso ultimoCursoRegistrado = servicioCurso
 											.buscarUltimoCurso();
-									
+
 									System.out.println(ultimoCursoRegistrado);
 
 									EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
@@ -503,9 +530,15 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 	private void limpiarCampos() {
 		idRow = 0;
+		idPeriodo = 0;
 		txtArchivoAdiestramiento.setText("");
 		txtArchivoAdiestramiento.setPlaceholder("Ningún archivo seleccionado");
 		txtArchivoAdiestramiento.setStyle("color:black !important;");
+		txtPeriodoGestionarAdiestramiento.setValue("");
+		rdgGestionarAdiestramiento.setSelectedItem(null);
+		lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>());
+		gbImportar.setVisible(false);
+		gbExportar.setVisible(false);
 
 	}
 
@@ -523,6 +556,117 @@ public class CGestionarAdiestramiento extends CGenerico {
 		} catch (NumberFormatException nfe) {
 			return false;
 		}
+	}
+
+	@Listen("onClick = #btnBuscarPeriodo")
+	public void buscarPeriodo() {
+
+		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
+		catalogoPeriodo = new Catalogo<Periodo>(divCatalogoPeriodo,
+				"Catalogo de Periodos", listPeriodo, true, false, false,
+				"Nombre", "Descripción", "Fecha Inicio", "Fecha Fin", "Estado") {
+
+			@Override
+			protected List<Periodo> buscar(List<String> valores) {
+				List<Periodo> lista = new ArrayList<Periodo>();
+
+				for (Periodo periodo : listPeriodo) {
+					if (periodo.getNombre().toLowerCase()
+							.contains(valores.get(0).toLowerCase())
+							&& periodo.getDescripcion().toLowerCase()
+									.contains(valores.get(1).toLowerCase())
+							&& String
+									.valueOf(
+											formatoFecha.format(periodo
+													.getFechaInicio()))
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())
+							&& String
+									.valueOf(
+											formatoFecha.format(periodo
+													.getFechaFin()))
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
+							&& periodo.getEstadoPeriodo().toLowerCase()
+									.contains(valores.get(4).toLowerCase())) {
+						lista.add(periodo);
+					}
+				}
+				return lista;
+
+			}
+
+			@Override
+			protected String[] crearRegistros(Periodo periodo) {
+				String[] registros = new String[6];
+				registros[0] = periodo.getNombre();
+				registros[1] = periodo.getDescripcion();
+				registros[2] = formatoFecha.format(periodo.getFechaInicio());
+				registros[3] = formatoFecha.format(periodo.getFechaFin());
+				registros[4] = periodo.getEstadoPeriodo();
+
+				return registros;
+			}
+		};
+		catalogoPeriodo.setClosable(true);
+		catalogoPeriodo.setWidth("80%");
+		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.doModal();
+
+	}
+
+	@Listen("onSeleccion = #divCatalogoPeriodo")
+	public void seleccionPeriodo() {
+		Periodo periodo = catalogoPeriodo.objetoSeleccionadoDelCatalogo();
+		idPeriodo = periodo.getId();
+		txtPeriodoGestionarAdiestramiento.setValue(periodo.getNombre());
+		llenarLista();
+		catalogoPeriodo.setParent(null);
+	}
+
+	public void llenarLista() {
+
+		if (idPeriodo != 0) {
+			Periodo periodoCursos = servicioPeriodo.buscarPeriodo(idPeriodo);
+			cursos = servicioCurso.buscarPorPeriodo(periodoCursos);
+		
+			empleadoCursos = servicioEmpleadoCurso.buscarTodos();
+			
+			//metodo para buscar todos los DNA de acuerdo al periodo seleccionado
+			
+			for(int i = 0; i < cursos.size(); i++ ){
+				
+				
+				for(int j = 0; j < empleadoCursos.size() ; j++){
+					
+					
+					if(cursos.get(i).getId() == empleadoCursos.get(j).getCurso().getId()){
+						
+						if(empleadoCursos.get(j).getEstadoCurso().equals("EN TRAMITE")){
+							
+							EmpleadoCurso cursosEmpleados = empleadoCursos.get(j);
+							cursosPeriodo.add(cursosEmpleados);
+							
+						}
+						
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>(cursosPeriodo));
+			
+			
+			
+			
+			
+		}
+
+		
+
 	}
 
 }

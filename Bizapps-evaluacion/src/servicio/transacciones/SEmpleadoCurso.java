@@ -46,4 +46,10 @@ public class SEmpleadoCurso {
 	}
 	
 	
+	/* Servicio que permite buscar todos los DNA */
+	public List<EmpleadoCurso> buscarTodos() {
+		return empleadoCursoDAO.findAll();
+	}
+	
+	
 }
