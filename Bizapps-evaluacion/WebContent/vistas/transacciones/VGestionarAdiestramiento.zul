@@ -124,7 +124,7 @@
 						pageSize="10" oddRowSclass="non-odd"
 						emptyMessage="No ha seleccionado el periodo">
 						<listhead>
-							<listheader label="Fiha" width="70px" />
+							<listheader label="Ficha" width="70px" />
 							<listheader label="Nombre" />
 							<listheader label="Capacitación" />
 							<listheader label="Área" />
