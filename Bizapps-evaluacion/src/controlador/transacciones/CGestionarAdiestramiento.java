@@ -1,5 +1,7 @@
 package controlador.transacciones;
 
+import java.awt.Desktop;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -26,6 +28,10 @@ import modelo.maestros.NombreCurso;
 import modelo.maestros.Periodo;
 import modelo.seguridad.Arbol;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.data.jpa.repository.Query;
 import org.zkoss.io.Files;
 import org.zkoss.util.media.Media;
@@ -80,6 +86,8 @@ public class CGestionarAdiestramiento extends CGenerico {
 	private Button btnBuscarPeriodo;
 	@Wire
 	private Radiogroup rdgGestionarAdiestramiento;
+	@Wire
+	private Button btnExportarAdiestramientos;
 	@Wire
 	private Radio rbExportar;
 	@Wire
@@ -247,7 +255,6 @@ public class CGestionarAdiestramiento extends CGenerico {
 					String nombrePeriodo = sheet.getCell(5, fila).getContents();
 					String gerencia = sheet.getCell(6, fila).getContents();
 					String cargo = sheet.getCell(7, fila).getContents();
-					
 
 					// VALIDACION FICHA
 					empleado = servicioEmpleado.buscarPorFichaYNombre(ficha,
@@ -379,7 +386,6 @@ public class CGestionarAdiestramiento extends CGenerico {
 								.getContents();
 						String gerencia = sheet.getCell(6, fila).getContents();
 						String cargo = sheet.getCell(7, fila).getContents();
-						
 
 						// VALIDACION FICHA
 						empleado = servicioEmpleado.buscarPorFicha(ficha);
@@ -629,43 +635,128 @@ public class CGestionarAdiestramiento extends CGenerico {
 		if (idPeriodo != 0) {
 			Periodo periodoCursos = servicioPeriodo.buscarPeriodo(idPeriodo);
 			cursos = servicioCurso.buscarPorPeriodo(periodoCursos);
-		
+
 			empleadoCursos = servicioEmpleadoCurso.buscarTodos();
-			
-			//metodo para buscar todos los DNA de acuerdo al periodo seleccionado
-			
-			for(int i = 0; i < cursos.size(); i++ ){
-				
-				
-				for(int j = 0; j < empleadoCursos.size() ; j++){
-					
-					
-					if(cursos.get(i).getId() == empleadoCursos.get(j).getCurso().getId()){
-						
-						if(empleadoCursos.get(j).getEstadoCurso().equals("EN TRAMITE")){
-							
-							EmpleadoCurso cursosEmpleados = empleadoCursos.get(j);
+
+			// metodo para buscar todos los DNA de acuerdo al periodo
+			// seleccionado
+
+			for (int i = 0; i < cursos.size(); i++) {
+
+				for (int j = 0; j < empleadoCursos.size(); j++) {
+
+					if (cursos.get(i).getId() == empleadoCursos.get(j)
+							.getCurso().getId()) {
+
+						if (empleadoCursos.get(j).getEstadoCurso()
+								.equals("EN TRAMITE")) {
+
+							EmpleadoCurso cursosEmpleados = empleadoCursos
+									.get(j);
 							cursosPeriodo.add(cursosEmpleados);
-							
+
 						}
-						
+
 					}
-					
-					
+
 				}
-				
-				
+
 			}
-			
-			lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>(cursosPeriodo));
-			
-			
-			
-			
-			
+
+			lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>(
+					cursosPeriodo));
+
 		}
 
-		
+	}
+
+	@Listen("onClick = #btnExportarAdiestramientos")
+	public void exportarDatos() throws IOException {
+
+		if (cursosPeriodo.size() != 0) {
+
+			Periodo periodoSeleccionado = servicioPeriodo
+					.buscarPeriodo(idPeriodo);
+
+			/* La ruta donde se creara el archivo */
+			String rutaArchivo = System.getProperty("user.home") + "/DNA" + "_" 
+					+ periodoSeleccionado.getNombre() + ".xls";
+			/* Se crea el objeto de tipo File con la ruta del archivo */
+			File archivoXLS = new File(rutaArchivo);
+			/* Si el archivo existe se elimina */
+			if (archivoXLS.exists())
+				archivoXLS.delete();
+			/* Se crea el archivo */
+			archivoXLS.createNewFile();
+			/* Se crea el libro de excel usando el objeto de tipo Workbook */
+			HSSFWorkbook libro = new HSSFWorkbook();
+			/* Se inicializa el flujo de datos con el archivo xls */
+			FileOutputStream archivo = new FileOutputStream(archivoXLS);
+
+			/*
+			 * Utilizamos la clase Sheet para crear una nueva hoja de trabajo
+			 * dentro del libro que creamos anteriormente
+			 */
+			HSSFSheet hoja = libro.createSheet("Hoja 1");
+
+			/*
+			 * Hacemos un ciclo para inicializar los valores de las filas de
+			 * celdas
+			 */
+			System.out.println(cursosPeriodo.size());
+			for (int f = 0; f <= cursosPeriodo.size(); f++) {
+				/* La clase Row nos permitira crear las filas */
+				Row fila = hoja.createRow(f);
+
+				/* Creamos la celda a partir de la fila actual */
+				Cell celda0 = fila.createCell(0);
+				Cell celda1 = fila.createCell(1);
+				Cell celda2 = fila.createCell(2);
+				Cell celda3 = fila.createCell(3);
+				Cell celda4 = fila.createCell(4);
+				Cell celda5 = fila.createCell(5);
+				Cell celda6 = fila.createCell(6);
+				Cell celda7 = fila.createCell(7);
+
+				/* Si la fila es la numero 0, estableceremos los encabezados */
+				if (f == 0) {
+					celda0.setCellValue("Ficha");
+					celda1.setCellValue("Nombre");
+					celda2.setCellValue("Capacitación");
+					celda3.setCellValue("Área");
+					celda4.setCellValue("Tipo Formación");
+					celda5.setCellValue("Periodo");
+					celda6.setCellValue("Gerencia");
+					celda7.setCellValue("Cargo");
+				} else {
+					/* Si no es la primera fila establecemos un valor */
+					celda0.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getFicha());
+					celda1.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getNombre());
+					celda2.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getNombre());
+					celda3.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getArea().getDescripcion());
+					celda4.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getArea().getTipoFormacion().getDescripcion());
+					celda5.setCellValue(cursosPeriodo.get(f - 1).getCurso().getPeriodo().getNombre());
+					celda6.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getUnidadOrganizativa().getGerencia().getDescripcion());
+					celda7.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getCargo().getDescripcion());
+				}
+
+			}
+			
+			
+			/*Escribimos en el libro*/
+	        libro.write(archivo);
+	        /*Cerramos el flujo de datos*/
+	        archivo.close();
+	        /*Y abrimos el archivo con la clase Desktop*/
+	        Desktop.getDesktop().open(archivoXLS);
+
+
+		} else {
+
+			Messagebox.show("No existen datos para realizar la exportación",
+					"Error", Messagebox.OK, Messagebox.ERROR);
+
+		}
 
 	}
 
