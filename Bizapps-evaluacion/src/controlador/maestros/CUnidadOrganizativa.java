@@ -59,6 +59,8 @@ public class CUnidadOrganizativa extends CGenerico {
 	@Wire
 	private Div catalogoUnidadOrganizativa;
 	@Wire
+	private Label lblGerenciaUnidadOrganizativa;
+	@Wire
 	private Div divCatalogoGerencia;
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
@@ -69,17 +71,20 @@ public class CUnidadOrganizativa extends CGenerico {
 	Botonera botonera;
 	Catalogo<UnidadOrganizativa> catalogo;
 	Catalogo<Gerencia> catalogoGerencia;
+	protected List<UnidadOrganizativa> listaGeneral = new ArrayList<UnidadOrganizativa>();
+
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtGerenciaUnidadOrganizativa.setFocus(true);
@@ -97,10 +102,12 @@ public class CUnidadOrganizativa extends CGenerico {
 								.objetoSeleccionadoDelCatalogo();
 						idUnidadOrganizativa = unidad.getId();
 						idGerencia = unidad.getGerencia().getId();
-						txtGerenciaUnidadOrganizativa.setValue(unidad
-								.getGerencia().getDescripcion());
+						txtGerenciaUnidadOrganizativa.setValue(String.valueOf(unidad
+								.getGerencia().getId()));
 						txtDescripcionUnidadOrganizativa.setValue(unidad
 								.getDescripcion());
+						lblGerenciaUnidadOrganizativa.setValue(unidad
+								.getGerencia().getDescripcion());
 						spnNivelUnidadOrganizativa.setValue(unidad.getNivel());
 						spnSubNivelUnidadOrganizativa.setValue(unidad
 								.getSubNivel());
@@ -117,11 +124,8 @@ public class CUnidadOrganizativa extends CGenerico {
 
 			@Override
 			public void guardar() {
-				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionUnidadOrganizativa
 							.getValue();
 					Gerencia gerencia = servicioGerencia
@@ -148,8 +152,9 @@ public class CUnidadOrganizativa extends CGenerico {
 						servicioUnidadOrganizativa.guardar(unidad);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioUnidadOrganizativa
-								.buscarTodas());
+						listaGeneral = servicioUnidadOrganizativa
+								.buscarTodas();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 					} else {
 
@@ -170,7 +175,7 @@ public class CUnidadOrganizativa extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVUnidadOrganizativa, "Unidad Organizativa",tabs);
+				cerrarVentana2(wdwVUnidadOrganizativa,titulo,tabs);
 			}
 
 			@Override
@@ -195,8 +200,9 @@ public class CUnidadOrganizativa extends CGenerico {
 													servicioUnidadOrganizativa
 															.eliminarVariasUnidades(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioUnidadOrganizativa
-															.buscarTodas());
+													listaGeneral = servicioUnidadOrganizativa
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -218,8 +224,9 @@ public class CUnidadOrganizativa extends CGenerico {
 															.eliminarUnaUnidad(idUnidadOrganizativa);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioUnidadOrganizativa
-															.buscarTodas());
+													listaGeneral = servicioUnidadOrganizativa
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -230,9 +237,39 @@ public class CUnidadOrganizativa extends CGenerico {
 
 			}
 
+			@Override
+			public void buscar() {
+				// TODO Auto-generated method stub
+				abrirCatalogo();
+				
+			}
+
+			@Override
+			public void annadir() {
+				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraUnidadOrganizativa.appendChild(botonera);
 
 	}
@@ -242,10 +279,11 @@ public class CUnidadOrganizativa extends CGenerico {
 		idGerencia = 0;
 		txtGerenciaUnidadOrganizativa.setValue("");
 		txtDescripcionUnidadOrganizativa.setValue("");
-		spnNivelUnidadOrganizativa.setValue(null);
-		spnSubNivelUnidadOrganizativa.setValue(null);
+		spnNivelUnidadOrganizativa.setValue(0);
+		spnSubNivelUnidadOrganizativa.setValue(0);
 		txtEmpresaAuxiliarUnidadOrganizativa.setValue("");
 		txtUnidadOrganizativaAuxiliar.setValue("");
+		lblGerenciaUnidadOrganizativa.setValue("");
 		catalogo.limpiarSeleccion();
 		txtGerenciaUnidadOrganizativa.setFocus(true);
 
@@ -254,8 +292,8 @@ public class CUnidadOrganizativa extends CGenerico {
 	public boolean camposEditando() {
 		if (txtGerenciaUnidadOrganizativa.getText().compareTo("") != 0
 				|| txtDescripcionUnidadOrganizativa.getText().compareTo("") != 0
-				|| spnNivelUnidadOrganizativa.getText().compareTo("") != 0
-				|| spnSubNivelUnidadOrganizativa.getText().compareTo("") != 0
+				|| spnNivelUnidadOrganizativa.getText().compareTo("0") != 0
+				|| spnSubNivelUnidadOrganizativa.getText().compareTo("0") != 0
 				|| txtEmpresaAuxiliarUnidadOrganizativa.getText().compareTo("") != 0
 				|| txtUnidadOrganizativaAuxiliar.getText().compareTo("") != 0) {
 			return true;
@@ -327,7 +365,7 @@ public class CUnidadOrganizativa extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -338,15 +376,18 @@ public class CUnidadOrganizativa extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
-
 	public void mostrarCatalogo() {
 
-		final List<UnidadOrganizativa> listUnidadOrganizativa = servicioUnidadOrganizativa
+		listaGeneral = servicioUnidadOrganizativa
 				.buscarTodas();
 		catalogo = new Catalogo<UnidadOrganizativa>(catalogoUnidadOrganizativa,
-				"Catalogo de UnidadOrganizativas", listUnidadOrganizativa,false,false,false,
+				"Catalogo de UnidadOrganizativas", listaGeneral,false,false,false,
 				"Gerencia", "Descripción", "Nivel", "Sub-Nivel",
 				"Empresa Auxiliar", "Unidad Auxiliar") {
 
@@ -354,7 +395,7 @@ public class CUnidadOrganizativa extends CGenerico {
 			protected List<UnidadOrganizativa> buscar(List<String> valores) {
 				List<UnidadOrganizativa> lista = new ArrayList<UnidadOrganizativa>();
 
-				for (UnidadOrganizativa unidad : listUnidadOrganizativa) {
+				for (UnidadOrganizativa unidad : listaGeneral) {
 					if (unidad.getGerencia().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& unidad.getDescripcion().toLowerCase()
@@ -391,19 +432,19 @@ public class CUnidadOrganizativa extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtGerenciaUnidadOrganizativa")
-	public void buscarGerencia() {
-		List<Gerencia> gerencias = servicioGerencia
-				.buscarPorNombres(txtGerenciaUnidadOrganizativa.getValue());
-		if (gerencias.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoGerencia);
-			txtGerenciaUnidadOrganizativa.setFocus(true);
-		} else {
-
-			idGerencia = gerencias.get(0).getId();
-		}
-
-	}
+//	@Listen("onChange = #txtGerenciaUnidadOrganizativa")
+//	public void buscarGerencia() {
+//		List<Gerencia> gerencias = servicioGerencia
+//				.buscarPorNombres(txtGerenciaUnidadOrganizativa.getValue());
+//		if (gerencias.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoGerencia);
+//			txtGerenciaUnidadOrganizativa.setFocus(true);
+//		} else {
+//
+//			idGerencia = gerencias.get(0).getId();
+//		}
+//
+//	}
 
 	@Listen("onClick = #btnBuscarGerencia")
 	public void mostrarCatalogoGerencia() {
@@ -439,15 +480,44 @@ public class CUnidadOrganizativa extends CGenerico {
 		catalogoGerencia.setWidth("80%");
 		catalogoGerencia.setParent(divCatalogoGerencia);
 		catalogoGerencia.doModal();
+		catalogoGerencia.setTitle("Catalogo de Gerencias");
 	}
 
 	@Listen("onSeleccion = #divCatalogoGerencia")
 	public void seleccionGerencia() {
 		Gerencia gerencia = catalogoGerencia.objetoSeleccionadoDelCatalogo();
 		idGerencia = gerencia.getId();
-		txtGerenciaUnidadOrganizativa.setValue(gerencia.getDescripcion());
+		txtGerenciaUnidadOrganizativa.setValue(String.valueOf(gerencia.getId()));
+		lblGerenciaUnidadOrganizativa.setValue(gerencia.getDescripcion());
 		txtGerenciaUnidadOrganizativa.setFocus(true);
 		catalogoGerencia.setParent(null);
 	}
+	
+	@Listen("onChange = #txtGerenciaUnidadOrganizativa; onOK =  #txtGerenciaUnidadOrganizativa")
+	public boolean buscarIdGerencia() {
+		try {
+		if (txtGerenciaUnidadOrganizativa.getText().compareTo("") != 0) {
+			Gerencia gerencia = servicioGerencia.buscarGerencia(Integer.valueOf(txtGerenciaUnidadOrganizativa.getValue()));
+			if (gerencia != null) {
+				txtGerenciaUnidadOrganizativa.setValue(String.valueOf(gerencia.getId()));
+				lblGerenciaUnidadOrganizativa.setValue(gerencia.getDescripcion());
+				return false;
+			} else {
+				txtGerenciaUnidadOrganizativa.setFocus(true);
+				lblGerenciaUnidadOrganizativa.setValue("");
+				msj.mensajeError(Mensaje.codigoGerencia);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+
 
 }

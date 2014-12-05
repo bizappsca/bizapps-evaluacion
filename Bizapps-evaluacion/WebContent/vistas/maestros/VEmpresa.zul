@@ -1,6 +1,6 @@
 <window id="wdwVEmpresa" apply="controlador.maestros.CEmpresa"
 	border="normal" height="auto" style="background-color:#8A0808;"
-	width="70%">
+	width="100%">
 <style src="/public/Estilo.css" />
 	<groupbox width="auto" mold="3d" title="Empresa">
 		<separator />

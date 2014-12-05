@@ -55,13 +55,21 @@ public class CEmpleado extends CGenerico {
 	@Wire
 	private Textbox txtEmpresaEmpleado;
 	@Wire
+	private Label lblEmpresaEmpleado;
+	@Wire
 	private Button btnBuscarEmpresa;
 	@Wire
 	private Textbox txtCargoEmpleado;
 	@Wire
+	private Label lblCargoEmpleado;
+	@Wire
 	private Button btnBuscarCargo;
 	@Wire
 	private Textbox txtUnidadEmpleado;
+	@Wire
+	private Label lblUnidadEmpleado;
+	@Wire
+	private Label lblNombre;
 	@Wire
 	private Button btnBuscarUnidad;
 	@Wire
@@ -99,17 +107,19 @@ public class CEmpleado extends CGenerico {
 	Catalogo<Cargo> catalogoCargo;
 	Catalogo<UnidadOrganizativa> catalogoUnidad;
 	Catalogo<Empleado> catalogoSupervisor;
+	protected List<Empleado> listaGeneral = new ArrayList<Empleado>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtEmpresaEmpleado.setFocus(true);
@@ -131,13 +141,20 @@ public class CEmpleado extends CGenerico {
 						idUnidad = empleado.getUnidadOrganizativa().getId();
 						idFichaSupervisor = Integer.parseInt(empleado
 								.getFichaSupervisor());
-						txtEmpresaEmpleado.setValue(empleado.getEmpresa()
+						txtEmpresaEmpleado.setValue(String.valueOf(empleado.getEmpresa()
+								.getId()));
+						lblEmpresaEmpleado.setValue(empleado.getEmpresa()
 								.getNombre());
-						txtCargoEmpleado.setValue(empleado.getCargo()
+						txtCargoEmpleado.setValue(String.valueOf(empleado.getCargo()
+								.getId()));
+						lblCargoEmpleado.setValue(empleado.getCargo()
 								.getDescripcion());
-						txtUnidadEmpleado.setValue(empleado
+						txtUnidadEmpleado.setValue(String.valueOf(empleado
+								.getUnidadOrganizativa().getId()));
+						lblUnidadEmpleado.setValue(empleado
 								.getUnidadOrganizativa().getDescripcion());
-						txtNombreEmpleado.setValue(empleado.getNombre());
+						txtNombreEmpleado.setValue(empleado.getFicha());
+						lblNombre.setValue(empleado.getNombre());
 						cmbNivelAcademicoEmpleado.setValue(empleado
 								.getNivelAcademico());
 						txtEspecialidadEmpleado.setValue(empleado
@@ -165,11 +182,8 @@ public class CEmpleado extends CGenerico {
 
 			@Override
 			public void guardar() {
-				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 
 					Empresa empresa = servicioEmpresa.buscarEmpresa(idEmpresa);
 					Cargo cargo = servicioCargo.buscarCargo(idCargo);
@@ -203,7 +217,8 @@ public class CEmpleado extends CGenerico {
 						servicioEmpleado.guardar(empleado);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioEmpleado.buscarTodos());
+						listaGeneral = servicioEmpleado.buscarTodos();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 					} else {
 
@@ -237,7 +252,7 @@ public class CEmpleado extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVEmpleado, "Empleado", tabs);
+				cerrarVentana2(wdwVEmpleado, titulo, tabs);
 			}
 
 			@Override
@@ -262,8 +277,8 @@ public class CEmpleado extends CGenerico {
 													servicioEmpleado
 															.eliminarVariosEmpleados(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioEmpleado
-															.buscarTodos());
+													listaGeneral = servicioEmpleado.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -285,8 +300,8 @@ public class CEmpleado extends CGenerico {
 															.eliminarUnEmpleado(idEmpleado);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioEmpleado
-															.buscarTodos());
+													listaGeneral = servicioEmpleado.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -297,11 +312,39 @@ public class CEmpleado extends CGenerico {
 
 			}
 
+			@Override
+			public void buscar() {
+				abrirCatalogo();
+				
+			}
+
+			@Override
+			public void annadir() {
+				abrirRegistro();
+				mostrarBotones(false);
+				
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraEmpleado.appendChild(botonera);
-
 	}
 
 	public void limpiarCampos() {
@@ -315,12 +358,16 @@ public class CEmpleado extends CGenerico {
 		txtEspecialidadEmpleado.setValue("");
 		txtEspecializacionEmpleado.setValue("");
 		txtEmpresaEmpleado.setValue("");
-		spnGradoAuxiliarEmpleado.setValue(null);
+		spnGradoAuxiliarEmpleado.setValue(0);
 		txtCargoEmpleado.setValue("");
 		txtUnidadEmpleado.setValue("");
 		txtNombreEmpleado.setValue("");
 		txtFichaEmpleado.setValue("");
 		txtFichaSupervisorEmpleado.setValue("");
+		lblCargoEmpleado.setValue("");
+		lblEmpresaEmpleado.setValue("");
+		lblNombre.setValue("");
+		lblUnidadEmpleado.setValue("");
 		catalogo.limpiarSeleccion();
 		txtEmpresaEmpleado.setFocus(true);
 
@@ -336,7 +383,7 @@ public class CEmpleado extends CGenerico {
 				|| txtEspecializacionEmpleado.getText().compareTo("") != 0
 				|| txtFichaEmpleado.getText().compareTo("") != 0
 				|| txtFichaSupervisorEmpleado.getText().compareTo("") != 0
-				|| spnGradoAuxiliarEmpleado.getText().compareTo("") != 0) {
+				|| spnGradoAuxiliarEmpleado.getText().compareTo("0") != 0) {
 			return true;
 		} else
 			return false;
@@ -407,7 +454,7 @@ public class CEmpleado extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -418,14 +465,19 @@ public class CEmpleado extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Empleado> listEmpleado = servicioEmpleado.buscarTodos();
+		listaGeneral= servicioEmpleado.buscarTodos();
 		catalogo = new Catalogo<Empleado>(catalogoEmpleado,
-				"Catalogo de Empleados", listEmpleado, false, false, false,
+				"Catalogo de Empleados", listaGeneral, false, false, false,
 				"Empresa", "Cargo", "Unidad Organizativa", "Nombre", "Ficha",
 				"Ficha Supervisor", "Grado Auxiliar") {
 
@@ -433,7 +485,7 @@ public class CEmpleado extends CGenerico {
 			protected List<Empleado> buscar(List<String> valores) {
 				List<Empleado> lista = new ArrayList<Empleado>();
 
-				for (Empleado empleado : listEmpleado) {
+				for (Empleado empleado : listaGeneral) {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
@@ -478,61 +530,61 @@ public class CEmpleado extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtEmpresaEmpleado")
-	public void buscarEmpresa() {
-		List<Empresa> empresas = servicioEmpresa
-				.buscarPorNombres(txtEmpresaEmpleado.getValue());
-		if (empresas.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoEmpresa);
-			txtEmpresaEmpleado.setFocus(true);
-		} else {
-
-			idEmpresa = empresas.get(0).getId();
-		}
-
-	}
-
-	@Listen("onChange = #txtCargoEmpleado")
-	public void buscarCargo() {
-		List<Cargo> cargo = servicioCargo.buscarPorNombres(txtCargoEmpleado
-				.getValue());
-		if (cargo.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoCargo);
-			txtCargoEmpleado.setFocus(true);
-		} else {
-
-			idCargo = cargo.get(0).getId();
-		}
-
-	}
-
-	@Listen("onChange = #txtUnidadEmpleado")
-	public void buscarUnidadOrganizativa() {
-		List<UnidadOrganizativa> unidades = servicioUnidadOrganizativa
-				.buscarPorNombres(txtUnidadEmpleado.getValue());
-		if (unidades.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoUnidad);
-			txtUnidadEmpleado.setFocus(true);
-		} else {
-
-			idUnidad = unidades.get(0).getId();
-		}
-
-	}
-
-	@Listen("onChange = #txtFichaSupervisorEmpleado")
-	public void buscarSupervisor() {
-		List<Empleado> empleados = servicioEmpleado
-				.buscarPorNombres(txtFichaSupervisorEmpleado.getValue());
-		if (empleados.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoSupervisor);
-			txtFichaSupervisorEmpleado.setFocus(true);
-		} else {
-
-			idFichaSupervisor = empleados.get(0).getId();
-		}
-
-	}
+//	@Listen("onChange = #txtEmpresaEmpleado")
+//	public void buscarEmpresa() {
+//		List<Empresa> empresas = servicioEmpresa
+//				.buscarPorNombres(txtEmpresaEmpleado.getValue());
+//		if (empresas.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoEmpresa);
+//			txtEmpresaEmpleado.setFocus(true);
+//		} else {
+//
+//			idEmpresa = empresas.get(0).getId();
+//		}
+//
+//	}
+//
+//	@Listen("onChange = #txtCargoEmpleado")
+//	public void buscarCargo() {
+//		List<Cargo> cargo = servicioCargo.buscarPorNombres(txtCargoEmpleado
+//				.getValue());
+//		if (cargo.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoCargo);
+//			txtCargoEmpleado.setFocus(true);
+//		} else {
+//
+//			idCargo = cargo.get(0).getId();
+//		}
+//
+//	}
+//
+//	@Listen("onChange = #txtUnidadEmpleado")
+//	public void buscarUnidadOrganizativa() {
+//		List<UnidadOrganizativa> unidades = servicioUnidadOrganizativa
+//				.buscarPorNombres(txtUnidadEmpleado.getValue());
+//		if (unidades.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoUnidad);
+//			txtUnidadEmpleado.setFocus(true);
+//		} else {
+//
+//			idUnidad = unidades.get(0).getId();
+//		}
+//
+//	}
+//
+//	@Listen("onChange = #txtFichaSupervisorEmpleado")
+//	public void buscarSupervisor() {
+//		List<Empleado> empleados = servicioEmpleado
+//				.buscarPorNombres(txtFichaSupervisorEmpleado.getValue());
+//		if (empleados.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoSupervisor);
+//			txtFichaSupervisorEmpleado.setFocus(true);
+//		} else {
+//
+//			idFichaSupervisor = empleados.get(0).getId();
+//		}
+//
+//	}
 
 	@Listen("onClick = #btnBuscarEmpresa")
 	public void mostrarCatalogoEmpresa() {
@@ -582,13 +634,15 @@ public class CEmpleado extends CGenerico {
 		catalogoEmpresa.setWidth("80%");
 		catalogoEmpresa.setParent(divCatalogoEmpresa);
 		catalogoEmpresa.doModal();
+		catalogoEmpresa.setTitle("Catalogo de Empresas");
 	}
 
 	@Listen("onSeleccion = #divCatalogoEmpresa")
 	public void seleccionEmpresa() {
 		Empresa empresa = catalogoEmpresa.objetoSeleccionadoDelCatalogo();
 		idEmpresa = empresa.getId();
-		txtEmpresaEmpleado.setValue(empresa.getNombre());
+		txtEmpresaEmpleado.setValue(String.valueOf(empresa.getId()));
+		lblEmpresaEmpleado.setValue(empresa.getNombre());
 		catalogoEmpresa.setParent(null);
 	}
 
@@ -636,13 +690,15 @@ public class CEmpleado extends CGenerico {
 		catalogoCargo.setWidth("80%");
 		catalogoCargo.setParent(divCatalogoCargo);
 		catalogoCargo.doModal();
+		catalogoCargo.setTitle("Catalogo de Cargos");
 	}
 
 	@Listen("onSeleccion = #divCatalogoCargo")
 	public void seleccionCargo() {
 		Cargo cargo = catalogoCargo.objetoSeleccionadoDelCatalogo();
 		idCargo = cargo.getId();
-		txtCargoEmpleado.setValue(cargo.getDescripcion());
+		txtCargoEmpleado.setValue(String.valueOf(cargo.getId()));
+		lblCargoEmpleado.setValue(cargo.getDescripcion());
 		catalogoCargo.setParent(null);
 	}
 
@@ -700,6 +756,7 @@ public class CEmpleado extends CGenerico {
 		catalogoUnidad.setWidth("80%");
 		catalogoUnidad.setParent(divCatalogoUnidad);
 		catalogoUnidad.doModal();
+		catalogoUnidad.setTitle("Catalogo de Unidades Organizativas");
 	}
 
 	@Listen("onSeleccion = #divCatalogoUnidad")
@@ -707,7 +764,8 @@ public class CEmpleado extends CGenerico {
 		UnidadOrganizativa unidad = catalogoUnidad
 				.objetoSeleccionadoDelCatalogo();
 		idUnidad = unidad.getId();
-		txtUnidadEmpleado.setValue(unidad.getDescripcion());
+		txtUnidadEmpleado.setValue(String.valueOf(unidad.getId()));
+		lblUnidadEmpleado.setValue(unidad.getDescripcion());
 		catalogoUnidad.setParent(null);
 	}
 
@@ -769,14 +827,120 @@ public class CEmpleado extends CGenerico {
 		catalogoSupervisor.setWidth("80%");
 		catalogoSupervisor.setParent(divCatalogoSupervisor);
 		catalogoSupervisor.doModal();
+		catalogoSupervisor.setTitle("Catalogo de Empleados");
 	}
 
 	@Listen("onSeleccion = #divCatalogoSupervisor")
 	public void seleccionSupervisor() {
 		Empleado empleado = catalogoSupervisor.objetoSeleccionadoDelCatalogo();
 		idFichaSupervisor = empleado.getId();
-		txtFichaSupervisorEmpleado.setValue(empleado.getNombre());
+		txtFichaSupervisorEmpleado.setValue(empleado.getFicha());
+		lblNombre.setValue(empleado.getNombre());
 		catalogoSupervisor.setParent(null);
 	}
 
+	
+	@Listen("onChange = #txtFichaSupervisorEmpleado; onOK =  #txtFichaSupervisorEmpleado")
+	public boolean buscarIdGerencia() {
+		try {
+		if (txtFichaSupervisorEmpleado.getText().compareTo("") != 0) {
+			Empleado empleado = servicioEmpleado.buscarPorFicha(txtFichaSupervisorEmpleado.getValue());
+			if (empleado != null) {
+				txtFichaSupervisorEmpleado.setValue(empleado.getFicha());
+				lblNombre.setValue(empleado.getNombre());
+				idFichaSupervisor = Integer.valueOf(empleado.getFichaSupervisor());
+				return false;
+			} else {
+				txtFichaSupervisorEmpleado.setFocus(true);
+				lblNombre.setValue("");
+				msj.mensajeError(Mensaje.codigoEmpleado);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	public boolean buscarIdEmpresa() {
+		try {
+		if (txtEmpresaEmpleado.getText().compareTo("") != 0) {
+			Empresa empresa = servicioEmpresa.buscarEmpresa(Integer.valueOf(txtEmpresaEmpleado.getValue()));
+			if (empresa != null) {
+				txtEmpresaEmpleado.setValue(String.valueOf(empresa.getId()));
+				lblEmpresaEmpleado.setValue(empresa.getNombre());
+				idEmpresa = empresa.getId();
+				return false;
+			} else {
+				txtEmpresaEmpleado.setFocus(true);
+				lblEmpresaEmpleado.setValue("");
+				msj.mensajeError(Mensaje.codigoEmpresa);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	
+	@Listen("onChange = #txtCargoEmpleado; onOK =  #txtCargoEmpleado")
+	public boolean buscarIdCargo() {
+		try {
+		if (txtCargoEmpleado.getText().compareTo("") != 0) {
+			Cargo cargo = servicioCargo.buscarCargo(Integer.valueOf(txtEmpresaEmpleado.getValue()));
+			if (cargo != null) {
+				txtCargoEmpleado.setValue(String.valueOf(cargo.getId()));
+				lblCargoEmpleado.setValue(cargo.getDescripcion());
+				idCargo = cargo.getId();
+				return false;
+			} else {
+				txtCargoEmpleado.setFocus(true);
+				lblCargoEmpleado.setValue("");
+				msj.mensajeError(Mensaje.codigoCargo);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+	
+	@Listen("onChange = #txtUnidadEmpleado; onOK =  #txtUnidadEmpleado")
+	public boolean buscarIdUnidadOrganizativa() {
+		try {
+		if (txtUnidadEmpleado.getText().compareTo("") != 0) {
+			UnidadOrganizativa unidad = servicioUnidadOrganizativa.buscarUnidad(Integer.valueOf(txtEmpresaEmpleado.getValue()));
+			if (unidad != null) {
+				txtUnidadEmpleado.setValue(String.valueOf(unidad.getId()));
+				lblUnidadEmpleado.setValue(unidad.getDescripcion());
+				idUnidad = unidad.getId();
+				return false;
+			} else {
+				txtUnidadEmpleado.setFocus(true);
+				lblUnidadEmpleado.setValue("");
+				msj.mensajeError(Mensaje.codigoUnidad);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
 }

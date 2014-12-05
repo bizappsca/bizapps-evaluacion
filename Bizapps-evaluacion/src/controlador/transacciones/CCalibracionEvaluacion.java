@@ -148,6 +148,30 @@ public class CCalibracionEvaluacion extends CGenerico {
 				// TODO Auto-generated method stub
 
 			}
+
+			@Override
+			public void buscar() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void annadir() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		// botonera.getChildren().get(1).setVisible(true);
 		// botonera.getChildren().get(3).setVisible(true);

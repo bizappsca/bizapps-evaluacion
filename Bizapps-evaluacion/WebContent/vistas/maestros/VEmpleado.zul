@@ -1,5 +1,5 @@
 <window id="wdwVEmpleado" apply="controlador.maestros.CEmpleado"
-	border="normal" height="auto" style="background-color:#8A0808;" width="85%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Empleado">
 		<separator />
@@ -30,10 +30,10 @@
 						<textbox id="txtEmpresaEmpleado" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui la empresa" />
-						<button id="btnBuscarEmpresa" label="Buscar"
+						<button id="btnBuscarEmpresa" label="Buscar" autodisable="self"
 							tooltiptext="Catalogo de empresas" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id = "lblEmpresaEmpleado"></label>
 							<hbox />
 					</row>
 					<row>
@@ -47,10 +47,10 @@
 						<textbox id="txtCargoEmpleado" width="100%"
 							tabindex="2" maxlength="100"
 							tooltiptext="Ingrese aqui el cargo" />
-						<button id="btnBuscarCargo" label="Buscar"
+						<button id="btnBuscarCargo" label="Buscar" autodisable="self"
 							tooltiptext="Catalogo de cargos" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id = "lblCargoEmpleado"></label>
 							<hbox />
 					</row>
 					<row>
@@ -65,10 +65,10 @@
 						<textbox id="txtUnidadEmpleado" width="100%"
 							tabindex="3" maxlength="100"
 							tooltiptext="Ingrese aqui la unidad organizativa" />
-						<button id="btnBuscarUnidad" label="Buscar" class="btn"
+						<button id="btnBuscarUnidad" label="Buscar" class="btn" autodisable="self"
 							tooltiptext="Catalogo de unidades organizativas"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id = "lblUnidadEmpleado"></label>
 							<hbox />
 					</row>
 					<row>
@@ -139,10 +139,10 @@
 						<textbox id="txtFichaSupervisorEmpleado"
 							tabindex="10" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui la ficha del supervisor del empleado" />
-						<button id="btnBuscarSupervisor" label="Buscar"
+						<button id="btnBuscarSupervisor" label="Buscar" autodisable="self"
 							tooltiptext="Catalogo de empleados" class="btn"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id ="lblNombre"></label>
 							<hbox />
 					</row>
 					<row>
@@ -150,7 +150,7 @@
 
 						<spinner id="spnGradoAuxiliarEmpleado"
 							constraint="no negative" width="100%" maxlength="100"
-							tabindex="11"
+							tabindex="11" value="0"
 							tooltiptext="Ingrese aqui el grado auxiliar del empleado" />
 							<hbox />
 							<hbox />

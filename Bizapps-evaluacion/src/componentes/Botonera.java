@@ -11,58 +11,99 @@ public abstract class Botonera extends Hbox {
 	public Botonera() {
 		super();
 		Button btnSeleccionar = new Button();
+		Button btnBuscar = new Button();
+		Button btnAnnadir = new Button();
 		Button btnGuardar = new Button();
 		Button btnEliminar = new Button();
 		Button btnLimpiar = new Button();
+		Button btnReporte = new Button();
 		Button btnSalir = new Button();
+		Button btnAyuda = new Button();
+
 		this.appendChild(btnSeleccionar);
+		this.appendChild(btnBuscar);
+		this.appendChild(btnAnnadir);
 		this.appendChild(btnGuardar);
 		this.appendChild(btnEliminar);
 		this.appendChild(btnLimpiar);
+		this.appendChild(btnReporte);
 		this.appendChild(btnSalir);
-		
-		
-		btnGuardar
-				.setSrc("/public/imagenes/botones/guardar.png");
-		btnEliminar
-				.setSrc("/public/imagenes/botones/eliminar.png");
-		btnLimpiar
-				.setSrc("/public/imagenes/botones/limpiar.png");
-		btnSalir.setSrc("/public/imagenes/botones/salir.png");
+		this.appendChild(btnAyuda);
+
 		btnSeleccionar.setSrc("/public/imagenes/botones/seleccionar.png");
+		btnBuscar.setSrc("/public/imagenes/botones/volver.png");
+		btnAnnadir.setSrc("/public/imagenes/botones/annadir.png");
+		btnGuardar.setSrc("/public/imagenes/botones/guardar.png");
+		btnEliminar.setSrc("/public/imagenes/botones/eliminar.png");
+		btnLimpiar.setSrc("/public/imagenes/botones/limpiar.png");
+		btnReporte.setSrc("/public/imagenes/botones/reporte.png");
+		btnSalir.setSrc("/public/imagenes/botones/salir.png");
+		btnAyuda.setSrc("/public/imagenes/botones/ayuda.png");
 		
 		
-//		btnEliminar.setStyle("font-size: 11px ;width: 87px; height: 25px");
-//		btnGuardar.setStyle("font-size: 11px ;width: 87px; height: 25px");
-//		btnLimpiar.setStyle("font-size: 11px ;width: 87px; height: 25px");
-//		btnSalir.setStyle("font-size: 11px ;width: 87px; height: 25px");
-//		btnSeleccionar.setStyle("font-size: 11px ;width: 105px; height: 25px");
+		btnAyuda.setSclass("btn");
+		btnEliminar.setSclass("btn");
+		btnAnnadir.setSclass("btn");
+		btnGuardar.setSclass("btn");
+		btnBuscar.setSclass("btn");
+		btnLimpiar.setSclass("btn");
+		btnSalir.setSclass("btn");
+		btnReporte.setSclass("btn");
+		btnSeleccionar.setSclass("btn");
+		btnSeleccionar.setWidth("118px");
 		
+		btnSeleccionar.setLabel("Seleccionar");
+		btnBuscar.setLabel("Volver");
+		btnAnnadir.setLabel("AÒadir");
 		btnGuardar.setLabel("Guardar");
 		btnEliminar.setLabel("Eliminar");
 		btnLimpiar.setLabel("Limpiar");
+		btnReporte.setLabel("Reporte");
 		btnSalir.setLabel("Salir");
-		btnSeleccionar.setLabel("Seleccionar");
-		
+		btnAyuda.setLabel("Ayuda");
+
+		btnSeleccionar.setTooltiptext("Seleccionar");
+		btnBuscar.setTooltiptext("Volver");
+		btnAnnadir.setTooltiptext("AÒadir");
 		btnGuardar.setTooltiptext("Guardar");
 		btnEliminar.setTooltiptext("Eliminar");
 		btnLimpiar.setTooltiptext("Limpiar");
+		btnReporte.setTooltiptext("Reporte");
 		btnSalir.setTooltiptext("Salir");
-		btnSeleccionar.setTooltiptext("Seleccionar");
-		
-		btnEliminar.setSclass("btn");
-		btnLimpiar.setSclass("btn");
-		btnSalir.setSclass("btn");
-		btnGuardar.setSclass("btn");
-		btnSeleccionar.setSclass("btn");
+		btnAyuda.setTooltiptext("Ayuda");
 
+
+		btnSeleccionar.addEventListener(Events.ON_CLICK,
+				new EventListener<Event>() {
+					@Override
+					public void onEvent(Event arg0) throws Exception {
+						seleccionar();
+					}
+				});
+		btnBuscar.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			@Override
+			public void onEvent(Event arg0) throws Exception {
+				buscar();
+			}
+
+		});
+		btnAnnadir.addEventListener(Events.ON_CLICK,
+				new EventListener<Event>() {
+					@Override
+					public void onEvent(Event arg0) throws Exception {
+						annadir();
+					}
+
+				});
 		btnGuardar.addEventListener(Events.ON_CLICK,
 				new EventListener<Event>() {
 					@Override
 					public void onEvent(Event arg0) throws Exception {
 						guardar();
 					}
+
 				});
+
 		btnEliminar.addEventListener(Events.ON_CLICK,
 				new EventListener<Event>() {
 					@Override
@@ -77,28 +118,38 @@ public abstract class Botonera extends Hbox {
 						limpiar();
 					}
 				});
+		btnReporte.addEventListener(Events.ON_CLICK,
+				new EventListener<Event>() {
+					@Override
+					public void onEvent(Event arg0) throws Exception {
+						reporte();
+					}
+				});
 		btnSalir.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 			@Override
 			public void onEvent(Event arg0) throws Exception {
 				salir();
 			}
 		});
-		
-		btnSeleccionar.addEventListener(Events.ON_CLICK,
-				new EventListener<Event>() {
-					@Override
-					public void onEvent(Event arg0) throws Exception {
-						seleccionar();
-					}
-				});
-		
-		
+		btnAyuda.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			@Override
+			public void onEvent(Event arg0) throws Exception {
+				ayuda();
+			}
+		});
 	}
 
 	/**
 	 * Metodo que guarda un registro nuevo si no a sido guardado con
-	 * anterioridad, de ser as√≠ se modifica aquellos datos que el usuario cambie
+	 * anterioridad, de ser as√≠ se modifica aquellos datos que el usuario
+	 * cambie
 	 */
+	public abstract void seleccionar();
+
+	public abstract void buscar();
+
+	public abstract void annadir();
+
 	public abstract void guardar();
 
 	/**
@@ -107,20 +158,18 @@ public abstract class Botonera extends Hbox {
 	 */
 	public abstract void limpiar();
 
+	public abstract void reporte();
+
 	/**
 	 * Metodo que permite cerrar el div que se genera al entrar a la vista
 	 */
 	public abstract void salir();
 
 	/**
-	 * Metodo que permite la eliminacion de un registro siempre y cuando
-	 * no este asociado a otra entidad
+	 * Metodo que permite la eliminacion de un registro siempre y cuando no este
+	 * asociado a otra entidad
 	 */
 	public abstract void eliminar();
-	
-	
-	
-	public abstract void seleccionar();
-	
-	
+
+	public abstract void ayuda();
 }

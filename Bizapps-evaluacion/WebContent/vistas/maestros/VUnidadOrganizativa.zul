@@ -2,7 +2,7 @@
 	<style src="/public/Estilo.css" />
 	<window id="wdwVUnidadOrganizativa"
 		apply="controlador.maestros.CUnidadOrganizativa" border="normal"
-		height="auto" style="background-color:#8A0808;" width="70%">
+		height="auto" style="background-color:#8A0808;" width="100%">
 		<groupbox width="auto" mold="3d" title="Unidad Organizativa">
 			<separator />
 			<div id="botoneraUnidadOrganizativa" />
@@ -34,10 +34,10 @@
 							<textbox id="txtGerenciaUnidadOrganizativa"
 								tabindex="1" width="100%" maxlength="100"
 								tooltiptext="Ingrese aqui la gerencia" />
-							<button id="btnBuscarGerencia"
+							<button id="btnBuscarGerencia" autodisable="self"
 								label="Buscar" tooltiptext="Catalogo de gerencias" class="btn"
 								image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+							<label id="lblGerenciaUnidadOrganizativa"></label>
 							<hbox />
 						</row>
 						<row>
@@ -56,7 +56,7 @@
 
 							<spinner id="spnNivelUnidadOrganizativa"
 								constraint="no negative" width="100%" maxlength="100"
-								tabindex="3"
+								tabindex="3" value="0"
 								tooltiptext="Ingrese aqui el nivel de la unidad organizativa" />
 							<hbox />
 							<hbox />
@@ -66,7 +66,7 @@
 
 							<spinner id="spnSubNivelUnidadOrganizativa"
 								constraint="no negative" width="100%" maxlength="100"
-								tabindex="4"
+								tabindex="4" value="0"
 								tooltiptext="Ingrese aqui el sub-nivel de la unidad organizativa" />
 							<hbox />
 							<hbox />

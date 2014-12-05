@@ -50,17 +50,19 @@ public class CGerencia extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Gerencia> catalogo;
+	protected List<Gerencia> listaGeneral = new ArrayList<Gerencia>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionGerencia.setFocus(true);
@@ -88,10 +90,7 @@ public class CGerencia extends CGenerico {
 
 			@Override
 			public void guardar() {
-				// TODO Auto-generated method stub
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionGerencia.getValue();
 					String usuario = nombreUsuarioSesion();
 					Timestamp fechaAuditoria = new Timestamp(
@@ -101,7 +100,8 @@ public class CGerencia extends CGenerico {
 					servicioGerencia.guardar(gerencia);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioGerencia.buscarTodas());
+					listaGeneral = servicioGerencia.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -117,7 +117,7 @@ public class CGerencia extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVGerencia, "Gerencia",tabs);
+				cerrarVentana2(wdwVGerencia, titulo,tabs);
 			}
 
 			@Override
@@ -142,8 +142,8 @@ public class CGerencia extends CGenerico {
 													servicioGerencia
 															.eliminarVariasGerencias(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioGerencia
-															.buscarTodas());
+													listaGeneral = servicioGerencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -165,8 +165,8 @@ public class CGerencia extends CGenerico {
 															.eliminarUnaGerencia(idGerencia);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioGerencia
-															.buscarTodas());
+													listaGeneral = servicioGerencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -177,9 +177,37 @@ public class CGerencia extends CGenerico {
 
 			}
 
+			@Override
+			public void buscar() {
+				abrirCatalogo();
+				
+			}
+
+			@Override
+			public void annadir() {
+				abrirRegistro();
+				mostrarBotones(false);
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraGerencia.appendChild(botonera);
 
 	}
@@ -261,7 +289,7 @@ public class CGerencia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -272,20 +300,23 @@ public class CGerencia extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
-
 	public void mostrarCatalogo() {
 
-		final List<Gerencia> listGerencia = servicioGerencia.buscarTodas();
+		listaGeneral = servicioGerencia.buscarTodas();
 		catalogo = new Catalogo<Gerencia>(catalogoGerencia,
-				"Catalogo de Gerencias", listGerencia,false,false,false, "Descripción") {
+				"Catalogo de Gerencias", listaGeneral,false,false,false, "Descripción") {
 
 			@Override
 			protected List<Gerencia> buscar(List<String> valores) {
 				List<Gerencia> lista = new ArrayList<Gerencia>();
 
-				for (Gerencia gerencia : listGerencia) {
+				for (Gerencia gerencia : listaGeneral) {
 					if (gerencia.getDescripcion().toLowerCase()
 									.contains(valores.get(0).toLowerCase())) {
 						lista.add(gerencia);

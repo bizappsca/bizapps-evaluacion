@@ -59,17 +59,19 @@ public class CEmpresa extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Empresa> catalogo;
+	protected List<Empresa> listaGeneral = new ArrayList<Empresa>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtNombreEmpresa.setFocus(true);
@@ -78,7 +80,7 @@ public class CEmpresa extends CGenerico {
 
 			@Override
 			public void salir() {
-				cerrarVentana(wdwVEmpresa, "Empresa", tabs);
+				cerrarVentana2(wdwVEmpresa, titulo, tabs);
 			}
 			
 			@Override
@@ -106,11 +108,8 @@ public class CEmpresa extends CGenerico {
 
 			@Override
 			public void guardar() {
-				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+	
+				if (validar()) {
 					String nombre = txtNombreEmpresa.getValue();
 					String direccion = txtDireccionEmpresa.getValue();
 					String telefono1 = txtTelefono1Empresa.getValue();
@@ -126,7 +125,8 @@ public class CEmpresa extends CGenerico {
 					servicioEmpresa.guardar(empresa);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioEmpresa.buscarTodas());
+					listaGeneral = servicioEmpresa.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -164,8 +164,8 @@ public class CEmpresa extends CGenerico {
 													servicioEmpresa
 															.eliminarVariasEmpresas(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioEmpresa
-															.buscarTodas());
+													listaGeneral =servicioEmpresa.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -187,8 +187,8 @@ public class CEmpresa extends CGenerico {
 															.eliminarUnaEmpresa(idEmpresa);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioEmpresa
-															.buscarTodas());
+													listaGeneral = servicioEmpresa.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -199,9 +199,37 @@ public class CEmpresa extends CGenerico {
 
 			}
 
+			@Override
+			public void buscar() {
+				abrirCatalogo();
+				
+			}
+
+			@Override
+			public void annadir() {
+				abrirRegistro();
+				mostrarBotones(false);
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraEmpresa.appendChild(botonera);
 
 	}
@@ -291,7 +319,7 @@ public class CEmpresa extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -302,21 +330,25 @@ public class CEmpresa extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Empresa> listEmpresa = servicioEmpresa.buscarTodas();
+		listaGeneral = servicioEmpresa.buscarTodas();
 		catalogo = new Catalogo<Empresa>(catalogoEmpresa,
-				"Catalogo de Empresas", listEmpresa,false,false,false, "Nombre", "Dirección",
+				"Catalogo de Empresas", listaGeneral,false,false,false, "Nombre", "Dirección",
 				"Teléfono 1", "Teléfono 2", "Empresa Auxiliar") {
 
 			@Override
 			protected List<Empresa> buscar(List<String> valores) {
 				List<Empresa> lista = new ArrayList<Empresa>();
 
-				for (Empresa empresa : listEmpresa) {
+				for (Empresa empresa : listaGeneral) {
 					if (empresa.getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& empresa.getDireccion().toLowerCase()

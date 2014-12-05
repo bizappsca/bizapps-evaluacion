@@ -187,6 +187,30 @@ public class CItemEvaluacion extends CGenerico {
 
 			}
 
+			@Override
+			public void buscar() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void annadir() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
+
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);

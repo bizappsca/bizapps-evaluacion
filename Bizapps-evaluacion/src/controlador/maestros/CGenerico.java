@@ -192,7 +192,7 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 			+ String.valueOf(calendario.get(Calendar.SECOND));
 	public java.util.Date fecha = new Date();
 	public Timestamp fechaHora = new Timestamp(fecha.getTime());
-
+	public String titulo = "";
 	
 	public Tab tab;
 	/* Titulos de Mensaje */
@@ -349,4 +349,17 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 		return arreglo;
 	}
 	
+	public void cerrarVentana2(Window window, String id, List<Tab> tabs2) {
+		window.setVisible(false);
+		tabs = tabs2;
+		for (int i = 0; i < tabs.size(); i++) {
+			if (tabs.get(i).getLabel().equals(id)) {
+				if (i == (tabs.size() - 1) && tabs.size() > 1) {
+					tabs.get(i - 1).setSelected(true);
+				}
+				tabs.get(i).onClose();
+				tabs.remove(i);
+			}
+		}
+	}
 }

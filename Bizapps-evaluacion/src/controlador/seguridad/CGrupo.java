@@ -148,6 +148,30 @@ public class CGrupo extends CGenerico {
 				// TODO Auto-generated method stub
 				
 			}
+
+			@Override
+			public void buscar() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void annadir() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void reporte() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ayuda() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		botoneraGrupo.appendChild(botonera);
 	}
