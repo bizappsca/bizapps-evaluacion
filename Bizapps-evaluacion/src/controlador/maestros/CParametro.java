@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Actividad;
 import modelo.maestros.Parametro;
 
 import org.zkoss.zk.ui.Sessions;
@@ -49,6 +50,7 @@ public class CParametro extends CGenerico {
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
 	private int idParametro = 0;
+	protected List<Parametro> listaGeneral = new ArrayList<Parametro>();
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
@@ -62,6 +64,7 @@ public class CParametro extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -94,9 +97,7 @@ public class CParametro extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionParametro
 							.getValue();
 					String tipo = cmbTipoParametro.getValue();
@@ -109,7 +110,8 @@ public class CParametro extends CGenerico {
 					servicioParametro.guardar(parametro);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioParametro.buscarTodos());
+					listaGeneral = servicioParametro.buscarTodos();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -125,7 +127,7 @@ public class CParametro extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVParametro, "Parametro de Evaluacion",tabs);
+				cerrarVentana(wdwVParametro, titulo ,tabs);
 			}
 
 			@Override
@@ -150,8 +152,9 @@ public class CParametro extends CGenerico {
 													servicioParametro
 															.eliminarVariosParametros(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioParametro
-															.buscarTodos());
+													listaGeneral = servicioParametro.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -173,8 +176,8 @@ public class CParametro extends CGenerico {
 															.eliminarUnParametro(idParametro);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioParametro
-															.buscarTodos());
+													listaGeneral = servicioParametro.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -188,12 +191,15 @@ public class CParametro extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
+				abrirCatalogo();
 				
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -212,6 +218,9 @@ public class CParametro extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraParametro.appendChild(botonera);
 
 	}
@@ -296,7 +305,7 @@ public class CParametro extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -307,20 +316,23 @@ public class CParametro extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
-
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Parametro> listParametro = servicioParametro.buscarTodos();
+		listaGeneral = servicioParametro.buscarTodos();
 		catalogo = new Catalogo<Parametro>(catalogoParametro,
-				"Catalogo de Parametros", listParametro,false,false,false, "Descripción", "Tipo") {
+				"Catalogo de Parametros", listaGeneral ,false,false,false, "Descripción", "Tipo") {
 
 			@Override
 			protected List<Parametro> buscar(List<String> valores) {
 				List<Parametro> lista = new ArrayList<Parametro>();
 
-				for (Parametro parametro : listParametro) {
+				for (Parametro parametro : listaGeneral) {
 					if (parametro.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& parametro.getTipo().toLowerCase()

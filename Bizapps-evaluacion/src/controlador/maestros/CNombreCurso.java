@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Actividad;
 import modelo.maestros.Area;
 import modelo.maestros.Clase;
 import modelo.maestros.Curso;
@@ -24,6 +25,9 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Doublespinner;
 import org.zkoss.zul.Groupbox;
+import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Longbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Tab;
@@ -45,7 +49,7 @@ public class CNombreCurso extends CGenerico {
 	@Wire
 	private Textbox txtNombreCurso;
 	@Wire
-	private Textbox txtAreaCurso;
+	private Intbox txtAreaCurso;
 	@Wire
 	private Button btnBuscarArea;
 	@Wire
@@ -54,6 +58,8 @@ public class CNombreCurso extends CGenerico {
 	private Div catalogoCurso;
 	@Wire
 	private Div divCatalogoArea;
+	@Wire
+	private Label lblAreaCurso;
 
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
@@ -64,6 +70,7 @@ public class CNombreCurso extends CGenerico {
 	Botonera botonera;
 	Catalogo<NombreCurso> catalogo;
 	Catalogo<Area> catalogoArea;
+	protected List<NombreCurso> listaGeneral = new ArrayList<NombreCurso>();
 
 	@Override
 	public void inicializar() throws IOException {
@@ -73,6 +80,7 @@ public class CNombreCurso extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -92,8 +100,9 @@ public class CNombreCurso extends CGenerico {
 								.objetoSeleccionadoDelCatalogo();
 						idCurso = curso.getId();
 						idArea = curso.getArea().getId();
+						lblAreaCurso.setValue(curso.getArea().getDescripcion());
 						txtNombreCurso.setValue(curso.getNombre());
-						txtAreaCurso.setValue(curso.getArea().getDescripcion());
+						txtAreaCurso.setValue(curso.getArea().getId());
 						txtAreaCurso.setFocus(true);
 					} else
 						msj.mensajeAlerta(Mensaje.editarSoloUno);
@@ -105,9 +114,7 @@ public class CNombreCurso extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 
 					Area area = servicioArea.buscarArea(idArea);
 					NombreCurso nombreCurso = servicioNombreCurso
@@ -116,7 +123,7 @@ public class CNombreCurso extends CGenerico {
 					if (area != null) {
 
 						if (nombreCurso != null) {
-							
+
 							msj.mensajeAlerta(Mensaje.nombreCurso);
 							txtNombreCurso.setFocus(true);
 
@@ -133,9 +140,11 @@ public class CNombreCurso extends CGenerico {
 							servicioNombreCurso.guardar(curso);
 							msj.mensajeInformacion(Mensaje.guardado);
 							limpiar();
-							catalogo.actualizarLista(servicioNombreCurso
-									.buscarTodos());
+							listaGeneral = servicioNombreCurso
+									.buscarTodos();
+							catalogo.actualizarLista(listaGeneral);
 							abrirCatalogo();
+							
 
 						}
 
@@ -159,7 +168,7 @@ public class CNombreCurso extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVCurso, "Curso", tabs);
+				cerrarVentana(wdwVCurso, titulo, tabs);
 			}
 
 			@Override
@@ -184,8 +193,10 @@ public class CNombreCurso extends CGenerico {
 													servicioNombreCurso
 															.eliminarVariosCursos(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioNombreCurso
-															.buscarTodos());
+													listaGeneral = servicioNombreCurso
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -207,8 +218,9 @@ public class CNombreCurso extends CGenerico {
 															.eliminarUnCurso(idCurso);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioNombreCurso
-															.buscarTodos());
+													listaGeneral = servicioNombreCurso
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -222,30 +234,36 @@ public class CNombreCurso extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraCurso.appendChild(botonera);
 
 	}
@@ -254,9 +272,10 @@ public class CNombreCurso extends CGenerico {
 		idCurso = 0;
 		idArea = 0;
 		txtNombreCurso.setValue("");
-		txtAreaCurso.setValue("");
+		txtAreaCurso.setValue(null);
 		catalogo.limpiarSeleccion();
 		txtAreaCurso.setFocus(true);
+		lblAreaCurso.setValue("");
 
 	}
 
@@ -331,7 +350,7 @@ public class CNombreCurso extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -342,25 +361,29 @@ public class CNombreCurso extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<NombreCurso> listCurso = servicioNombreCurso.buscarTodos();
+		listaGeneral = servicioNombreCurso.buscarTodos();
 		catalogo = new Catalogo<NombreCurso>(catalogoCurso,
-				"Catalogo de Cursos", listCurso, false, false, false, "Área",
+				"Catalogo de Cursos", listaGeneral, false, false, false, "Área",
 				"Nombre") {
 
 			@Override
 			protected List<NombreCurso> buscar(List<String> valores) {
 				List<NombreCurso> lista = new ArrayList<NombreCurso>();
 
-				for (NombreCurso curso : listCurso) {
+				for (NombreCurso curso : listaGeneral) {
 					if (curso.getArea().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombre().toLowerCase()
-							.contains(valores.get(1).toLowerCase())) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(curso);
 					}
 				}
@@ -382,24 +405,31 @@ public class CNombreCurso extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtAreaCurso")
-	public void buscarArea() {
-		List<Area> areas = servicioArea.buscarPorNombres(txtAreaCurso
-				.getValue());
-		if (areas.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoArea);
-			txtAreaCurso.setFocus(true);
-		} else {
-
-			idArea = areas.get(0).getId();
-		}
-
+	@Listen("onChange = #txtAreaCurso; onOk = #txtAreaCurso ")
+	public boolean  buscarArea() {
+		if(txtAreaCurso.getValue() != null){
+			
+			Area area = servicioArea.buscarArea(txtAreaCurso.getValue());
+			if (area != null) {
+				lblAreaCurso.setValue(area.getDescripcion());
+				idArea = area.getId();
+				return true;
+			}else{
+				msj.mensajeAlerta(Mensaje.codigoArea);
+				txtAreaCurso.setFocus(true);
+				return false;
+			}
+			
+		}else
+			return false;
+		
 	}
+	
 
 	@Listen("onClick = #btnBuscarArea")
 	public void mostrarCatalogoArea() {
 		final List<Area> listArea = servicioArea.buscarTodas();
-		catalogoArea = new Catalogo<Area>(divCatalogoArea, "Catalogo de Areas",
+		catalogoArea = new Catalogo<Area>(divCatalogoArea, "Catalogo de Áreas",
 				listArea, true, false, false, "Tipo de Formación",
 				"Descripción") {
 
@@ -411,7 +441,7 @@ public class CNombreCurso extends CGenerico {
 					if (area.getTipoFormacion().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& area.getDescripcion().toLowerCase()
-							.contains(valores.get(1).toLowerCase())) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(area);
 					}
 				}
@@ -422,7 +452,10 @@ public class CNombreCurso extends CGenerico {
 			@Override
 			protected String[] crearRegistros(Area area) {
 				String[] registros = new String[2];
-				registros[0] = area.getTipoFormacion().getDescripcion();
+				if (area.getTipoFormacion() != null)
+					registros[0] = area.getTipoFormacion().getDescripcion();
+				else
+					registros[0] = "";
 				registros[1] = area.getDescripcion();
 
 				return registros;
@@ -440,7 +473,8 @@ public class CNombreCurso extends CGenerico {
 	public void seleccionArea() {
 		Area area = catalogoArea.objetoSeleccionadoDelCatalogo();
 		idArea = area.getId();
-		txtAreaCurso.setValue(area.getDescripcion());
+		txtAreaCurso.setValue(area.getId());
+		lblAreaCurso.setValue(area.getDescripcion());
 		catalogoArea.setParent(null);
 	}
 

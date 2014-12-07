@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Actividad;
+import modelo.maestros.Empresa;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -50,6 +51,7 @@ public class CActividad extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Actividad> catalogo;
+	protected List<Actividad> listaGeneral = new ArrayList<Actividad>();
 
 	@Override
 	public void inicializar() throws IOException {
@@ -60,6 +62,7 @@ public class CActividad extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -92,9 +95,7 @@ public class CActividad extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionActividad.getValue();
 					String usuario = nombreUsuarioSesion();
 					Timestamp fechaAuditoria = new Timestamp(
@@ -104,8 +105,10 @@ public class CActividad extends CGenerico {
 					servicioActividad.guardar(actividad);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioActividad.buscarTodas());
+					listaGeneral = servicioActividad.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
+
 				}
 
 			}
@@ -120,7 +123,7 @@ public class CActividad extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVActividad, "Actividad", tabs);
+				cerrarVentana(wdwVActividad, titulo, tabs);
 			}
 
 			@Override
@@ -145,8 +148,10 @@ public class CActividad extends CGenerico {
 													servicioActividad
 															.eliminarVariasActividades(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioActividad
-															.buscarTodas());
+													listaGeneral = servicioActividad
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -168,8 +173,9 @@ public class CActividad extends CGenerico {
 															.eliminarUnaActividad(idActividad);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioActividad
-															.buscarTodas());
+													listaGeneral = servicioActividad
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -183,30 +189,36 @@ public class CActividad extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraActividad.appendChild(botonera);
 
 	}
@@ -288,7 +300,7 @@ public class CActividad extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -299,21 +311,25 @@ public class CActividad extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Actividad> listActividad = servicioActividad.buscarTodas();
+		listaGeneral = servicioActividad.buscarTodas();
 		catalogo = new Catalogo<Actividad>(catalogoActividad,
-				"Catalogo de Actividades", listActividad, false, false, false,
+				"Catalogo de Actividades", listaGeneral, false, false, false,
 				"Descripción") {
 
 			@Override
 			protected List<Actividad> buscar(List<String> valores) {
 				List<Actividad> lista = new ArrayList<Actividad>();
 
-				for (Actividad actividad : listActividad) {
+				for (Actividad actividad : listaGeneral) {
 					if (actividad.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())) {
 						lista.add(actividad);

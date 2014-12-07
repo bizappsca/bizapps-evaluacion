@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Actividad;
 import modelo.maestros.Urgencia;
 
 import org.zkoss.zk.ui.Sessions;
@@ -50,6 +51,7 @@ public class CUrgencia extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Urgencia> catalogo;
+	protected List<Urgencia> listaGeneral = new ArrayList<Urgencia>();
 
 	@Override
 	public void inicializar() throws IOException {
@@ -59,6 +61,7 @@ public class CUrgencia extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -91,9 +94,7 @@ public class CUrgencia extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcionUrgencia = txtDescripcionUrgencia
 							.getValue();
 					String usuario = nombreUsuarioSesion();
@@ -106,7 +107,8 @@ public class CUrgencia extends CGenerico {
 					servicioUrgencia.guardar(urgencia);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioUrgencia.buscarTodas());
+					listaGeneral = servicioUrgencia.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -122,7 +124,7 @@ public class CUrgencia extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVUrgencia, "Urgencia",tabs);
+				cerrarVentana(wdwVUrgencia, titulo, tabs);
 			}
 
 			@Override
@@ -147,8 +149,9 @@ public class CUrgencia extends CGenerico {
 													servicioUrgencia
 															.eliminarVariasUrgencias(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioUrgencia
-															.buscarTodas());
+													listaGeneral = servicioUrgencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -170,8 +173,8 @@ public class CUrgencia extends CGenerico {
 															.eliminarUnaUrgencia(idUrgencia);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioUrgencia
-															.buscarTodas());
+													listaGeneral = servicioUrgencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -185,30 +188,36 @@ public class CUrgencia extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraUrgencia.appendChild(botonera);
 
 	}
@@ -238,7 +247,7 @@ public class CUrgencia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -302,22 +311,27 @@ public class CUrgencia extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Urgencia> listUrgencia = servicioUrgencia.buscarTodas();
+		listaGeneral = servicioUrgencia.buscarTodas();
 		catalogo = new Catalogo<Urgencia>(catalogoUrgencia,
-				"Catalogo de Urgencias", listUrgencia,false,false,false, "Descripción") {
+				"Catalogo de Urgencias", listaGeneral, false, false, false,
+				"Descripción") {
 
 			@Override
 			protected List<Urgencia> buscar(List<String> valores) {
 				List<Urgencia> lista = new ArrayList<Urgencia>();
 
-				for (Urgencia urgencia : listUrgencia) {
+				for (Urgencia urgencia : listaGeneral) {
 					if (urgencia.getDescripcionUrgencia().toLowerCase()
-									.contains(valores.get(0).toLowerCase())) {
+							.contains(valores.get(0).toLowerCase())) {
 						lista.add(urgencia);
 					}
 				}

@@ -1,9 +1,9 @@
-<zk>
-	<style src="/public/Estilo.css" />
-
-	<window id="wdwVActividad" border="normal" height="auto"
+<window id="wdwVActividad" border="normal" height="auto"
 		style="background-color:#8A0808;"
-		apply="controlador.maestros.CActividad" width="70%">
+		apply="controlador.maestros.CActividad" width="100%">
+		
+		<style src="/public/Estilo.css" />
+		
 		<groupbox width="auto" mold="3d" title="Actividad">
 			<separator />
 			<div id="botoneraActividad" />
@@ -34,7 +34,7 @@
 
 							<textbox id="txtDescripcionActividad" rows="3" cols="100"
 								width="90%" maxlength="250" tabindex="1"
-								tooltiptext="Ingrese aqui la descripcion de la actividad" />
+								tooltiptext="Ingrese aqui la descripcion de la actividad (descripcion)" />
 						</row>
 					</rows>
 				</grid>
@@ -52,5 +52,4 @@
 			<separator />
 			<separator />
 		</groupbox>
-	</window>
-</zk>
+</window>

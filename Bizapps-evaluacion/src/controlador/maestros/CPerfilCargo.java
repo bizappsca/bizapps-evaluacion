@@ -11,6 +11,7 @@ import java.util.List;
 
 import modelo.maestros.Area;
 import modelo.maestros.Cargo;
+import modelo.maestros.NombreCurso;
 import modelo.maestros.PerfilCargo;
 
 import org.zkoss.zk.ui.Sessions;
@@ -23,6 +24,8 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Doublespinner;
 import org.zkoss.zul.Groupbox;
+import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Tab;
@@ -44,7 +47,7 @@ public class CPerfilCargo extends CGenerico {
 	@Wire
 	private Textbox txtDescripcionPerfilCargo;
 	@Wire
-	private Textbox txtCargoPerfilCargo;
+	private Intbox txtCargoPerfilCargo;
 	@Wire
 	private Button btnBuscarCargo;
 	@Wire
@@ -65,11 +68,14 @@ public class CPerfilCargo extends CGenerico {
 	private Div catalogoPerfilCargo;
 	@Wire
 	private Div divCatalogoCargo;
+	@Wire
+	private Label lblCargoPerfil;
 
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
 	private int idPerfilCargo = 0;
 	private int idCargo = 0;
+	protected List<PerfilCargo> listaGeneral = new ArrayList<PerfilCargo>();
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
@@ -84,6 +90,7 @@ public class CPerfilCargo extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -104,6 +111,8 @@ public class CPerfilCargo extends CGenerico {
 						idPerfilCargo = perfilCargo.getId();
 						idCargo = perfilCargo.getCargo().getId();
 						txtCargoPerfilCargo.setValue(perfilCargo.getCargo()
+								.getId());
+						lblCargoPerfil.setValue(perfilCargo.getCargo()
 								.getDescripcion());
 						txtDescripcionPerfilCargo.setValue(perfilCargo
 								.getDescripcion());
@@ -129,9 +138,7 @@ public class CPerfilCargo extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 
 					Cargo cargo = servicioCargo.buscarCargo(idCargo);
 
@@ -161,9 +168,11 @@ public class CPerfilCargo extends CGenerico {
 						servicioPerfilCargo.guardar(perfilCargo);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioPerfilCargo
-								.buscarTodos());
+						listaGeneral = servicioPerfilCargo
+								.buscarTodos();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
+						
 					} else {
 
 						msj.mensajeAlerta(Mensaje.codigoCargo);
@@ -184,7 +193,7 @@ public class CPerfilCargo extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVPerfilCargo, "Perfil del Cargo",tabs);
+				cerrarVentana(wdwVPerfilCargo, titulo, tabs);
 			}
 
 			@Override
@@ -209,8 +218,10 @@ public class CPerfilCargo extends CGenerico {
 													servicioPerfilCargo
 															.eliminarVariosPerfiles(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioPerfilCargo
-															.buscarTodos());
+													listaGeneral = servicioPerfilCargo
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -232,8 +243,9 @@ public class CPerfilCargo extends CGenerico {
 															.eliminarUnPerfil(idPerfilCargo);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioPerfilCargo
-															.buscarTodos());
+													listaGeneral = servicioPerfilCargo
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -247,30 +259,36 @@ public class CPerfilCargo extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraPerfilCargo.appendChild(botonera);
 
 	}
@@ -278,7 +296,7 @@ public class CPerfilCargo extends CGenerico {
 	public void limpiarCampos() {
 		idPerfilCargo = 0;
 		idCargo = 0;
-		txtCargoPerfilCargo.setValue("");
+		txtCargoPerfilCargo.setValue(null);
 		txtDescripcionPerfilCargo.setValue("");
 		cmbNivelAcademicoPerfilCargo.setValue("");
 		txtEspecialidadPerfilCargo.setValue("");
@@ -287,6 +305,7 @@ public class CPerfilCargo extends CGenerico {
 		txtIdiomaPerfilCargo.setValue("");
 		txtObservacionesPerfilCargo.setValue("");
 		catalogo.limpiarSeleccion();
+		lblCargoPerfil.setValue("");
 		txtCargoPerfilCargo.setFocus(true);
 
 	}
@@ -367,7 +386,7 @@ public class CPerfilCargo extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -378,40 +397,43 @@ public class CPerfilCargo extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
-
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<PerfilCargo> listPerfilCargo = servicioPerfilCargo
+		listaGeneral = servicioPerfilCargo
 				.buscarTodos();
 		catalogo = new Catalogo<PerfilCargo>(catalogoPerfilCargo,
-				"Catalogo de Perfil de Cargos", listPerfilCargo,false,false,false, "Cargo",
-				"Descripción", "Nivel Académico", "Especialidad",
-				"Especialización", "Experiencia Previa", "Idioma",
-				"Observaciones") {
+				"Catalogo de Perfil de Cargos", listaGeneral, false, false,
+				false, "Cargo", "Descripción", "Nivel Académico",
+				"Especialidad", "Especialización", "Experiencia Previa",
+				"Idioma", "Observaciones") {
 
 			@Override
 			protected List<PerfilCargo> buscar(List<String> valores) {
 				List<PerfilCargo> lista = new ArrayList<PerfilCargo>();
 
-				for (PerfilCargo perfilCargo : listPerfilCargo) {
+				for (PerfilCargo perfilCargo : listaGeneral) {
 					if (perfilCargo.getCargo().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& perfilCargo.getDescripcion().toLowerCase()
-							.contains(valores.get(1).toLowerCase())
+									.contains(valores.get(1).toLowerCase())
 							&& perfilCargo.getNivelAcademico().toLowerCase()
-							.contains(valores.get(2).toLowerCase())
+									.contains(valores.get(2).toLowerCase())
 							&& perfilCargo.getEspecialidad().toLowerCase()
-							.contains(valores.get(3).toLowerCase())
+									.contains(valores.get(3).toLowerCase())
 							&& perfilCargo.getEspecializacion().toLowerCase()
-							.contains(valores.get(4).toLowerCase())
+									.contains(valores.get(4).toLowerCase())
 							&& perfilCargo.getExperienciaPrevia().toLowerCase()
-							.contains(valores.get(5).toLowerCase())
+									.contains(valores.get(5).toLowerCase())
 							&& perfilCargo.getIdioma().toLowerCase()
-							.contains(valores.get(6).toLowerCase())
+									.contains(valores.get(6).toLowerCase())
 							&& perfilCargo.getObservaciones().toLowerCase()
-							.contains(valores.get(7).toLowerCase())) {
+									.contains(valores.get(7).toLowerCase())) {
 						lista.add(perfilCargo);
 					}
 				}
@@ -439,26 +461,31 @@ public class CPerfilCargo extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtCargoPerfilCargo")
-	public void buscarCargo() {
-		List<Cargo> cargos = servicioCargo.buscarPorNombres(txtCargoPerfilCargo
-				.getValue());
-		if (cargos.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoCargo);
-			txtCargoPerfilCargo.setFocus(true);
-		} else {
+	@Listen("onChange = #txtCargoPerfilCargo; onOk = #txtCargoPerfilCargo")
+	public boolean buscarCargo() {
+		if (txtCargoPerfilCargo.getValue() != null) {
 
-			idCargo = cargos.get(0).getId();
-		}
+			Cargo cargo = servicioCargo.buscarCargo(txtCargoPerfilCargo.getValue());
+			if (cargo != null) {
+				lblCargoPerfil.setValue(cargo.getDescripcion());
+				idCargo= cargo.getId();
+				return true;
+			} else {
+				msj.mensajeAlerta(Mensaje.codigoCargo);
+				txtCargoPerfilCargo.setFocus(true);
+				return false;
+			}
 
+		} else
+			return false;
 	}
 
 	@Listen("onClick = #btnBuscarCargo")
 	public void mostrarCatalogoCargo() {
 		final List<Cargo> listCargo = servicioCargo.buscarTodos();
 		catalogoCargo = new Catalogo<Cargo>(divCatalogoCargo,
-				"Catalogo de Cargos", listCargo,true,false,false, "Descripción", "Nómina",
-				"Cargo Auxiliar", "Empresa Auxiliar") {
+				"Catalogo de Cargos", listCargo, true, false, false,
+				"Descripción", "Nómina", "Cargo Auxiliar", "Empresa Auxiliar") {
 
 			@Override
 			protected List<Cargo> buscar(List<String> valores) {
@@ -468,11 +495,11 @@ public class CPerfilCargo extends CGenerico {
 					if (cargo.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& cargo.getNomina().toLowerCase()
-							.contains(valores.get(1).toLowerCase())
+									.contains(valores.get(1).toLowerCase())
 							&& cargo.getIdCargoAuxiliar().toLowerCase()
-							.contains(valores.get(2).toLowerCase())
+									.contains(valores.get(2).toLowerCase())
 							&& cargo.getIdEmpresaAuxiliar().toLowerCase()
-							.contains(valores.get(3).toLowerCase())) {
+									.contains(valores.get(3).toLowerCase())) {
 						lista.add(cargo);
 					}
 				}
@@ -502,7 +529,8 @@ public class CPerfilCargo extends CGenerico {
 	public void seleccionCargo() {
 		Cargo cargo = catalogoCargo.objetoSeleccionadoDelCatalogo();
 		idCargo = cargo.getId();
-		txtCargoPerfilCargo.setValue(cargo.getDescripcion());
+		txtCargoPerfilCargo.setValue(cargo.getId());
+		lblCargoPerfil.setValue(cargo.getDescripcion());
 		catalogoCargo.setParent(null);
 	}
 

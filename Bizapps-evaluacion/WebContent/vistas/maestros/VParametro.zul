@@ -1,15 +1,15 @@
-<zk>
+<window id="wdwVParametro" border="normal" height="auto"
+	apply="controlador.maestros.CParametro" width="100%"
+	style="background-color:#8A0808;">
+	
 	<style src="/public/Estilo.css" />
 
-<window id="wdwVParametro" border="normal" height="auto"
-	apply="controlador.maestros.CParametro"
-	style="background-color:#8A0808;">
 	<groupbox width="auto" mold="3d" title="Parametro de Evaluación">
 		<separator />
 		<div id="botoneraParametro" />
 		<separator />
 		<separator />
-		<groupbox id="gpxRegistroParametro" width="auto" title="" class = "azul"
+		<groupbox id="gpxRegistroParametro" width="auto" title="" class ="azul"
 			open="false">
 			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para registrar un nuevo parametro" />
@@ -33,7 +33,7 @@
 
 						<textbox id="txtDescripcionParametro" rows="3"
 							cols="100" width="100%" maxlength="250" tabindex="1"
-							tooltiptext="Ingrese aqui la descripcion del parametro" />
+							tooltiptext="Ingrese aqui la descripcion del parametro (descripcion)" />
 						
 						<hbox/>
 						<hbox/>
@@ -48,7 +48,7 @@
 						</hbox>
 
 						<combobox id="cmbTipoParametro" readonly="true"
-							tooltiptext="Seleccione el tipo de evaluacion del parametro"
+							tooltiptext="Seleccione el tipo de evaluacion del parametro (tipo)"
 							width="100%" tabindex="2">
 							<comboitem
 								label="EVALUACION INFORMACION PREVIA" />
@@ -79,5 +79,3 @@
 		<separator />
 	</groupbox>
 </window>
-
-</zk>

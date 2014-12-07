@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Area;
 import modelo.maestros.Cargo;
 import modelo.maestros.Clase;
 import modelo.maestros.Curso;
@@ -25,6 +26,8 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Doublespinner;
 import org.zkoss.zul.Groupbox;
+import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Tab;
@@ -44,7 +47,7 @@ public class CClase extends CGenerico {
 	@Wire
 	private Groupbox gpxRegistroClase;
 	@Wire
-	private Textbox txtCursoClase;
+	private Intbox txtCursoClase;
 	@Wire
 	private Button btnBuscarCurso;
 	@Wire
@@ -71,10 +74,13 @@ public class CClase extends CGenerico {
 	private Div catalogoClase;
 	@Wire
 	private Div divCatalogoCurso;
+	@Wire
+	private Label lblCursoClase;
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
 	private int idClase = 0;
 	private int idCurso = 0;
+	protected List<Clase> listaGeneral = new ArrayList<Clase>();
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
@@ -89,6 +95,7 @@ public class CClase extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -108,7 +115,8 @@ public class CClase extends CGenerico {
 						Clase clase = catalogo.objetoSeleccionadoDelCatalogo();
 						idClase = clase.getId();
 						idCurso = clase.getCurso().getId();
-						txtCursoClase.setValue(clase.getCurso().getNombre());
+						txtCursoClase.setValue(clase.getCurso().getId());
+						lblCursoClase.setValue(clase.getCurso().getNombre());
 						txtContenidoClase.setValue(clase.getContenido());
 						txtObjetivoClase.setValue(clase.getObjetivo());
 						txtEntidadDidacticaClase.setValue(clase
@@ -132,11 +140,10 @@ public class CClase extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 
-					NombreCurso curso = servicioNombreCurso.buscarCurso(idCurso);
+					NombreCurso curso = servicioNombreCurso
+							.buscarCurso(idCurso);
 
 					if (curso != null) {
 
@@ -144,8 +151,12 @@ public class CClase extends CGenerico {
 						String objetivo = txtObjetivoClase.getValue();
 						String entidadDidactica = txtEntidadDidacticaClase
 								.getValue();
-						Timestamp fecha = new java.sql.Timestamp(dtbFechaClase
-								.getValue().getTime());
+						Timestamp fecha = null;
+						if (dtbFechaClase.getValue() != null) {
+							fecha = new java.sql.Timestamp(dtbFechaClase
+									.getValue().getTime());
+						}
+
 						float duracion = transformarDuracion(spnDuracionClase
 								.getValue());
 						String medidaDuracion = cmbUnidadMedidaClase.getValue();
@@ -161,11 +172,12 @@ public class CClase extends CGenerico {
 								medidaDuracion, lugar, tipoEntrenamiento,
 								modalidad, fechaAuditoria, horaAuditoria,
 								usuario);
-						
+
 						servicioClase.guardar(clase);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioClase.buscarTodas());
+						listaGeneral = servicioClase.buscarTodas();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 
 					} else {
@@ -188,7 +200,7 @@ public class CClase extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVClase, "Clase", tabs);
+				cerrarVentana(wdwVClase, titulo, tabs);
 			}
 
 			@Override
@@ -213,8 +225,10 @@ public class CClase extends CGenerico {
 													servicioClase
 															.eliminarVariasClases(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioClase
-															.buscarTodas());
+													listaGeneral = servicioClase
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
+
 												}
 											}
 										});
@@ -236,8 +250,9 @@ public class CClase extends CGenerico {
 															.eliminarUnaClase(idClase);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioClase
-															.buscarTodas());
+													listaGeneral = servicioClase
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -251,30 +266,36 @@ public class CClase extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraClase.appendChild(botonera);
 
 	}
@@ -282,7 +303,7 @@ public class CClase extends CGenerico {
 	public void limpiarCampos() {
 		idClase = 0;
 		idCurso = 0;
-		txtCursoClase.setValue("");
+		txtCursoClase.setValue(null);
 		txtContenidoClase.setValue("");
 		txtObjetivoClase.setValue("");
 		txtEntidadDidacticaClase.setValue("");
@@ -292,6 +313,7 @@ public class CClase extends CGenerico {
 		cmbTipoEntrenamientoClase.setValue("");
 		cmbModalidadClase.setValue("");
 		cmbUnidadMedidaClase.setValue("HORAS");
+		lblCursoClase.setValue("");
 		txtCursoClase.setFocus(true);
 
 	}
@@ -376,7 +398,7 @@ public class CClase extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -387,14 +409,18 @@ public class CClase extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<Clase> listClase = servicioClase.buscarTodas();
+		listaGeneral = servicioClase.buscarTodas();
 		catalogo = new Catalogo<Clase>(catalogoClase, "Catalogo de Clases",
-				listClase, false, false, false, "Curso", "Contenido",
+				listaGeneral, false, false, false, "Curso", "Contenido",
 				"Objetivo", "Entidad Didáctica", "Fecha", "Duración", "Lugar",
 				"Tipo de Entrenamiento", "Modalidad") {
 
@@ -402,29 +428,29 @@ public class CClase extends CGenerico {
 			protected List<Clase> buscar(List<String> valores) {
 				List<Clase> lista = new ArrayList<Clase>();
 
-				for (Clase clase : listClase) {
+				for (Clase clase : listaGeneral) {
 					if (clase.getCurso().getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& clase.getContenido().toLowerCase()
-							.contains(valores.get(1).toLowerCase())
+									.contains(valores.get(1).toLowerCase())
 							&& clase.getObjetivo().toLowerCase()
-							.contains(valores.get(2).toLowerCase())
+									.contains(valores.get(2).toLowerCase())
 							&& clase.getEntidadDidactica().toLowerCase()
-							.contains(valores.get(3).toLowerCase())
+									.contains(valores.get(3).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(clase
 													.getFecha())).toLowerCase()
-													.contains(valores.get(4).toLowerCase())
+									.contains(valores.get(4).toLowerCase())
 							&& String.valueOf(clase.getDuracion())
 									.toLowerCase()
 									.contains(valores.get(5).toLowerCase())
 							&& clase.getLugar().toLowerCase()
-							.contains(valores.get(6).toLowerCase())
+									.contains(valores.get(6).toLowerCase())
 							&& clase.getTipoEntrenamiento().toLowerCase()
-							.contains(valores.get(7).toLowerCase())
+									.contains(valores.get(7).toLowerCase())
 							&& clase.getModalidad().toLowerCase()
-							.contains(valores.get(8).toLowerCase())) {
+									.contains(valores.get(8).toLowerCase())) {
 						lista.add(clase);
 					}
 				}
@@ -439,8 +465,11 @@ public class CClase extends CGenerico {
 				registros[1] = clase.getContenido();
 				registros[2] = clase.getObjetivo();
 				registros[3] = clase.getEntidadDidactica();
-				registros[4] = String.valueOf(formatoFecha.format(clase
-						.getFecha()));
+				if (clase.getFecha() != null)
+					registros[4] = String.valueOf(formatoFecha.format(clase
+							.getFecha()));
+				else
+					registros[4] = "";
 				registros[5] = String.valueOf(mostrarDuracion(clase)) + " "
 						+ clase.getMedidaDuracion();
 				registros[6] = clase.getLugar();
@@ -470,7 +499,7 @@ public class CClase extends CGenerico {
 					if (curso.getArea().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& curso.getNombre().toLowerCase()
-							.contains(valores.get(1).toLowerCase())) {
+									.contains(valores.get(1).toLowerCase())) {
 						lista.add(curso);
 					}
 				}
@@ -499,23 +528,29 @@ public class CClase extends CGenerico {
 	public void seleccionCurso() {
 		NombreCurso curso = catalogoCurso.objetoSeleccionadoDelCatalogo();
 		idCurso = curso.getId();
-		txtCursoClase.setValue(curso.getNombre());
+		txtCursoClase.setValue(curso.getId());
+		lblCursoClase.setValue(curso.getNombre());
 		catalogoCurso.setParent(null);
 	}
 
-	@Listen("onChange = #txtCursoClase")
-	public void buscarCurso() {
-		NombreCurso curso = servicioNombreCurso.buscarPorNombre(txtCursoClase
-				.getValue());
-		if (curso != null) {
+	@Listen("onChange = #txtCursoClase; onOk = #txtCursoClase")
+	public boolean buscarCurso() {
+		if (txtCursoClase.getValue() != null) {
 
-			idCurso = curso.getId();
+			NombreCurso curso = servicioNombreCurso.buscarCurso(txtCursoClase
+					.getValue());
+			if (curso != null) {
+				lblCursoClase.setValue(curso.getNombre());
+				idCurso = curso.getId();
+				return true;
+			} else {
+				msj.mensajeAlerta(Mensaje.codigoCurso);
+				txtCursoClase.setFocus(true);
+				return false;
+			}
 
-		} else {
-			msj.mensajeAlerta(Mensaje.codigoCurso);
-			txtCursoClase.setFocus(true);
-
-		}
+		} else
+			return false;
 
 	}
 

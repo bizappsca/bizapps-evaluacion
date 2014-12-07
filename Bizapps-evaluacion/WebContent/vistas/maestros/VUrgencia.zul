@@ -1,13 +1,18 @@
 <window id="wdwVUrgencia" apply="controlador.maestros.CUrgencia"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;"
+	width="100%">
+
+	<style src="/public/Estilo.css" />
+
 	<groupbox width="auto" mold="3d" title="Urgencia">
 		<separator />
 		<div id="botoneraUrgencia" />
 		<separator />
 		<separator />
-		<groupbox id="gpxRegistroUrgencia" width="auto" title="" class = "azul"
-			open="false">
-			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
+		<groupbox id="gpxRegistroUrgencia" width="auto" title=""
+			class="azul" open="false">
+			<caption label="Nuevo"
+				style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para registrar una nueva urgencia" />
 			<separator />
 			<grid width="100%">
@@ -29,15 +34,18 @@
 
 						<textbox id="txtDescripcionUrgencia" width="90%"
 							maxlength="500" tabindex="1"
-							tooltiptext="Ingrese aqui la descripcion de la urgencia" />
+							tooltiptext="Ingrese aqui la descripcion de la urgencia (descripcion)" />
+						<hbox />
 					</row>
 				</rows>
 			</grid>
 		</groupbox>
 		<separator />
 		<separator />
-		<groupbox id="gpxDatosUrgencia" width="auto" title="" class = "azul">
-			<caption label="Registros" style="font-weight:bold; font-size: 13px"
+		<groupbox id="gpxDatosUrgencia" width="auto" title=""
+			class="azul">
+			<caption label="Registros"
+				style="font-weight:bold; font-size: 13px"
 				tooltiptext="Presione para visualizar las urgencias registradas" />
 			<div id="catalogoUrgencia"
 				tooltiptext="Seleccione la urgencia para realizar una accion" />

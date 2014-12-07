@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Actividad;
 import modelo.maestros.ItemEvaluacion;
 
 import org.zkoss.zk.ui.Sessions;
@@ -49,6 +50,7 @@ public class CItemEvaluacion extends CGenerico {
 	private static SimpleDateFormat formatoFecha = new SimpleDateFormat(
 			"dd-MM-yyyy");
 	private int idItemEvaluacion = 0;
+	protected List<ItemEvaluacion> listaGeneral = new ArrayList<ItemEvaluacion>();
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
@@ -62,6 +64,7 @@ public class CItemEvaluacion extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -95,9 +98,7 @@ public class CItemEvaluacion extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionItemEvaluacion
 							.getValue();
 					String tipo = cmbPonderacionItemEvaluacion.getValue();
@@ -110,9 +111,11 @@ public class CItemEvaluacion extends CGenerico {
 					servicioItemEvaluacion.guardar(item);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioItemEvaluacion
-							.buscarTodos());
+					listaGeneral = servicioItemEvaluacion
+							.buscarTodos();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
+					
 				}
 
 			}
@@ -127,7 +130,7 @@ public class CItemEvaluacion extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVItemEvaluacion, "Item de Evaluacion",tabs);
+				cerrarVentana(wdwVItemEvaluacion, titulo ,tabs);
 			}
 
 			@Override
@@ -152,8 +155,10 @@ public class CItemEvaluacion extends CGenerico {
 													servicioItemEvaluacion
 															.eliminarVariosItems(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioItemEvaluacion
-															.buscarTodos());
+													listaGeneral = servicioItemEvaluacion
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
+													
 												}
 											}
 										});
@@ -175,8 +180,9 @@ public class CItemEvaluacion extends CGenerico {
 															.eliminarUnItem(idItemEvaluacion);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioItemEvaluacion
-															.buscarTodos());
+													listaGeneral = servicioItemEvaluacion
+															.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -190,12 +196,15 @@ public class CItemEvaluacion extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
+				abrirCatalogo();
 				
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -214,6 +223,9 @@ public class CItemEvaluacion extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraItemEvaluacion.appendChild(botonera);
 
 	}
@@ -298,7 +310,7 @@ public class CItemEvaluacion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -309,22 +321,26 @@ public class CItemEvaluacion extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
 
 	}
 
 	public void mostrarCatalogo() {
 
-		final List<ItemEvaluacion> listItemEvaluacion = servicioItemEvaluacion
+		listaGeneral = servicioItemEvaluacion
 				.buscarTodos();
 		catalogo = new Catalogo<ItemEvaluacion>(catalogoItemEvaluacion,
-				"Catalogo de Items de Evaluación", listItemEvaluacion,false,false,false,
+				"Catalogo de Items de Evaluación", listaGeneral,false,false,false,
 				"Descripción", "Tipo de Ponderación") {
 
 			@Override
 			protected List<ItemEvaluacion> buscar(List<String> valores) {
 				List<ItemEvaluacion> lista = new ArrayList<ItemEvaluacion>();
 
-				for (ItemEvaluacion item : listItemEvaluacion) {
+				for (ItemEvaluacion item : listaGeneral) {
 					if (item.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& item.getPonderacion().toLowerCase()

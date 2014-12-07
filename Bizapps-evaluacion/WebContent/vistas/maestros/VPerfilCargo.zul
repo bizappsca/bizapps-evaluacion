@@ -1,138 +1,142 @@
-<zk>
+<window id="wdwVPerfilCargo" border="normal" height="auto" width="100%"
+	apply="controlador.maestros.CPerfilCargo"
+	style="background-color:#8A0808;">
+
 	<style src="/public/Estilo.css" />
 
-	<window id="wdwVPerfilCargo" border="normal" height="auto" width="80%"
-		apply="controlador.maestros.CPerfilCargo"
-		style="background-color:#8A0808;">
-
-		<groupbox width="auto" mold="3d" title="Perfil del Cargo">
+	<groupbox width="auto" mold="3d" title="Perfil del Cargo">
+		<separator />
+		<div id="botoneraPerfilCargo" />
+		<separator />
+		<separator />
+		<groupbox id="gpxRegistroPerfilCargo" width="auto" title=""
+			class="azul" open="false">
+			<caption label="Nuevo"
+				style="font-weight:bold; font-size: 13px"
+				tooltiptext="Presione para registrar un nuevo perfil de un cargo" />
 			<separator />
-			<div id="botoneraPerfilCargo" />
-			<separator />
-			<separator />
-			<groupbox id="gpxRegistroPerfilCargo" width="auto" title=""
-				class="azul" open="false">
-				<caption label="Nuevo"
-					style="font-weight:bold; font-size: 13px"
-					tooltiptext="Presione para registrar un nuevo perfil de un cargo" />
-				<separator />
-				<grid width="100%">
-					<columns visible="false">
-						<column label="" width="20%" />
-						<column label="" width="55%" />
-						<column label="" width="25%" />
-					</columns>
-					<rows>
-						<row>
-							<hbox>
-								<label class="etiqueta" value="Cargo:" />
-								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
-								</label>
-							</hbox>
-							<textbox id="txtCargoPerfilCargo"
-								tabindex="1" width="100%" maxlength="100"
-								tooltiptext="Ingrese aqui el nombre del cargo" />
-							<button id="btnBuscarCargo" label="Buscar"
-								tooltiptext="Catalogo de cargos" class="btn"
-								image="/public/imagenes/botones/buscar.png" />
-						</row>
-						<row>
-							<label value="Descripción:"
-								class="etiqueta" />
+			<grid width="100%">
+				<columns visible="false">
+					<column label="" width="20%" />
+					<column label="" width="45%" />
+					<column label="" width="15%" />
+					<column label="" width="20%" />
+				</columns>
+				<rows>
+					<row>
+						<hbox>
+							<label class="etiqueta" value="Cargo:" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+						<intbox id="txtCargoPerfilCargo" tabindex="1"
+							width="100%" maxlength="100"
+							tooltiptext="Seleccione del Catalogo el Codigo del Cargo (id de Cargo)" />
+						<button id="btnBuscarCargo" label="Buscar"
+							autodisable="self"
+							tooltiptext="Catalogo de Codigos de Cargos (Cargo)" class="btn"
+							image="/public/imagenes/botones/buscar.png" />
+						<label id="lblCargoPerfil" ></label>
+					</row>
+					<row>
+						<label value="Descripción:" class="etiqueta" />
 
-							<textbox id="txtDescripcionPerfilCargo"
-								width="100%" maxlength="250" tabindex="2"
-								tooltiptext="Ingrese aqui la descripcion del perfil del cargo" />
+						<textbox id="txtDescripcionPerfilCargo"
+							width="100%" maxlength="250" tabindex="2"
+							tooltiptext="Ingrese aqui la descripcion del perfil del cargo (descripcion)" />
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Nivel Académico:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Nivel Académico:"
+							class="etiqueta" />
 
-							<combobox id="cmbNivelAcademicoPerfilCargo"
-								readonly="true"
-								tooltiptext="Seleccione el nivel academico del perfil del cargo"
-								width="100%" tabindex="3">
-								<comboitem label="PRIMARIA" />
-								<comboitem label="BACHILLER" />
-								<comboitem label="TECNICO MEDIO" />
-								<comboitem label="APRENDIZ I.N.C.E.S" />
-								<comboitem
-									label="PROFESIONAL UNIVERSITARIO" />
-							</combobox>
+						<combobox id="cmbNivelAcademicoPerfilCargo"
+							readonly="true"
+							tooltiptext="Seleccione el nivel academico del perfil del cargo (nivelAcademico)"
+							width="100%" tabindex="3">
+							<comboitem label="PRIMARIA" />
+							<comboitem label="BACHILLER" />
+							<comboitem label="TECNICO MEDIO" />
+							<comboitem label="APRENDIZ I.N.C.E.S" />
+							<comboitem
+								label="PROFESIONAL UNIVERSITARIO" />
+						</combobox>
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Especialidad:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Especialidad:" class="etiqueta" />
 
-							<textbox id="txtEspecialidadPerfilCargo"
-								width="100%" maxlength="250" tabindex="4"
-								tooltiptext="Ingrese aqui la especialidad del perfil del cargo" />
+						<textbox id="txtEspecialidadPerfilCargo"
+							width="100%" maxlength="250" tabindex="4"
+							tooltiptext="Ingrese aqui la especialidad del perfil del cargo (especialidad)" />
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Especializacion:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Especializacion:"
+							class="etiqueta" />
 
-							<textbox id="txtEspecializacionPerfilCargo"
-								width="100%" maxlength="250" tabindex="5" rows="3" cols="100"
-								tooltiptext="Ingrese aqui la especializacion del perfil del cargo" />
+						<textbox id="txtEspecializacionPerfilCargo"
+							width="100%" maxlength="250" tabindex="5" rows="3" cols="100"
+							tooltiptext="Ingrese aqui la especializacion del perfil del cargo (especializacion)" />
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Experiencia Previa:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Experiencia Previa:"
+							class="etiqueta" />
 
-							<textbox id="txtExperienciaPerfilCargo"
-								width="100%" maxlength="250" tabindex="6" rows="3" cols="100"
-								tooltiptext="Ingrese aqui la experiencia previa del perfil del cargo" />
+						<textbox id="txtExperienciaPerfilCargo"
+							width="100%" maxlength="250" tabindex="6" rows="3" cols="100"
+							tooltiptext="Ingrese aqui la experiencia previa del perfil del cargo (experienciaPrevia)" />
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Segundo Idioma:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Segundo Idioma:" class="etiqueta" />
 
-							<textbox id="txtIdiomaPerfilCargo"
-								width="100%" maxlength="250" tabindex="7"
-								tooltiptext="Ingrese aqui el segundo idioma del perfil del cargo" />
+						<textbox id="txtIdiomaPerfilCargo" width="100%"
+							maxlength="250" tabindex="7"
+							tooltiptext="Ingrese aqui el segundo idioma del perfil del cargo (idioma)" />
 
-							<hbox />
-						</row>
-						<row>
-							<label value="Observaciones:"
-								class="etiqueta" />
+						<hbox />
+						<hbox />
+					</row>
+					<row>
+						<label value="Observaciones:" class="etiqueta" />
 
-							<textbox id="txtObservacionesPerfilCargo"
-								width="100%" maxlength="250" tabindex="8" rows="3" cols="100"
-								tooltiptext="Ingrese aqui las observaciones del perfil del cargo" />
+						<textbox id="txtObservacionesPerfilCargo"
+							width="100%" maxlength="250" tabindex="8" rows="3" cols="100"
+							tooltiptext="Ingrese aqui las observaciones del perfil del cargo (observaciones)" />
 
-							<hbox />
-						</row>
-					</rows>
-				</grid>
-			</groupbox>
-			<separator />
-			<separator />
-			<groupbox id="gpxDatosPerfilCargo" width="auto" title=""
-				class="azul">
-				<caption label="Registros"
-					style="font-weight:bold; font-size: 13px"
-					tooltiptext="Presione para visualizar las actividades registradas" />
-				<div id="catalogoPerfilCargo"
-					tooltiptext="Seleccione la actividad para realizar una accion" />
-			</groupbox>
-			<separator />
-			<separator />
+						<hbox />
+						<hbox />
+					</row>
+				</rows>
+			</grid>
 		</groupbox>
-		<div id="divCatalogoCargo"
-			tooltiptext="Click para Seleccionar un cargo" />
-	</window>
-</zk>
+		<separator />
+		<separator />
+		<groupbox id="gpxDatosPerfilCargo" width="auto" title=""
+			class="azul">
+			<caption label="Registros"
+				style="font-weight:bold; font-size: 13px"
+				tooltiptext="Presione para visualizar las actividades registradas" />
+			<div id="catalogoPerfilCargo"
+				tooltiptext="Seleccione la actividad para realizar una accion" />
+		</groupbox>
+		<separator />
+		<separator />
+	</groupbox>
+	<div id="divCatalogoCargo"
+		tooltiptext="Click para Seleccionar un cargo" />
+</window>
