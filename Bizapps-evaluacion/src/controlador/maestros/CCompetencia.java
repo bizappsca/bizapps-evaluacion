@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Competencia;
+import modelo.maestros.Empleado;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -55,17 +56,19 @@ public class CCompetencia extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Competencia> catalogo;
-
+	protected List<Competencia> listaGeneral = new ArrayList<Competencia>();
+	
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionCompetencia.setFocus(true);
@@ -97,10 +100,7 @@ public class CCompetencia extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionCompetencia.getValue();
 					String nivel = cmbNivelCompetencia.getValue();
 					String comentario = txtComentarioCompetencia.getValue();
@@ -113,7 +113,8 @@ public class CCompetencia extends CGenerico {
 					servicioCompetencia.guardar(competencia);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioCompetencia.buscarTodas());
+					listaGeneral = servicioCompetencia.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -129,7 +130,7 @@ public class CCompetencia extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVCompetencia, "Competencia",tabs);
+				cerrarVentana2(wdwVCompetencia, titulo,tabs);
 			}
 
 			@Override
@@ -154,8 +155,8 @@ public class CCompetencia extends CGenerico {
 													servicioCompetencia
 															.eliminarVariasCompetencias(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioCompetencia
-															.buscarTodas());
+													listaGeneral = servicioCompetencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -177,8 +178,8 @@ public class CCompetencia extends CGenerico {
 															.eliminarUnaCompetencia(idCompetencia);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioCompetencia
-															.buscarTodas());
+													listaGeneral = servicioCompetencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -192,12 +193,14 @@ public class CCompetencia extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -216,6 +219,9 @@ public class CCompetencia extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraCompetencia.appendChild(botonera);
 
 	}
@@ -302,7 +308,7 @@ public class CCompetencia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -313,22 +319,28 @@ public class CCompetencia extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Competencia> listCompetencia = servicioCompetencia
+		listaGeneral = servicioCompetencia
 				.buscarTodas();
 		catalogo = new Catalogo<Competencia>(catalogoCompetencia,
-				"Catalogo de Competencias", listCompetencia, false,false,false,"Descripción",
+				"Catalogo de Competencias", listaGeneral, false,false,false,"Descripción",
 				"Nivel", "Comentario") {
 
 			@Override
 			protected List<Competencia> buscar(List<String> valores) {
 				List<Competencia> lista = new ArrayList<Competencia>();
 
-				for (Competencia competencia : listCompetencia) {
+				for (Competencia competencia : listaGeneral) {
 					if (competencia.getDescripcion().toLowerCase()
 									.contains(valores.get(0).toLowerCase())
 							&& competencia.getNivel().toLowerCase()

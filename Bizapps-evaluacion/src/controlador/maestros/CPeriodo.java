@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.Periodo;
 import modelo.maestros.Revision;
 
@@ -60,17 +61,19 @@ public class CPeriodo extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Periodo> catalogo;
+	protected List<Periodo> listaGeneral = new ArrayList<Periodo>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtNombrePeriodo.setFocus(true);
@@ -104,10 +107,7 @@ public class CPeriodo extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 						
 					if (!validarEstadoActivo()) {
 
@@ -133,7 +133,8 @@ public class CPeriodo extends CGenerico {
 						servicioPeriodo.guardar(periodo);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioPeriodo.buscarTodos());
+						listaGeneral = servicioPeriodo.buscarTodos();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 						}
 					} else {
@@ -157,7 +158,7 @@ public class CPeriodo extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVPeriodo, "Periodos",tabs);
+				cerrarVentana(wdwVPeriodo, titulo,tabs);
 			}
 
 			@Override
@@ -182,8 +183,8 @@ public class CPeriodo extends CGenerico {
 													servicioPeriodo
 															.eliminarVariosPeriodos(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioPeriodo
-															.buscarTodos());
+													listaGeneral = servicioPeriodo.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -205,8 +206,8 @@ public class CPeriodo extends CGenerico {
 															.eliminarUnPeriodo(idPeriodo);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioPeriodo
-															.buscarTodos());
+													listaGeneral = servicioPeriodo.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -220,13 +221,14 @@ public class CPeriodo extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
 			}
 
 			@Override
@@ -244,6 +246,9 @@ public class CPeriodo extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraPeriodo.appendChild(botonera);
 
 	}
@@ -331,7 +336,7 @@ public class CPeriodo extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -354,21 +359,27 @@ public class CPeriodo extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
+		listaGeneral = servicioPeriodo.buscarTodos();
 		catalogo = new Catalogo<Periodo>(catalogoPeriodo,
-				"Catalogo de Periodos", listPeriodo,false,false,false, "Nombre", "Descripción",
+				"Catalogo de Periodos", listaGeneral,false,false,false, "Nombre", "Descripción",
 				"Fecha Inicio", "Fecha Fin", "Estado") {
 
 			@Override
 			protected List<Periodo> buscar(List<String> valores) {
 				List<Periodo> lista = new ArrayList<Periodo>();
 
-				for (Periodo periodo : listPeriodo) {
+				for (Periodo periodo : listaGeneral) {
 					if (periodo.getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& periodo.getDescripcion().toLowerCase()

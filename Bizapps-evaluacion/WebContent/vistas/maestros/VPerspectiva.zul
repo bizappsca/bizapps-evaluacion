@@ -1,5 +1,5 @@
 <window id="wdwVPerspectiva" apply="controlador.maestros.CPerspectiva"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Perspectiva">
 		<separator />
@@ -31,11 +31,12 @@
 						<textbox id="txtDescripcionPerspectiva"
 							width="90%" maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la perspectiva" />
+						<hbox/>
 					</row>
 					<row>
 						<label value="Orden:" class="etiqueta" />
 
-						<spinner id="spnOrdenPerspectiva"
+						<spinner id="spnOrdenPerspectiva" value = "0"
 							constraint="no negative" width="91%" maxlength="100"
 							tabindex="2" tooltiptext="Ingrese aqui el orden de la perspectiva" />
 							<hbox />

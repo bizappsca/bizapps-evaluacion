@@ -10,8 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Area;
+import modelo.maestros.Empleado;
 import modelo.maestros.Gerencia;
 import modelo.maestros.TipoFormacion;
+import modelo.maestros.UnidadOrganizativa;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -45,6 +47,8 @@ public class CArea extends CGenerico {
 	@Wire
 	private Textbox txtTipoFormacionArea;
 	@Wire
+	private Label lblTipoFormacionArea;
+	@Wire
 	private Button btnBuscarTipoFormacion;
 	@Wire
 	private Groupbox gpxDatosArea;
@@ -61,17 +65,19 @@ public class CArea extends CGenerico {
 	Botonera botonera;
 	Catalogo<Area> catalogo;
 	Catalogo<TipoFormacion> catalogoTipoFormacion;
+	protected List<Area> listaGeneral = new ArrayList<Area>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtTipoFormacionArea.setFocus(true);
@@ -88,7 +94,9 @@ public class CArea extends CGenerico {
 						Area area = catalogo.objetoSeleccionadoDelCatalogo();
 						idArea = area.getId();
 						idTipoFormacion = area.getTipoFormacion().getId();
-						txtTipoFormacionArea.setValue(area.getTipoFormacion()
+						txtTipoFormacionArea.setValue(String.valueOf(area.getTipoFormacion()
+								.getId()));
+						lblTipoFormacionArea.setValue(area.getTipoFormacion()
 								.getDescripcion());
 						txtDescripcionArea.setValue(area.getDescripcion());
 						txtTipoFormacionArea.setFocus(true);
@@ -101,10 +109,7 @@ public class CArea extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionArea.getValue();
 					String usuario = nombreUsuarioSesion();
 					Timestamp fechaAuditoria = new Timestamp(
@@ -117,7 +122,8 @@ public class CArea extends CGenerico {
 						servicioArea.guardar(area);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioArea.buscarTodas());
+						listaGeneral = servicioArea.buscarTodas();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 					} else {
 
@@ -139,7 +145,7 @@ public class CArea extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVArea, "Area",tabs);
+				cerrarVentana2(wdwVArea, titulo, tabs);
 			}
 
 			@Override
@@ -164,8 +170,8 @@ public class CArea extends CGenerico {
 													servicioArea
 															.eliminarVariasAreas(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioArea
-															.buscarTodas());
+													listaGeneral = servicioArea.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -187,8 +193,8 @@ public class CArea extends CGenerico {
 															.eliminarUnArea(idArea);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioArea
-															.buscarTodas());
+													listaGeneral = servicioArea.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -202,12 +208,14 @@ public class CArea extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -226,6 +234,9 @@ public class CArea extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraArea.appendChild(botonera);
 
 	}
@@ -237,6 +248,7 @@ public class CArea extends CGenerico {
 		txtTipoFormacionArea.setValue("");
 		catalogo.limpiarSeleccion();
 		txtTipoFormacionArea.setFocus(true);
+		lblTipoFormacionArea.setValue("");
 
 	}
 
@@ -310,7 +322,7 @@ public class CArea extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -321,20 +333,26 @@ public class CArea extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Area> listArea = servicioArea.buscarTodas();
+		listaGeneral = servicioArea.buscarTodas();
 		catalogo = new Catalogo<Area>(catalogoArea, "Catalogo de Areas",
-				listArea,false,false,false, "Tipo de Formación", "Descripción") {
+				listaGeneral,false,false,false, "Tipo de Formación", "Descripción") {
 
 			@Override
 			protected List<Area> buscar(List<String> valores) {
 				List<Area> lista = new ArrayList<Area>();
 
-				for (Area area : listArea) {
+				for (Area area : listaGeneral) {
 					if (area.getTipoFormacion().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& area.getDescripcion().toLowerCase()
@@ -397,6 +415,7 @@ public class CArea extends CGenerico {
 		catalogoTipoFormacion.setWidth("80%");
 		catalogoTipoFormacion.setParent(divCatalogoTipoFormacion);
 		catalogoTipoFormacion.doModal();
+		catalogoTipoFormacion.setTitle("Catalogo de Tipo de Formación");
 	}
 
 	@Listen("onSeleccion = #divCatalogoTipoFormacion")
@@ -404,22 +423,49 @@ public class CArea extends CGenerico {
 		TipoFormacion tipoFormacion = catalogoTipoFormacion
 				.objetoSeleccionadoDelCatalogo();
 		idTipoFormacion = tipoFormacion.getId();
-		txtTipoFormacionArea.setValue(tipoFormacion.getDescripcion());
+		txtTipoFormacionArea.setValue(String.valueOf(tipoFormacion.getId()));
+		lblTipoFormacionArea.setValue(tipoFormacion.getDescripcion());
 		catalogoTipoFormacion.setParent(null);
 	}
 
-	@Listen("onChange = #txtTipoFormacionArea")
-	public void buscarTipoFormacion() {
-		List<TipoFormacion> tipos = servicioTipoFormacion
-				.buscarPorNombres(txtTipoFormacionArea.getValue());
+//	@Listen("onChange = #txtTipoFormacionArea")
+//	public void buscarTipoFormacion() {
+//		List<TipoFormacion> tipos = servicioTipoFormacion
+//				.buscarPorNombres(txtTipoFormacionArea.getValue());
+//
+//		if (tipos.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoTipoFormacion);
+//			txtTipoFormacionArea.setFocus(true);
+//		} else {
+//
+//			idTipoFormacion = tipos.get(0).getId();
+//		}
+//
+//	}
+	
+	@Listen("onChange = #txtTipoFormacionArea; onOK =  #txtTipoFormacionArea")
+	public boolean buscarTipoFormacion() {
+		try {
+		if (txtTipoFormacionArea.getText().compareTo("") != 0) {
+			TipoFormacion tipo = servicioTipoFormacion.buscarTipoFormacion(Integer.valueOf(txtTipoFormacionArea.getValue()));
+			if (tipo != null) {
+				txtTipoFormacionArea.setValue(String.valueOf(tipo.getId()));
+				lblTipoFormacionArea.setValue(tipo.getDescripcion());
+				idTipoFormacion = tipo.getId();
+				return false;
+			} else {
+				txtTipoFormacionArea.setFocus(true);
+				lblTipoFormacionArea.setValue("");
+				msj.mensajeError(Mensaje.codigoTipoFormacion);
+				return true;
+			}
 
-		if (tipos.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoTipoFormacion);
-			txtTipoFormacionArea.setFocus(true);
-		} else {
-
-			idTipoFormacion = tipos.get(0).getId();
+		} else
+			return false;
 		}
-
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
 	}
 }

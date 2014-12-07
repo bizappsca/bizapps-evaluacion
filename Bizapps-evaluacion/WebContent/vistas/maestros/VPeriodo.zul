@@ -1,5 +1,5 @@
 <window id="wdwVPeriodo" apply="controlador.maestros.CPeriodo"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Periodo">
 		<separator />
@@ -43,22 +43,32 @@
 							<hbox />
 					</row>
 					<row>
+						<hbox>
 						<label value="Fecha Inicio:" class="etiqueta" />
-
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
 						<datebox readonly="true" width="80%"
 							tabindex="3" id="dtbFechaInicioPeriodo" format="dd-MM-yyyy"
 							tooltiptext="Ingrese la fecha de inicio del periodo" />
 							<hbox />
-							<hbox />
+						
 					</row>
 					<row>
+					<hbox>
 						<label value="Fecha Fin:" class="etiqueta" />
-
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+					</hbox>
 						<datebox readonly="true" width="80%"
 							tabindex="4" id="dtbFechaFinPeriodo" format="dd-MM-yyyy"
 							tooltiptext="Ingrese la fecha final del periodo" />
 							<hbox />
-							<hbox />
+							
 					</row>
 					<row>
 						<hbox>

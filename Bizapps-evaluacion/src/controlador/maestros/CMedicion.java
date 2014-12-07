@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.Medicion;
 
 import org.zkoss.zk.ui.Sessions;
@@ -50,17 +51,19 @@ public class CMedicion extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Medicion> catalogo;
+	protected List<Medicion> listaGeneral = new ArrayList<Medicion>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionMedicion.setFocus(true);
@@ -89,10 +92,7 @@ public class CMedicion extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcionMedicion = txtDescripcionMedicion
 							.getValue();
 					String usuario = nombreUsuarioSesion();
@@ -104,7 +104,8 @@ public class CMedicion extends CGenerico {
 					servicioMedicion.guardar(medicion);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioMedicion.buscarTodas());
+					listaGeneral = servicioMedicion.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -120,7 +121,7 @@ public class CMedicion extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVMedicion, "Medicion",tabs);
+				cerrarVentana2(wdwVMedicion,titulo,tabs);
 			}
 
 			@Override
@@ -145,8 +146,8 @@ public class CMedicion extends CGenerico {
 													servicioMedicion
 															.eliminarVariasMediciones(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioMedicion
-															.buscarTodas());
+													listaGeneral = servicioMedicion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -168,8 +169,8 @@ public class CMedicion extends CGenerico {
 															.eliminarUnaMedicion(idMedicion);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioMedicion
-															.buscarTodas());
+													listaGeneral = servicioMedicion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -183,12 +184,14 @@ public class CMedicion extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -207,6 +210,9 @@ public class CMedicion extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraMedicion.appendChild(botonera);
 
 	}
@@ -288,7 +294,7 @@ public class CMedicion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -299,20 +305,26 @@ public class CMedicion extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Medicion> listMedicion = servicioMedicion.buscarTodas();
+		listaGeneral = servicioMedicion.buscarTodas();
 		catalogo = new Catalogo<Medicion>(catalogoMedicion,
-				"Catalogo de Mediciones", listMedicion, false,false,false,"Descripción") {
+				"Catalogo de Mediciones", listaGeneral, false,false,false,"Descripción") {
 
 			@Override
 			protected List<Medicion> buscar(List<String> valores) {
 				List<Medicion> lista = new ArrayList<Medicion>();
 
-				for (Medicion medicion : listMedicion) {
+				for (Medicion medicion : listaGeneral) {
 					if (medicion.getDescripcionMedicion().toLowerCase()
 									.contains(valores.get(0).toLowerCase())) {
 						lista.add(medicion);

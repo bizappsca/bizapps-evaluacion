@@ -1,5 +1,5 @@
 <window id="wdwVMedicion" apply="controlador.maestros.CMedicion"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Medición">
 		<separator />
@@ -31,6 +31,7 @@
 						<textbox id="txtDescripcionMedicion" width="90%"
 							maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la medicion" />
+							<hbox/>
 					</row>
 				</rows>
 			</grid>

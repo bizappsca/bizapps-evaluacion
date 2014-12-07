@@ -10,8 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Area;
+import modelo.maestros.Empleado;
 import modelo.maestros.Periodo;
 import modelo.maestros.Revision;
+import modelo.maestros.TipoFormacion;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -44,6 +46,8 @@ public class CRevision extends CGenerico {
 	@Wire
 	private Textbox txtPeriodoRevision;
 	@Wire
+	private Label lblPeriodoRevision;
+	@Wire
 	private Combobox cmbEstadoRevision;
 	@Wire
 	private Button btnBuscarPeriodo;
@@ -66,17 +70,19 @@ public class CRevision extends CGenerico {
 	Botonera botonera;
 	Catalogo<Revision> catalogo;
 	Catalogo<Periodo> catalogoPeriodo;
-
+	protected List<Revision> listaGeneral = new ArrayList<Revision>();
+	
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtPeriodoRevision.setFocus(true);
@@ -96,7 +102,9 @@ public class CRevision extends CGenerico {
 						idPeriodo = revision.getPeriodo().getId();
 						txtDescripcionRevision.setValue(revision
 								.getDescripcion());
-						txtPeriodoRevision.setValue(revision.getPeriodo()
+						txtPeriodoRevision.setValue(String.valueOf(revision.getPeriodo()
+								.getId()));
+						lblPeriodoRevision.setValue(revision.getPeriodo()
 								.getNombre());
 						cmbEstadoRevision
 								.setValue(revision.getEstadoRevision());
@@ -111,10 +119,7 @@ public class CRevision extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);
 
 					if (periodo != null) {
@@ -136,8 +141,9 @@ public class CRevision extends CGenerico {
 							servicioRevision.guardar(revision);
 							msj.mensajeInformacion(Mensaje.guardado);
 							limpiar();
-							catalogo.actualizarLista(servicioRevision
-									.buscarTodas());
+							listaGeneral = servicioRevision
+									.buscarTodas();
+							catalogo.actualizarLista(listaGeneral);
 							abrirCatalogo();
 
 						} else {
@@ -165,7 +171,7 @@ public class CRevision extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVRevision, "Revision",tabs);
+				cerrarVentana2(wdwVRevision, titulo,tabs);
 			}
 
 			@Override
@@ -190,8 +196,9 @@ public class CRevision extends CGenerico {
 													servicioRevision
 															.eliminarVariasRevisiones(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioRevision
-															.buscarTodas());
+													listaGeneral = servicioRevision
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -213,8 +220,9 @@ public class CRevision extends CGenerico {
 															.eliminarUnaRevision(idRevision);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioRevision
-															.buscarTodas());
+													listaGeneral = servicioRevision
+															.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -228,12 +236,14 @@ public class CRevision extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -252,6 +262,9 @@ public class CRevision extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraRevision.appendChild(botonera);
 
 	}
@@ -263,6 +276,7 @@ public class CRevision extends CGenerico {
 		txtPeriodoRevision.setValue("");
 		cmbEstadoRevision.setValue("");
 		txtMensajeInicio.setValue("");
+		lblPeriodoRevision.setValue("");
 		catalogo.limpiarSeleccion();
 		txtPeriodoRevision.setFocus(true);
 
@@ -288,7 +302,7 @@ public class CRevision extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -364,20 +378,26 @@ public class CRevision extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
-		final List<Revision> listRevision = servicioRevision.buscarTodas();
+		listaGeneral = servicioRevision.buscarTodas();
 		catalogo = new Catalogo<Revision>(catalogoRevision,
-				"Catalogo de Revisiones", listRevision, false,false,false,"Periodo",
+				"Catalogo de Revisiones", listaGeneral, false,false,false,"Periodo",
 				"Descripción", "Estado") {
 
 			@Override
 			protected List<Revision> buscar(List<String> valores) {
 				List<Revision> lista = new ArrayList<Revision>();
 
-				for (Revision revision : listRevision) {
+				for (Revision revision : listaGeneral) {
 					if (revision.getPeriodo().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& revision.getDescripcion().toLowerCase()
@@ -406,20 +426,20 @@ public class CRevision extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtPeriodoRevision")
-	public void buscarPeriodo() {
-		List<Periodo> periodos = servicioPeriodo.buscarPorNombres(txtPeriodoRevision
-				.getValue());
-		if (periodos.size() == 0) {
-			msj.mensajeAlerta(Mensaje.codigoPeriodo);
-			txtPeriodoRevision.setFocus(true);
-		}else{
-			
-			idPeriodo = periodos.get(idPeriodo).getId();
-			
-		}
-
-	}
+//	@Listen("onChange = #txtPeriodoRevision")
+//	public void buscarPeriodo() {
+//		List<Periodo> periodos = servicioPeriodo.buscarPorNombres(txtPeriodoRevision
+//				.getValue());
+//		if (periodos.size() == 0) {
+//			msj.mensajeAlerta(Mensaje.codigoPeriodo);
+//			txtPeriodoRevision.setFocus(true);
+//		}else{
+//			
+//			idPeriodo = periodos.get(idPeriodo).getId();
+//			
+//		}
+//
+//	}
 
 	@Listen("onClick = #btnBuscarPeriodo")
 	public void mostrarCatalogoPeriodo() {
@@ -475,15 +495,43 @@ public class CRevision extends CGenerico {
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
 		catalogoPeriodo.doModal();
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 	}
 
 	@Listen("onSeleccion = #divCatalogoPeriodo")
 	public void seleccionPeriodo() {
 		Periodo periodo = catalogoPeriodo.objetoSeleccionadoDelCatalogo();
 		idPeriodo = periodo.getId();
-		txtPeriodoRevision.setValue(periodo.getNombre());
+		txtPeriodoRevision.setValue(String.valueOf(periodo.getId()));
+		lblPeriodoRevision.setValue(periodo.getNombre());
 		txtPeriodoRevision.setFocus(true);
 		catalogoPeriodo.setParent(null);
+	}
+	
+	@Listen("onChange = #txtPeriodoRevision; onOK =  #txtPeriodoRevision")
+	public boolean buscarPeriodo() {
+		try {
+		if (txtPeriodoRevision.getText().compareTo("") != 0) {
+			Periodo periodo = servicioPeriodo.buscarPeriodo(Integer.valueOf(txtPeriodoRevision.getValue()));
+			if (periodo != null) {
+				txtPeriodoRevision.setValue(String.valueOf(periodo.getId()));
+				lblPeriodoRevision.setValue(periodo.getDescripcion());
+				idPeriodo = periodo.getId();
+				return false;
+			} else {
+				txtPeriodoRevision.setFocus(true);
+				lblPeriodoRevision.setValue("");
+				msj.mensajeError(Mensaje.codigoPeriodo);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
 	}
 
 }

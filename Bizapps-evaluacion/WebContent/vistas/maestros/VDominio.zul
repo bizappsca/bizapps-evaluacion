@@ -1,5 +1,5 @@
 <window id="wdwVDominio" apply="controlador.maestros.CDominio"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 	<groupbox width="auto" mold="3d" title="Dominio">
 		<separator />
 		<div id="botoneraDominio" />
@@ -31,6 +31,7 @@
 						<textbox id="txtDescripcionDominio" width="60%"
 							maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del dominio" />
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -56,6 +57,7 @@
 						<textbox id="txtComentarioDominio" width="60%"
 							maxlength="5000" tabindex="3" rows="4" cols="100"
 							tooltiptext="Ingrese aqui el comentario del dominio" />
+							<hbox/>
 					</row>
 
 				</rows>

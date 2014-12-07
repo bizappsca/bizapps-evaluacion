@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Dominio;
+import modelo.maestros.Empleado;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -55,17 +56,19 @@ public class CDominio extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Dominio> catalogo;
+	protected List<Dominio> listaGeneral = new ArrayList<Dominio>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionDominio.setFocus(true);
@@ -96,10 +99,7 @@ public class CDominio extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcionDominio = txtDescripcionDominio
 							.getValue();
 					String tipo = cmbTipoDominio.getValue();
@@ -113,7 +113,8 @@ public class CDominio extends CGenerico {
 					servicioDominio.guardar(dominio);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioDominio.buscarTodos());
+					listaGeneral = servicioDominio.buscarTodos();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -129,7 +130,7 @@ public class CDominio extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVDominio, "Dominio",tabs);
+				cerrarVentana2(wdwVDominio, titulo,tabs);
 			}
 
 			@Override
@@ -154,8 +155,8 @@ public class CDominio extends CGenerico {
 													servicioDominio
 															.eliminarVariosDominios(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioDominio
-															.buscarTodos());
+													listaGeneral = servicioDominio.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -177,8 +178,8 @@ public class CDominio extends CGenerico {
 															.eliminarUnDominio(idDominio);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioDominio
-															.buscarTodos());
+													listaGeneral = servicioDominio.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -192,12 +193,14 @@ public class CDominio extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -216,6 +219,9 @@ public class CDominio extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraDominio.appendChild(botonera);
 
 	}
@@ -302,7 +308,7 @@ public class CDominio extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -313,21 +319,27 @@ public class CDominio extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Dominio> listDominio = servicioDominio.buscarTodos();
+		listaGeneral = servicioDominio.buscarTodos();
 		catalogo = new Catalogo<Dominio>(catalogoDominio,
-				"Catalogo de Dominios", listDominio,false,false,false, "Descripción", "Tipo",
+				"Catalogo de Dominios", listaGeneral,false,false,false, "Descripción", "Tipo",
 				"Comentario") {
 
 			@Override
 			protected List<Dominio> buscar(List<String> valores) {
 				List<Dominio> lista = new ArrayList<Dominio>();
 
-				for (Dominio dominio : listDominio) {
+				for (Dominio dominio : listaGeneral) {
 					if (dominio.getDescripcionDominio().toLowerCase()
 									.contains(valores.get(0).toLowerCase())
 							&& dominio.getTipo().toLowerCase()

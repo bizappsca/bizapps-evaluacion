@@ -1,5 +1,5 @@
 <window id="wdwVRevision" apply="controlador.maestros.CRevision"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 	<groupbox width="auto" mold="3d" title="Revisión">
 		<separator />
 		<div id="botoneraRevision" />
@@ -31,9 +31,9 @@
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el periodo" />
 						<button id="btnBuscarPeriodo" label="Buscar" class="btn"
-							tooltiptext="Catalogo de periodos"
+							tooltiptext="Catalogo de periodos" autodisable="self"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id = "lblPeriodoRevision"></label>
 							<hbox />
 					</row>
 					<row>
@@ -63,6 +63,7 @@
 						</combobox>
 						<hbox />
 							<hbox />
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
