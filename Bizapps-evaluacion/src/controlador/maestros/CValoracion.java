@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.Valoracion;
 
 import org.zkoss.zk.ui.Sessions;
@@ -61,17 +62,19 @@ public class CValoracion extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Valoracion> catalogo;
+	protected List<Valoracion> listaGeneral = new ArrayList<Valoracion>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtNombreValoracion.setFocus(true);
@@ -108,9 +111,7 @@ public class CValoracion extends CGenerico {
 			public void guardar() {
 				// TODO Auto-generated method stub
 
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String nombre = txtNombreValoracion.getValue();
 					String descripcion = txtDescripcionValoracion.getValue();
 					int orden = spnOrdenValoracion.getValue();
@@ -127,7 +128,8 @@ public class CValoracion extends CGenerico {
 					servicioValoracion.guardar(valoracion);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioValoracion.buscarTodas());
+					listaGeneral = servicioValoracion.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -143,7 +145,7 @@ public class CValoracion extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVValoracion, "Valoracion",tabs);
+				cerrarVentana2(wdwVValoracion, titulo,tabs);
 			}
 
 			@Override
@@ -168,8 +170,8 @@ public class CValoracion extends CGenerico {
 													servicioValoracion
 															.eliminarVariasValoraciones(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioValoracion
-															.buscarTodas());
+													listaGeneral = servicioValoracion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -191,8 +193,8 @@ public class CValoracion extends CGenerico {
 															.eliminarUnaValoracion(idValoracion);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioValoracion
-															.buscarTodas());
+													listaGeneral = servicioValoracion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -206,13 +208,14 @@ public class CValoracion extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
 			}
 
 			@Override
@@ -230,6 +233,9 @@ public class CValoracion extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraValoracion.appendChild(botonera);
 
 	}
@@ -238,10 +244,10 @@ public class CValoracion extends CGenerico {
 		idValoracion = 0;
 		txtNombreValoracion.setValue("");
 		txtDescripcionValoracion.setValue("");
-		spnOrdenValoracion.setValue(null);
-		spnRangoInferiorValoracion.setValue(null);
-		spnRangoSuperiorValoracion.setValue(null);
-		spnValorValoracion.setValue(null);
+		spnOrdenValoracion.setValue(0);
+		spnRangoInferiorValoracion.setValue(0);
+		spnRangoSuperiorValoracion.setValue(0);
+		spnValorValoracion.setValue(0);
 		catalogo.limpiarSeleccion();
 		txtNombreValoracion.setFocus(true);
 
@@ -250,10 +256,10 @@ public class CValoracion extends CGenerico {
 	public boolean camposEditando() {
 		if (txtNombreValoracion.getText().compareTo("") != 0
 				|| txtDescripcionValoracion.getText().compareTo("") != 0
-				|| spnOrdenValoracion.getText().compareTo("") != 0
-				|| spnRangoInferiorValoracion.getText().compareTo("") != 0
-				|| spnRangoSuperiorValoracion.getText().compareTo("") != 0
-				|| spnValorValoracion.getText().compareTo("") != 0) {
+				|| spnOrdenValoracion.getText().compareTo("0") != 0
+				|| spnRangoInferiorValoracion.getText().compareTo("0") != 0
+				|| spnRangoSuperiorValoracion.getText().compareTo("0") != 0
+				|| spnValorValoracion.getText().compareTo("0") != 0) {
 			return true;
 		} else
 			return false;
@@ -321,7 +327,7 @@ public class CValoracion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -332,15 +338,21 @@ public class CValoracion extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Valoracion> listValoracion = servicioValoracion
+		listaGeneral = servicioValoracion
 				.buscarTodas();
 		catalogo = new Catalogo<Valoracion>(catalogoValoracion,
-				"Catalogo de Valoraciones", listValoracion,false,false,false, "Nombre",
+				"Catalogo de Valoraciones", listaGeneral,false,false,false, "Nombre",
 				"Descripción", "Orden", "Rango inferior", "Rango superior",
 				"Valor") {
 
@@ -348,7 +360,7 @@ public class CValoracion extends CGenerico {
 			protected List<Valoracion> buscar(List<String> valores) {
 				List<Valoracion> lista = new ArrayList<Valoracion>();
 
-				for (Valoracion valoracion : listValoracion) {
+				for (Valoracion valoracion : listaGeneral) {
 					if (valoracion.getNombre().toLowerCase()
 									.contains(valores.get(0).toLowerCase())
 							&& valoracion.getDescripcion().toLowerCase()

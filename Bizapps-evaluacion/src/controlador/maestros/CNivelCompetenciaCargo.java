@@ -13,6 +13,7 @@ import modelo.maestros.Area;
 import modelo.maestros.Cargo;
 import modelo.maestros.Competencia;
 import modelo.maestros.Dominio;
+import modelo.maestros.Empleado;
 import modelo.maestros.NivelCompetenciaCargo;
 
 import org.zkoss.zk.ui.Sessions;
@@ -64,6 +65,7 @@ public class CNivelCompetenciaCargo extends CGenerico {
 
 	Mensaje msj = new Mensaje();
 	Catalogo<Cargo> catalogoCargo;
+	protected List<Cargo> listaGeneral = new ArrayList<Cargo>();
 
 	public ListModelList<Dominio> getTipos() {
 		tipos = new ListModelList<Dominio>(
@@ -74,13 +76,14 @@ public class CNivelCompetenciaCargo extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtCargoNivelCompetenciaCargo.setFocus(true);
@@ -89,16 +92,16 @@ public class CNivelCompetenciaCargo extends CGenerico {
 
 	@Listen("onClick = #btnBuscarCargo")
 	public void mostrarCatalogoCargo() {
-		final List<Cargo> listCargo = servicioCargo.buscarTodos();
+		listaGeneral = servicioCargo.buscarTodos();
 		catalogoCargo = new Catalogo<Cargo>(divCatalogoCargo,
-				"Catalogo de Cargos", listCargo,true,false,false, "Descripción", "Nómina",
+				"Catalogo de Cargos", listaGeneral,true,false,false, "Descripción", "Nómina",
 				"Cargo Auxiliar", "Empresa Auxiliar") {
 
 			@Override
 			protected List<Cargo> buscar(List<String> valores) {
 				List<Cargo> lista = new ArrayList<Cargo>();
 
-				for (Cargo cargo : listCargo) {
+				for (Cargo cargo : listaGeneral) {
 					if (cargo.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& cargo.getNomina().toLowerCase()
@@ -177,7 +180,7 @@ public class CNivelCompetenciaCargo extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -187,7 +190,7 @@ public class CNivelCompetenciaCargo extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVNivelCompetenciaCargo, "Nivel Competencia Cargo",tabs);
+		cerrarVentana2(wdwVNivelCompetenciaCargo, titulo,tabs);
 	}
 
 	public void llenarLista() {
@@ -262,10 +265,8 @@ public class CNivelCompetenciaCargo extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
 		boolean errorCampo = false;
-		guardar = validar();
-		if (guardar) {
+		if (validar()) {
 
 			Cargo cargoEmpleado = servicioCargo.buscarCargo(idCargo);
 

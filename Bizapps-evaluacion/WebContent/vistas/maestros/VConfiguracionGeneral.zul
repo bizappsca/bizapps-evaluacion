@@ -1,5 +1,5 @@
 <window id="wdwVConfiguracion" border="normal" height="auto"
-	style="background-color:#8A0808;" width="70%" apply="controlador.maestros.CConfiguracionGeneral">
+	style="background-color:#8A0808;" width="100%" apply="controlador.maestros.CConfiguracionGeneral">
 
 	<groupbox width="auto" mold="3d" title="Configuración General">
 		<separator />
@@ -36,6 +36,7 @@
 							<comboitem label="SI" />
 							<comboitem label="NO" />
 						</combobox>
+						<hbox/>
 					</row>
 				</rows>
 			</grid>

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Distribucion;
+import modelo.maestros.Empleado;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -53,17 +54,19 @@ public class CDistribucion extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<Distribucion> catalogo;
+	protected List<Distribucion> listaGeneral = new ArrayList<Distribucion>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionDistribucion.setFocus(true);
@@ -94,10 +97,7 @@ public class CDistribucion extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionDistribucion.getValue();
 					int porcentaje = spnPorcentajeDistribucion.getValue();
 					String usuario = nombreUsuarioSesion();
@@ -109,7 +109,8 @@ public class CDistribucion extends CGenerico {
 					servicioDistribucion.guardar(distribucion);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioDistribucion.buscarTodas());
+					listaGeneral = servicioDistribucion.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -125,7 +126,7 @@ public class CDistribucion extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVDistribucion, "Distribucion",tabs);
+				cerrarVentana2(wdwVDistribucion, titulo,tabs);
 			}
 
 			@Override
@@ -150,8 +151,8 @@ public class CDistribucion extends CGenerico {
 													servicioDistribucion
 															.eliminarVariasDistribuciones(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioDistribucion
-															.buscarTodas());
+													listaGeneral = servicioDistribucion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -173,8 +174,8 @@ public class CDistribucion extends CGenerico {
 															.eliminarUnaDistribucion(idDistribucion);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioDistribucion
-															.buscarTodas());
+													listaGeneral = servicioDistribucion.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -188,12 +189,14 @@ public class CDistribucion extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -212,6 +215,9 @@ public class CDistribucion extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraDistribucion.appendChild(botonera);
 
 	}
@@ -296,7 +302,7 @@ public class CDistribucion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -307,22 +313,28 @@ public class CDistribucion extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<Distribucion> listDistribucion = servicioDistribucion
+		listaGeneral = servicioDistribucion
 				.buscarTodas();
 		catalogo = new Catalogo<Distribucion>(catalogoDistribucion,
-				"Catalogo de Distribuciones", listDistribucion, false,false,false,"Descripción",
+				"Catalogo de Distribuciones", listaGeneral, false,false,false,"Descripción",
 				"Porcentaje") {
 
 			@Override
 			protected List<Distribucion> buscar(List<String> valores) {
 				List<Distribucion> lista = new ArrayList<Distribucion>();
 
-				for (Distribucion distribucion : listDistribucion) {
+				for (Distribucion distribucion : listaGeneral) {
 					if (distribucion.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& String.valueOf(distribucion.getPorcentaje())

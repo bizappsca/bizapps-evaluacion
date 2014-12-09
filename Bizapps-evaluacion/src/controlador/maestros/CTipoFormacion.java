@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Area;
+import modelo.maestros.Empleado;
 import modelo.maestros.Gerencia;
 import modelo.maestros.TipoFormacion;
 
@@ -53,17 +54,19 @@ public class CTipoFormacion extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<TipoFormacion> catalogo;
+	protected List<TipoFormacion> listaGeneral = new ArrayList<TipoFormacion>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionTipoFormacion.setFocus(true);
@@ -92,9 +95,7 @@ public class CTipoFormacion extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionTipoFormacion.getValue();
 					String usuario = nombreUsuarioSesion();
 					Timestamp fechaAuditoria = new Timestamp(
@@ -105,8 +106,8 @@ public class CTipoFormacion extends CGenerico {
 					servicioTipoFormacion.guardar(tipoFormacion);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioTipoFormacion
-							.buscarTodos());
+					listaGeneral = servicioTipoFormacion.buscarTodos();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 
 				}
@@ -123,7 +124,7 @@ public class CTipoFormacion extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVTipoFormacion, "Tipo de Formacion",tabs);
+				cerrarVentana2(wdwVTipoFormacion, titulo,tabs);
 			}
 
 			@Override
@@ -148,8 +149,8 @@ public class CTipoFormacion extends CGenerico {
 													servicioTipoFormacion
 															.eliminarVariosTipos(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioTipoFormacion
-															.buscarTodos());
+													listaGeneral = servicioTipoFormacion.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -171,8 +172,8 @@ public class CTipoFormacion extends CGenerico {
 															.eliminarUnTipo(idTipoFormacion);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioTipoFormacion
-															.buscarTodos());
+													listaGeneral = servicioTipoFormacion.buscarTodos();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -186,12 +187,14 @@ public class CTipoFormacion extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -210,6 +213,9 @@ public class CTipoFormacion extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraTipoFormacion.appendChild(botonera);
 
 	}
@@ -291,7 +297,7 @@ public class CTipoFormacion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -302,22 +308,28 @@ public class CTipoFormacion extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<TipoFormacion> listTipoFormacion = servicioTipoFormacion
+		listaGeneral = servicioTipoFormacion
 				.buscarTodos();
 		catalogo = new Catalogo<TipoFormacion>(catalogoTipoFormacion,
-				"Catalogo de Tipos de Formacion", listTipoFormacion, false,false,false,
+				"Catalogo de Tipos de Formacion", listaGeneral, false,false,false,
 				"Descripción") {
 
 			@Override
 			protected List<TipoFormacion> buscar(List<String> valores) {
 				List<TipoFormacion> lista = new ArrayList<TipoFormacion>();
 
-				for (TipoFormacion tipoFormacion : listTipoFormacion) {
+				for (TipoFormacion tipoFormacion : listaGeneral) {
 					if (tipoFormacion.getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())) {
 						lista.add(tipoFormacion);

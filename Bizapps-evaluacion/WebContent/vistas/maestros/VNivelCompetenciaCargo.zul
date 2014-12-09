@@ -1,5 +1,5 @@
 <window id="wdwVNivelCompetenciaCargo" border="normal" height="auto"
-	apply="controlador.maestros.CNivelCompetenciaCargo" width="80"
+	apply="controlador.maestros.CNivelCompetenciaCargo" width="100%"
 	style="background-color:#8A0808;">
 
 	<groupbox width="auto" mold="3d" title="Nivel Competencia Cargo">
@@ -8,15 +8,15 @@
 			<panelchildren>
 				<separator />
 				<div align="left">
-					<button id="btnGuardar" tooltiptext="Guardar"
+					<button id="btnGuardar" tooltiptext="Guardar" autodisable="self"
 						class= "btn" label="Guardar"
 						image="/public/imagenes/botones/guardar.png">
 					</button>
-					<button id="btnLimpiar" label="Limpiar"
+					<button id="btnLimpiar" label="Limpiar" autodisable="self"
 						tooltiptext="Limpiar" class= "btn"
 						image="/public/imagenes/botones/limpiar.png">
 					</button>
-					<button id="btnSalir" label="Salir" 
+					<button id="btnSalir" label="Salir"  autodisable="self"
 						class= "btn" tooltiptext="Salir"
 						image="/public/imagenes/botones/salir.png">
 					</button>
@@ -48,9 +48,10 @@
 						<textbox id="txtCargoNivelCompetenciaCargo"
 							tabindex="1" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del cargo" />
-						<button id="btnBuscarCargo" label="Buscar"
+						<button id="btnBuscarCargo" label="Buscar" autodisable="self"
 							tooltiptext="Catalogo de cargos" class= "btn"
 							image="/public/imagenes/botones/buscar.png" />
+							<hbox/>
 					</row>
 				</rows>
 			</grid>

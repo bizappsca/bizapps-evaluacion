@@ -1,6 +1,6 @@
 <window id="wdwVTipoFormacion"
 	apply="controlador.maestros.CTipoFormacion" border="normal"
-	height="auto" style="background-color:#8A0808;" width="70%">
+	height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Tipo de Formación">
 		<separator />
@@ -33,6 +33,7 @@
 						<textbox id="txtDescripcionTipoFormacion"
 							width="90%" maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion del tipo de formacion" />
+							<hbox/>
 					</row>
 				</rows>
 			</grid>

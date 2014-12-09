@@ -1,6 +1,6 @@
 <window id="wdwVConductaCompetencia"
 	apply="controlador.maestros.CConductaCompetencia" border="normal"
-	height="auto" style="background-color:#8A0808;">
+	height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Conducta Competencia">
 		<separator />
@@ -33,8 +33,9 @@
 							width="100%" tabindex="1" maxlength="100"
 							tooltiptext="Ingrese aqui la competencia" />
 						<button id="btnBuscarCompetencia" label="Buscar" class= "btn"
-							tooltiptext="Catalogo de competencias"
+							tooltiptext="Catalogo de competencias" autodisable="self"
 							image="/public/imagenes/botones/buscar.png" />
+						<label id ="lblCompetenciaConductaCompetencia"></label>
 					</row>
 					<row>
 						<hbox>
@@ -48,10 +49,10 @@
 						<textbox id="txtDominioConductaCompetencia"
 							width="100%" tabindex="2" maxlength="100"
 							tooltiptext="Ingrese el dominio" />
-						<button id="btnBuscarDominio" label="Buscar"
+						<button id="btnBuscarDominio" label="Buscar" autodisable="self"
 							tooltiptext="Catalogo de dominios" class= "btn"
 							image="/public/imagenes/botones/buscar.png" />
-							<hbox />
+						<label id ="lblDominioConductaCompetencia"></label>
 							<hbox />
 							<hbox />
 							
@@ -62,11 +63,13 @@
 						<textbox id="txtDescripcionConductaCompetencia"
 							rows="3" cols="100" width="100%" maxlength="255" tabindex="3"
 							tooltiptext="Ingrese aqui la descripcion" />
+							<hbox/>
+							<hbox/>
 					</row>
 					<row>
 						<label value="Orden:" class="etiqueta" />
 
-						<spinner id="spnOrdenConductaCompetencia"
+						<spinner id="spnOrdenConductaCompetencia" value="0"
 							constraint="no negative" width="100%" maxlength="100"
 							tabindex="4" tooltiptext="Ingrese aqui el orden" />
 							<hbox />

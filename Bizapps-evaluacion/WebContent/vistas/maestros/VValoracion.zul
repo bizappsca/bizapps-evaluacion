@@ -1,5 +1,5 @@
 <window id="wdwVValoracion" apply="controlador.maestros.CValoracion"
-	border="normal" height="auto" style="background-color:#8A0808;" width="80%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto" mold="3d" title="Valoracion">
 		<separator />
@@ -44,7 +44,7 @@
 					<row>
 						<label value="Orden:" class="etiqueta" />
 						<spinner id="spnOrdenValoracion" width="80%"
-							tabindex="3" constraint="no negative"
+							tabindex="3" constraint="no negative" value="0"
 							tooltiptext="Ingrese aqui el orden de la valoracion" />
 							<hbox />
 							<hbox />
@@ -52,7 +52,7 @@
 					<row>
 						<label value="Rango inferior:" class="etiqueta" />
 
-						<spinner id="spnRangoInferiorValoracion"
+						<spinner id="spnRangoInferiorValoracion" value="0"
 							constraint="no negative" width="80%" maxlength="100" tabindex="4"
 							tooltiptext="Ingrese aqui el rango inferior de la valoracion" />
 							<hbox />
@@ -61,7 +61,7 @@
 					<row>
 						<label value="Rango superior:" class="etiqueta" />
 
-						<spinner id="spnRangoSuperiorValoracion"
+						<spinner id="spnRangoSuperiorValoracion" value="0"
 							constraint="no negative" width="80%" maxlength="100" tabindex="5"
 							tooltiptext="Ingrese aqui el rango superior de la valoracion" />
 							<hbox />
@@ -71,7 +71,7 @@
 					<row>
 						<label value="Valor:" class="etiqueta" />
 
-						<spinner id="spnValorValoracion"
+						<spinner id="spnValorValoracion"  value="0"
 							constraint="no negative" width="80%" maxlength="100" tabindex="6"
 							tooltiptext="Ingrese aqui el valor de la valoracion" />
 							<hbox />

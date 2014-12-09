@@ -2,7 +2,7 @@
 	<style src="/public/Estilo.css" />
 
 <window id="wdwVDistribucion" border="normal" height="auto"
-	apply="controlador.maestros.CDistribucion"
+	apply="controlador.maestros.CDistribucion" width="100%"
 	style="background-color:#8A0808;">
 
 	<groupbox width="auto"  mold="3d" title="Distribución">
@@ -35,6 +35,7 @@
 						<textbox id="txtDescripcionDistribucion"
 							width="90%" maxlength="100" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la distribucion" />
+							<hbox/>
 					</row>
 					<row>
 						<hbox>
@@ -48,6 +49,7 @@
 						<spinner id="spnPorcentajeDistribucion"
 							width="90%" maxlength="100" tabindex="2" constraint="no negative"
 							tooltiptext="Ingrese aqui el porcentaje de la distribucion" />
+							<hbox/>
 					</row>
 
 				</rows>

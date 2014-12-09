@@ -14,8 +14,10 @@ import modelo.maestros.Cargo;
 import modelo.maestros.Competencia;
 import modelo.maestros.ConductaCompetencia;
 import modelo.maestros.Dominio;
+import modelo.maestros.Empleado;
 import modelo.maestros.Empresa;
 import modelo.maestros.TipoFormacion;
+import modelo.maestros.UnidadOrganizativa;
 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
@@ -48,9 +50,13 @@ public class CConductaCompetencia extends CGenerico {
 	@Wire
 	private Textbox txtCompetenciaConductaCompetencia;
 	@Wire
+	private Label lblCompetenciaConductaCompetencia;
+	@Wire
 	private Button btnBuscarCompetencia;
 	@Wire
 	private Textbox txtDominioConductaCompetencia;
+	@Wire
+	private Label lblDominioConductaCompetencia;
 	@Wire
 	private Button btnBuscarDominio;
 	@Wire
@@ -76,17 +82,19 @@ public class CConductaCompetencia extends CGenerico {
 	Catalogo<ConductaCompetencia> catalogo;
 	Catalogo<Competencia> catalogoCompetencia;
 	Catalogo<Dominio> catalogoDominio;
+	protected List<ConductaCompetencia> listaGeneral = new ArrayList<ConductaCompetencia>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtCompetenciaConductaCompetencia.setFocus(true);
@@ -105,9 +113,13 @@ public class CConductaCompetencia extends CGenerico {
 						idConductaCompetencia = conducta.getId();
 						idCompetencia = conducta.getCompetencia().getId();
 						idDominio = conducta.getDominio().getId();
-						txtCompetenciaConductaCompetencia.setValue(conducta
+						txtCompetenciaConductaCompetencia.setValue(String.valueOf(conducta
+								.getCompetencia().getId()));
+						lblCompetenciaConductaCompetencia.setValue(conducta
 								.getCompetencia().getDescripcion());
-						txtDominioConductaCompetencia.setValue(conducta
+						txtDominioConductaCompetencia.setValue(String.valueOf(conducta
+								.getDominio().getId()));
+						lblDominioConductaCompetencia.setValue(conducta
 								.getDominio().getDescripcionDominio());
 						txtDescripcionConductaCompetencia.setValue(conducta
 								.getDescripcion());
@@ -123,9 +135,7 @@ public class CConductaCompetencia extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 
 					Competencia competencia = servicioCompetencia
 							.buscarCompetencia(idCompetencia);
@@ -148,8 +158,8 @@ public class CConductaCompetencia extends CGenerico {
 						servicioConductaCompetencia.guardar(conducta);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
-						catalogo.actualizarLista(servicioConductaCompetencia
-								.buscarTodas());
+						listaGeneral = servicioConductaCompetencia.buscarTodas();
+						catalogo.actualizarLista(listaGeneral);
 						abrirCatalogo();
 					} else {
 
@@ -175,8 +185,8 @@ public class CConductaCompetencia extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVConductaCompetencia,
-						"Conducta por Competencia",tabs);
+				cerrarVentana2(wdwVConductaCompetencia,
+						titulo,tabs);
 			}
 
 			@Override
@@ -201,8 +211,8 @@ public class CConductaCompetencia extends CGenerico {
 													servicioConductaCompetencia
 															.eliminarVariasConductas(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioConductaCompetencia
-															.buscarTodas());
+													listaGeneral = servicioConductaCompetencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -224,8 +234,8 @@ public class CConductaCompetencia extends CGenerico {
 															.eliminarUnaConducta(idConductaCompetencia);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioConductaCompetencia
-															.buscarTodas());
+													listaGeneral = servicioConductaCompetencia.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -239,12 +249,14 @@ public class CConductaCompetencia extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
+				abrirRegistro();
+				mostrarBotones(false);
 				
 			}
 
@@ -263,6 +275,9 @@ public class CConductaCompetencia extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraConductaCompetencia.appendChild(botonera);
 
 	}
@@ -274,7 +289,9 @@ public class CConductaCompetencia extends CGenerico {
 		txtCompetenciaConductaCompetencia.setValue("");
 		txtDominioConductaCompetencia.setValue("");
 		txtDescripcionConductaCompetencia.setValue("");
-		spnOrdenConductaCompetencia.setValue(null);
+		lblDominioConductaCompetencia.setValue("");
+		lblCompetenciaConductaCompetencia.setValue("");
+		spnOrdenConductaCompetencia.setValue(0);
 		catalogo.limpiarSeleccion();
 		txtCompetenciaConductaCompetencia.setFocus(true);
 
@@ -284,7 +301,7 @@ public class CConductaCompetencia extends CGenerico {
 		if (txtCompetenciaConductaCompetencia.getText().compareTo("") != 0
 				|| txtDominioConductaCompetencia.getText().compareTo("") != 0
 				|| txtDescripcionConductaCompetencia.getText().compareTo("") != 0
-				|| spnOrdenConductaCompetencia.getText().compareTo("") != 0) {
+				|| spnOrdenConductaCompetencia.getText().compareTo("0") != 0) {
 			return true;
 		} else
 			return false;
@@ -355,7 +372,7 @@ public class CConductaCompetencia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -366,16 +383,22 @@ public class CConductaCompetencia extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<ConductaCompetencia> listConductaCompetencia = servicioConductaCompetencia
+		listaGeneral = servicioConductaCompetencia
 				.buscarTodas();
 		catalogo = new Catalogo<ConductaCompetencia>(
 				catalogoConductaCompetencia,
-				"Catalogo de ConductaCompetencias", listConductaCompetencia, false,false,false,
+				"Catalogo de ConductaCompetencias", listaGeneral, false,false,false,
 				"Competencia", "Dominio", "Descripción", "Orden") {
 
 			@Override
@@ -383,7 +406,7 @@ public class CConductaCompetencia extends CGenerico {
 					List<String> valores) {
 				List<ConductaCompetencia> lista = new ArrayList<ConductaCompetencia>();
 
-				for (ConductaCompetencia conducta : listConductaCompetencia) {
+				for (ConductaCompetencia conducta : listaGeneral) {
 					if (conducta.getCompetencia().getDescripcion()
 							.toLowerCase().contains(valores.get(0).toLowerCase())
 							&& conducta.getDominio().getDescripcionDominio()
@@ -415,7 +438,7 @@ public class CConductaCompetencia extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtCompetenciaConductaCompetencia")
+//	@Listen("onChange = #txtCompetenciaConductaCompetencia")
 	public void buscarCompetencia() {
 		List<Competencia> competencias = servicioCompetencia
 				.buscarPorNombres(txtCompetenciaConductaCompetencia.getValue());
@@ -430,7 +453,7 @@ public class CConductaCompetencia extends CGenerico {
 
 	}
 
-	@Listen("onChange = #txtDominioConductaCompetencia")
+//	@Listen("onChange = #txtDominioConductaCompetencia")
 	public void buscarDominio() {
 		List<Dominio> dominios = servicioDominio
 				.buscarPorNombres(txtDominioConductaCompetencia.getValue());
@@ -487,6 +510,7 @@ public class CConductaCompetencia extends CGenerico {
 		catalogoCompetencia.setWidth("80%");
 		catalogoCompetencia.setParent(divCatalogoCompetencia);
 		catalogoCompetencia.doModal();
+		catalogoCompetencia.setTitle("Catalogo de Competencias");
 	}
 
 	@Listen("onSeleccion = #divCatalogoCompetencia")
@@ -495,7 +519,9 @@ public class CConductaCompetencia extends CGenerico {
 				.objetoSeleccionadoDelCatalogo();
 		idCompetencia = competencia.getId();
 		txtCompetenciaConductaCompetencia
-				.setValue(competencia.getDescripcion());
+				.setValue(String.valueOf(competencia.getId()));
+		lblCompetenciaConductaCompetencia
+		.setValue(competencia.getDescripcion());
 		txtCompetenciaConductaCompetencia.setFocus(true);
 		catalogoCompetencia.setParent(null);
 	}
@@ -541,15 +567,69 @@ public class CConductaCompetencia extends CGenerico {
 		catalogoDominio.setWidth("80%");
 		catalogoDominio.setParent(divCatalogoDominio);
 		catalogoDominio.doModal();
+		catalogoDominio.setTitle("Catalogo de Dominios");
 	}
 
 	@Listen("onSeleccion = #divCatalogoDominio")
 	public void seleccionDominio() {
 		Dominio dominio = catalogoDominio.objetoSeleccionadoDelCatalogo();
 		idDominio = dominio.getId();
-		txtDominioConductaCompetencia.setValue(dominio.getDescripcionDominio());
+		txtDominioConductaCompetencia.setValue(String.valueOf(dominio.getId()));
+		lblDominioConductaCompetencia.setValue(dominio.getDescripcionDominio());
 		txtDominioConductaCompetencia.setFocus(true);
 		catalogoDominio.setParent(null);
+	}
+	
+	@Listen("onChange = #txtCompetenciaConductaCompetencia; onOK =  #txtCompetenciaConductaCompetencia")
+	public boolean buscarIdCompetencia() {
+		try {
+		if (txtCompetenciaConductaCompetencia.getText().compareTo("") != 0) {
+			Competencia competencia = servicioCompetencia.buscarCompetencia(Integer.valueOf(txtCompetenciaConductaCompetencia.getValue()));
+			if (competencia != null) {
+				txtCompetenciaConductaCompetencia.setValue(String.valueOf(competencia.getId()));
+				lblCompetenciaConductaCompetencia.setValue(competencia.getDescripcion());
+				idCompetencia = competencia.getId();
+				return false;
+			} else {
+				txtCompetenciaConductaCompetencia.setFocus(true);
+				lblCompetenciaConductaCompetencia.setValue("");
+				msj.mensajeError(Mensaje.codigoCompetencia);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	@Listen("onChange = #txtDominioConductaCompetencia; onOK =  #txtDominioConductaCompetencia")
+	public boolean buscarIdDominio() {
+		try {
+		if (txtDominioConductaCompetencia.getText().compareTo("") != 0) {
+			Dominio dominio = servicioDominio.buscarDominio(Integer.valueOf(txtDominioConductaCompetencia.getValue()));
+			if (dominio != null) {
+				txtDominioConductaCompetencia.setValue(String.valueOf(dominio.getId()));
+				lblDominioConductaCompetencia.setValue(dominio.getDescripcionDominio());
+				idDominio = dominio.getId();
+				return false;
+			} else {
+				txtDominioConductaCompetencia.setFocus(true);
+				lblDominioConductaCompetencia.setValue("");
+				msj.mensajeError(Mensaje.codigoDominio);
+				return true;
+			}
+
+		} else
+			return false;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
 	}
 
 }

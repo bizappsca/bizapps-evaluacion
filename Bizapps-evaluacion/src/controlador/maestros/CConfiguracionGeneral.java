@@ -50,13 +50,14 @@ public class CConfiguracionGeneral extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		List<ConfiguracionGeneral> conf = servicioConfiguracionGeneral.buscar();
@@ -84,10 +85,7 @@ public class CConfiguracionGeneral extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 		
 						String bandera = cmbConfiguracion
 								.getValue();
@@ -120,7 +118,7 @@ public class CConfiguracionGeneral extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVConfiguracion, "Configuracion General",tabs);
+				cerrarVentana2(wdwVConfiguracion, titulo,tabs);
 			}
 
 			@Override
@@ -155,6 +153,11 @@ public class CConfiguracionGeneral extends CGenerico {
 		};
 		botonera.getChildren().get(0).setVisible(false);
 		botonera.getChildren().get(2).setVisible(false);
+		botonera.getChildren().get(4).setVisible(false);
+		botonera.getChildren().get(1).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraConfiguracionGeneral.appendChild(botonera);
 
 	}
@@ -175,7 +178,7 @@ public class CConfiguracionGeneral extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -186,8 +189,14 @@ public class CConfiguracionGeneral extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
+
 
 
 }

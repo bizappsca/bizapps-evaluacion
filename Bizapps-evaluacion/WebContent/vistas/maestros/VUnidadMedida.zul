@@ -1,5 +1,5 @@
 <window id="wdwVUnidadMedida" apply="controlador.maestros.CUnidadMedida"
-	border="normal" height="auto" style="background-color:#8A0808;" width="70%">
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
 	<groupbox width="auto" mold="3d" title="Unidad de Medida">
 		<separator />
 		<div id="botoneraUnidadMedida" />
@@ -30,6 +30,7 @@
 						<textbox id="txtDescripcionUnidadMedida"
 							width="90%" maxlength="50" tabindex="1"
 							tooltiptext="Ingrese aqui la descripcion de la unidad de medida" />
+							<hbox/>
 					</row>
 				</rows>
 			</grid>

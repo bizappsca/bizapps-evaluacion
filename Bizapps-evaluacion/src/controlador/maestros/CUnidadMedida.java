@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.UnidadMedida;
 
 import org.zkoss.zk.ui.Sessions;
@@ -50,17 +51,19 @@ public class CUnidadMedida extends CGenerico {
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
 	Catalogo<UnidadMedida> catalogo;
+	protected List<UnidadMedida> listaGeneral = new ArrayList<UnidadMedida>();
 
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("mapaGeneral");
-		if (mapa != null) {
-			if (mapa.get("tabsGenerales") != null) {
-				tabs = (List<Tab>) mapa.get("tabsGenerales");
-				mapa.clear();
-				mapa = null;
+		if (map != null) {
+			if (map.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) map.get("tabsGenerales");
+				titulo = (String) map.get("titulo");
+				map.clear();
+				map = null;
 			}
 		}
 		txtDescripcionUnidadMedida.setFocus(true);
@@ -89,10 +92,7 @@ public class CUnidadMedida extends CGenerico {
 			@Override
 			public void guardar() {
 				// TODO Auto-generated method stub
-
-				boolean guardar = true;
-				guardar = validar();
-				if (guardar) {
+				if (validar()) {
 					String descripcion = txtDescripcionUnidadMedida.getValue();
 					String usuario = nombreUsuarioSesion();
 					Timestamp fechaAuditoria = new Timestamp(
@@ -103,7 +103,8 @@ public class CUnidadMedida extends CGenerico {
 					servicioUnidadMedida.guardar(unidadMedida);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioUnidadMedida.buscarTodas());
+					listaGeneral = servicioUnidadMedida.buscarTodas();
+					catalogo.actualizarLista(listaGeneral);
 					abrirCatalogo();
 				}
 
@@ -119,7 +120,7 @@ public class CUnidadMedida extends CGenerico {
 			@Override
 			public void salir() {
 				// TODO Auto-generated method stub
-				cerrarVentana(wdwVUnidadMedida, "Unidad de Medida",tabs);
+				cerrarVentana2(wdwVUnidadMedida, titulo,tabs);
 			}
 
 			@Override
@@ -144,8 +145,8 @@ public class CUnidadMedida extends CGenerico {
 													servicioUnidadMedida
 															.eliminarVariasUnidades(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioUnidadMedida
-															.buscarTodas());
+													listaGeneral = servicioUnidadMedida.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -167,8 +168,8 @@ public class CUnidadMedida extends CGenerico {
 															.eliminarUnaUnidad(idUnidadMedida);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioUnidadMedida
-															.buscarTodas());
+													listaGeneral = servicioUnidadMedida.buscarTodas();
+													catalogo.actualizarLista(listaGeneral);
 													abrirCatalogo();
 												}
 											}
@@ -182,13 +183,14 @@ public class CUnidadMedida extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+				abrirCatalogo();
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+				abrirRegistro();
+				mostrarBotones(false);
 			}
 
 			@Override
@@ -206,6 +208,9 @@ public class CUnidadMedida extends CGenerico {
 		};
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botoneraUnidadMedida.appendChild(botonera);
 
 	}
@@ -287,7 +292,7 @@ public class CUnidadMedida extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -298,22 +303,28 @@ public class CUnidadMedida extends CGenerico {
 		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
 		botonera.getChildren().get(3).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(4).setVisible(bol);
+		botonera.getChildren().get(8).setVisible(false);
+		
 
 	}
 
+
 	public void mostrarCatalogo() {
 
-		final List<UnidadMedida> listUnidadMedida = servicioUnidadMedida
+		listaGeneral = servicioUnidadMedida
 				.buscarTodas();
 		catalogo = new Catalogo<UnidadMedida>(catalogoUnidadMedida,
-				"Catalogo de Unidades de Medidas", listUnidadMedida,false,false,false,
+				"Catalogo de Unidades de Medidas", listaGeneral,false,false,false,
 				"Descripción") {
 
 			@Override
 			protected List<UnidadMedida> buscar(List<String> valores) {
 				List<UnidadMedida> lista = new ArrayList<UnidadMedida>();
 
-				for (UnidadMedida unidadMedida : listUnidadMedida) {
+				for (UnidadMedida unidadMedida : listaGeneral) {
 					if (unidadMedida.getDescripcion().toLowerCase()
 									.contains(valores.get(0).toLowerCase())) {
 						lista.add(unidadMedida);
