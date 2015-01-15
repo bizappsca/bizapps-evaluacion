@@ -32,9 +32,7 @@
 				</panelchildren>
 			</panel>
 			<separator />
-			<separator />
 			<groupbox>
-				<separator />
 				<separator />
 				<grid width="100%" style="border:0px">
 					<columns visible="false">
@@ -63,12 +61,10 @@
 					</rows>
 				</grid>
 				<separator />
-				<separator />
 				<div align="center" style="background-color:#F8E0E0">
 					<label value="DATOS DEL EMPLEADO A EVALUAR"
 						style="font-weight:bold" />
 				</div>
-				<separator />
 				<separator />
 				<listbox id="lsbEmpleadoDatos" width="100%"
 					mold="paging" pageSize="7" oddRowSclass="non-odd"

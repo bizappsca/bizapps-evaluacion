@@ -1,8 +1,8 @@
 <zk>
 	<style src="/public/Estilo.css" />
 
-	<window id="wdwVGestionarAdiestramiento" border="normal"
-		height="auto" width="100%" style="background-color:#8A0808;"
+	<window id="wdwVGestionarAdiestramiento" border="normal" height="auto"
+		width="100%" style="background-color:#8A0808;"
 		apply="controlador.transacciones.CGestionarAdiestramiento">
 		<groupbox mold="3d" title="Gestionar DNA">
 			<separator />
@@ -10,32 +10,28 @@
 				<div id="botoneraAdiestramiento" />
 			</groupbox>
 			<separator />
-			<separator />
 			<groupbox>
-
 				<div align="center">
 					<radiogroup id="rdgGestionarAdiestramiento">
 						<radio id="rbExportar" label="Exportar">
-
 							<attribute name="onCheck">
 															<![CDATA[
 	gbImportar.setVisible(false);
 	gbExportar.setVisible(true);
 ]]>
-														</attribute>
+							</attribute>
 
 
 
 						</radio>
-						<radio id="rbImportar" label="Importar"
-							style="margin-left:20px">
+						<radio id="rbImportar" label="Importar" style="margin-left:20px">
 
 							<attribute name="onCheck">
 															<![CDATA[
 	gbExportar.setVisible(false);
 	gbImportar.setVisible(true);
 ]]>
-														</attribute>
+							</attribute>
 
 						</radio>
 					</radiogroup>
@@ -63,15 +59,13 @@
 						</columns>
 						<rows>
 							<row>
-								<button autodisable="self"
-									id="btnSeleccionarArchivo" class="btn" upload="true"
-									label="Seleccionar archivo" tooltiptext="Seleccionar archivo"
-									style="width:auto" />
-								<textbox id="txtArchivoAdiestramiento"
-									style="color:black !important;" disabled="true" />
-								<button autodisable="self"
-									id="btnSubirArchivo" style="margin-left:20px" class="btn"
-									label="Subir archivo" tooltiptext="Subir archivo" />
+								<button autodisable="self" id="btnSeleccionarArchivo"
+									class="btn" upload="true" label="Seleccionar archivo"
+									tooltiptext="Seleccionar archivo" style="width:auto" />
+								<textbox id="txtArchivoAdiestramiento" style="color:black !important;"
+									disabled="true" />
+								<button autodisable="self" id="btnSubirArchivo" style="margin-left:20px"
+									class="btn" label="Subir archivo" tooltiptext="Subir archivo" />
 								<hbox />
 							</row>
 						</rows>
@@ -90,21 +84,16 @@
 						<rows>
 							<row>
 								<hbox>
-									<label class="etiqueta"
-										value="Periodo:" />
+									<label class="etiqueta" value="Periodo:" />
 									<space />
-									<label value="*"
-										style="font-weight:bold;color:red">
+									<label value="*" style="font-weight:bold;color:red">
 									</label>
 								</hbox>
-								<textbox
-									id="txtPeriodoGestionarAdiestramiento" tabindex="1"
-									width="100%" maxlength="100"
+								<textbox id="txtPeriodoGestionarAdiestramiento"
+									tabindex="1" width="100%" maxlength="100"
 									tooltiptext="Ingrese aqui el nombre del periodo" />
-								<button id="btnBuscarPeriodo"
-									label="Buscar" style="margin-left:10px" class="btn"
-									tooltiptext="Catalogo de periodos"
-									image="/public/imagenes/botones/buscar.png" />
+								<button id="btnBuscarPeriodo" label="Buscar" style="margin-left:10px"
+									class="btn" tooltiptext="Catalogo de periodos" image="/public/imagenes/botones/buscar.png" />
 							</row>
 						</rows>
 					</grid>
@@ -114,15 +103,13 @@
 						style="background-color:#E0E0E0;margin-left:5px;margin-right:5px"
 						width="98%">
 
-						<button id="btnExportarAdiestramientos"
-									tooltiptext="Exportar los Datos como un Archivo .xls"
-									image="/public/imagenes/botones/exportar.png" />
+						<button id="btnExportarAdiestramientos" tooltiptext="Exportar los Datos como un Archivo .xls"
+							image="/public/imagenes/botones/exportar.png" />
 
 					</div>
-					<listbox id="lsbAdiestramientos" width="98%"
-						mold="paging" style="margin-left:5px;margin-right:5px"
-						pageSize="10" oddRowSclass="non-odd"
-						emptyMessage="No ha seleccionado el periodo">
+					<listbox id="lsbAdiestramientos" width="98%" mold="paging"
+						style="margin-left:5px;margin-right:5px" pageSize="10"
+						oddRowSclass="non-odd" emptyMessage="No ha seleccionado el periodo">
 						<listhead>
 							<listheader label="Ficha" width="70px" />
 							<listheader label="Nombre" />
@@ -135,29 +122,23 @@
 						</listhead>
 						<template name="model">
 							<listitem>
-								<listcell
-									label="${each.empleado.ficha}">
+								<listcell label="${each.empleado.ficha}">
 								</listcell>
-								<listcell
-									label="${each.empleado.nombre}">
+								<listcell label="${each.empleado.nombre}">
 								</listcell>
-								<listcell
-									label="${each.curso.nombreCurso.nombre}">
+								<listcell label="${each.curso.nombreCurso.nombre}">
 								</listcell>
-								<listcell
-									label="${each.curso.nombreCurso.area.descripcion}">
+								<listcell label="${each.curso.nombreCurso.area.descripcion}">
 								</listcell>
 								<listcell
 									label="${each.curso.nombreCurso.area.tipoFormacion.descripcion}">
 								</listcell>
-								<listcell
-									label="${each.curso.periodo.nombre}">
+								<listcell label="${each.curso.periodo.nombre}">
 								</listcell>
 								<listcell
 									label="${each.empleado.unidadOrganizativa.gerencia.descripcion}">
 								</listcell>
-								<listcell
-									label="${each.empleado.cargo.descripcion}">
+								<listcell label="${each.empleado.cargo.descripcion}">
 								</listcell>
 							</listitem>
 						</template>
@@ -170,8 +151,7 @@
 			</groupbox>
 			<separator />
 		</groupbox>
-		<div id="divCatalogoPeriodo"
-			tooltiptext="Click para Seleccionar un periodo" />
+		<div id="divCatalogoPeriodo" tooltiptext="Click para Seleccionar un periodo" />
 	</window>
 	<separator />
 </zk>

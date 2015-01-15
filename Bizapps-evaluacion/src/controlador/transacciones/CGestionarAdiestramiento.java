@@ -146,6 +146,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -186,30 +187,34 @@ public class CGestionarAdiestramiento extends CGenerico {
 			@Override
 			public void buscar() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void annadir() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void reporte() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void ayuda() {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
 		botonera.getChildren().get(0).setVisible(false);
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(2).setVisible(false);
+		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
+		botonera.getChildren().get(4).setVisible(false);
 		botoneraAdiestramiento.appendChild(botonera);
 
 	}
@@ -574,7 +579,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 	private void cerrarVista() {
 
-		cerrarVentana(wdwVGestionarAdiestramiento, "Gestionar DNA", tabs);
+		cerrarVentana(wdwVGestionarAdiestramiento, titulo, tabs);
 
 	}
 
@@ -703,7 +708,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 					.buscarPeriodo(idPeriodo);
 
 			/* La ruta donde se creara el archivo */
-			String rutaArchivo = System.getProperty("user.home") + "/DNA" + "_" 
+			String rutaArchivo = System.getProperty("user.home") + "/DNA" + "_"
 					+ periodoSeleccionado.getNombre() + ".xls";
 			/* Se crea el objeto de tipo File con la ruta del archivo */
 			File archivoXLS = new File(rutaArchivo);
@@ -754,26 +759,34 @@ public class CGestionarAdiestramiento extends CGenerico {
 					celda7.setCellValue("Cargo");
 				} else {
 					/* Si no es la primera fila establecemos un valor */
-					celda0.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getFicha());
-					celda1.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getNombre());
-					celda2.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getNombre());
-					celda3.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getArea().getDescripcion());
-					celda4.setCellValue(cursosPeriodo.get(f - 1).getCurso().getNombreCurso().getArea().getTipoFormacion().getDescripcion());
-					celda5.setCellValue(cursosPeriodo.get(f - 1).getCurso().getPeriodo().getNombre());
-					celda6.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getUnidadOrganizativa().getGerencia().getDescripcion());
-					celda7.setCellValue(cursosPeriodo.get(f - 1).getEmpleado().getCargo().getDescripcion());
+					celda0.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
+							.getFicha());
+					celda1.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
+							.getNombre());
+					celda2.setCellValue(cursosPeriodo.get(f - 1).getCurso()
+							.getNombreCurso().getNombre());
+					celda3.setCellValue(cursosPeriodo.get(f - 1).getCurso()
+							.getNombreCurso().getArea().getDescripcion());
+					celda4.setCellValue(cursosPeriodo.get(f - 1).getCurso()
+							.getNombreCurso().getArea().getTipoFormacion()
+							.getDescripcion());
+					celda5.setCellValue(cursosPeriodo.get(f - 1).getCurso()
+							.getPeriodo().getNombre());
+					celda6.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
+							.getUnidadOrganizativa().getGerencia()
+							.getDescripcion());
+					celda7.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
+							.getCargo().getDescripcion());
 				}
 
 			}
-			
-			
-			/*Escribimos en el libro*/
-	        libro.write(archivo);
-	        /*Cerramos el flujo de datos*/
-	        archivo.close();
-	        /*Y abrimos el archivo con la clase Desktop*/
-	        Desktop.getDesktop().open(archivoXLS);
 
+			/* Escribimos en el libro */
+			libro.write(archivo);
+			/* Cerramos el flujo de datos */
+			archivo.close();
+			/* Y abrimos el archivo con la clase Desktop */
+			Desktop.getDesktop().open(archivoXLS);
 
 		} else {
 

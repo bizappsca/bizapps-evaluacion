@@ -9,6 +9,7 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
@@ -16,6 +17,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import componentes.Botonera;
+import componentes.Mensaje;
 import componentes.Validador;
 
 import controlador.maestros.CGenerico;
@@ -57,31 +59,24 @@ public class CReinicioPassword extends CGenerico {
 				String password = KeyGenerators.string().generateKey();
 				String correo;
 				if (validar()) {
-					Usuario usuario = servicioUsuario
-							.buscarPorCedula(txtCedulaUsuario.getValue());
+					Usuario usuario = servicioUsuario.buscarPorCedulayCorreo(
+							txtCedulaUsuario.getValue(),
+							txtCorreoUsuario.getValue());
 					if (usuario != null) {
-						if (usuario.getEmail() != null) {
-							correo = usuario.getEmail();
-						} else {
-							correo = txtCorreoUsuario.getValue();
-						}
+						correo = usuario.getEmail();
 						usuario.setPassword(password);
 						servicioUsuario.guardar(usuario);
-						EmailHelper.sendCommentEmail(correo, "Reinicio de Contraseña");
-						
-//						enviarEmailNotificacion(
-//								correo,
-//								"Ha Solicitado Reiniciar su Password, sus nuevos datos para el inicio de sesion son: "
-//										+ " Usuario: "
-//										+ usuario.getLogin()
-//										+ "  " + " Password: " + password);
+						enviarEmailNotificacion(
+								correo,
+								"Ha Solicitado Reiniciar su Password, sus nuevos datos para el inicio de sesion son: "
+										+ " Usuario: "
+										+ usuario.getLogin()
+										+ "  " + " Password: " + password);
 						limpiar();
+						msj.mensajeInformacion(Mensaje.reinicioContrasenna);
 						salir();
 					} else {
-						Messagebox
-								.show("El Numero de Cedula que Ingreso No esta asociado a Ningun Usuario",
-										"Informacion", Messagebox.OK,
-										Messagebox.INFORMATION);
+						msj.mensajeError(Mensaje.cedulaNoExiste);
 					}
 				}
 			}
@@ -122,14 +117,20 @@ public class CReinicioPassword extends CGenerico {
 		};
 		botonera.getChildren().get(0).setVisible(false);
 		botonera.getChildren().get(2).setVisible(false);
+		botonera.getChildren().get(1).setVisible(false);
+		botonera.getChildren().get(4).setVisible(false);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
+		
+		Button guardar = (Button) botonera.getChildren().get(3);
+		guardar.setLabel("Enviar");
 		botoneraReinicio.appendChild(botonera);
 	}
 
 	protected boolean validar() {
 		if (txtCedulaUsuario.getText().compareTo("") == 0
 				|| txtCorreoUsuario.getText().compareTo("") == 0) {
-			Messagebox.show("Debe Llenar Todos los Campos", "Informacion",
-					Messagebox.OK, Messagebox.INFORMATION);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -141,8 +142,7 @@ public class CReinicioPassword extends CGenerico {
 	@Listen("onChange = #txtCorreoUsuario")
 	public void validarCorreo() throws IOException {
 		if (Validador.validarCorreo(txtCorreoUsuario.getValue()) == false) {
-			Messagebox.show("Correo Invalido", "Informacion", Messagebox.OK,
-					Messagebox.INFORMATION);
+			msj.mensajeAlerta(Mensaje.correoInvalido);
 		}
 	}
 
@@ -150,8 +150,7 @@ public class CReinicioPassword extends CGenerico {
 	@Listen("onChange = #txtCedulaUsuario")
 	public void validarCedula() {
 		if (!Validador.validarNumero(txtCedulaUsuario.getValue())) {
-			Messagebox.show("Cedula Invalida", "Informacion", Messagebox.OK,
-					Messagebox.INFORMATION);
+			msj.mensajeAlerta(Mensaje.cedulaInvalida);
 		}
 	}
 }

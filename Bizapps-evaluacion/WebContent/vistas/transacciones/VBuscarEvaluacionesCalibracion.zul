@@ -84,7 +84,7 @@
 	<div width="100%" align="right">
 		<button id="btnGuardar" label="Ver Evaluación" image="/public/imagenes/botones/buscar.png" class="btn" width= "15%"/> 
 		<button id="btnLimpiar" label="Limpiar" image="/public/imagenes/botones/limpiar.png" class="btn"/>
-		<button id="btnBuscar" label="Refrescar" image="/public/imagenes/botones/generar.png" class="btn" />
+		<button id="btnBuscar" label="Refrescar" image="/public/imagenes/botones/calibrada.png" class="btn" />
 	</div>
 	<separator />
 	<div id="divCatalogoEmpresa"

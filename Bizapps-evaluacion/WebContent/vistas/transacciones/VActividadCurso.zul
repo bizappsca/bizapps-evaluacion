@@ -28,9 +28,7 @@
 				</panelchildren>
 			</panel>
 			<separator />
-			<separator />
 			<groupbox>
-				<separator />
 				<separator />
 				<grid width="100%" style="border:0px">
 					<columns visible="false">
@@ -76,9 +74,6 @@
 				</grid>
 				<separator />
 				<separator />
-				<separator />
-				<separator />
-
 				<listbox id="lsbActividad" width="90%" mold="paging"
 					style="margin-left:30px" pageSize="10" oddRowSclass="non-odd"
 					emptyMessage="No ha seleccionado el curso">

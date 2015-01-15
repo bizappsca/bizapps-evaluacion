@@ -177,41 +177,30 @@ public class CEmpleado extends CGenerico {
 			}
 		}
 		Empleado jefe = servicioEmpleado.buscarPorFicha(u.getCedula());
-		System.out.println("entro10");
 		arboles.add(jefe);
 		for (int t = 0; t < ids.size(); t++) {
-			System.out.println("entro11");
 			Empleado a;
 			a = servicioEmpleado.buscarPorFicha(String.valueOf(ids.get(t)));
 			arboles.add(a);
 		}
 		List<Nodos> nodos = new ArrayList<Nodos>();
 		List<String> idsPadre = new ArrayList<String>();
-		System.out.println("entro12");
 		return crearArbol(root, nodos, arboles, 0, idsPadre, jefe.getFicha());
 
 	}
 
 	private Nodos crearArbol(Nodos roote, List<Nodos> nodos,
 			List<Empleado> arboles, int i, List<String> idsPadre, String cedula) {
-		System.out.println("entrooooooooo1");
-		System.out.println("arboles" + arboles.size());
 		for (int z = 0; z < arboles.size(); z++) {
-			Nodos oneLevelNode = new Nodos(null, 0, "", "");
-			Nodos two = new Nodos(null, 0, "", "");
+			Nodos oneLevelNode = new Nodos(null, 0, "","");
+			Nodos two = new Nodos(null, 0, "","");
 			if (arboles.get(z).getFicha().equals(cedula)) {
-				oneLevelNode = new Nodos(roote, z, +arboles.get(z)
-						.getGradoAuxiliar()
-						+ " "
-						+ "("
-						+ arboles.get(z).getFicha()
-						+ ")"
-						+ " "
-						+ arboles.get(z).getNombre(), arboles.get(z).getFicha());
+				oneLevelNode = new Nodos(roote, z, +arboles.get(z).getGradoAuxiliar()+ " "+ "("	+ arboles.get(z).getFicha()	+ ")"+ " "+ arboles.get(z).getNombre(), arboles.get(z).getFicha());
 				roote.appendChild(oneLevelNode);
 				idsPadre.add(arboles.get(z).getFicha());
 				nodos.add(oneLevelNode);
-			} else {
+			} 			
+			else {
 				for (int j = 0; j < idsPadre.size(); j++) {
 					if (idsPadre.get(j).equals(
 							arboles.get(z).getFichaSupervisor())) {
@@ -242,7 +231,6 @@ public class CEmpleado extends CGenerico {
 		if (arbolPersonal.getSelectedItem() != null) {
 			String item = String.valueOf(arbolPersonal.getSelectedItem()
 					.getContext());
-			System.out.println(item);
 			boolean abrir = true;
 			if (arbolPersonal.getSelectedItem().getLevel() > 0) {
 				if (abrir) {
@@ -333,7 +321,7 @@ public class CEmpleado extends CGenerico {
 														.valueOf(arbolPersonal
 																.getSelectedItem()
 																.getContext());
-												System.out.println(item);
+								
 												boolean abrir = true;
 												if (arbolPersonal
 														.getSelectedItem()

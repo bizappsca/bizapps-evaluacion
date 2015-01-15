@@ -88,6 +88,7 @@ public class CConfigurarCurso extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -327,7 +328,7 @@ public class CConfigurarCurso extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVConfiguracionCurso, "Configuracion del Curso", tabs);
+		cerrarVentana(wdwVConfiguracionCurso,titulo, tabs);
 	}
 
 	@Listen("onClick = #btnLimpiar")

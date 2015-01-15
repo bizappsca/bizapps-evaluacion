@@ -21,7 +21,6 @@ import org.zkoss.zul.Textbox;
 import componentes.Botonera;
 import componentes.Catalogo;
 import componentes.Mensaje;
-
 import controlador.maestros.CGenerico;
 
 public class CMenuArbol extends CGenerico {
@@ -42,6 +41,7 @@ public class CMenuArbol extends CGenerico {
 	private Groupbox gpxDatos;
 	@Wire
 	private Groupbox gpxRegistro;
+	protected List<Arbol> listaGeneral = new ArrayList<Arbol>();
 
 	Botonera botonera;
 	Catalogo<Arbol> catalogo;
@@ -54,7 +54,7 @@ public class CMenuArbol extends CGenerico {
 		if (map != null) {
 			if (map.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) map.get("tabsGenerales");
-				System.out.println(tabs.size());
+				titulo = (String) map.get("titulo");
 				map.clear();
 				map = null;
 			}
@@ -83,8 +83,13 @@ public class CMenuArbol extends CGenerico {
 
 			@Override
 			public void salir() {
-				cerrarVentana(divVMenuArbol, "Menu Arbol", tabs);
+				cerrarVentana(divVMenuArbol, titulo , tabs);
+				
 
+			}
+
+			@Override
+			public void reporte() {
 			}
 
 			@Override
@@ -96,10 +101,8 @@ public class CMenuArbol extends CGenerico {
 
 			@Override
 			public void guardar() {
-				boolean guardar = true;
-				if (clave == 0)
-					guardar = validar();
-				if (guardar) {
+			
+				if (validar()) {
 					String url = txtUrl.getValue();
 					String nombre = txtNombre.getValue();
 					Long padre = txtPadre.getValue();
@@ -111,7 +114,8 @@ public class CMenuArbol extends CGenerico {
 					servicioArbol.guardar(arbol);
 					msj.mensajeInformacion(Mensaje.guardado);
 					limpiar();
-					catalogo.actualizarLista(servicioArbol.listarArbol());
+					listaGeneral = servicioArbol.listarArbol();
+					catalogo.actualizarLista(listaGeneral);
 				}
 
 			}
@@ -137,8 +141,8 @@ public class CMenuArbol extends CGenerico {
 													servicioArbol
 															.eliminarVarios(eliminarLista);
 													msj.mensajeInformacion(Mensaje.eliminado);
-													catalogo.actualizarLista(servicioArbol
-															.listarArbol());
+													listaGeneral = servicioArbol.listarArbol();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -160,8 +164,8 @@ public class CMenuArbol extends CGenerico {
 															.eliminarUno(clave);
 													msj.mensajeInformacion(Mensaje.eliminado);
 													limpiar();
-													catalogo.actualizarLista(servicioArbol
-															.listarArbol());
+													listaGeneral = servicioArbol.listarArbol();
+													catalogo.actualizarLista(listaGeneral);
 												}
 											}
 										});
@@ -173,46 +177,39 @@ public class CMenuArbol extends CGenerico {
 
 			@Override
 			public void buscar() {
-				// TODO Auto-generated method stub
 				
-			}
-
-			@Override
-			public void annadir() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void reporte() {
-				// TODO Auto-generated method stub
+				abrirCatalogo();
 				
 			}
 
 			@Override
 			public void ayuda() {
-				// TODO Auto-generated method stub
-				
+
 			}
 
-//			@Override
-//			public void annadir() {
-//				abrirRegistro();
-//				mostrarBotones(false);
-//			}
+			@Override
+			public void annadir() {
+				abrirRegistro();
+				mostrarBotones(false);
+			}
 		};
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
 		botonera.getChildren().get(1).setVisible(false);
 		botonera.getChildren().get(3).setVisible(false);
+		botonera.getChildren().get(5).setVisible(false);
 		botoneraMenuArbol.appendChild(botonera);
 
 	}
 
 	public void mostrarBotones(boolean bol) {
-		botonera.getChildren().get(0).setVisible(bol);
-		botonera.getChildren().get(2).setVisible(bol);
 		botonera.getChildren().get(1).setVisible(!bol);
+		botonera.getChildren().get(2).setVisible(bol);
+		botonera.getChildren().get(6).setVisible(false);
+		botonera.getChildren().get(8).setVisible(false);
+		botonera.getChildren().get(0).setVisible(bol);
 		botonera.getChildren().get(3).setVisible(!bol);
-		botonera.getChildren().get(4).setVisible(!bol);
+		botonera.getChildren().get(5).setVisible(!bol);
 	}
 
 	public void limpiarCampos() {
@@ -220,6 +217,7 @@ public class CMenuArbol extends CGenerico {
 		txtUrl.setValue("");
 		txtNombre.setValue("");
 		txtPadre.setValue(null);
+		catalogo.limpiarSeleccion();
 	}
 
 	public boolean validarSeleccion() {
@@ -300,9 +298,9 @@ public class CMenuArbol extends CGenerico {
 	}
 
 	public void mostrarCatalogo() {
-		final List<Arbol> listArbol = servicioArbol.listarArbol();
+		listaGeneral = servicioArbol.listarArbol();
 		catalogo = new Catalogo<Arbol>(divCatalogoMenuArbol, "Arbol",
-				listArbol, false, false, true, "Codigo", "Nombre", "Padre",
+				listaGeneral, false, false, true, "Codigo", "Nombre", "Padre",
 				"Url") {
 
 			@Override
@@ -310,15 +308,15 @@ public class CMenuArbol extends CGenerico {
 
 				List<Arbol> lista = new ArrayList<Arbol>();
 
-				for (Arbol arbol : listArbol) {
+				for (Arbol arbol : listaGeneral) {
 					if (String.valueOf(arbol.getIdArbol()).toLowerCase()
-							.startsWith(valores.get(0))
+							.contains(valores.get(0).toLowerCase())
 							&& arbol.getNombre().toLowerCase()
-									.startsWith(valores.get(1))
+									.contains(valores.get(1).toLowerCase())
 							&& String.valueOf(arbol.getPadre()).toLowerCase()
-									.startsWith(valores.get(2))
+									.contains(valores.get(2).toLowerCase())
 							&& arbol.getUrl().toLowerCase()
-									.startsWith(valores.get(3))) {
+									.contains(valores.get(3).toLowerCase())) {
 						lista.add(arbol);
 					}
 				}

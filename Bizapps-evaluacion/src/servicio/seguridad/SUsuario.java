@@ -61,4 +61,8 @@ public class SUsuario {
 		return usuarioDAO.findByIdUsuario(idUsuario);
 	}
 
+	public Usuario buscarPorCedulayCorreo(String value, String value2) {
+		return usuarioDAO.findByCedulaAndEmail(value, value2);
+	}
+
 }

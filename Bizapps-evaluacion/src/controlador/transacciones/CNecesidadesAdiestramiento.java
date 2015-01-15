@@ -84,6 +84,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -113,12 +114,14 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaInicio()))
-									.toLowerCase().contains(valores.get(2).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(2).toLowerCase())
 							&& String
 									.valueOf(
 											formatoFecha.format(periodo
 													.getFechaFin()))
-									.toLowerCase().contains(valores.get(3).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(3).toLowerCase())
 							&& periodo.getEstadoPeriodo().toLowerCase()
 									.contains(valores.get(4).toLowerCase())) {
 						lista.add(periodo);
@@ -190,7 +193,8 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().contains(valores.get(1).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
 									.contains(valores.get(2).toLowerCase())
@@ -201,7 +205,8 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 							&& empleado.getFichaSupervisor().toLowerCase()
 									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().contains(valores.get(6).toLowerCase())) {
+									.toLowerCase()
+									.contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -279,8 +284,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVNecesidadesAdiestramiento,
-				"Deteccion de Necesidades de Adiestramiento", tabs);
+		cerrarVentana2(wdwVNecesidadesAdiestramiento, titulo, tabs);
 
 	}
 
@@ -324,7 +328,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 				}
 
 			}
-			
+
 			if (idPeriodo == 0)
 				lsbCursosDisponibles
 						.setEmptyMessage("No se ha seleccionado un periodo");

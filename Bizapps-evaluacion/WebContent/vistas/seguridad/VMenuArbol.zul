@@ -25,7 +25,7 @@
 							</hbox>
 							<cell colspan="2">
 									<textbox id="txtNombre" hflex="1" maxlength="100"
-										tooltiptext="Ingrese el Nombre del Item del Menu Arbol" width="100%"/>
+										tooltiptext="Ingrese el Nombre del Item del Menu Arbol (nombre)" width="100%"/>
 							</cell>
 							<hbox />
 						</row>
@@ -36,8 +36,8 @@
 								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
-							<longbox id="txtPadre" hflex="1" maxlength="3"
-								tooltiptext="Ingrese el Padre del Item" width="100%"/>
+							<longbox id="txtPadre" hflex="1" maxlength="5"
+								tooltiptext="Ingrese el Padre del Item (padre)" width="100%"/>
 							<hbox />
 							<hbox />
 						</row>
@@ -50,7 +50,7 @@
 							</hbox>
 							<cell colspan="2">							
 									<textbox id="txtUrl" hflex="1" maxlength="100"
-										tooltiptext="Ingrese la Url de la Vista" />							
+										tooltiptext="Ingrese la Url de la Vista (url)" />							
 							</cell>
 							<hbox />
 						</row>

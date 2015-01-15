@@ -2,26 +2,26 @@
 
 .z-window {
 	background-image: none;
-	background-color: #661313;
+	background-color: #800400;
 }
 
 .z-window-header {
 	color: white;
 	font-size: 18px;
 	font-weight: normal;
-	background-color: #661313;
+	background-color: #800400;
 }
 
 .z-borderlayout {
 	background-image: none;
-	background-color: #661313;
+	background-color: #800400;
 }
 
 .etiqueta {
 	font-weight: bold;
 	font-family: arial;
-	color: #771313;
-	font-size: 13px;
+	color: #800400;
+	font-size: 11px;
 }
 
 .z-textbox {
@@ -33,27 +33,27 @@
 }
 
 .z-groupbox-3d-hm {
-	background: #CE6464;
+	background: #B30000;
 	/* 	background: #DDECFD;  BC4042*/
 }
 
 .z-groupbox-3d-hl .z-groupbox-3d-header {
 	color: white;
 	font-family: arial, sans-serif;
-	font-size: 18px;
+	font-size: 12px;
 	font-weight: bold;
 }
 
 .btn {
-	font-size: 13px;
+	font-size: 11px;
 	color: white;
 	cursor: pointer;
-	width: 120px;
-	height: 33px;
+	width: 95px;
+	height: 29px;
 	-webkit-border-radius: 0.7em;
 	-moz-border-radius: 0.7em;
 	border-radius: 0.7em;
-	background: #952C2C;
+	background: #800400;
 }
 
 .multilinea {
@@ -65,7 +65,7 @@
 }
 
 .z-loading {
-	background-color: #952C2C;
+	background-color: #800400;
 	border: 1px outset #A0A0A0;
 	font-weight: bold;
 	font-size: 18px;
@@ -84,21 +84,44 @@
 	-webkit-border-radius: 0.7em;
 	-moz-border-radius: 0.7em;
 	border-radius: 0.7em;
+	background: #800400;
+}
+
+.catalogo {
+	cursor: pointer;
+	-webkit-border-radius: 0.7em;
+	-moz-border-radius: 0.7em;
+	border-radius: 0.7em;
 	background: #952C2C;
-		width: 37px;
-	height: 34px;
+	width: 28px;
+	height: 28px;
 }
 
 .banner {
-	background-color: #661313;
+	background-color: #800400;
 }
 
 .lblIndex {
 	font-size: 26px;
-	color: #661313;
+	color: #800400;
 	font-weight: bold;
 }
 
 .azul .z-groupbox-hr {
 	background: #EBE8E8;
+}
+
+div.z-listbox-header th.z-listheader,div.z-listbox-header th.z-auxheader
+	{
+	white-space: pre-line;
+}
+
+div.z-listbox-header th.z-listheader,div.z-listbox-header th.z-auxheader
+	{
+	white-space: pre-line;
+	font-size: 10px;
+}
+
+.gruposUsuario {
+	background: #800400;
 }

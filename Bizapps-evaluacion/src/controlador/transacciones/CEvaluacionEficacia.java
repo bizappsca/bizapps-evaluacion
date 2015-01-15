@@ -93,6 +93,7 @@ public class CEvaluacionEficacia extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -379,7 +380,7 @@ public class CEvaluacionEficacia extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVEvaluacionEficacia, "Evaluacion de Eficacia", tabs);
+		cerrarVentana(wdwVEvaluacionEficacia, titulo, tabs);
 
 	}
 

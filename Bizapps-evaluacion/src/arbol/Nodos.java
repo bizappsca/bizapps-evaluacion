@@ -10,24 +10,23 @@ public class Nodos {
 	private List<Nodos> _children;
 	private int _index;
 	private String _label = "";
-	private String _ficha = "";
+    private String _ficha = "";
 
+    public Nodos(Nodos parent, int index, String label, String ficha) {
+            _parent = parent;
+            _index = index;
+            _label = label;
+            _ficha = ficha;
+            
+    }
+    
+    public String getFicha() {
+            return _ficha;
+    }
 
-	public Nodos(Nodos parent, int index, String label, String ficha) {
-		_parent = parent;
-		_index = index;
-		_label = label;
-		_ficha = ficha;
-		
-	}
-	
-	public String getFicha() {
-		return _ficha;
-	}
-
-	public String toString2() {
-		return getFicha();
-	}
+    public String toString2() {
+            return getFicha();
+    }
 
 	public void setParent(Nodos parent) {
 		_parent = parent;

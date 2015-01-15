@@ -79,10 +79,10 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		contenido = (Include) wdwVBuscarEvaluacionsatisfaccion.getParent();
-		Tabbox tabox = (Tabbox) wdwVBuscarEvaluacionsatisfaccion.getParent().getParent()
-				.getParent().getParent();
+		Tabbox tabox = (Tabbox) wdwVBuscarEvaluacionsatisfaccion.getParent()
+				.getParent().getParent().getParent();
 		tabBox = tabox;
 		tab = (Tab) tabox.getTabs().getLastChild();
 
@@ -91,6 +91,7 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -112,25 +113,25 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 				if (obtenerSeleccionados().size() != 0) {
 
 					if (obtenerSeleccionados().size() == 1) {
-						
-						Curso curso = lsbCursosRealizados.getSelectedItem().getValue();
-						
+
+						Curso curso = lsbCursosRealizados.getSelectedItem()
+								.getValue();
+
 						final HashMap<String, Object> map = new HashMap<String, Object>();
 						map.put("id", "consulta");
 						map.put("idCurso", curso.getId());
 						map.put("idEmpleado", idEmpleado);
-						Sessions.getCurrent().setAttribute("itemsCatalogo", map);
+						Sessions.getCurrent()
+								.setAttribute("itemsCatalogo", map);
 						List<Arbol> arboles = servicioArbol
 								.buscarPorArbolPorNombre("Evaluacion  de Satisfacion");
 						if (!arboles.isEmpty()) {
 							Arbol arbolItem = arboles.get(0);
-							cArbol.abrirVentanas(arbolItem, tabBox, contenido, tab,
-									tabs);
+							cArbol.abrirVentanas(arbolItem, tabBox, contenido,
+									tab, tabs);
 						}
-						
-						
+
 						limpiarCampos();
-						
 
 					} else {
 
@@ -175,7 +176,8 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 					if (empleado.getEmpresa().getNombre().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
 							&& empleado.getCargo().getDescripcion()
-									.toLowerCase().contains(valores.get(1).toLowerCase())
+									.toLowerCase()
+									.contains(valores.get(1).toLowerCase())
 							&& empleado.getUnidadOrganizativa()
 									.getDescripcion().toLowerCase()
 									.contains(valores.get(2).toLowerCase())
@@ -186,7 +188,8 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 							&& empleado.getFichaSupervisor().toLowerCase()
 									.contains(valores.get(5).toLowerCase())
 							&& String.valueOf(empleado.getGradoAuxiliar())
-									.toLowerCase().contains(valores.get(6).toLowerCase())) {
+									.toLowerCase()
+									.contains(valores.get(6).toLowerCase())) {
 						lista.add(empleado);
 					}
 				}
@@ -261,9 +264,7 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana(wdwVBuscarEvaluacionsatisfaccion,
-				"Buscar Evaluacion Satisfaccion", tabs);
-
+		cerrarVentana(wdwVBuscarEvaluacionsatisfaccion, titulo, tabs);
 	}
 
 	public List<Curso> obtenerSeleccionados() {

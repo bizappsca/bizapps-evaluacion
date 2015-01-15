@@ -2,23 +2,19 @@
 	<style src="/public/Estilo.css" />
 
 	<window id="wdwVConfiguracionCurso" border="normal" height="auto"
-		style="background-color:#8A0808;"
-		apply="controlador.transacciones.CConfigurarCurso">
-
-		<groupbox width="auto" mold="3d"
-			title="Configuración del Curso">
+		style="background-color:#8A0808;" apply="controlador.transacciones.CConfigurarCurso">
+		<groupbox width="auto" mold="3d" title="Configuración del Curso">
 			<separator />
 			<panel border="normal" width="100%">
 				<panelchildren>
 					<separator />
 					<div align="left">
-						<button id="btnGuardar" tooltiptext="Guardar"
-							class="btn" style="margin-left:5px" label="Guardar"
+						<button id="btnGuardar" tooltiptext="Guardar" class="btn"
+							style="margin-left:5px" label="Guardar"
 							image="/public/imagenes/botones/guardar.png">
 						</button>
-						<button id="btnLimpiar" label="Limpiar"
-							class="btn" tooltiptext="Limpiar"
-							image="/public/imagenes/botones/limpiar.png">
+						<button id="btnLimpiar" label="Limpiar" class="btn"
+							tooltiptext="Limpiar" image="/public/imagenes/botones/limpiar.png">
 						</button>
 						<button id="btnSalir" label="Salir" class="btn"
 							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
@@ -28,9 +24,7 @@
 				</panelchildren>
 			</panel>
 			<separator />
-			<separator />
 			<groupbox>
-				<separator />
 				<separator />
 				<grid width="100%" style="border:0px">
 					<columns visible="false">
@@ -41,65 +35,52 @@
 					<rows>
 						<row>
 							<hbox>
-								<label class="etiqueta"
-									value="Periodo:" />
+								<label class="etiqueta" value="Periodo:" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
-							<textbox id="txtPeriodoConfiguracionCurso"
-								tabindex="1" width="100%" maxlength="100"
-								tooltiptext="Ingrese aqui el nombre del periodo" />
-							<button id="btnBuscarPeriodo" label="Buscar"
-								style="margin-left:10px" class="btn"
-								tooltiptext="Catalogo de periodos"
-								image="/public/imagenes/botones/buscar.png" />
+							<textbox id="txtPeriodoConfiguracionCurso" tabindex="1"
+								width="100%" maxlength="100" tooltiptext="Ingrese aqui el nombre del periodo" />
+							<button id="btnBuscarPeriodo" label="Buscar" style="margin-left:10px"
+								class="btn" tooltiptext="Catalogo de periodos" image="/public/imagenes/botones/buscar.png" />
 						</row>
 						<row>
 							<hbox>
 								<label class="etiqueta" value="Curso:" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
-							<textbox id="txtCursoConfiguracionCurso"
-								tabindex="2" width="100%" maxlength="500"
-								tooltiptext="Ingrese aqui el nombre del curso" />
-							<button id="btnBuscarCurso" label="Buscar"
-								style="margin-left:10px" class="btn"
-								tooltiptext="Catalogo de cursos"
-								image="/public/imagenes/botones/buscar.png" />
+							<textbox id="txtCursoConfiguracionCurso" tabindex="2"
+								width="100%" maxlength="500" tooltiptext="Ingrese aqui el nombre del curso" />
+							<button id="btnBuscarCurso" label="Buscar" style="margin-left:10px"
+								class="btn" tooltiptext="Catalogo de cursos" image="/public/imagenes/botones/buscar.png" />
 						</row>
 						<row>
 							<hbox>
-								<label class="etiqueta"
-									value="Fecha Inicio:" />
+								<label class="etiqueta" value="Fecha Inicio:" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
 
-							<datebox readonly="true" width="100%"
-								tabindex="3" id="dtbFechaInicio" format="dd-MM-yyyy"
+							<datebox readonly="true" width="100%" tabindex="3"
+								id="dtbFechaInicio" format="dd-MM-yyyy"
 								tooltiptext="Ingrese la fecha de inicio del curso" />
 							<hbox />
 							<hbox />
 						</row>
 						<row>
 							<hbox>
-								<label class="etiqueta"
-									value="Fecha Fin:" />
+								<label class="etiqueta" value="Fecha Fin:" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
 
-							<datebox readonly="true" width="100%"
-								tabindex="4" id="dtbFechaFin" format="dd-MM-yyyy"
+							<datebox readonly="true" width="100%" tabindex="4"
+								id="dtbFechaFin" format="dd-MM-yyyy"
 								tooltiptext="Ingrese la fecha de culminacion del curso" />
 							<hbox />
 							<hbox />
@@ -107,19 +88,16 @@
 
 						<row>
 							<hbox>
-								<label value="Duración:"
-									class="etiqueta" />
+								<label value="Duración:" class="etiqueta" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
 
-							<spinner id="spnDuracionCurso"
-								constraint="no negative" width="100%" maxlength="100"
-								tabindex="3" tooltiptext="Ingrese aqui las horas del curso" />
-							<combobox id="cmbUnidadMedidaCurso"
-								readonly="true"
+							<spinner id="spnDuracionCurso" constraint="no negative"
+								width="100%" maxlength="100" tabindex="3"
+								tooltiptext="Ingrese aqui las horas del curso" />
+							<combobox id="cmbUnidadMedidaCurso" readonly="true"
 								tooltiptext="Seleccione la unidad de medida de la duracion"
 								width="150px" tabindex="9">
 								<comboitem label="DIAS" />
@@ -129,17 +107,13 @@
 						</row>
 						<row>
 							<hbox>
-								<label class="etiqueta"
-									value="Facilitador:" />
+								<label class="etiqueta" value="Facilitador:" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
-							<textbox
-								id="txtFacilitadorConfiguracionCurso" tabindex="1" width="100%"
-								maxlength="100"
-								tooltiptext="Ingrese aqui el nombre del facilitador" />
+							<textbox id="txtFacilitadorConfiguracionCurso" tabindex="1"
+								width="100%" maxlength="100" tooltiptext="Ingrese aqui el nombre del facilitador" />
 							<hbox />
 						</row>
 
@@ -147,14 +121,13 @@
 							<hbox>
 								<label value="Estado:" class="etiqueta" />
 								<space />
-								<label value="*"
-									style="font-weight:bold;color:red">
+								<label value="*" style="font-weight:bold;color:red">
 								</label>
 							</hbox>
 
-							<combobox id="cmbEstadoCurso"
-								readonly="true" tooltiptext="Seleccione el estado del curso"
-								width="100%" tabindex="4">
+							<combobox id="cmbEstadoCurso" readonly="true"
+								tooltiptext="Seleccione el estado del curso" width="100%"
+								tabindex="4">
 								<comboitem label="ACTIVO" />
 								<comboitem label="INACTIVO" />
 							</combobox>
@@ -165,14 +138,10 @@
 					</rows>
 				</grid>
 				<separator />
-				<separator />
 			</groupbox>
 			<separator />
-			<separator />
 		</groupbox>
-		<div id="divCatalogoCurso"
-			tooltiptext="Click para Seleccionar un curso" />
-		<div id="divCatalogoPeriodo"
-			tooltiptext="Click para Seleccionar un periodo" />
+		<div id="divCatalogoCurso" tooltiptext="Click para Seleccionar un curso" />
+		<div id="divCatalogoPeriodo" tooltiptext="Click para Seleccionar un periodo" />
 	</window>
 </zk>

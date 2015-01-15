@@ -79,8 +79,6 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 	@Override
 	public void inicializar() throws IOException {
-		// TODO Auto-generated method stub
-
 		contenido = (Include) wdwVEvaluacionSatisfaccion.getParent();
 		Tabbox tabox = (Tabbox) wdwVEvaluacionSatisfaccion.getParent()
 				.getParent().getParent().getParent();
@@ -91,6 +89,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -135,8 +134,6 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 		}
 
-		System.out.println(empleado);
-
 	}
 
 	public List<Curso> cursosEmpleado() {
@@ -144,10 +141,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 		List<Curso> cursos = new ArrayList<Curso>();
 		empleadosCurso = servicioEmpleadoCurso.buscarCursos(empleado);
 
-		System.out.println(empleadosCurso.size());
-
 		for (int i = 0; i < empleadosCurso.size(); i++) {
-
 			cursos.add(empleadosCurso.get(i).getCurso());
 		}
 
@@ -282,10 +276,8 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-
-		cerrarVentana(wdwVEvaluacionSatisfaccion, "Evaluacion  de Satisfacion",
-				tabs);
-
+		
+		cerrarVentana2(wdwVEvaluacionSatisfaccion, titulo, tabs);
 	}
 
 	public void llenarLista() {

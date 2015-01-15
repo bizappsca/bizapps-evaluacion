@@ -65,6 +65,9 @@ public class Mensaje {
 	public static String noSePuedeCopiar = "El periodo está inactivo no puede copiar evaluaciones";
 	public static String noSePuedeCrear = "El periodo está inactivo no puede crear evaluaciones";
 	public static String noSePuedeEliminar = "El periodo está inactivo no puede eliminar evaluaciones";
+	public static String reinicioContrasenna = "Se envio un Correo Indicando los datos del Usuario";
+	public static String cedulaInvalida = "Formato de Cedula No Valido";
+		public static String cedulaNoExiste = "El Numero de Cedula que Ingreso No esta asociado a Ningun Usuario";
 
 	public void mensajeInformacion(String msj) {
 		Messagebox.show(msj, "Informacion", Messagebox.OK,

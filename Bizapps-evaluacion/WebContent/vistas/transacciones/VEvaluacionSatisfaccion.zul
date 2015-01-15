@@ -32,7 +32,6 @@
 			<separator />
 			<groupbox>
 				<separator />
-				<separator />
 				<grid width="100%" style="border:0px">
 					<columns visible="false">
 						<column label="" width="15%" />
@@ -57,8 +56,6 @@
 						</row>
 					</rows>
 				</grid>
-				<separator />
-				<separator />
 				<listbox id="lsbEmpleadoEvaluacionSatisfaccion"
 					width="100%" mold="paging" pageSize="7" oddRowSclass="non-odd"
 					emptyMessage="No ha seleccionado un empleado" visible="false">

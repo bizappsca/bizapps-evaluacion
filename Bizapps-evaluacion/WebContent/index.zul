@@ -2,7 +2,7 @@
 	<style src="public/Estilo.css" />
 
 	<style>
-		.z-groupbox-hr { background:#661313;border-radius: 30px 30px
+		.z-groupbox-hr { background:#800400;border-radius: 30px 30px
 		30px 30px }
 		.z-groupbox { border-radius: 30px 30px 30px 30px }
 	</style>
@@ -12,126 +12,30 @@
 		a
 		= "";
 		if (variable == null)
-		a = "AUTENTICACIÓN DE USUARIO";
+		a = "INICIAR SESION";
 		else
 		a =
 		execution.getParameter("respuesta");
 	</zscript>
 	<window title="" border="0" height="100%" width="100%"
-		contentStyle="overflow:auto" apply="controlador.portal.CIndex">
+		apply="controlador.portal.CIndex">
 		<borderlayout height="100%"
-			style="background-repeat:no-repeat;height=100%; width=100% ; background-color:white">
-			<north height="2%" class="banner">
-				<hbox hflex="1">
-					<separator />
-					<separator />
-					<separator />
-				</hbox>
+					style="background-image: url('public/imagenes/generales/evaluacion.png'); background-repeat:no-repeat;height=50%; width=50% ; background-color:white">
+				<north height="2%" class="banner">
 			</north>
-			<west border="none">
-				<borderlayout style="overflow-y:scroll;">
-					<center border="none">
-						<div align="center">
-						</div>
-					</center>
-				</borderlayout>
-			</west>
-			<!-- <window title="" border="0" height="100%" contentStyle="overflow:auto" 
-				apply="controlador.portal.CIndex" -->
-			<!-- style="border-top: 20px solid #7F1110;"> -->
-			<!-- <borderlayout -->
-			<!-- style="background-color:#fff;"> -->
-
-			<!-- <north height="5em"> -->
-			<!-- <div vflex="1" hflex="1" class="banner"> -->
-			<!-- <hbox vflex="1" hflex="1" align="rigth"> -->
-			<!-- <div align="left" class="banner-head"> -->
-			<!-- <image -->
-			<!-- src="public/imagenes/generales/dusagris.png" height="3em" -->
-			<!-- width="11em" /> -->
-			<!-- </div> -->
-			<!-- <div hflex="1" align="left"> -->
-			<!-- <label value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" -->
-			<!-- class="banner-head" style= "text-shadow: 0.09em 0.09em #333;" /> -->
-			<!-- </div> -->
-			<!-- </hbox> -->
-			<!-- </div> -->
-			<!-- </north> -->
-			<!-- <west border="none" style="overflow-y:scroll;background-image: url('public/imagenes/generales/gerente.png'); 
-				background-repeat:no-repeat;height=100%; width=100%"> -->
-			<!-- </west> -->
-			<!-- <center border="none"> -->
-			<!-- <vlayout> -->
-			<!-- <div height="100px" align="center"> -->
-			<!-- <separator /> -->
-			<!-- <separator /> -->
-			<!-- <separator /> -->
-			<!-- </div> -->
-			<!-- <div align="center"> -->
-			<!-- <groupbox width="25em" height="12em"> -->
-			<!-- <caption label="${a}" -->
-			<!-- style="color:black; font-size: 14px; font-weight:bold" /> -->
-			<!-- <separator></separator> -->
-			<!-- <separator></separator> -->
-			<!-- <hlayout width="100%"> -->
-			<!-- <h:form id="inicioSesion" action="j_spring_security_check" -->
-			<!-- method="POST" xmlns:h="native"> -->
-			<!-- <hlayout width="100%"> -->
-
-			<!-- <label class="etiqueta" height="20px" style="font-size:12px" -->
-			<!-- value="Nombre de Usuario :" /> -->
-			<!-- <textbox placeholder="Usuario" height="18px" id="log_usuario" -->
-			<!-- name="j_username" hflex="1" /> -->
-			<!-- </hlayout> -->
-			<!-- <separator></separator> -->
-			<!-- <separator></separator> -->
-			<!-- <hlayout width="100%"> -->
-			<!-- <label class="etiqueta" height="20px" style="font-size:12px" -->
-			<!-- value="Contraseña :" /> -->
-			<!-- <textbox placeholder="Contraseña" height="18px" id="log_clave" -->
-			<!-- hflex="1" type="password" name="j_password" /> -->
-			<!-- </hlayout> -->
-			<!-- <separator></separator> -->
-			<!-- <separator></separator> -->
-			<!-- <separator></separator> -->
-			<!-- <hlayout width="100%"> -->
-			<!-- <button type="submit" class="btn" label="Entrar" -->
-			<!-- image="/public/imagenes/botones/entrar.png" /> -->
-			<!-- </hlayout> -->
-			<!-- <separator></separator> -->
-			<!-- <separator></separator> -->
-			<!-- </h:form> -->
-			<!-- </hlayout> -->
-			<!-- <hlayout width="100%"> -->
-			<!-- <a href=""> -->
-			<!-- <label id="lblOlvidoClave" sclass="pointer" value="¿Olvido su Contraseña?" -->
-			<!-- style="color:black;margin-left:10px;font-weight:bold" /> -->
-			<!-- </a> -->
-			<!-- </hlayout> -->
-			<!-- </groupbox> -->
-			<!-- </div> -->
-			<!-- </vlayout> -->
-			<!-- </center> -->
-			<east width="70%" border="none">
-				<vlayout>
-					<div align="center">
-						<separator />
-						<separator />
-						<separator />
-						<separator />
-						<image src="/public/imagenes/generales/LogoDusa.png" height="4em"
-							width="15em" />
+			<east width="80%" border="none">
+				<vbox height="100%" align="end" pack="center">
+					<div width="100%" height="100%" align="right">
+					<image src="/public/imagenes/generales/LogoIndex.jpg" />
 					</div>
-					<div height="100%" align="rigth">
-						<separator />
-						<separator />
-						<separator />
-						<separator />
-						<separator />
-						<separator />
-						<separator />
-						<label class="lblIndex" value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" />
-					</div>
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<label height="100%" class="lblIndex" value="GESTIÓN DE DESEMPEÑO EMPRESARIAL" style="padding-left: 
+						100px;" />
 					<separator />
 					<separator />
 					<separator />
@@ -140,23 +44,25 @@
 					<separator />
 					<separator />
 					<div height="100%" width="100%" align="center">
-						<groupbox closable="false" height="100%" width="40%">
+						<groupbox style="padding-left: 
+						20%;" closable="false"
+							height="100%" width="70%">
 							<caption label="${a}"
-								style="color:black; font-size: 16px; font-weight:bold" />
-							<separator></separator>
-							<separator></separator>
+								style="color:black; font-size: 14px; font-weight:bold" />
+							<separator />
+							<separator />
 							<hlayout width="100%">
 								<h:form id="inicioSesion" action="j_spring_security_check"
 									method="POST" xmlns:h="native" align="left">
 									<vlayout width="100%">
-										<label class="etiqueta" height="20px" style="font-size:16px"
+										<label class="etiqueta" height="20px" style="font-size:14px"
 											value="Nombre de Usuario :" />
 										<textbox placeholder="Usuario" height="22px" id="log_usuario"
 											name="j_username" hflex="1" width="200px" />
 									</vlayout>
-									<separator></separator>
+									<separator />
 									<vlayout width="100%">
-										<label class="etiqueta" height="20px" style="font-size:16px"
+										<label class="etiqueta" height="20px" style="font-size:14px"
 											value="Contraseña :" />
 										<textbox placeholder="Contraseña" height="22px" id="log_clave"
 											hflex="1" type="password" name="j_password" width="200px" />
@@ -165,8 +71,8 @@
 									<separator />
 									<hlayout width="100%">
 										<button type="submit" class="btn" label="Entrar"
-											image="/public/imagenes/botones/entrar.png" style="font-size:18px"
-											height="37px" width="170px" />
+											image="/public/imagenes/botones/entrar.png" height="37px"
+											width="170px" style="font-size:18px" />
 									</hlayout>
 								</h:form>
 							</hlayout>
@@ -181,13 +87,13 @@
 							</vlayout>
 						</groupbox>
 					</div>
-				</vlayout>
+				</vbox>
 			</east>
 			<south class="banner" border="0" height="5%" collapsible="false">
 				<div align="center" sclass="footer">
 					<separator></separator>
 					<label style="padding-center:35%;color: white"
-							value="© 2014 Destilería Unidas S.A | RIF: J-30940783-0 | Todos los derechos reservados | Desarrollado por BIZAPPS,C.A">
+						value="© 2014 Destilería Unidas S.A | RIF: J-30940783-0 | Todos los derechos reservados | Desarrollado por BIZAPPS,C.A">
 					</label>
 				</div>
 			</south>

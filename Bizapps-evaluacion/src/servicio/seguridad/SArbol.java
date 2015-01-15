@@ -30,12 +30,6 @@ public class SArbol {
 		return arbolDAO.buscarTodos();
 	}
 
-	public Arbol buscarPorNombreArbol(String nombre) {
-		Arbol arbol;
-		arbol = arbolDAO.findByNombre(nombre);
-		return arbol;
-	}
-	
 	public List<Arbol> buscarPorArbolPorNombre(String nombre) {
 		return arbolDAO.findByNombreAllIgnoreCase(nombre);
 	}

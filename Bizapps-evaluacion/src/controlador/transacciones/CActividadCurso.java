@@ -77,6 +77,7 @@ public class CActividadCurso extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -269,8 +270,7 @@ public class CActividadCurso extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-
-		cerrarVentana(wdwVActividadCurso, "Check List de Actividades", tabs);
+		cerrarVentana2(wdwVActividadCurso, titulo, tabs);
 	}
 
 	public void llenarLista() {
