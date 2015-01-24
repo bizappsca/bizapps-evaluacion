@@ -3,7 +3,7 @@
 	<style src="/public/Estilo.css" />
 	<window id="wdwVBuscarEvaluacionsatisfaccion" border="normal"
 		apply="controlador.transacciones.CBuscarEvaluacionSatisfaccion"
-		height="auto" style="background-color:#8A0808;">
+		height="auto" style="background-color:#8A0808;" width="100%">
 		<separator />
 
 		<groupbox id="gpxFiltros" width="auto" mold="3d"
@@ -13,16 +13,16 @@
 				<panelchildren>
 					<separator />
 					<div align="left">
-						<button id="btnCargarEvaluacion"
+						<button id="btnCargarEvaluacion" autodisable="self"
 							tooltiptext="Cargar evaluación" class="btn"
 							style="margin-left:5px" label="Cargar"
 							image="/public/imagenes/botones/generar.png">
 						</button>
-						<button id="btnLimpiar" label="Limpiar"
+						<button id="btnLimpiar" label="Limpiar" autodisable="self"
 							class="btn" tooltiptext="Limpiar"
 							image="/public/imagenes/botones/limpiar.png">
 						</button>
-						<button id="btnSalir" label="Salir" class="btn"
+						<button id="btnSalir" label="Salir" class="btn" autodisable="self"
 							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
 						</button>
 						<separator />
@@ -48,7 +48,7 @@
 						<textbox id="txtTrabajador" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del trabajador " />
-						<button id="btnBuscarTrabajador"
+						<button id="btnBuscarTrabajador" autodisable="self"
 							image="/public/imagenes/botones/buscar.png"
 							tooltiptext="Catalogo de Trabajador" class="btn" label="Buscar" />
 						<hbox />

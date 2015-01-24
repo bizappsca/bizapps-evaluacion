@@ -2,7 +2,8 @@
 	<style src="/public/Estilo.css" />
 
 	<window id="wdwVEvaluacionEficacia" border="normal" height="auto"
-		apply="controlador.transacciones.CEvaluacionEficacia" style="background-color:#8A0808;">
+		apply="controlador.transacciones.CEvaluacionEficacia"
+		style="background-color:#8A0808;" width="100%" >
 		<style>
 			#tabla { border:1px solid black; border-collapse:collapse; }
 		</style>
@@ -13,16 +14,16 @@
 					<separator />
 					<div align="left">
 						<button id="btnBuscar" tooltiptext="Buscar" class="btn"
-							style="margin-left:5px" label="Buscar"
+							style="margin-left:5px" label="Buscar" autodisable="self"
 							image="/public/imagenes/botones/buscar.png">
 						</button>
-						<button id="btnGuardar" tooltiptext="Guardar" class="btn"
+						<button id="btnGuardar" tooltiptext="Guardar" class="btn" autodisable="self"
 							label="Guardar" image="/public/imagenes/botones/guardar.png">
 						</button>
-						<button id="btnLimpiar" label="Limpiar" class="btn"
+						<button id="btnLimpiar" label="Limpiar" class="btn" autodisable="self"
 							tooltiptext="Limpiar" image="/public/imagenes/botones/limpiar.png">
 						</button>
-						<button id="btnSalir" label="Salir" class="btn"
+						<button id="btnSalir" label="Salir" class="btn" autodisable="self"
 							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
 						</button>
 						<separator />
@@ -49,7 +50,9 @@
 							<textbox id="txtCursoEvaluacionEficacia" tabindex="1"
 								width="100%" maxlength="500" tooltiptext="Ingrese aqui el nombre del curso" />
 							<button id="btnBuscarCurso" label="Buscar" class="btn"
-								tooltiptext="Catalogo de cursos" image="/public/imagenes/botones/buscar.png" />
+								tooltiptext="Catalogo de cursos" autodisable="self"
+								image="/public/imagenes/botones/buscar.png" />
+
 						</row>
 					</rows>
 				</grid>
@@ -189,7 +192,7 @@
 							style="font-style:italic; margin-left:10px; font-weight:bold" />
 						<textbox id="txtPorcentajeEvaluacionEficacia" style="color:black !important;"
 							tabindex="2" width="90%" maxlength="100" disabled="true" />
-						<button id="btnCalcularPorcentaje" label=""
+						<button id="btnCalcularPorcentaje" label="" autodisable="self"
 							tooltiptext="Calcular porcentaje de eficacia" image="/public/imagenes/botones/calcular.png" />
 
 					</hbox>

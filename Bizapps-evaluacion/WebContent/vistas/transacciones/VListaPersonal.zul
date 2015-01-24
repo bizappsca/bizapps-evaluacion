@@ -15,19 +15,19 @@
 		<separator />
 				<separator />
 				<div align="left">
-					<button id="btnAgregar"
+					<button id="btnAgregar" autodisable="self"
 						tooltiptext="Agregar"  class="btn"
 						label="Agregar" image="/public/imagenes/botones/annadir.png">
 					</button>
 					<button id="btnEliminar" label="Eliminar" class="btn"
-						tooltiptext="Eliminar" 
+						tooltiptext="Eliminar"  autodisable="self"
 						image="/public/imagenes/botones/eliminar.png">
 					</button>
 					<!-- <button id="btnSalir" label="Salir"
 						style=" height:27px; width:90px " tooltiptext="Salir"
 						image="/public/imagenes/botones/salir.png">
 					</button> -->
-					<button id="btnCopiar" class="btn"
+					<button id="btnCopiar" class="btn" autodisable="self"
 						tooltiptext="Copiar"
 						label="Copiar" image="/public/imagenes/botones/copiar.png">
 					</button>

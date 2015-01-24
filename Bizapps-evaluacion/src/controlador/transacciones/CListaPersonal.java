@@ -34,6 +34,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 import servicio.maestros.SEmpleado;
@@ -76,6 +77,16 @@ public class CListaPersonal extends CGenerico {
 
 	@Override
 	public void inicializar() throws IOException {
+		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+				.getCurrent().getAttribute("mapaGeneral");
+		if (mapa != null) {
+			if (mapa.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
+				mapa.clear();
+				mapa = null;
+			}
+		}
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		Usuario u = servicioUsuario.buscarUsuarioPorNombre(auth.getName());
@@ -111,7 +122,7 @@ public class CListaPersonal extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-		cerrarVentana1(winListaPersonal, "Personal");
+		cerrarVentana(winListaPersonal,titulo, tabs);
 	}
 
 	@Listen("onClick = #btnAgregar")

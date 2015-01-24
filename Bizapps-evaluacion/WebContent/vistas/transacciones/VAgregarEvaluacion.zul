@@ -1,5 +1,5 @@
 <zk>
-	<window border="normal" height="auto" width="97%"
+	<window border="normal" height="auto" width="100%"
 		style="background-color:#8A0808;" id="winEvaluacionEmpleado"
 		apply="controlador.transacciones.CAgregarEvaluacion" closable="true" >
 		<separator></separator>
@@ -100,12 +100,12 @@
 										mold="rounded" rows="1" width="100%" readonly="true" id="txtResultados" />
 								</listcell>
 								<listcell>
-									<button id="btnOk"
+									<button id="btnOk" autodisable="self"
 									class="abrir" 	image="/public/imagenes/botones/seleccionar.png">
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnCancelarO" 
+									<button id="btnCancelarO"  autodisable="self"
 										 class="abrir" image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
@@ -113,13 +113,13 @@
 						</listbox>
 					</groupbox>
 					<div align="right" height="100%">
-						<button id="btnAgregar" class = "btn" 
+						<button id="btnAgregar" class = "btn" autodisable="self"
 							label="Agregar" image="/public/imagenes/botones/annadir.png">
 						</button>
-						<button id="btnEliminar" class = "btn" 
+						<button id="btnEliminar" class = "btn" autodisable="self"
 							label="Eliminar" image="/public/imagenes/botones/eliminar.png">
 						</button>
-						<button id="btnIr" class = "btn" 
+						<button id="btnIr" class = "btn"  autodisable="self"
 							label="Ir Indicador" image="/public/imagenes/botones/adelante.png">
 						</button>
 					</div>
@@ -290,22 +290,22 @@
 										disabled="true" visible="false" />
 								</listcell>
 								<listcell>
-									<button id="btnOk2" class="abrir"
+									<button id="btnOk2" class="abrir" autodisable="self"
 										image="/public/imagenes/botones/seleccionar.png" >
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnCancelarI" class="abrir" image="/public/imagenes/botones/salir.png">
+									<button id="btnCancelarI" autodisable="self" class="abrir" image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
 							</listitem>
 						</listbox>
 					</groupbox>
 					<div align="right" height="100%">
-						<button id="btnAgregarIndicador" class = "btn"
+						<button id="btnAgregarIndicador" class = "btn" autodisable="self"
 							 label="Agregar" image="/public/imagenes/botones/annadir.png">
 						</button>
-						<button id="btnEliminarIndicador" class = "btn"
+						<button id="btnEliminarIndicador" class = "btn" autodisable="self"
 							image="/public/imagenes/botones/eliminar.png" 
 							label="Eliminar" onClick="@command('cancelar')">
 						</button>
@@ -642,12 +642,12 @@
 									</combobox>
 								</listcell>
 								<listcell>
-									<button id="btnAgregarCapacitacion" class="abrir"
+									<button id="btnAgregarCapacitacion" class="abrir" autodisable="self"
 									 image="/public/imagenes/botones/seleccionar.png"	>								
 									</button>
 								</listcell>
 								<listcell>
-									<button id="btnQuitarCapacitacion" class="abrir"
+									<button id="btnQuitarCapacitacion" class="abrir" autodisable="self"
 										 image="/public/imagenes/botones/salir.png">
 									</button>
 								</listcell>
@@ -655,10 +655,10 @@
 						</listbox>
 					</groupbox>
 					<div align="right" height="100%">
-						<button id="btnAgregarAcciones"  class="btn"
+						<button id="btnAgregarAcciones"  class="btn" autodisable="self"
 							label="Agregar" image="/public/imagenes/botones/annadir.png">
 						</button>
-						<button id="btnEliminarAcciones" class="btn"
+						<button id="btnEliminarAcciones" class="btn" autodisable="self"
 							label="Eliminar" image="/public/imagenes/botones/eliminar.png">
 						</button>
 					</div>
@@ -742,31 +742,31 @@
 				<separator />
 				<div sclass="btn-group" align="center">
 
-					<button id="btnCambiarEstado" tabindex="2" sclass="btn"
+					<button id="btnCambiarEstado" tabindex="2" sclass="btn" autodisable="self"
 						label="Guardar" image="/public/imagenes/botones/guardar.png">
 					</button>
-					<button id="btnEnEdicion" label="En Edición" visible="false"
+					<button id="btnEnEdicion" label="En Edición" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/enedicion.png">
 					</button>
-					<button id="btnPendiente" label="A Pendiente" visible="false"
+					<button id="btnPendiente" label="A Pendiente" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/pendiente.png">
 					</button>
-					<button id="btnRevisada" label="Revisada" visible="false"
+					<button id="btnRevisada" label="Revisada" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/revisada.png">
 					</button>
-					<button id="btnAprobada" label="Aprobada" visible="false"
+					<button id="btnAprobada" label="Aprobada" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/aprobada.png">
 					</button>
-					<button id="btnCalibrada" label="Calibrada" visible="false"
+					<button id="btnCalibrada" label="Calibrada" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/calibrada.png">
 					</button>
-					<button id="btnFinalizada" label="Finalizada" visible="false"
+					<button id="btnFinalizada" label="Finalizada" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/finalizada.png">
 					</button>
-					<button id="btnCancelar" label="Salir" sclass="btn"
+					<button id="btnCancelar" label="Salir" sclass="btn" autodisable="self"
 						tabindex="2" image="/public/imagenes/botones/salir.png">
 					</button>
-					<button id="btnImprimir" label="Imprimir" sclass="btn"
+					<button id="btnImprimir" label="Imprimir" sclass="btn" autodisable="self"
 						tabindex="2" image="/public/imagenes/botones/reporte.png">
 					</button>
 					<separator />

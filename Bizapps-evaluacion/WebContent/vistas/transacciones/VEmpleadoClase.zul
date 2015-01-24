@@ -1,6 +1,6 @@
 <window id="wdwVEmpleadoClase" border="normal" height="auto"
 	apply="controlador.transacciones.CEmpleadoClase"
-	style="background-color:#8A0808;">
+	style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto">
 		<separator />
@@ -8,17 +8,17 @@
 			<panelchildren>
 				<separator />
 				<div align="left">
-					<button id="btnGuardar" tooltiptext="Guardar"
-						style="height:27px;width:90px;margin-left:5px" label="Guardar"
-						image="/public/imagenes/botones/guardar.png">
+					<button id="btnGuardar" tooltiptext="Guardar" autodisable="self"
+						label="Guardar"
+						image="/public/imagenes/botones/guardar.png" class="btn">
 					</button>
-					<button id="btnLimpiar" label="Limpiar"
-						tooltiptext="Limpiar" style=" height:27px; width:90px"
-						image="/public/imagenes/botones/limpiar.png">
+					<button id="btnLimpiar" label="Limpiar" autodisable="self"
+						tooltiptext="Limpiar" 
+						image="/public/imagenes/botones/limpiar.png" class="btn">
 					</button>
-					<button id="btnSalir" label="Salir"
-						style=" height:27px; width:80px " tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
+					<button id="btnSalir" label="Salir" autodisable="self"
+						 tooltiptext="Salir"
+						image="/public/imagenes/botones/salir.png" class="btn">
 					</button>
 					<separator />
 				</div>
@@ -48,8 +48,8 @@
 						<textbox id="txtClaseEmpleadoClase" tabindex="1"
 							width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre de la clase" />
-						<button id="btnBuscarClase" label=""
-							tooltiptext="Catalogo de clases"
+						<button id="btnBuscarClase" label="" autodisable="self"
+							tooltiptext="Catalogo de clases" class="btn" width="100%"
 							image="/public/imagenes/botones/buscar.png" />
 					</row>
 				</rows>

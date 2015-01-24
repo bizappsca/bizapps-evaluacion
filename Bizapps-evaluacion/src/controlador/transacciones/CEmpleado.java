@@ -125,6 +125,7 @@ public class CEmpleado extends CGenerico {
 		if (mapa != null) {
 			if (mapa.get("tabsGenerales") != null) {
 				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
 				mapa.clear();
 				mapa = null;
 			}
@@ -134,7 +135,7 @@ public class CEmpleado extends CGenerico {
 		revisionActiva = servicioRevision.buscarPorEstado("ACTIVO");
 		if (!tienePersonal) {
 			msj.mensajeAlerta(Mensaje.personalCargo);
-			cerrarVentana(winArbolPersonal, "De Personal a Cargo", tabs);
+			cerrarVentana(winArbolPersonal, titulo, tabs);
 		}
 		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral
 				.buscar();

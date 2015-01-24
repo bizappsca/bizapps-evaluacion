@@ -151,7 +151,6 @@ public class CGestionarAdiestramiento extends CGenerico {
 				mapa = null;
 			}
 		}
-
 		txtArchivoAdiestramiento.setPlaceholder("Ningún archivo seleccionado");
 		txtArchivoAdiestramiento.setStyle("color:black !important;");
 		Botonera botonera = new Botonera() {
@@ -646,6 +645,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 		catalogoPeriodo.doModal();
 
 	}

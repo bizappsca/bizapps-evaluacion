@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Clase;
@@ -14,6 +15,7 @@ import modelo.maestros.EmpleadoCurso;
 import modelo.maestros.PerfilCargo;
 import modelo.maestros.Periodo;
 
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -29,6 +31,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -79,7 +82,16 @@ public class CEmpleadoCurso extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-
+		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+				.getCurrent().getAttribute("mapaGeneral");
+		if (mapa != null) {
+			if (mapa.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
+				mapa.clear();
+				mapa = null;
+			}
+		}
 		txtPeriodoEmpleadoCurso.setFocus(true);
 
 	}
@@ -136,6 +148,7 @@ public class CEmpleadoCurso extends CGenerico {
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 		catalogoPeriodo.doModal();
 	}
 
@@ -217,6 +230,7 @@ public class CEmpleadoCurso extends CGenerico {
 		catalogoEmpleado.setClosable(true);
 		catalogoEmpleado.setWidth("80%");
 		catalogoEmpleado.setParent(divCatalogoEmpleado);
+		catalogoEmpleado.setTitle("Catalogo de Empleados");
 		catalogoEmpleado.doModal();
 	}
 
@@ -251,7 +265,7 @@ public class CEmpleadoCurso extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -261,8 +275,7 @@ public class CEmpleadoCurso extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana1(wdwVEmpleadoCurso,
-				"Deteccion de Necesidades de Adiestramiento");
+		cerrarVentana(wdwVEmpleadoCurso,titulo, tabs);
 	}
 
 	public void llenarLista() {

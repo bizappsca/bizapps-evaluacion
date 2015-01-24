@@ -46,19 +46,19 @@
 			<panelchildren>
 				<separator />
 				<div align="left">
-				<button id="btnAgregar"
+				<button id="btnAgregar" autodisable="self"
 						tooltiptext="Agregar" class = "btn"
 						label="Agregar" image="/public/imagenes/botones/annadir.png">
 					</button>
-					<button id="btnCopiar"
+					<button id="btnCopiar" autodisable="self"
 						tooltiptext="Copiar" class = "btn"
 						label="Copiar" image="/public/imagenes/botones/copiar.png">
 					</button>
-					<button id="btnEliminar" label="Eliminar"
+					<button id="btnEliminar" label="Eliminar" autodisable="self"
 						tooltiptext="Eliminar" class = "btn"
 						image="/public/imagenes/botones/eliminar.png">
 					</button>
-					<!-- <button id="btnSalir" label="Salir"
+					<!-- <button id="btnSalir" label="Salir" autodisable="self"
 						style=" height:27px; width:90px " tooltiptext="Salir"
 						image="/public/imagenes/botones/salir.png">
 					</button> -->

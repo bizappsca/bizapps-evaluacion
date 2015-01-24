@@ -148,6 +148,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 		catalogoPeriodo.doModal();
 	}
 
@@ -233,6 +234,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 		catalogoEmpleado.setClosable(true);
 		catalogoEmpleado.setWidth("80%");
 		catalogoEmpleado.setParent(divCatalogoEmpleado);
+		catalogoEmpleado.setTitle("Catalogo de Empleados");
 		catalogoEmpleado.doModal();
 	}
 
@@ -274,7 +276,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -283,7 +285,6 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-
 		cerrarVentana2(wdwVNecesidadesAdiestramiento, titulo, tabs);
 
 	}
@@ -450,9 +451,8 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
-		guardar = validar();
-		if (guardar) {
+
+		if (validar()) {
 
 			System.out.println(idPeriodo);
 			Periodo periodo = servicioPeriodo.buscarPeriodo(idPeriodo);

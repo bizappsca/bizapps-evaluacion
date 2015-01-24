@@ -94,7 +94,6 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 				mapa = null;
 			}
 		}
-
 		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("itemsCatalogo");
 		if (map != null) {
@@ -196,6 +195,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 		catalogoCurso.setClosable(true);
 		catalogoCurso.setWidth("80%");
 		catalogoCurso.setParent(divCatalogoCurso);
+		catalogoCurso.setTitle("Catalogo de Cursos");
 		catalogoCurso.doModal();
 	}
 
@@ -267,7 +267,7 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -276,8 +276,8 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-		
-		cerrarVentana2(wdwVEvaluacionSatisfaccion, titulo, tabs);
+		cerrarVentana(wdwVEvaluacionSatisfaccion,titulo,
+				tabs);
 	}
 
 	public void llenarLista() {
@@ -573,10 +573,9 @@ public class CEvaluacionSatisfaccion extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
 		boolean parametrosGuardados = false;
-		guardar = validar();
-		if (guardar) {
+	
+		if (validar()) {
 
 			Curso curso = servicioCurso.buscarCurso(idCurso);
 			List<EmpleadoCurso> cursoEmpleado = servicioEmpleadoCurso

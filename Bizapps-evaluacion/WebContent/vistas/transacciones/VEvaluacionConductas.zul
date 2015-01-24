@@ -27,10 +27,10 @@
 				<separator />
 				<div sclass="btn-group" align="center">
 
-					<button id="btnGuardar" tabindex="5" sclass="btn"
+					<button id="btnGuardar" tabindex="5" sclass="btn" autodisable="self"
 						label="Guardar" image="/public/imagenes/botones/guardar.png">
 					</button>
-					<button id="btnCancelar" label="Cancelar"
+					<button id="btnCancelar" label="Cancelar" autodisable="self"
 						sclass="btn" tabindex="5"
 						image="/public/imagenes/botones/salir.png">
 					</button>

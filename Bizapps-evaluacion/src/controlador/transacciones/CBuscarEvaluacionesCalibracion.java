@@ -213,6 +213,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		catalogoEmpresa.setClosable(true);
 		catalogoEmpresa.setWidth("80%");
 		catalogoEmpresa.setParent(divCatalogoEmpresa);
+		catalogoEmpresa.setTitle("Catalogo de Empresas");
 		catalogoEmpresa.doModal();
 	}
 
@@ -259,6 +260,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		catalogoGerencia.setClosable(true);
 		catalogoGerencia.setWidth("80%");
 		catalogoGerencia.setParent(divCatalogoGerencia);
+		catalogoGerencia.setTitle("Catalogo de Gerencias");
 		catalogoGerencia.doModal();
 	}
 
@@ -307,6 +309,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		catalogoTrabajador.setClosable(true);
 		catalogoTrabajador.setWidth("80%");
 		catalogoTrabajador.setParent(divCatalogoTrabajador);
+		catalogoTrabajador.setTitle("Catalogo de Empleados");
 		catalogoTrabajador.doModal();
 	}
 
@@ -356,6 +359,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		catalogoEvaluador.setClosable(true);
 		catalogoEvaluador.setWidth("80%");
 		catalogoEvaluador.setParent(divCatalogoEvaluador);
+		catalogoEvaluador.setTitle("Catalogo de Empleados");
 		catalogoEvaluador.doModal();
 	}
 
@@ -406,6 +410,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		catalogoValoracion.setClosable(true);
 		catalogoValoracion.setWidth("80%");
 		catalogoValoracion.setParent(divCatalogoValoracion);
+		catalogoValoracion.setTitle("Catalogo de Valoracion");
 		catalogoValoracion.doModal();
 	}
 

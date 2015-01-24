@@ -22,7 +22,7 @@
 				</hbox>
 				<textbox id="txtEmpresa" tabindex="1" width="100%"
 					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
-				<button id="btnBuscarEmpresa" class="btn" label="Buscar"
+				<button id="btnBuscarEmpresa" class="btn" label="Buscar" autodisable="self"
 					tooltiptext="Catalogo de Empresas"  image="/public/imagenes/botones/buscar.png" />
 				<hbox />
 			</row>
@@ -33,7 +33,7 @@
 				</hbox>
 				<textbox id="txtGerencia" tabindex="1" width="100%"
 					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
-				<button id="btnBuscarGerencia"  image="/public/imagenes/botones/buscar.png"
+				<button id="btnBuscarGerencia"  image="/public/imagenes/botones/buscar.png" autodisable="self"
 					tooltiptext="Catalogo de gerencias" class="btn" label="Buscar"/>
 				<hbox />
 			</row>
@@ -44,7 +44,7 @@
 				</hbox>
 				<textbox id="txtTrabajador" tabindex="1" width="100%"
 					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
-				<button id="btnBuscarTrabajador"  image="/public/imagenes/botones/buscar.png"
+				<button id="btnBuscarTrabajador"  image="/public/imagenes/botones/buscar.png" autodisable="self"
 					tooltiptext="Catalogo de Trabajador" class="btn" label="Buscar"/>
 				<hbox />
 			</row>
@@ -66,7 +66,7 @@
 				</hbox>
 				<textbox id="txtValoracion" tabindex="1" width="100%"
 					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
-				<button id="btnBuscarValoracion" image="/public/imagenes/botones/buscar.png"
+				<button id="btnBuscarValoracion" image="/public/imagenes/botones/buscar.png" autodisable="self"
 					tooltiptext="Catalogo de Evaluador" class="btn" label="Buscar"/>
 				<hbox />
 				<hbox />

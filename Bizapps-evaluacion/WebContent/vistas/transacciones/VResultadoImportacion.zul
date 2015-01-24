@@ -3,7 +3,7 @@
 
 	<window id="wdwVResultadoImportacion" border="normal" height="auto"
 		apply="controlador.transacciones.CResultadoImportacion"
-		style="background-color:#8A0808;">
+		style="background-color:#8A0808;" width="100%">
 
 		<groupbox width="auto" mold="3d"
 			title="Resultado de la Importación">

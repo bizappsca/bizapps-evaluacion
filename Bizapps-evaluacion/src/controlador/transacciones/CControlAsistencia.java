@@ -137,6 +137,7 @@ public class CControlAsistencia extends CGenerico {
 			catalogoCurso.setClosable(true);
 			catalogoCurso.setWidth("80%");
 			catalogoCurso.setParent(divCatalogoCurso);
+			catalogoCurso.setTitle("Catalogo de Cursos");
 			catalogoCurso.doModal();
 		} else {
 
@@ -223,6 +224,7 @@ public class CControlAsistencia extends CGenerico {
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 		catalogoPeriodo.doModal();
 
 	}
@@ -254,7 +256,7 @@ public class CControlAsistencia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -306,9 +308,8 @@ public class CControlAsistencia extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
-		guardar = validar();
-		if (guardar) {
+
+		if ( validar()) {
 
 			Curso cursoEmpleado = servicioCurso.buscarCurso(idCurso);
 

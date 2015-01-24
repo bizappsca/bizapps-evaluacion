@@ -1,6 +1,6 @@
 <window id="wdwVEmpleadoCurso" border="normal" height="auto"
 	apply="controlador.transacciones.CEmpleadoCurso"
-	style="background-color:#8A0808;">
+	style="background-color:#8A0808;" width="100%">
 
 	<groupbox width="auto">
 		<separator />
@@ -8,21 +8,21 @@
 			<panelchildren>
 				<separator />
 				<div align="left">
-					<button id="btnBuscar" tooltiptext="Buscar"
-						style="height:27px;width:90px;margin-left:5px" label="Buscar"
-						image="/public/imagenes/botones/buscar.png">
+					<button id="btnBuscar" tooltiptext="Buscar" autodisable="self"
+						 label="Buscar"
+						image="/public/imagenes/botones/buscar.png" class="btn">
 					</button>
-					<button id="btnGuardar" tooltiptext="Guardar"
-						style="height:27px;width:90px;margin-left:5px" label="Guardar"
-						image="/public/imagenes/botones/guardar.png">
+					<button id="btnGuardar" tooltiptext="Guardar" autodisable="self"
+						 label="Guardar"
+						image="/public/imagenes/botones/guardar.png" class="btn">
 					</button>
-					<button id="btnLimpiar" label="Limpiar"
-						tooltiptext="Limpiar" style=" height:27px; width:90px"
-						image="/public/imagenes/botones/limpiar.png">
+					<button id="btnLimpiar" label="Limpiar" autodisable="self"
+						tooltiptext="Limpiar" 
+						image="/public/imagenes/botones/limpiar.png" class="btn">
 					</button>
 					<button id="btnSalir" label="Salir"
-						style=" height:27px; width:80px " tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
+						 tooltiptext="Salir"
+						image="/public/imagenes/botones/salir.png" class="btn">
 					</button>
 					<separator />
 				</div>
@@ -37,7 +37,7 @@
 				<label value="Fecha:" class="etiqueta"
 					style="margin-right:10px">
 				</label>
-				<datebox id="dbfecha" width="130px"
+				<datebox id="dbfecha" width="130px" readonly="true"
 					style="margin-right:30px;color:black !important;" disabled="true"
 					format="short" onCreate="self.value = new Date()">
 				</datebox>
@@ -64,8 +64,8 @@
 							tabindex="1" width="100%" maxlength="100"
 							tooltiptext="Ingrese aqui el nombre del periodo" />
 						<button id="btnBuscarPeriodo" label=""
-							tooltiptext="Catalogo de periodos"
-							image="/public/imagenes/botones/buscar.png" />
+							tooltiptext="Catalogo de periodos" autodisable="self" width="100%"
+							image="/public/imagenes/botones/buscar.png" class="btn" />
 					</row>
 				</rows>
 			</grid>

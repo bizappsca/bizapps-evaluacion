@@ -4,7 +4,7 @@
 	<window id="wdwVEvaluacionSatisfaccion" border="normal"
 		height="auto"
 		apply="controlador.transacciones.CEvaluacionSatisfaccion"
-		style="background-color:#8A0808;">
+		style="background-color:#8A0808;" width="100%">
 
 		<groupbox width="auto" mold="3d"
 			title="Evaluación de Satisfacción">
@@ -13,15 +13,15 @@
 				<panelchildren>
 					<separator />
 					<div align="left">
-						<button id="btnGuardar" tooltiptext="Guardar"
+						<button id="btnGuardar" tooltiptext="Guardar" autodisable="self"
 							class="btn" style="margin-left:5px" label="Guardar"
 							image="/public/imagenes/botones/guardar.png">
 						</button>
-						<button id="btnLimpiar" label="Limpiar"
+						<button id="btnLimpiar" label="Limpiar" autodisable="self"
 							class="btn" tooltiptext="Limpiar"
 							image="/public/imagenes/botones/limpiar.png">
 						</button>
-						<button id="btnSalir" label="Salir" class="btn"
+						<button id="btnSalir" label="Salir" class="btn" autodisable="self"
 							tooltiptext="Salir" image="/public/imagenes/botones/salir.png">
 						</button>
 						<separator />
@@ -50,7 +50,7 @@
 							<textbox id="txtCursoEvaluacionSatisfaccion"
 								tabindex="1" width="100%" maxlength="500"
 								tooltiptext="Ingrese aqui el nombre del curso" />
-							<button id="btnBuscarCurso" label="Buscar"
+							<button id="btnBuscarCurso" label="Buscar" autodisable="self"
 								class="btn" tooltiptext="Catalogo de cursos"
 								image="/public/imagenes/botones/buscar.png" />
 						</row>

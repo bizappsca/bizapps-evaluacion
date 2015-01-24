@@ -11,11 +11,11 @@
 
 				<div align="left">
 					<button id="btnAgregar" tabindex="3"
-						class = "btn" label="Agregar"
+						class = "btn" label="Agregar" autodisable="self"
 						image="/public/imagenes/botones/annadir.png"
 						onClick='contenido.src="../vistas/transacciones/VArbolPersonalAgregar.zul"'>
 					</button>
-					<button id="btnBuscar" label="Buscar"
+					<button id="btnBuscar" label="Buscar" autodisable="self"
 						class = "btn" tabindex="3"
 						image="/public/imagenes/botones/buscar.png"
 						onClick='contenido.src="../vistas/transacciones/VArbolPersonal.zul"'>

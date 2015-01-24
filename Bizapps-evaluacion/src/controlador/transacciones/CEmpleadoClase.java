@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import modelo.maestros.Area;
@@ -19,6 +20,7 @@ import modelo.maestros.EmpleadoClase;
 import modelo.maestros.EmpleadoCurso;
 import modelo.maestros.NivelCompetenciaCargo;
 
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -34,6 +36,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -71,7 +74,16 @@ public class CEmpleadoClase extends CGenerico {
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
-
+		HashMap<String, Object> mapa = (HashMap<String, Object>) Sessions
+				.getCurrent().getAttribute("mapaGeneral");
+		if (mapa != null) {
+			if (mapa.get("tabsGenerales") != null) {
+				tabs = (List<Tab>) mapa.get("tabsGenerales");
+				titulo = (String) mapa.get("titulo");
+				mapa.clear();
+				mapa = null;
+			}
+		}
 		txtClaseEmpleadoClase.setFocus(true);
 
 	}
@@ -140,6 +152,7 @@ public class CEmpleadoClase extends CGenerico {
 		catalogoClase.setClosable(true);
 		catalogoClase.setWidth("80%");
 		catalogoClase.setParent(divCatalogoClase);
+		catalogoClase.setTitle("Catalogo de Clases");
 		catalogoClase.doModal();
 	}
 
@@ -189,7 +202,7 @@ public class CEmpleadoClase extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -199,7 +212,7 @@ public class CEmpleadoClase extends CGenerico {
 	@Listen("onClick = #btnSalir")
 	public void salir() {
 
-		cerrarVentana1(wdwVEmpleadoClase, "Control de Asistencia");
+		cerrarVentana(wdwVEmpleadoClase,titulo, tabs);
 	}
 
 	public void llenarLista() {
@@ -247,10 +260,10 @@ public class CEmpleadoClase extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
+
 		boolean errorCampo = false;
-		guardar = validar();
-		if (guardar) {
+
+		if (validar()) {
 
 			Clase claseEmpleado = servicioClase.buscarClase(idClase);
 

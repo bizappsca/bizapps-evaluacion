@@ -216,6 +216,7 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 		catalogoEmpleado.setClosable(true);
 		catalogoEmpleado.setWidth("80%");
 		catalogoEmpleado.setParent(divCatalogoEmpleado);
+		catalogoEmpleado.setTitle("Catalogo de Empleados");
 		catalogoEmpleado.doModal();
 	}
 
@@ -263,8 +264,8 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-
-		cerrarVentana(wdwVBuscarEvaluacionsatisfaccion, titulo, tabs);
+		cerrarVentana(wdwVBuscarEvaluacionsatisfaccion,
+				titulo, tabs);
 	}
 
 	public List<Curso> obtenerSeleccionados() {

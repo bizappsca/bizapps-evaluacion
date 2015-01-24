@@ -82,7 +82,6 @@ public class CActividadCurso extends CGenerico {
 				mapa = null;
 			}
 		}
-
 		txtPeriodoActividadCurso.setFocus(true);
 
 	}
@@ -142,7 +141,9 @@ public class CActividadCurso extends CGenerico {
 			catalogoCurso.setClosable(true);
 			catalogoCurso.setWidth("80%");
 			catalogoCurso.setParent(divCatalogoCurso);
+			catalogoCurso.setTitle("Catalogo de Cursos");
 			catalogoCurso.doModal();
+			
 
 		} else {
 
@@ -230,6 +231,7 @@ public class CActividadCurso extends CGenerico {
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
+		catalogoPeriodo.setTitle("Catalogo de Periodos");
 		catalogoPeriodo.doModal();
 
 	}
@@ -261,7 +263,7 @@ public class CActividadCurso extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -270,7 +272,7 @@ public class CActividadCurso extends CGenerico {
 
 	@Listen("onClick = #btnSalir")
 	public void salir() {
-		cerrarVentana2(wdwVActividadCurso, titulo, tabs);
+		cerrarVentana(wdwVActividadCurso, titulo, tabs);
 	}
 
 	public void llenarLista() {
@@ -317,10 +319,9 @@ public class CActividadCurso extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
 		boolean error = false;
-		guardar = validar();
-		if (guardar) {
+
+		if (validar()) {
 
 			Curso curso = servicioCurso.buscarCurso(idCurso);
 

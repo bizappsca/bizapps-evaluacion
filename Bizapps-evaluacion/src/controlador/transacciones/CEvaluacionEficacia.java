@@ -169,6 +169,7 @@ public class CEvaluacionEficacia extends CGenerico {
 			catalogoCurso.setClosable(true);
 			catalogoCurso.setWidth("80%");
 			catalogoCurso.setParent(divCatalogoCurso);
+			catalogoCurso.setTitle("Catalogo de Cursos");
 			catalogoCurso.doModal();
 		} else {
 
@@ -277,6 +278,7 @@ public class CEvaluacionEficacia extends CGenerico {
 		catalogoEmpleado.setClosable(true);
 		catalogoEmpleado.setWidth("80%");
 		catalogoEmpleado.setParent(divCatalogoEmpleado);
+		catalogoEmpleado.setTitle("Catalogo de Empleados");
 		catalogoEmpleado.doModal();
 	}
 
@@ -370,7 +372,7 @@ public class CEvaluacionEficacia extends CGenerico {
 	protected boolean validar() {
 
 		if (!camposLLenos()) {
-			msj.mensajeAlerta(Mensaje.camposVacios);
+			msj.mensajeError(Mensaje.camposVacios);
 			return false;
 		} else
 			return true;
@@ -486,11 +488,10 @@ public class CEvaluacionEficacia extends CGenerico {
 	@Listen("onClick = #btnGuardar")
 	public void guardar() {
 
-		boolean guardar = true;
+
 		boolean error = false;
 		boolean datosGuardados = false;
-		guardar = validar();
-		if (guardar) {
+		if (validar()) {
 
 			Curso curso = servicioCurso.buscarCurso(idCurso);
 			Timestamp fecha = new Timestamp(new Date().getTime());
