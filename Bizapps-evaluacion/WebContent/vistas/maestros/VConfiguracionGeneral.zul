@@ -14,7 +14,7 @@
 			<separator />
 			<grid width="100%">
 				<columns visible="false">
-					<column label="" width="20%" />
+					<column label="" width="30%" />
 					<column label="" width="45%" />
 					<column label="" width="17%" />
 					<column label="" width="18" />
@@ -22,7 +22,7 @@
 				<rows>
 					<row>
 						<hbox>
-							<label value="Evitar que el personal con grado menor a 19 modifique evaluaciones ?:" class="etiqueta" />
+							<label value="Evitar la creacion o modificacion de evaluaciones ?:" class="etiqueta" />
 							<space />
 							<label value="*"
 								style="font-weight:bold;color:red">

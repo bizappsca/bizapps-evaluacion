@@ -381,13 +381,17 @@ public abstract class CatalagoN<Clase> extends Window {
 		lsbCatalagoN.setCheckmark(true);
 	}
 
-	public Double obtenertext(){
-		Listitem listItem = lsbCatalagoN.getSelectedItem();
+	public Double obtenertext(int index){
+		
+		
+		//Listitem listItem = lsbCatalagoN.getSelectedItem();
+		Listitem listItem = lsbCatalagoN.getItemAtIndex(index);
 		Double aprobado = ((Doublespinner) ((listItem.getChildren().get(listItem.getChildren().size()-1)))
 				.getFirstChild()).getValue();
 		return aprobado;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Clase> obtenerSeleccionados() {
 		List<Clase> valores = new ArrayList<Clase>();
 		boolean entro = false;
@@ -396,6 +400,28 @@ public abstract class CatalagoN<Clase> extends Window {
 			for (int i = 0; i < list1.size(); i++) {
 				if (list1.get(i).isSelected()) {
 					Clase clase = list1.get(i).getValue();
+					
+					if (clase instanceof Evaluacion) {
+						try
+						{
+							Listitem listItem = lsbCatalagoN.getItemAtIndex(i);
+							Double aprobado = ((Doublespinner) ((listItem.getChildren().get(listItem.getChildren().size()-1)))
+									.getFirstChild()).getValue();
+							
+							Evaluacion evaluacion= (Evaluacion)clase;
+							evaluacion.setResultadoFinal(aprobado);
+							clase= (Clase)evaluacion;
+							
+						}
+						catch (Exception ex)
+						{
+							
+						}
+						
+						
+					}
+					
+					
 					entro = true;
 					valores.add(clase);
 				}

@@ -95,6 +95,18 @@ public class CArbol extends CGenerico {
 			}
 		}
 		
+
+		if (lblUsuario.getValue().trim().compareTo("")==0)
+		{
+			Revision revision=servicioRevision.buscarRevisionActiva();
+			
+			if (revision!=null)
+			{
+			  Messagebox.show(revision.getMensajeInicio(), "Informacion", Messagebox.OK, Messagebox.INFORMATION);
+			}
+		}
+		
+		
 		String nombre = u.getNombre();
 		String apellido = u.getApellido();
 		String cedula = u.getCedula();
@@ -104,9 +116,13 @@ public class CArbol extends CGenerico {
 
 		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("Vistas");
+		
+		
+		
 
 		if (tabs.size() != 0) {
 			tabs.clear();
+			
 		}
 
 		if (map != null) {
@@ -114,14 +130,10 @@ public class CArbol extends CGenerico {
 				contenido.setSrc("/vistas/" + (String) map.get("vista")
 						+ ".zul");
 			}
+			
 		}
 		
-		Revision revision=servicioRevision.buscarRevisionActiva();
 		
-		if (revision!=null)
-		{
-		  Messagebox.show(revision.getMensajeInicio(), "Informacion", Messagebox.OK, Messagebox.INFORMATION);
-		}
 	}
 
 	/* Permite asignarle los nodos cargados con el metodo getFooRoot() al arbol */

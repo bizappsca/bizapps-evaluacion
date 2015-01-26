@@ -742,7 +742,7 @@
 				<separator />
 				<div sclass="btn-group" align="center">
 
-					<button id="btnCambiarEstado" tabindex="2" sclass="btn" autodisable="self"
+					<button id="btnCambiarEstado" tabindex="2" sclass="btn" visible="false" autodisable="self"
 						label="Guardar" image="/public/imagenes/botones/guardar.png">
 					</button>
 					<button id="btnEnEdicion" label="En Edición" visible="false" autodisable="self"

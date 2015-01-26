@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import modelo.maestros.EvaluacionCompetencia;
 import modelo.maestros.EvaluacionConducta;
 import modelo.maestros.EvaluacionIndicador;
 import modelo.maestros.EvaluacionObjetivo;
+import modelo.maestros.FechaValidezEstado;
 import modelo.maestros.Medicion;
 import modelo.maestros.NivelCompetenciaCargo;
 import modelo.maestros.Perspectiva;
@@ -369,7 +372,7 @@ public class CAgregarEvaluacion extends CGenerico {
 				.getCurrent().getAttribute("itemsCatalogo");
 		
 		if (bandera.equals("false") || gradoA >= 19){
-			System.out.println("AL IF");
+			
 		if (map != null) {
 
 			if (map.get("modo") != null) {
@@ -397,7 +400,7 @@ public class CAgregarEvaluacion extends CGenerico {
 							Integer idEvaluacion = (Integer) map.get("idEva");
 							idEva = idEvaluacion;
 
-							System.out.println("viene" + idEva);
+							
 
 							fichaE = ficha;
 							Integer numeroEvaluacion = servicioEvaluacion
@@ -481,7 +484,7 @@ public class CAgregarEvaluacion extends CGenerico {
 									Integer numeroEvaluacion = servicioEvaluacion
 											.buscarIdSecundario(fichaE);
 									numero = numeroEvaluacion;
-									System.out.println(numeroEvaluacion);
+									
 									lblFicha.setValue(ficha1);
 									lblNombreTrabajador
 											.setValue(nombreTrabajador);
@@ -574,31 +577,102 @@ public class CAgregarEvaluacion extends CGenerico {
 									.getAuthentication();
 							u = servicioUsuario.buscarUsuarioPorNombre(autho.getName());
 							String ficha1 = u.getCedula();
-							System.out.println(item + ficha1);
+							
 							if (!item.equals(ficha1)){
 								agregarW2= true;
 							}
 							Evaluacion evaluacion = servicioEvaluacion
 									.buscarEvaluacion(idEvaluacion);
 							
-
+							Calendar calendar = Calendar.getInstance();
+							java.util.Date now = stripTimeFromDate(calendar.getTime());
+							java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+							
 							if (evaluacion.getEstadoEvaluacion().equals(
 									"EN EDICION")) {
-								btnPendiente.setVisible(true);
-								btnCambiarEstado.setVisible(true);
+								
+								FechaValidezEstado esValidoE =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN EDICION",gradoAuxiliar);
+								if (esValidoE != null)
+								{
+									btnCambiarEstado.setVisible(true);
+									btnAgregar.setVisible(true);
+									btnEliminar.setVisible(true);
+									btnOk.setVisible(true);
+									btnOk2.setVisible(true);
+									btnAgregarIndicador.setVisible(true);
+									btnEliminarIndicador.setVisible(true);
+									btnAgregarAcciones.setVisible(true);
+									btnEliminarAcciones.setVisible(true);
+									btnCambiarEstado.setVisible(true);
+									btnCancelar.setVisible(true);
+									btnAgregarCapacitacion.setVisible(true);
+								}
+								else
+								{
+									btnCambiarEstado.setVisible(false);
+									btnAgregar.setVisible(false);
+									btnEliminar.setVisible(false);
+									btnOk.setVisible(false);
+									btnOk2.setVisible(false);
+									btnAgregarIndicador.setVisible(false);
+									btnEliminarIndicador.setVisible(false);
+									btnAgregarAcciones.setVisible(false);
+									btnEliminarAcciones.setVisible(false);
+									btnCambiarEstado.setVisible(false);
+									btnCancelar.setVisible(true);
+									btnAgregarCapacitacion.setVisible(false);
+								}
+								
+								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "PENDIENTE",gradoAuxiliar);
+								if (esValido != null)
+								{
+									btnPendiente.setVisible(true);
+								}
+								else
+								{
+									btnPendiente.setVisible(false);
+
+								}
+								
+								
 							} else if (evaluacion.getEstadoEvaluacion().equals(
 									"PENDIENTE")) {
-								btnEnEdicion.setVisible(true);
-								btnRevisada.setVisible(true);
+								
+								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN REVISION",gradoAuxiliar);
+								if (esValido != null)
+								{
+									btnEnEdicion.setVisible(true);
+									btnRevisada.setVisible(true);
+								}
+								else
+								{
+									btnEnEdicion.setVisible(false);
+									btnRevisada.setVisible(false);
+								}
+								
+							
+								
 							} else if (evaluacion.getEstadoEvaluacion().equals(
 									"REVISADA")) {
-								btnPendiente.setVisible(true);
-								btnAprobada.setVisible(true);
+								
+								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN APROBACION",gradoAuxiliar);
+								if (esValido != null)
+								{
+									btnPendiente.setVisible(true);
+									btnAprobada.setVisible(true);
+								}
+								else
+								{
+									btnPendiente.setVisible(false);
+									btnAprobada.setVisible(false);
+								}
+
 							} else if (evaluacion.getEstadoEvaluacion().equals(
 									"APROBADA")) {
 								btnRevisada.setVisible(true);
-								btnCalibrada.setVisible(true);
-							} else if (evaluacion.getEstadoEvaluacion().equals(
+								//btnCalibrada.setVisible(true);
+							}
+							/*else if (evaluacion.getEstadoEvaluacion().equals(
 									"CALIBRADA")) {
 								btnAprobada.setVisible(true);
 								btnFinalizada.setVisible(true);
@@ -608,7 +682,7 @@ public class CAgregarEvaluacion extends CGenerico {
 								btnEliminar.setVisible(false);
 								btnAgregarIndicador.setVisible(false);
 								btnCambiarEstado.setVisible(false);
-							}
+							}*/
 							txtCompromisos
 									.setValue(evaluacion.getCompromisos());
 							txtFortalezas.setValue(evaluacion.getFortalezas());
@@ -719,7 +793,7 @@ public class CAgregarEvaluacion extends CGenerico {
 
 							if (evaluacion.getRevision().getEstadoRevision()
 									.compareTo("ACTIVO") == 0) {
-								if (evaluacion.getEstadoEvaluacion().equals(
+								/*if (evaluacion.getEstadoEvaluacion().equals(
 										"EN EDICION")) {
 									btnAgregar.setVisible(true);
 									btnEliminar.setVisible(true);
@@ -784,14 +858,16 @@ public class CAgregarEvaluacion extends CGenerico {
 												.setVisible(false);
 									}
 
-									/*
-									 * Messagebox .show(
-									 * "Esta evaluacion se encuentra en un estado distinto a 'EN EDICION' !, por tal razon no podra guardar ningun cambio !"
-									 * , "Información", Messagebox.OK,
-									 * Messagebox.INFORMATION);
-									 */
-								}
+									
+								}*/
 							} else {
+								
+								btnCambiarEstado.setVisible(false);
+								btnEnEdicion.setVisible(false);
+								btnPendiente.setVisible(false);
+								btnRevisada.setVisible(false);
+								btnAprobada.setVisible(false);
+							
 								btnAgregar.setVisible(false);
 								btnEliminar.setVisible(false);
 								btnOk.setVisible(false);
@@ -828,7 +904,7 @@ public class CAgregarEvaluacion extends CGenerico {
 					gpxAgregados.setOpen(false);
 					evaluacionconductas = servicioEvaluacionConducta
 							.buscarConductas(idEva);
-					System.out.println(evaluacionconductas);
+					
 					/*
 					 * if (evaluacionconductas.size() != 0) { }
 					 */
@@ -849,14 +925,8 @@ public class CAgregarEvaluacion extends CGenerico {
 
 			}
 		}
-		
-	
-		/*for(Evaluacion evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
-		{
-			calcularResultadoFinal(evaluacionAuxiliar);
-		}*/
 		else{
-			System.out.println("AL ELSE");
+			
 			if (map != null) {
 				if (map.get("id") != null) {
 					Integer idEvaluacion = (Integer) map.get("id");
@@ -1006,7 +1076,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		gpxAgregados.setOpen(false);
 		evaluacionconductas = servicioEvaluacionConducta
 				.buscarConductas(idEva);
-		System.out.println(evaluacionconductas);
+		
 		/*
 		 * if (evaluacionconductas.size() != 0) { }
 		 */
@@ -1025,9 +1095,8 @@ public class CAgregarEvaluacion extends CGenerico {
 		}
 
 		Revision re = servicioRevision.buscarPorEstado("ACTIVO");
-		System.out.println("re"+re);
+		
 		if (re==null){
-			System.out.println("epa");
 			btnEnEdicion.setVisible(false);
 			btnPendiente.setVisible(false);
 			btnRevisada.setVisible(false);
@@ -1035,6 +1104,25 @@ public class CAgregarEvaluacion extends CGenerico {
 			btnCalibrada.setVisible(false);
 			btnFinalizada.setVisible(false);
 		}
+		
+		// UTILIZADO PARA GENERAR ARCHIVO DE COMPETENCIAS.
+		/*for(Evaluacion evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
+		{
+			calcularResultadoFinal(evaluacionAuxiliar);
+		}*/
+		
+	}
+	
+	private Date stripTimeFromDate(Date date) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+
+	    calendar.set(Calendar.HOUR_OF_DAY, 0);  
+	    calendar.set(Calendar.MINUTE, 0);  
+	    calendar.set(Calendar.SECOND, 0);  
+	    calendar.set(Calendar.MILLISECOND, 0);
+
+	    return calendar.getTime();
 	}
 
 	@Listen("onClick = #btnPendiente")
@@ -1051,30 +1139,33 @@ public class CAgregarEvaluacion extends CGenerico {
 			List<Evaluacion> evaRevision = new ArrayList<Evaluacion>();
 			List<Evaluacion> evaAprobada = new ArrayList<Evaluacion>();
 			List<Evaluacion> evaCalibrada = new ArrayList<Evaluacion>();
-			evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
-			evaRevision = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoR);
-			evaAprobada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoA);
-			evaCalibrada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoC);
-			if (evaluacion.size() == 0 && evaRevision.size() == 0 &&  evaAprobada.size() == 0 && evaCalibrada.size() == 0){
-		Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
-		eva.setEstadoEvaluacion("PENDIENTE");
-		servicioEvaluacion.guardar(eva);
-		Bitacora bitacora = new Bitacora();
-		bitacora.setEstadoEvaluacion("PENDIENTE");
-		bitacora.setEvaluacion(eva);
-		bitacora.setFechaAuditoria(fechaHora);
-		bitacora.setHoraAuditoria(horaAuditoria);
-		bitacora.setIdUsuario(u);
-		servicioBitacora.guardar(bitacora);
-		msj.mensajeInformacion(Mensaje.pendiente);
-		btnEnEdicion.setVisible(true);
-		btnRevisada.setVisible(true);
-		btnPendiente.setVisible(false);
-		btnCalibrada.setVisible(false);
-		btnFinalizada.setVisible(false);
-		btnAprobada.setVisible(false);
-		}
-			else {
+			evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado,idEva);
+			evaRevision = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoR,idEva);
+			evaAprobada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoA,idEva);
+			evaCalibrada = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estadoC,idEva);
+			if (evaluacion.size() == 0 && evaRevision.size() == 0 &&  evaAprobada.size() == 0 && evaCalibrada.size() == 0)
+			{
+				Evaluacion eva = servicioEvaluacion.buscarEvaluacion(idEva);
+				eva.setEstadoEvaluacion("PENDIENTE");
+				servicioEvaluacion.guardar(eva);
+				Bitacora bitacora = new Bitacora();
+				bitacora.setEstadoEvaluacion("PENDIENTE");
+				bitacora.setEvaluacion(eva);
+				bitacora.setFechaAuditoria(fechaHora);
+				bitacora.setHoraAuditoria(horaAuditoria);
+				bitacora.setIdUsuario(u);
+				servicioBitacora.guardar(bitacora);
+				msj.mensajeInformacion(Mensaje.pendiente);
+				btnEnEdicion.setVisible(true);
+				btnRevisada.setVisible(true);
+				btnPendiente.setVisible(false);
+				//btnCalibrada.setVisible(false);
+				//btnFinalizada.setVisible(false);
+				btnAprobada.setVisible(false);
+				
+			}
+			else 
+			{
 				msj.mensajeError(Mensaje.yaExistenPendiente);
 			}
 		}
@@ -1094,11 +1185,12 @@ public class CAgregarEvaluacion extends CGenerico {
 		bitacora.setIdUsuario(u);
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.edicion);
+		btnCambiarEstado.setVisible(true);
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(true);
 		btnRevisada.setVisible(false);
-		btnCalibrada.setVisible(false);
-		btnFinalizada.setVisible(false);
+		//btnCalibrada.setVisible(false);
+		//btnFinalizada.setVisible(false);
 		btnAprobada.setVisible(false);
 	}
 	
@@ -1109,7 +1201,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		String estado = "REVISADA";
 		revision = servicioRevision.buscarPorEstado("ACTIVO");
 		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
-		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado,idEva);
 		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("REVISADA");
 		servicioEvaluacion.guardar(eva);
@@ -1125,8 +1217,8 @@ public class CAgregarEvaluacion extends CGenerico {
 		btnRevisada.setVisible(false);
 		btnAprobada.setVisible(true);
 		btnEnEdicion.setVisible(false);
-		btnCalibrada.setVisible(false);
-		btnFinalizada.setVisible(false);
+		//btnCalibrada.setVisible(false);
+		//btnFinalizada.setVisible(false);
 		}
 	}
 	
@@ -1136,7 +1228,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		String estado = "APROBADA";
 		revision = servicioRevision.buscarPorEstado("ACTIVO");
 		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
-		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado,idEva);
 		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("APROBADA");
 		servicioEvaluacion.guardar(eva);
@@ -1149,11 +1241,11 @@ public class CAgregarEvaluacion extends CGenerico {
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.aprobada);
 		btnAprobada.setVisible(false);
-		btnCalibrada.setVisible(true);
+		//btnCalibrada.setVisible(true);
 		btnRevisada.setVisible(true);
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
-		btnFinalizada.setVisible(false);
+		//btnFinalizada.setVisible(false);
 		}
 		
 	}
@@ -1164,7 +1256,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		String estado = "CALIBRADA";
 		revision = servicioRevision.buscarPorEstado("ACTIVO");
 		List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
-		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado);
+		evaluacion = servicioEvaluacion.buscarRevision(fichaE, revision.getId(), estado,idEva);
 		if (evaluacion.size() == 0){
 		eva.setEstadoEvaluacion("CALIBRADA");
 		servicioEvaluacion.guardar(eva);
@@ -1176,8 +1268,8 @@ public class CAgregarEvaluacion extends CGenerico {
 		bitacora.setIdUsuario(u);
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.calibrada);
-		btnCalibrada.setVisible(false);
-		btnFinalizada.setVisible(true);
+		//btnCalibrada.setVisible(false);
+		//btnFinalizada.setVisible(true);
 		btnAprobada.setVisible(true);
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
@@ -1198,8 +1290,8 @@ public class CAgregarEvaluacion extends CGenerico {
 		bitacora.setIdUsuario(u);
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.finalizada);
-		btnFinalizada.setVisible(false);
-		btnCalibrada.setVisible(true);
+		//btnFinalizada.setVisible(false);
+		//btnCalibrada.setVisible(true);
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
 		btnRevisada.setVisible(false);
@@ -1291,14 +1383,11 @@ public class CAgregarEvaluacion extends CGenerico {
 	public void salir() {
 		if(agregarW && !agregarW1){
 		
-			System.out.println("ojo");
-			System.out.println(agregarW +""+ agregarW1);
 			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado);
 			agregarW = false;
 		}
 		if (agregarW1 && agregarW){
-			System.out.println("ojo1");
-			System.out.println(agregarW +""+ agregarW1);
+
 			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
 			agregarW1= false;
 		}
@@ -1307,7 +1396,6 @@ public class CAgregarEvaluacion extends CGenerico {
 		}
 		
 		if (!agregarW1 && !agregarW && agregarW2){
-			System.out.println("i"+item);
 			if (listbox != null)
 			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
 			agregarW2= false;
@@ -1661,7 +1749,6 @@ public class CAgregarEvaluacion extends CGenerico {
 						.buscarObjetivos(fichaE, numero);
 				evaluacionObjetivoIndicadores = servicioEvaluacionObjetivo
 						.buscarObjetivosEvaluar(idEva);
-				System.out.println("objeto" + evaluacionObjetivoIndicadores);
 				if (evaluacionObjetivo1.size() == 1) {
 					cmbObjetivos.setValue(evaluacionObjetivoIndicadores.get(0)
 							.getDescripcionObjetivo());
@@ -2068,7 +2155,6 @@ public class CAgregarEvaluacion extends CGenerico {
 				evaluacionObjetivo = listItem.getValue();
 
 				idObjetivoE = evaluacionObjetivo.getIdObjetivo();
-				System.out.println("idObjetivoE" + idObjetivoE);
 				List<EvaluacionIndicador> evaluacionIndicador = servicioEvaluacionIndicador
 						.buscarIndicadores(idObjetivoE);
 				if (evaluacionIndicador.size() != 0) {
@@ -2160,11 +2246,8 @@ public class CAgregarEvaluacion extends CGenerico {
 						.buscarIndicadores(idObjetivo);
 				Double sumaPeso = 0.0;
 				for (int j = 0; j < indicadores.size(); j++) {
-					System.out.println("ojoooooooooo");
 					Double peso = indicadores.get(j).getPeso();
-					System.out.println("pesooo" + peso);
 					sumaPeso = peso + sumaPeso;
-					System.out.println("sumapeso" + sumaPeso);
 				}
 
 				if (sumaPeso > 100) {
@@ -2200,7 +2283,6 @@ public class CAgregarEvaluacion extends CGenerico {
 		for (int j = 0; j < objetivosG.size(); j++) {
 			Double peso = objetivosG.get(j).getPeso();
 			sumaPeso = sumaPeso + peso;
-			System.out.println("SUMA" + sumaPeso);
 		}
 		if (sumaPeso > 100) {
 			Messagebox
@@ -2249,14 +2331,12 @@ public class CAgregarEvaluacion extends CGenerico {
 	}
 
 	public void cambiarEstado1() {
-		System.out.println("METODO");
 		Evaluacion evaluacion = servicioEvaluacion.buscarEvaluacion(idEva);
 		validar1();
 		Double sumaPeso = (double) 0;
 		for (int j = 0; j < objetivosG.size(); j++) {
 			Double peso = objetivosG.get(j).getPeso();
 			sumaPeso = sumaPeso + peso;
-			System.out.println("SUMA" + sumaPeso);
 		}
 		if (sumaPeso > 100) {
 			Messagebox
@@ -2282,7 +2362,6 @@ public class CAgregarEvaluacion extends CGenerico {
 				Messagebox.show("Guardado Exitosamente", "Información",
 						Messagebox.OK, Messagebox.INFORMATION);
 			} else {
-				System.out.println("ojooooooooooooooooo");
 				servicioEvaluacionObjetivo.guardar(ev);
 				Messagebox.show("Guardado Exitosamente", "Información",
 						Messagebox.OK, Messagebox.INFORMATION);
@@ -2610,13 +2689,13 @@ public class CAgregarEvaluacion extends CGenerico {
 					((Doublespinner) ((listItem.getChildren().get(7)))
 							.getFirstChild()).setDisabled(true);
 					valor = ((valorResultado / EvaluacionI.getValorMeta()) * 100);
-					System.out.println("valor" + valor);
+
 					Integer valor1 = valor.intValue();
-					System.out.println("valor1" + valor1);
+
 					resultado = calcularPorcentajeMetaIndicado(valor1)
 							.toString();
 					resultado1 = calcularPorcentajeMetaIndicado(valor1);
-					System.out.println("resultado" + resultado);
+
 				}
 
 				resultadoPeso = String.valueOf((Double.parseDouble(resultado)
@@ -2687,7 +2766,7 @@ public class CAgregarEvaluacion extends CGenerico {
 			valor = 100;
 		if (valor >= 101)
 			valor = 115;
-		System.out.println(valor);
+		
 		return valor;
 	}
 
@@ -2720,7 +2799,7 @@ public class CAgregarEvaluacion extends CGenerico {
 					.buscarCompetencia(idCompetencia);
 			EvaluacionCompetencia evaluacion = servicioEvaluacionCompetencia
 					.buscar(eva, competencia);
-			System.out.println(evaluacion);
+			
 			if (evaluacion != null) {
 				Integer dominio = evaluacion.getIdDominio();
 				Dominio dom = servicioDominio.buscarDominio(dominio);
@@ -2752,7 +2831,7 @@ public class CAgregarEvaluacion extends CGenerico {
 				String descripcionDominio = dom.getDescripcionDominio();
 				((Combobox) ((listItem5.get(i).getChildren().get(2)))
 						.getFirstChild()).setValue(descripcionDominio);
-				System.out.println(descripcionDominio);
+				
 			}
 
 		}
@@ -3121,10 +3200,12 @@ public class CAgregarEvaluacion extends CGenerico {
 						dominioAuxR="No APlica";
 					}
 					
-							
+					/////////////////////////////		
 					
 					/*String eol = System.getProperty("line.separator"); 
 					content = content  + evaluacionAux.getIdEvaluacionSecundario()+ ";" + evaluacionAux.getFicha() + ";"+ empleado1.getNombre()  +";" + cargo1 +";" + unidadOrganizativa1 +";" + gerenciaReporte1 +";" + competenciaRequerida.getDescripcion() +";" + dominioAuxR +";" + dominioEvidenciado.getDescripcionDominio() +";" + pesoCompetencia +";" + pesoDominioRequerido +";" + pesoDominioEvidenciado +";" +  pesoTotalDominioRequerido+";" + acumuladorPesoConducta + ";"  + acumuladorPesoCompetencia + ";"  + eol   ;*/
+					
+					////////////////////////////
 					
 				}
 
@@ -3144,6 +3225,7 @@ public class CAgregarEvaluacion extends CGenerico {
 			resultadoCompetencia = 0.0;
 		}
 		
+		///////////////////////////////////////////////////////
 		
 		/*File file = new File("c:/evaluacion/Datos.txt");
 		try (FileOutputStream fop = new FileOutputStream(file)) {
@@ -3167,6 +3249,8 @@ public class CAgregarEvaluacion extends CGenerico {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
+		
+		/////////////////////////////////////////////
 		
 
 		try {

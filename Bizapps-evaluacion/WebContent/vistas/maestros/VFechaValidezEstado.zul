@@ -1,0 +1,90 @@
+<window id="wdwVRevision" apply="controlador.maestros.CFechaValidezEstado"
+	border="normal" height="auto" style="background-color:#8A0808;" width="100%">
+	<groupbox width="auto" mold="3d" title="Fecha Validez Estado">
+		<separator />
+		<div id="botoneraRevision" />
+		<separator />
+		<separator />
+		<groupbox id="gpxRegistroRevision" width="auto" title="" class = "azul"
+			open="false">
+			<caption label="Nuevo" style="font-weight:bold; font-size: 13px"
+				tooltiptext="Presione para registrar una nueva revision" />
+			<separator />
+			<grid width="100%">
+				<columns visible="false">
+					<column label="" width="15%" />
+					<column label="" width="40%" />
+					<column label="" width="17%" />
+					<column label="" width="20%" />
+				</columns>
+				<rows>
+					<row>
+						<hbox>
+							<label value="Estado:" class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+
+						<textbox id="txtEstado" width="79%"
+							maxlength="20" tabindex="1" readonly="true"
+							tooltiptext="Ingrese aqui el estado del proceso" />
+							<hbox />
+							<hbox />
+					</row>
+					<row>
+						<hbox>
+						<label value="Fecha Inicio:" class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+						<datebox readonly="true" width="80%"
+							tabindex="3" id="dtbFechaInicio" format="dd-MM-yyyy"
+							tooltiptext="Ingrese la fecha de inicio del estado" />
+							<hbox />
+						
+					</row>
+					<row>
+					<hbox>
+						<label value="Fecha Fin:" class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+					</hbox>
+						<datebox readonly="true" width="80%"
+							tabindex="4" id="dtbFechaFin" format="dd-MM-yyyy"
+							tooltiptext="Ingrese la fecha final del estado" />
+							<hbox />
+							
+					</row>
+					<row>
+					<hbox>
+						<label value="Con grado igual o superior a:" class="etiqueta" />
+					</hbox>
+						<spinner id="spnGrado" width="80%"
+							tabindex="3" constraint="no negative" value="1"
+							tooltiptext="Ingrese aqui el grado" />
+							<hbox />
+							<hbox />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator />
+		<separator />
+		<groupbox id="gpxDatosRevision" width="auto" title="" class = "azul">
+			<caption label="Registros" style="font-weight:bold; font-size: 13px"
+				tooltiptext="Presione para visualizar las revisiones registradas" />
+			<div id="catalogoFechaValidezEstado"
+				tooltiptext="Seleccione la revision para realizar una accion" />
+		</groupbox>
+		<separator />
+		<separator />
+	</groupbox>
+	<div id="divCatalogoPeriodo"
+		tooltiptext="Click para Seleccionar un periodo" />
+</window>

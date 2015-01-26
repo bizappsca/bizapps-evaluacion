@@ -17,8 +17,8 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 	public List<Evaluacion> buscarEstado(String ficha);
 	
 	@Query("select e from Evaluacion e where  e.ficha = ?1 and e.revision.id = ?2 " +
-			"and e.estadoEvaluacion = ?3 ")
-	public List<Evaluacion> buscarRevision(String ficha, Integer revision, String estado);
+			"and e.estadoEvaluacion = ?3  and e.idEvaluacion<>?4")
+	public List<Evaluacion> buscarRevision(String ficha, Integer revision, String estado, Integer id);
 	
 	public List<Evaluacion> findByFichaAndEstadoEvaluacion (String ficha, String estado);
 	
@@ -107,26 +107,27 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 	
 	public List<Evaluacion> buscarEvaluacionCalibracionGrado(Integer Grado);
 	
-	@Query("select e from Evaluacion e, Revision r " +
-			"where r.id = e.revision.id and" +
-			" r.estadoRevision = 'ACTIVO'")
+	@Query("select e from Evaluacion e, Revision r , Empleado em " +
+			"where r.id = e.revision.id and em.ficha=e.ficha and  " +
+			" r.estadoRevision = 'ACTIVO' order by em.gradoAuxiliar, em.nombre")
 	public List<Evaluacion> buscarEvaluacionesRevision();
 	
 	
 	
-	@Query("select distinct(ev) from Empleado em, Evaluacion ev, Empresa e, Revision r , UnidadOrganizativa uo, Gerencia g " +
+	@Query("select ev from Empleado em, Evaluacion ev, Empresa e, Revision r , UnidadOrganizativa uo, Gerencia g " +
 			"where " +
 			"em.ficha = ev.ficha and " +
 			"r.id = ev.revision.id " +
 			"and r.estadoRevision = 'ACTIVO' AND " +
 			"em.unidadOrganizativa.id = uo.id and " +
 			"uo.gerencia.id = g.id and " +
+			"e.id = em.empresa.id and " +
 			"e.nombre like  CONCAT('%' , ?1 , '%') AND  " +
 			"em.nombre like CONCAT('%' , ?2 , '%') and " +
 			"em.fichaSupervisor like CONCAT('%' , ?3 , '%') and " +
 			"g.descripcion like CONCAT('%' , ?4 , '%') and " +
 			"ev.valoracion like CONCAT('%' , ?5 , '%') and "+ 
-			"em.gradoAuxiliar >= ?6 ")
+			"em.gradoAuxiliar >= ?6 order by em.gradoAuxiliar,em.nombre ")
 	public List<Evaluacion> buscarEvaluacionCalibracion(String empresa,String nombreE,String fichaE,String gerencia,String valoracion,Integer Grado);
 	
 }

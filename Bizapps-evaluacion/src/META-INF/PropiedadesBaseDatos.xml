@@ -12,9 +12,7 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url"
-			value="jdbc:sqlserver://localhost:1433;DatabaseName=dusa_evaluacion" />
-		<!-- value="jdbc:sqlserver://172.23.20.72:1433;DatabaseName=dusa_sims" 
-			/> -->
+			value="jdbc:sqlserver://RIVERO-PC\MSSQLSERVER2012;DatabaseName=dusa_evaluacion" />
 		<property name="username" value="client" />
 		<property name="password" value="123" />
 	</bean>

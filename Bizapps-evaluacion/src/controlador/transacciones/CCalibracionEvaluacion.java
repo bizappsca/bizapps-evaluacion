@@ -630,10 +630,9 @@ public class CCalibracionEvaluacion extends CGenerico {
 				
 				/*Evaluacion eva = catalogoEvaluacion
 						.objetoSeleccionadoDelCatalagoN();*/
-				int idEvaluacion = eva.getIdEvaluacion();
-				Evaluacion evaluacion = servicioEvaluacion
-						.buscarEvaluacion(idEvaluacion);
-				Double resultado = Double.valueOf(catalogoEvaluacion.obtenertext());
+				//int idEvaluacion = eva.getIdEvaluacion();
+				Evaluacion evaluacion =  eva; //servicioEvaluacion.buscarEvaluacion(idEvaluacion);
+				Double resultado = evaluacion.getResultadoFinal();//Double.valueOf(catalogoEvaluacion.obtenertext());
 	
 				evaluacion.setResultadoFinal(resultado);
 				evaluacion.setValoracion(valoracion);

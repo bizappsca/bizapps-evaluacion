@@ -124,13 +124,13 @@ public class CPeriodo extends CGenerico {
 						Periodo periodo = new Periodo(idPeriodo, descripcion,
 								estadoPeriodo, fechaAuditoria, fechaFin,
 								fechaInicio, horaAuditoria, nombre, usuario);
+						servicioPeriodo.guardar(periodo);
 						Revision revision = servicioRevision.buscarRevisionPorPeriodo(periodo);
 						if (estadoPeriodo.equals("INACTIVO") && revision != null){
 							msj.mensajeAlerta(Mensaje.revisionesActivas);
-							
 						}
 						else{
-						servicioPeriodo.guardar(periodo);
+							servicioPeriodo.guardar(periodo);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();
 						listaGeneral = servicioPeriodo.buscarTodos();
@@ -347,8 +347,12 @@ public class CPeriodo extends CGenerico {
 
 		Periodo periodo = servicioPeriodo.buscarPeriodoActivo();
 
+		
+		
 		if (cmbEstadoPeriodo.getValue().equals("ACTIVO") && periodo != null) {
-			return true;
+			
+			if (txtNombrePeriodo.getValue().compareTo(periodo.getNombre())!=0)
+				return true;
 		}
 
 		return false;
