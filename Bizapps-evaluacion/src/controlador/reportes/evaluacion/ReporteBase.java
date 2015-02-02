@@ -71,16 +71,23 @@ public class ReporteBase extends CGenerico {
 	            
 	            Map parameters = new HashMap();
 
-	            parameters.put("evaluacion", par1);
-	            parameters.put("evaluador", par2);
+	            parameters.put("evaluacion", par2);
+	            parameters.put("evaluador", par3);
 	            parameters.put("path_banner", path_banner);
+	            
+	            
+	            if (par1.compareTo("sencillo")==0)
+	            {
+	            	fis = (cl.getResourceAsStream("controlador/reportes/evaluacion/jasper/reporteEvaluacion.jasper"));	
+	            }
+	            else
+	            {
+	            	fis = (cl.getResourceAsStream("controlador/reportes/evaluacion/jasper/reporteEvaluacionFull.jasper"));	
+	            }
 	        
-	            fis = (cl.getResourceAsStream("controlador/reportes/evaluacion/jasper/reporteEvaluacion.jasper"));
+	            
 
-	           
-	            /*String url = "jdbc:sqlserver://172.23.20.72:1433;databaseName=dusa_evaluacion";
-	            String user = "client";
-	            String password = "123";*/
+	        
 	            
 	            List<String> lista = obtenerPropiedades();
 				String user = lista.get(0);

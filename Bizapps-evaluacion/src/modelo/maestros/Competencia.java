@@ -39,6 +39,9 @@ public class Competencia implements Serializable {
 	
 	@Column(name="usuario")
 	private String usuario;
+	
+	@Column(name="id_empresa")
+	private int idEmpresa;
 
 	public Competencia() {
 	}
@@ -112,6 +115,14 @@ public class Competencia implements Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public int getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(int idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 	

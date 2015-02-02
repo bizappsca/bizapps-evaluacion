@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEvaluacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8d939d0-56b3-4576-b273-d6b9fdb2c7fd">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="evaluacion" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select competencia.descripcion as descripcion_competencia, competencia.nivel,(select descripcion_dominio from dominio where dominio.id_dominio=evaluacion_competencia.id_dominio) as evidenciado,(select descripcion_dominio from dominio where dominio.id_dominio=nivel_competencia_cargo.id_dominio) as requerido,conducta_competencia.descripcion as decripcion_conducta,evaluacion_conducta.valor,evaluacion_conducta.observacion from evaluacion inner join evaluacion_competencia ON evaluacion.id_evaluacion= evaluacion_competencia.id_evaluacion inner join competencia ON evaluacion_competencia.id_competencia=competencia.id_competencia inner join dominio ON evaluacion_competencia.id_dominio=dominio.id_dominio inner join empleado on empleado.ficha=evaluacion.ficha inner join nivel_competencia_cargo ON nivel_competencia_cargo.id_cargo=empleado.id_cargo and nivel_competencia_cargo.id_competencia=competencia.id_competencia INNER JOIN evaluacion_conducta ON evaluacion_conducta.id_evaluacion=evaluacion.id_evaluacion AND evaluacion_conducta.id_competencia=competencia.id_competencia INNER JOIN conducta_competencia ON  conducta_competencia.id_conducta=evaluacion_conducta.id_conducta AND conducta_competencia.id_competencia=competencia.id_competencia AND conducta_competencia.id_dominio=evaluacion_competencia.id_dominio WHERE evaluacion.id_evaluacion=$P{evaluacion} order by competencia.id_competencia,conducta_competencia.orden]]>
+	</queryString>
+	<field name="descripcion_competencia" class="java.lang.String"/>
+	<field name="nivel" class="java.lang.String"/>
+	<field name="evidenciado" class="java.lang.String"/>
+	<field name="requerido" class="java.lang.String"/>
+	<field name="decripcion_conducta" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Boolean"/>
+	<field name="observacion" class="java.lang.String"/>
+	<group name="descripcion_competencia" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{descripcion_competencia}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="403" y="14" width="62" height="20" uuid="b662846f-ec65-4a1b-a9a6-b921abbd39f6"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{evidenciado}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="465" y="14" width="64" height="20" uuid="4a4f9b68-05af-449a-ac7e-975f16938e5a"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{requerido}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="51" y="14" width="352" height="20" isPrintWhenDetailOverflows="true" uuid="1c212818-f270-4928-9988-da89edac007c"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descripcion_competencia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="-20" y="14" width="71" height="20" uuid="4c518cef-921e-4955-8d94-2ea4e9417d6a"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="17" y="39" width="255" height="11" forecolor="#FFFFFF" backcolor="#666666" uuid="977b74f9-3eae-4283-a753-f95a927c1611"/>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONDUCTA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="272" y="39" width="37" height="11" forecolor="#FFFFFF" backcolor="#666666" uuid="109f6fad-3912-41da-9704-9ef795fb093d"/>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PRESENTE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="309" y="39" width="220" height="11" forecolor="#FFFFFF" backcolor="#666666" uuid="d49a47d2-ecc4-446c-91f1-e4a3c33b98fe"/>
+					<box>
+						<pen lineWidth="1.0" lineColor="#000000"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[OBSERVACION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="465" y="2" width="64" height="12" forecolor="#FFFFFF" backcolor="#666666" uuid="6fe1f842-4cda-4441-9fc0-436fdfdea9f6"/>
+					<box>
+						<pen lineColor="#FFFFFF"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REQUERIDO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="403" y="2" width="62" height="12" forecolor="#FFFFFF" backcolor="#666666" uuid="555f585f-82c4-406c-9afe-190808cfbd8f"/>
+					<box>
+						<pen lineColor="#FFFFFF"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[EVIDENCIADO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="47" y="2" width="356" height="12" forecolor="#FFFFFF" backcolor="#666666" uuid="8d09b84d-a3f8-4039-a320-e6fab132d40a"/>
+					<box>
+						<pen lineColor="#FFFFFF"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[COMPETENCIA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="-20" y="2" width="71" height="12" forecolor="#FFFFFF" backcolor="#666666" uuid="805fae0e-bf46-4a08-91a1-9b869bc4a37b"/>
+					<box>
+						<pen lineColor="#FFFFFF"/>
+						<topPen lineWidth="1.0" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="5" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NIVEL]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="11">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="0" width="550" height="11" backcolor="#CCCCCC" uuid="8fad863d-19da-4f3e-8644-3356219a074e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECCIÓN IV - COMPETENCIAS Y CONDUCTAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="17" y="0" width="255" height="18" isPrintWhenDetailOverflows="true" uuid="95dc10e7-951d-460d-922c-60a1bdf448c1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{decripcion_conducta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="0" width="220" height="18" uuid="8bc892d9-e0c9-4bdc-a820-cc19831a5f18"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="0" width="37" height="18" uuid="7ba84565-34f2-4893-99f1-093b08300ede"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{valor}==true ? "SI" : "NO" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

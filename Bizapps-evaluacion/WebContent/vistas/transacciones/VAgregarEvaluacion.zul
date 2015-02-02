@@ -45,14 +45,14 @@
 		<separator></separator>
 		<tabbox id="tbEvaluacionEmpleado">
 			<tabs id="tabs">
-				<tab id="tbEvaluacionObjetivos" label="Sección I - Evaluación Objetivos" />
-				<tab id="tbIndicadores" label="Sección I - Evaluación Indicadores" />
-				<tab id="tbRectoras" label="Sección II - Evaluación Competencias Rectoras" />
-				<tab id="tbEspecificas" label="Sección II - Evaluación Competencias Especificas" />
+				<tab id="tbEvaluacionObjetivos" label="Objetivos" />
+				<tab id="tbIndicadores" label="Indicadores" />
+				<tab id="tbRectoras" label="Competencias Rectoras" />
+				<tab id="tbEspecificas" label="Competencias Especificas" />
 				<tab id="tbCompromisos"
-					label="Sección III - Registros de Feedback y Establecimientos de Compromisos" />
-				<tab id="tbCapacitacion" label="Sección IV - Acciones de Capacitacion" />
-						<tab id="tbResultados" label="Sección V - Resultados" />
+					label="Registros de Feedback y Establecimientos de Compromisos" />
+				<tab id="tbCapacitacion" label="Acciones de Capacitacion" />
+						<tab id="tbResultados" label="Resultados" />
 			</tabs>
 			<tabpanels>
 				<!-- Contenedor de Objetivos -->

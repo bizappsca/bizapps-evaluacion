@@ -53,6 +53,12 @@ public class SEvaluacion {
 			return evaluacionDAO.buscarIdSecundario(ficha);
 		}
 	
+		// Servicio que busca el maximo id Secundario	
+		public Long cantidadEvaluaciones(String ficha, Integer revision) {
+			return evaluacionDAO.cantidadEvaluaciones(ficha,revision);
+		}
+		
+		
 	// Servicio que busca el id de una evaluacion
 	public Evaluacion buscarIdEvaluacion(Integer id, String ficha) {
 		return evaluacionDAO.findByIdEvaluacionSecundarioAndFicha(id, ficha);

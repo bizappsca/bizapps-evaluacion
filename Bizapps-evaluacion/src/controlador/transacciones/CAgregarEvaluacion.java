@@ -15,6 +15,7 @@ import java.util.List;
 
 import modelo.maestros.Area;
 import modelo.maestros.Bitacora;
+import modelo.maestros.Cargo;
 import modelo.maestros.Competencia;
 import modelo.maestros.ConfiguracionGeneral;
 import modelo.maestros.Distribucion;
@@ -33,6 +34,7 @@ import modelo.maestros.Perspectiva;
 import modelo.maestros.Revision;
 import modelo.maestros.TipoFormacion;
 import modelo.maestros.UnidadMedida;
+import modelo.maestros.UnidadOrganizativa;
 import modelo.maestros.Urgencia;
 import modelo.seguridad.Usuario;
 
@@ -47,6 +49,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Doublespinner;
@@ -515,9 +518,30 @@ public class CAgregarEvaluacion extends CGenerico {
 						for (int j = 0; j < nivel.size(); j++) {
 							if (nivel.get(j).getCompetencia().getNivel()
 									.equals("RECTORAS")) {
-								nivelRectoras = nivel.get(j);
-								nivel2.add(nivelRectoras);
-								nivelCompetencia = nivel2;
+								
+								if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+								{
+									nivelRectoras = nivel.get(j);
+									nivel2.add(nivelRectoras);
+									nivelCompetencia = nivel2;
+								}
+								else
+								{
+									if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+									{
+										nivelRectoras = nivel.get(j);
+										nivel2.add(nivelRectoras);
+										nivelCompetencia = nivel2;
+									}
+									 else
+									 {
+											nivel.remove(j);
+									 }
+									
+								}
+								
+								
+								
 							} else {
 								nivel.remove(j);
 							}
@@ -530,9 +554,34 @@ public class CAgregarEvaluacion extends CGenerico {
 						for (int j = 0; j < nivel4.size(); j++) {
 							if (nivel4.get(j).getCompetencia().getNivel()
 									.equals("ESPECIFICAS")) {
-								nivelEspecificas = nivel4.get(j);
-								nivel3.add(nivelEspecificas);
-								nivelCompetencia1 = nivel3;
+								
+								if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+								{
+									nivelEspecificas = nivel4.get(j);
+									nivel3.add(nivelEspecificas);
+									nivelCompetencia1 = nivel3;
+								}
+								else
+								{
+									if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+									{
+										nivelEspecificas = nivel4.get(j);
+										nivel3.add(nivelEspecificas);
+										nivelCompetencia1 = nivel3;
+									}
+									 else
+									 {
+										 nivel4.remove(j);
+									 }
+									
+								}
+								
+								
+								
+								
+								
+								
+								
 							} else {
 								nivel4.remove(j);
 							}
@@ -756,9 +805,32 @@ public class CAgregarEvaluacion extends CGenerico {
 							for (int j = 0; j < nivel.size(); j++) {
 								if (nivel.get(j).getCompetencia().getNivel()
 										.equals("RECTORAS")) {
-									nivelRectoras = nivel.get(j);
-									nivel2.add(nivelRectoras);
-									nivelCompetencia = nivel2;
+									
+									if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+									{
+										nivelRectoras = nivel.get(j);
+										nivel2.add(nivelRectoras);
+										nivelCompetencia = nivel2;
+									}
+									else
+									{
+										if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+										{
+											nivelRectoras = nivel.get(j);
+											nivel2.add(nivelRectoras);
+											nivelCompetencia = nivel2;
+										}
+										 else
+										 {
+												nivel.remove(j);
+										 }
+										
+									}
+									
+									
+									
+							
+									
 								} else {
 									nivel.remove(j);
 								}
@@ -771,9 +843,31 @@ public class CAgregarEvaluacion extends CGenerico {
 							for (int j = 0; j < nivel4.size(); j++) {
 								if (nivel4.get(j).getCompetencia().getNivel()
 										.equals("ESPECIFICAS")) {
-									nivelEspecificas = nivel4.get(j);
-									nivel3.add(nivelEspecificas);
-									nivelCompetencia1 = nivel3;
+									
+									if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+									{
+										nivelEspecificas = nivel4.get(j);
+										nivel3.add(nivelEspecificas);
+										nivelCompetencia1 = nivel3;
+									}
+									else
+									{
+										if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+										{
+											nivelEspecificas = nivel4.get(j);
+											nivel3.add(nivelEspecificas);
+											nivelCompetencia1 = nivel3;
+										}
+										 else
+										 {
+											 nivel4.remove(j);
+										 }
+										
+									}
+									
+							
+									
+									
 								} else {
 									nivel4.remove(j);
 								}
@@ -1013,9 +1107,28 @@ public class CAgregarEvaluacion extends CGenerico {
 					for (int j = 0; j < nivel.size(); j++) {
 						if (nivel.get(j).getCompetencia().getNivel()
 								.equals("RECTORAS")) {
-							nivelRectoras = nivel.get(j);
-							nivel2.add(nivelRectoras);
-							nivelCompetencia = nivel2;
+							
+							if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+							{
+								nivelRectoras = nivel.get(j);
+								nivel2.add(nivelRectoras);
+								nivelCompetencia = nivel2;
+							}
+							else
+							{
+								if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+								{
+									nivelRectoras = nivel.get(j);
+									nivel2.add(nivelRectoras);
+									nivelCompetencia = nivel2;
+								}
+								 else
+								 {
+										nivel.remove(j);
+								 }
+								
+							}
+							
 						} else {
 							nivel.remove(j);
 						}
@@ -1028,9 +1141,30 @@ public class CAgregarEvaluacion extends CGenerico {
 					for (int j = 0; j < nivel4.size(); j++) {
 						if (nivel4.get(j).getCompetencia().getNivel()
 								.equals("ESPECIFICAS")) {
-							nivelEspecificas = nivel4.get(j);
-							nivel3.add(nivelEspecificas);
-							nivelCompetencia1 = nivel3;
+							
+							if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
+							{
+								nivelEspecificas = nivel4.get(j);
+								nivel3.add(nivelEspecificas);
+								nivelCompetencia1 = nivel3;
+							}
+							else
+							{
+								if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
+								{
+									nivelEspecificas = nivel4.get(j);
+									nivel3.add(nivelEspecificas);
+									nivelCompetencia1 = nivel3;
+								}
+								 else
+								 {
+									 nivel4.remove(j);
+								 }
+								
+							}							
+							
+							
+							
 						} else {
 							nivel4.remove(j);
 						}
@@ -1400,7 +1534,14 @@ public class CAgregarEvaluacion extends CGenerico {
 			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
 			agregarW2= false;
 		}
+		
+		Messagebox.show("Recuerde que cada evaluacion debe contener objetivos, indicadores, compentencias y conductas !",
+				"Aviso", Messagebox.OK, Messagebox.EXCLAMATION);
+		
+
+		
 		cerrarVentana1(winEvaluacionEmpleado, "Personal");
+		
 	}
 
 	@Listen("onClick = #btnAgregar")
@@ -2432,6 +2573,10 @@ public class CAgregarEvaluacion extends CGenerico {
 		}
 
 	}
+	
+	public String damePath() {
+		return Executions.getCurrent().getContextPath() + "/";
+	}
 
 	@Listen("onClick = #btnImprimir")
 	public void imprimirEvaluacion() {
@@ -2445,10 +2590,40 @@ public class CAgregarEvaluacion extends CGenerico {
 				guardarEvaluacion(false);
 			}
 
-			Executions.getCurrent().sendRedirect(
-					"http://www.dusanet.com:8029/evaluacion/Impresion?par1="
+			/*Executions.getCurrent().sendRedirect(
+					damePath() + "Impresion?par1="
 							+ idEva + "&par2=" + evaluador.getNombre() + "",
-					"_blank");
+					"_blank");*/
+			
+			
+			
+			
+			
+			Messagebox.show("Desea imprimir el reporte detallado con competencias y conductas ?", "Alerta",
+					Messagebox.YES | Messagebox.NO,
+					Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+						public void onEvent(Event evt)
+								throws InterruptedException {
+
+							if (evt.getName().equals("onYes")) {
+								
+								Clients.evalJavaScript("window.open('"
+										+ damePath()
+										+ "Impresion?par1=detallado" +"&par2=" + idEva + "&par3=" + evaluador.getNombre() + ""
+										+ "','','top=100,left=200,height=600,width=800,scrollbars=1,resizable=1')");
+
+							} 
+							else
+							{
+								Clients.evalJavaScript("window.open('"
+										+ damePath()
+										+ "Impresion?par1=sencillo" +"&par2=" + idEva + "&par3=" + evaluador.getNombre() + ""
+										+ "','','top=100,left=200,height=600,width=800,scrollbars=1,resizable=1')");
+								
+							}
+						}
+					});
 
 			/*
 			 * Executions.getCurrent().sendRedirect(
