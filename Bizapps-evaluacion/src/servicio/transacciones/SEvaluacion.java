@@ -26,6 +26,11 @@ public class SEvaluacion {
 		return evaluacionDAO.findByFichaOrderByRevisionIdDescIdEvaluacionSecundarioDesc(ficha);
 	}
 	
+	public List<Evaluacion> buscarEvaluacionesActivas(String ficha, Integer revision)
+	{
+		return evaluacionDAO.buscarEvaluacionesActivas(ficha, revision);
+	}
+	
 	public List<Evaluacion> buscarEstado(String ficha) {
 		return evaluacionDAO.buscarEstado(ficha);
 	}

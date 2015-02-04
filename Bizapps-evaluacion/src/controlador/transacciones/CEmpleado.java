@@ -133,6 +133,7 @@ public class CEmpleado extends CGenerico {
 		arbolPersonal.setModel(getModel());
 
 		revisionActiva = servicioRevision.buscarPorEstado("ACTIVO");
+		
 		if (!tienePersonal) {
 			msj.mensajeAlerta(Mensaje.personalCargo);
 			cerrarVentana(winArbolPersonal, titulo, tabs);
@@ -439,7 +440,7 @@ public class CEmpleado extends CGenerico {
 
 										if (servicioEvaluacion
 												.cantidadEvaluaciones(ficha,
-														revision.getId()) < 2) {
+														revision.getId()) <= 1) {
 
 											Integer numeroEvaluacion = servicioEvaluacion
 													.buscarIdSecundario(eva
@@ -711,27 +712,27 @@ public class CEmpleado extends CGenerico {
 	public void selectedNodeA() {
 		if (bandera.equals("false")) {
 			if (arbolPersonal.getSelectedItem() != null) {
-				String item = String.valueOf(arbolPersonal.getSelectedItem()
+				String ficha = String.valueOf(arbolPersonal.getSelectedItem()
 						.getContext());
 				Authentication auth = SecurityContextHolder.getContext()
 						.getAuthentication();
 				Usuario u = servicioUsuario.buscarUsuarioPorNombre(auth
 						.getName());
-				String ficha = u.getCedula();
+				
 				Integer idUsuario = u.getIdUsuario();
 				Integer numeroEvaluacion;
-				if (servicioEvaluacion.buscarIdSecundario(item) != null) {
+				if (servicioEvaluacion.buscarIdSecundario(ficha) != null) {
 					numeroEvaluacion = servicioEvaluacion
-							.buscarIdSecundario(item) + 1;
+							.buscarIdSecundario(ficha) + 1;
 				} else {
 					numeroEvaluacion = 1;
 				}
 
 				if (servicioEvaluacion.cantidadEvaluaciones(ficha,
-						revision.getId()) < 2) {
+						revisionActiva.getId()) <=1) {
 
 					idEva = servicioEvaluacion.buscarId() + 1;
-					Empleado empleado = servicioEmpleado.buscarPorFicha(item);
+					Empleado empleado = servicioEmpleado.buscarPorFicha(ficha);
 					String fichaEvaluador = empleado.getFichaSupervisor();
 					Cargo cargo = empleado.getCargo();
 					Evaluacion evaluacion = new Evaluacion();
@@ -739,7 +740,7 @@ public class CEmpleado extends CGenerico {
 					evaluacion.setEstadoEvaluacion("EN EDICION");
 					evaluacion.setFechaCreacion(fechaHora);
 					evaluacion.setFechaAuditoria(fechaHora);
-					evaluacion.setFicha(item);
+					evaluacion.setFicha(ficha);
 					evaluacion.setRevision(revisionActiva);
 					evaluacion.setIdEvaluacionSecundario(numeroEvaluacion);
 					evaluacion.setIdUsuario(idUsuario);
@@ -767,7 +768,7 @@ public class CEmpleado extends CGenerico {
 
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("modo", "AGREGAR");
-					map.put("ficha", item);
+					map.put("ficha", ficha);
 					map.put("id", idEva);
 					map.put("numero", numeroEvaluacion);
 					map.put("listbox", lbxEvaluacion);

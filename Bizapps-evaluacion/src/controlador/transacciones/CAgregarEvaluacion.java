@@ -350,7 +350,7 @@ public class CAgregarEvaluacion extends CGenerico {
 		Empleado e = servicioEmpleado.buscarPorFicha(fichaEm);
 		int gradoA = e.getGradoAuxiliar();
 		gradoAuxiliar = gradoA;
-		
+
 		// ------------Codigo de Capacitacion------------
 		gpxAgregarCapacitacion.setOpen(false);
 
@@ -366,433 +366,144 @@ public class CAgregarEvaluacion extends CGenerico {
 		List<UnidadMedida> unidad = servicioUnidadMedida.buscar();
 		cmbUnidad.setModel(new ListModelList<UnidadMedida>(unidad));
 
-		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral.buscar();
+		List<ConfiguracionGeneral> configuracion = servicioConfiguracionGeneral
+				.buscar();
 		String bandera = configuracion.get(0).getBandera();
 		band = bandera;
-		
-		
+
 		HashMap<String, Object> map = (HashMap<String, Object>) Sessions
 				.getCurrent().getAttribute("itemsCatalogo");
-		
-		if (bandera.equals("false") || gradoA >= 19){
-			
-		if (map != null) {
 
-			if (map.get("modo") != null) {
+		if (bandera.equals("false") || gradoA >= 19) {
 
-				if (map.get("modo").equals("AGREGAR")) {
-					agregarW = true;
-					listbox =  (Listbox) map.get("listbox");
-					item = (String) map.get("ficha");
-					revision = servicioRevision.buscarPorEstado("ACTIVO");
-					
-					Authentication auth = SecurityContextHolder.getContext()
-							.getAuthentication();
-					u = servicioUsuario.buscarUsuarioPorNombre(auth.getName());
-					String ficha = u.getCedula();
-					if (!item.equals(ficha)){
-						agregarW1= true;
-					}
-					/*
-					 * HashMap<String, Object> map = (HashMap<String, Object>)
-					 * Sessions .getCurrent().getAttribFFute("itemsCatalogo");
-					 */
+			if (map != null) {
 
-					if (map != null) {
-						if (map.get("idEva") != null) {
-							Integer idEvaluacion = (Integer) map.get("idEva");
-							idEva = idEvaluacion;
+				if (map.get("modo") != null) {
 
-							
-
-							fichaE = ficha;
-							Integer numeroEvaluacion = servicioEvaluacion
-									.buscarIdSecundario(ficha);
-							numero = numeroEvaluacion;
-							lblEvaluacion.setValue(numeroEvaluacion.toString());
-							lblFechaCreacion.setValue(formatoFecha
-									.format(fechaHora));
-							lblRevision.setValue(revision.getDescripcion());
-							String nombreTrabajador = u.getNombre() + " "
-									+ u.getApellido();
-							empleado = servicioEmpleado.buscarPorFicha(ficha);
-							String cargo = empleado.getCargo().getDescripcion();
-							String unidadOrganizativa = empleado
-									.getUnidadOrganizativa().getDescripcion();
-							String gerenciaReporte = empleado
-									.getUnidadOrganizativa().getGerencia()
-									.getDescripcion();
-
-							evaluador = servicioEmpleado
-									.buscarPorFicha(empleado
-											.getFichaSupervisor());
-							lblFicha.setValue(ficha);
-							lblNombreTrabajador.setValue(nombreTrabajador);
-							lblCargo.setValue(cargo);
-							lblUnidadOrganizativa.setValue(unidadOrganizativa);
-							lblGerencia.setValue(gerenciaReporte);
-							lblFicha.setValue(ficha);
-							lblNombreTrabajador.setValue(nombreTrabajador);
-							lblCargo.setValue(cargo);
-							lblUnidadOrganizativa.setValue(unidadOrganizativa);
-							lblGerencia.setValue(gerenciaReporte);
-							lblEvaluacion.setValue(numeroEvaluacion.toString());
-							lblFechaCreacion.setValue(formatoFecha
-									.format(fechaHora));
-
-							listCapacitacion = servicioEvaluacionCapacitacion
-									.buscarPorEvaluacion(idEva);
-							lbxAccionesGuardadas
-									.setModel(new ListModelList<EvaluacionCapacitacion>(
-											listCapacitacion));
+					if (map.get("modo").equals("AGREGAR")) {
+						agregarW = true;
+						listbox = (Listbox) map.get("listbox");
+						item = (String) map.get("ficha");
+						revision = servicioRevision.buscarPorEstado("ACTIVO");
+						btnCambiarEstado.setVisible(true);
+						
+						Authentication auth = SecurityContextHolder
+								.getContext().getAuthentication();
+						u = servicioUsuario.buscarUsuarioPorNombre(auth
+								.getName());
+						String ficha = u.getCedula();
+						if (!item.equals(ficha)) {
+							agregarW1 = true;
 						}
+						
 
-						else {
+						if (map != null) {
+							if (map.get("idEva") != null) {
+								Integer idEvaluacion = (Integer) map
+										.get("idEva");
+								idEva = idEvaluacion;
 
-							HashMap<String, Object> map1 = (HashMap<String, Object>) Sessions
-									.getCurrent().getAttribute("itemsCatalogo");
-							if (map1 != null) {
-								if (map1.get("ficha") != null) {
-									String ficha1 = (String) map1.get("ficha");
-									Integer idEvaluacion1 = (Integer) map1
-											.get("id");
-									fichaE = ficha1;
-									idEva = idEvaluacion1;
-									/*
-									 * List<Medicion> medicion =
-									 * servicioMedicion.buscar();
-									 * cmbMedicion.setModel(new
-									 * ListModelList<Medicion>( medicion));
-									 * 
-									 * List<UnidadMedida> unidad =
-									 * servicioUnidadMedida .buscar();
-									 * cmbUnidad.setModel(new
-									 * ListModelList<UnidadMedida>( unidad));
-									 */
-									empleado = servicioEmpleado
-											.buscarPorFicha(ficha1);
-									evaluador = servicioEmpleado
-											.buscarPorFicha(empleado
-													.getFichaSupervisor());
-									String cargo = empleado.getCargo()
-											.getDescripcion();
-									String unidadOrganizativa = empleado
-											.getUnidadOrganizativa()
-											.getDescripcion();
-									String gerenciaReporte = empleado
-											.getUnidadOrganizativa()
-											.getGerencia().getDescripcion();
-									String nombreTrabajador = empleado
-											.getNombre();
-									Integer numeroEvaluacion = servicioEvaluacion
-											.buscarIdSecundario(fichaE);
-									numero = numeroEvaluacion;
-									
-									lblFicha.setValue(ficha1);
-									lblNombreTrabajador
-											.setValue(nombreTrabajador);
-									lblCargo.setValue(cargo);
-									lblUnidadOrganizativa
-											.setValue(unidadOrganizativa);
-									lblGerencia.setValue(gerenciaReporte);
-									lblEvaluacion.setValue(numeroEvaluacion
-											.toString());
-									lblFechaCreacion.setValue(formatoFecha
-											.format(fechaHora));
-									lblRevision.setValue(revision
-											.getDescripcion());
+								fichaE = ficha;
+								Integer numeroEvaluacion = servicioEvaluacion
+										.buscarIdSecundario(ficha);
+								numero = numeroEvaluacion;
+								lblEvaluacion.setValue(numeroEvaluacion
+										.toString());
+								lblFechaCreacion.setValue(formatoFecha
+										.format(fechaHora));
+								lblRevision.setValue(revision.getDescripcion());
+								String nombreTrabajador = u.getNombre() + " "
+										+ u.getApellido();
+								empleado = servicioEmpleado
+										.buscarPorFicha(ficha);
+								String cargo = empleado.getCargo()
+										.getDescripcion();
+								String unidadOrganizativa = empleado
+										.getUnidadOrganizativa()
+										.getDescripcion();
+								String gerenciaReporte = empleado
+										.getUnidadOrganizativa().getGerencia()
+										.getDescripcion();
 
-								}
+								evaluador = servicioEmpleado
+										.buscarPorFicha(empleado
+												.getFichaSupervisor());
+								lblFicha.setValue(ficha);
+								lblNombreTrabajador.setValue(nombreTrabajador);
+								lblCargo.setValue(cargo);
+								lblUnidadOrganizativa
+										.setValue(unidadOrganizativa);
+								lblGerencia.setValue(gerenciaReporte);
+								lblFicha.setValue(ficha);
+								lblNombreTrabajador.setValue(nombreTrabajador);
+								lblCargo.setValue(cargo);
+								lblUnidadOrganizativa
+										.setValue(unidadOrganizativa);
+								lblGerencia.setValue(gerenciaReporte);
+								lblEvaluacion.setValue(numeroEvaluacion
+										.toString());
+								lblFechaCreacion.setValue(formatoFecha
+										.format(fechaHora));
+
+								listCapacitacion = servicioEvaluacionCapacitacion
+										.buscarPorEvaluacion(idEva);
+								lbxAccionesGuardadas
+										.setModel(new ListModelList<EvaluacionCapacitacion>(
+												listCapacitacion));
+
 							}
 
-						}
-						List<NivelCompetenciaCargo> nivel = new ArrayList<NivelCompetenciaCargo>();
-						List<NivelCompetenciaCargo> nivel2 = new ArrayList<NivelCompetenciaCargo>();
-						List<NivelCompetenciaCargo> nivel3 = new ArrayList<NivelCompetenciaCargo>();
-						List<NivelCompetenciaCargo> nivel4 = new ArrayList<NivelCompetenciaCargo>();
-						NivelCompetenciaCargo nivelRectoras = new NivelCompetenciaCargo();
-						NivelCompetenciaCargo nivelEspecificas = new NivelCompetenciaCargo();
+							else {
 
-						nivel = servicioNivelCompetenciaCargo.buscar(empleado
-								.getCargo());
-						for (int j = 0; j < nivel.size(); j++) {
-							if (nivel.get(j).getCompetencia().getNivel()
-									.equals("RECTORAS")) {
-								
-								if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-								{
-									nivelRectoras = nivel.get(j);
-									nivel2.add(nivelRectoras);
-									nivelCompetencia = nivel2;
-								}
-								else
-								{
-									if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-									{
-										nivelRectoras = nivel.get(j);
-										nivel2.add(nivelRectoras);
-										nivelCompetencia = nivel2;
+								HashMap<String, Object> map1 = (HashMap<String, Object>) Sessions
+										.getCurrent().getAttribute(
+												"itemsCatalogo");
+								if (map1 != null) {
+									if (map1.get("ficha") != null) {
+										String ficha1 = (String) map1
+												.get("ficha");
+										Integer idEvaluacion1 = (Integer) map1
+												.get("id");
+										fichaE = ficha1;
+										idEva = idEvaluacion1;
+									
+										empleado = servicioEmpleado
+												.buscarPorFicha(ficha1);
+										evaluador = servicioEmpleado
+												.buscarPorFicha(empleado
+														.getFichaSupervisor());
+										String cargo = empleado.getCargo()
+												.getDescripcion();
+										String unidadOrganizativa = empleado
+												.getUnidadOrganizativa()
+												.getDescripcion();
+										String gerenciaReporte = empleado
+												.getUnidadOrganizativa()
+												.getGerencia().getDescripcion();
+										String nombreTrabajador = empleado
+												.getNombre();
+										Integer numeroEvaluacion = servicioEvaluacion
+												.buscarIdSecundario(fichaE);
+										numero = numeroEvaluacion;
+
+										lblFicha.setValue(ficha1);
+										lblNombreTrabajador
+												.setValue(nombreTrabajador);
+										lblCargo.setValue(cargo);
+										lblUnidadOrganizativa
+												.setValue(unidadOrganizativa);
+										lblGerencia.setValue(gerenciaReporte);
+										lblEvaluacion.setValue(numeroEvaluacion
+												.toString());
+										lblFechaCreacion.setValue(formatoFecha
+												.format(fechaHora));
+										lblRevision.setValue(revision
+												.getDescripcion());
+
 									}
-									 else
-									 {
-											nivel.remove(j);
-									 }
-									
 								}
-								
-								
-								
-							} else {
-								nivel.remove(j);
+
 							}
-							lbxCompetenciaRectora
-									.setModel(new ListModelList<NivelCompetenciaCargo>(
-											nivel2));
-						}
-						nivel4 = servicioNivelCompetenciaCargo.buscar(empleado
-								.getCargo());
-						for (int j = 0; j < nivel4.size(); j++) {
-							if (nivel4.get(j).getCompetencia().getNivel()
-									.equals("ESPECIFICAS")) {
-								
-								if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-								{
-									nivelEspecificas = nivel4.get(j);
-									nivel3.add(nivelEspecificas);
-									nivelCompetencia1 = nivel3;
-								}
-								else
-								{
-									if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-									{
-										nivelEspecificas = nivel4.get(j);
-										nivel3.add(nivelEspecificas);
-										nivelCompetencia1 = nivel3;
-									}
-									 else
-									 {
-										 nivel4.remove(j);
-									 }
-									
-								}
-								
-								
-								
-								
-								
-								
-								
-							} else {
-								nivel4.remove(j);
-							}
-							lbxCompetenciaEspecifica
-									.setModel(new ListModelList<NivelCompetenciaCargo>(
-											nivel3));
-						}
-
-						gpxAgregar.setOpen(false);
-						gpxAgregarIndicador.setOpen(false);
-						// txttotalIndicador.setValue(String.valueOf(tind));
-
-						txttotalObjetivos.setValue("0.0");
-						txttotalPesoObjetivos.setValue("0.0");
-
-						listCapacitacion = servicioEvaluacionCapacitacion
-								.buscarPorEvaluacion(idEva);
-						lbxAccionesGuardadas
-								.setModel(new ListModelList<EvaluacionCapacitacion>(
-										listCapacitacion));
-
-					}
-					
-					// TERMINA MODO AGREGAR
-
-				} 
-				
-				
-				else {
-					// COMIENZA MODO EDITAR
-				
-					if (map != null) {
-						if (map.get("id") != null) {
-							Integer idEvaluacion = (Integer) map.get("id");
-							idEva = idEvaluacion;
-							listbox =  (Listbox) map.get("listbox");
-							item = (String) map.get("titulo");
-							revision = servicioRevision.buscarPorEstado("ACTIVO");
-							String fichaMap = (String) map.get("titulo");
-							fichaE = fichaMap;
-							Authentication autho = SecurityContextHolder.getContext()
-									.getAuthentication();
-							u = servicioUsuario.buscarUsuarioPorNombre(autho.getName());
-							String ficha1 = u.getCedula();
-							
-							if (!item.equals(ficha1)){
-								agregarW2= true;
-							}
-							Evaluacion evaluacion = servicioEvaluacion
-									.buscarEvaluacion(idEvaluacion);
-							
-							Calendar calendar = Calendar.getInstance();
-							java.util.Date now = stripTimeFromDate(calendar.getTime());
-							java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-							
-							if (evaluacion.getEstadoEvaluacion().equals(
-									"EN EDICION")) {
-								
-								FechaValidezEstado esValidoE =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN EDICION",gradoAuxiliar);
-								if (esValidoE != null)
-								{
-									btnCambiarEstado.setVisible(true);
-									btnAgregar.setVisible(true);
-									btnEliminar.setVisible(true);
-									btnOk.setVisible(true);
-									btnOk2.setVisible(true);
-									btnAgregarIndicador.setVisible(true);
-									btnEliminarIndicador.setVisible(true);
-									btnAgregarAcciones.setVisible(true);
-									btnEliminarAcciones.setVisible(true);
-									btnCambiarEstado.setVisible(true);
-									btnCancelar.setVisible(true);
-									btnAgregarCapacitacion.setVisible(true);
-								}
-								else
-								{
-									btnCambiarEstado.setVisible(false);
-									btnAgregar.setVisible(false);
-									btnEliminar.setVisible(false);
-									btnOk.setVisible(false);
-									btnOk2.setVisible(false);
-									btnAgregarIndicador.setVisible(false);
-									btnEliminarIndicador.setVisible(false);
-									btnAgregarAcciones.setVisible(false);
-									btnEliminarAcciones.setVisible(false);
-									btnCambiarEstado.setVisible(false);
-									btnCancelar.setVisible(true);
-									btnAgregarCapacitacion.setVisible(false);
-								}
-								
-								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "PENDIENTE",gradoAuxiliar);
-								if (esValido != null)
-								{
-									btnPendiente.setVisible(true);
-								}
-								else
-								{
-									btnPendiente.setVisible(false);
-
-								}
-								
-								
-							} else if (evaluacion.getEstadoEvaluacion().equals(
-									"PENDIENTE")) {
-								
-								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN REVISION",gradoAuxiliar);
-								if (esValido != null)
-								{
-									btnEnEdicion.setVisible(true);
-									btnRevisada.setVisible(true);
-								}
-								else
-								{
-									btnEnEdicion.setVisible(false);
-									btnRevisada.setVisible(false);
-								}
-								
-							
-								
-							} else if (evaluacion.getEstadoEvaluacion().equals(
-									"REVISADA")) {
-								
-								FechaValidezEstado esValido =servicioFechaValidezEstado.estadoPermitido(currentTimestamp, "EN APROBACION",gradoAuxiliar);
-								if (esValido != null)
-								{
-									btnPendiente.setVisible(true);
-									btnAprobada.setVisible(true);
-								}
-								else
-								{
-									btnPendiente.setVisible(false);
-									btnAprobada.setVisible(false);
-								}
-
-							} else if (evaluacion.getEstadoEvaluacion().equals(
-									"APROBADA")) {
-								btnRevisada.setVisible(true);
-								//btnCalibrada.setVisible(true);
-							}
-							/*else if (evaluacion.getEstadoEvaluacion().equals(
-									"CALIBRADA")) {
-								btnAprobada.setVisible(true);
-								btnFinalizada.setVisible(true);
-							} else if (evaluacion.getEstadoEvaluacion().equals(
-									"FINALIZADA")) {
-								btnAgregar.setVisible(false);
-								btnEliminar.setVisible(false);
-								btnAgregarIndicador.setVisible(false);
-								btnCambiarEstado.setVisible(false);
-							}*/
-							txtCompromisos
-									.setValue(evaluacion.getCompromisos());
-							txtFortalezas.setValue(evaluacion.getFortalezas());
-							txtOportunidades.setValue(evaluacion
-									.getOportunidades());
-							txtResumen.setValue(evaluacion.getResumen());
-							txtComentarios.setValue(evaluacion.getComentario());
-							Authentication auth = SecurityContextHolder
-									.getContext().getAuthentication();
-							u = servicioUsuario.buscarUsuarioPorNombre(auth
-									.getName());
-							String ficha = evaluacion.getFicha();
-							Integer numeroEvaluacion = evaluacion
-									.getIdEvaluacionSecundario();
-							num = numeroEvaluacion;
-							numero = numeroEvaluacion;
-							empleado = servicioEmpleado.buscarPorFicha(ficha);
-							evaluador = servicioEmpleado
-									.buscarPorFicha(empleado
-											.getFichaSupervisor());
-							// btnCambiarEstado
-							// String cargo =
-							// empleado.getCargo().getDescripcion();
-
-							// Permite saber el grado de la persona que se esta
-							// logueando
-							Empleado empleadoGrado = servicioEmpleado
-									.buscarPorFicha(u.getFicha());
-							Integer grado = empleadoGrado.getGradoAuxiliar();
-
-							String cargo = evaluacion.getCargo()
-									.getDescripcion();
-							String unidadOrganizativa = empleado
-									.getUnidadOrganizativa().getDescripcion();
-							String gerenciaReporte = empleado
-									.getUnidadOrganizativa().getGerencia()
-									.getDescripcion();
-							String nombreTrabajador = empleado.getNombre();
-							lblRevision.setValue(evaluacion.getRevision()
-									.getDescripcion());
-							// Combo de Objetivos
-							List<EvaluacionObjetivo> evaluacionObjetivo = servicioEvaluacionObjetivo
-									.buscarObjetivos(ficha, numeroEvaluacion);
-							cmbObjetivos
-									.setModel(new ListModelList<EvaluacionObjetivo>(
-											evaluacionObjetivo));
-
-							// Listbox que contiene los objetivos
-							objetivosG = servicioEvaluacionObjetivo
-									.buscarObjetivosEvaluar(idEvaluacion);
-							lbxObjetivosGuardados
-									.setModel(new ListModelList<EvaluacionObjetivo>(
-											objetivosG));
-
-							// Listbox que contine los indicadores
-							List<EvaluacionObjetivo> evaluacionObjetivoIndicadores = servicioEvaluacionObjetivo
-									.buscarObjetivosEvaluar(idEvaluacion);
-							cmbObjetivos
-									.setModel(new ListModelList<EvaluacionObjetivo>(
-											evaluacionObjetivoIndicadores));
-
 							List<NivelCompetenciaCargo> nivel = new ArrayList<NivelCompetenciaCargo>();
 							List<NivelCompetenciaCargo> nivel2 = new ArrayList<NivelCompetenciaCargo>();
 							List<NivelCompetenciaCargo> nivel3 = new ArrayList<NivelCompetenciaCargo>();
@@ -801,36 +512,29 @@ public class CAgregarEvaluacion extends CGenerico {
 							NivelCompetenciaCargo nivelEspecificas = new NivelCompetenciaCargo();
 
 							nivel = servicioNivelCompetenciaCargo
-									.buscar(evaluacion.getCargo());
+									.buscar(empleado.getCargo());
 							for (int j = 0; j < nivel.size(); j++) {
 								if (nivel.get(j).getCompetencia().getNivel()
 										.equals("RECTORAS")) {
-									
-									if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-									{
+
+									if (nivel.get(j).getCompetencia()
+											.getIdEmpresa() == 0) {
 										nivelRectoras = nivel.get(j);
 										nivel2.add(nivelRectoras);
 										nivelCompetencia = nivel2;
-									}
-									else
-									{
-										if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-										{
+									} else {
+										if (nivel.get(j).getCompetencia()
+												.getIdEmpresa() == empleado
+												.getEmpresa().getId()) {
 											nivelRectoras = nivel.get(j);
 											nivel2.add(nivelRectoras);
 											nivelCompetencia = nivel2;
+										} else {
+											nivel.remove(j);
 										}
-										 else
-										 {
-												nivel.remove(j);
-										 }
-										
+
 									}
-									
-									
-									
-							
-									
+
 								} else {
 									nivel.remove(j);
 								}
@@ -839,35 +543,29 @@ public class CAgregarEvaluacion extends CGenerico {
 												nivel2));
 							}
 							nivel4 = servicioNivelCompetenciaCargo
-									.buscar(evaluacion.getCargo());
+									.buscar(empleado.getCargo());
 							for (int j = 0; j < nivel4.size(); j++) {
 								if (nivel4.get(j).getCompetencia().getNivel()
 										.equals("ESPECIFICAS")) {
-									
-									if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-									{
+
+									if (nivel.get(j).getCompetencia()
+											.getIdEmpresa() == 0) {
 										nivelEspecificas = nivel4.get(j);
 										nivel3.add(nivelEspecificas);
 										nivelCompetencia1 = nivel3;
-									}
-									else
-									{
-										if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-										{
+									} else {
+										if (nivel.get(j).getCompetencia()
+												.getIdEmpresa() == empleado
+												.getEmpresa().getId()) {
 											nivelEspecificas = nivel4.get(j);
 											nivel3.add(nivelEspecificas);
 											nivelCompetencia1 = nivel3;
+										} else {
+											nivel4.remove(j);
 										}
-										 else
-										 {
-											 nivel4.remove(j);
-										 }
-										
+
 									}
-									
-							
-									
-									
+
 								} else {
 									nivel4.remove(j);
 								}
@@ -876,68 +574,76 @@ public class CAgregarEvaluacion extends CGenerico {
 												nivel3));
 							}
 
-							lblFicha.setValue(ficha);
-							lblNombreTrabajador.setValue(nombreTrabajador);
-							lblCargo.setValue(cargo);
-							lblUnidadOrganizativa.setValue(unidadOrganizativa);
-							lblGerencia.setValue(gerenciaReporte);
-							lblEvaluacion.setValue(numeroEvaluacion.toString());
-							lblFechaCreacion.setValue(formatoFecha
-									.format(fechaHora));
+							gpxAgregar.setOpen(false);
+							gpxAgregarIndicador.setOpen(false);
+							// txttotalIndicador.setValue(String.valueOf(tind));
 
-							if (evaluacion.getRevision().getEstadoRevision()
-									.compareTo("ACTIVO") == 0) {
-								/*if (evaluacion.getEstadoEvaluacion().equals(
+							txttotalObjetivos.setValue("0.0");
+							txttotalPesoObjetivos.setValue("0.0");
+
+							listCapacitacion = servicioEvaluacionCapacitacion
+									.buscarPorEvaluacion(idEva);
+							lbxAccionesGuardadas
+									.setModel(new ListModelList<EvaluacionCapacitacion>(
+											listCapacitacion));
+
+						}
+
+						// TERMINA MODO AGREGAR
+
+					}
+
+					else {
+						// COMIENZA MODO EDITAR
+
+						if (map != null) {
+							if (map.get("id") != null) {
+								Integer idEvaluacion = (Integer) map.get("id");
+								idEva = idEvaluacion;
+								listbox = (Listbox) map.get("listbox");
+								item = (String) map.get("titulo");
+								revision = servicioRevision
+										.buscarPorEstado("ACTIVO");
+								String fichaMap = (String) map.get("titulo");
+								fichaE = fichaMap;
+								Authentication autho = SecurityContextHolder
+										.getContext().getAuthentication();
+								u = servicioUsuario
+										.buscarUsuarioPorNombre(autho.getName());
+								String ficha1 = u.getCedula();
+
+								if (!item.equals(ficha1)) {
+									agregarW2 = true;
+								}
+								Evaluacion evaluacion = servicioEvaluacion
+										.buscarEvaluacion(idEvaluacion);
+
+								Calendar calendar = Calendar.getInstance();
+								java.util.Date now = stripTimeFromDate(calendar
+										.getTime());
+								java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(
+										now.getTime());
+
+								if (evaluacion.getEstadoEvaluacion().equals(
 										"EN EDICION")) {
-									btnAgregar.setVisible(true);
-									btnEliminar.setVisible(true);
-									btnAgregarIndicador.setVisible(true);
-									btnEliminarIndicador.setVisible(true);
-									btnAgregarAcciones.setVisible(true);
-									btnEliminarAcciones.setVisible(true);
-									btnAgregarCapacitacion.setVisible(true);
-									btnOk.setVisible(true);
-									btnOk2.setVisible(true);
-								} else {
 
-									if (evaluacion.getEstadoEvaluacion()
-											.equals("PENDIENTE")) {
-
-										if (grado >= 19) {
-											btnAgregar.setVisible(true);
-											btnEliminar.setVisible(true);
-											btnAgregarIndicador
-													.setVisible(true);
-											btnEliminarIndicador
-													.setVisible(true);
-											btnAgregarAcciones.setVisible(true);
-											btnEliminarAcciones
-													.setVisible(true);
-											btnAgregarCapacitacion
-													.setVisible(true);
-											btnOk.setVisible(true);
-											btnOk2.setVisible(true);
-										} else {
-											btnAgregar.setVisible(false);
-											btnEliminar.setVisible(false);
-											btnOk.setVisible(false);
-											btnOk2.setVisible(false);
-											btnAgregarIndicador
-													.setVisible(false);
-											btnEliminarIndicador
-													.setVisible(false);
-											btnAgregarAcciones
-													.setVisible(false);
-											btnEliminarAcciones
-													.setVisible(false);
-											btnCambiarEstado.setVisible(false);
-											btnCancelar.setVisible(true);
-											btnAgregarCapacitacion
-													.setVisible(false);
-
-										}
-
+									FechaValidezEstado esValidoE = servicioFechaValidezEstado
+											.estadoPermitido(currentTimestamp,
+													"EN EDICION", gradoAuxiliar);
+									if (esValidoE != null) {
+										btnCambiarEstado.setVisible(true);
+										btnAgregar.setVisible(true);
+										btnEliminar.setVisible(true);
+										btnOk.setVisible(true);
+										btnOk2.setVisible(true);
+										btnAgregarIndicador.setVisible(true);
+										btnEliminarIndicador.setVisible(true);
+										btnAgregarAcciones.setVisible(true);
+										btnEliminarAcciones.setVisible(true);
+										btnCancelar.setVisible(true);
+										btnAgregarCapacitacion.setVisible(true);
 									} else {
+										btnCambiarEstado.setVisible(false);
 										btnAgregar.setVisible(false);
 										btnEliminar.setVisible(false);
 										btnOk.setVisible(false);
@@ -946,59 +652,251 @@ public class CAgregarEvaluacion extends CGenerico {
 										btnEliminarIndicador.setVisible(false);
 										btnAgregarAcciones.setVisible(false);
 										btnEliminarAcciones.setVisible(false);
-										btnCambiarEstado.setVisible(false);
 										btnCancelar.setVisible(true);
 										btnAgregarCapacitacion
 												.setVisible(false);
 									}
 
-									
-								}*/
-							} else {
-								
-								btnCambiarEstado.setVisible(false);
-								btnEnEdicion.setVisible(false);
-								btnPendiente.setVisible(false);
-								btnRevisada.setVisible(false);
-								btnAprobada.setVisible(false);
-							
-								btnAgregar.setVisible(false);
-								btnEliminar.setVisible(false);
-								btnOk.setVisible(false);
-								btnOk2.setVisible(false);
-								btnAgregarIndicador.setVisible(false);
-								btnEliminarIndicador.setVisible(false);
-								btnAgregarAcciones.setVisible(false);
-								btnEliminarAcciones.setVisible(false);
-								btnCambiarEstado.setVisible(false);
-								btnCancelar.setVisible(true);
-								btnAgregarCapacitacion.setVisible(false);
+									FechaValidezEstado esValido = servicioFechaValidezEstado
+											.estadoPermitido(currentTimestamp,
+													"PENDIENTE", gradoAuxiliar);
+									if (esValido != null) {
+										btnPendiente.setVisible(true);
+									} else {
+										btnPendiente.setVisible(false);
 
-								/*
-								 * Messagebox .show(
-								 * "Esta evaluacion pertenece a una revision inactiva !, por tal razon no podra guardar ningun cambio !"
-								 * , "Información", Messagebox.OK,
-								 * Messagebox.INFORMATION);
-								 */
+									}
+
+								} else if (evaluacion.getEstadoEvaluacion()
+										.equals("PENDIENTE")) {
+
+									FechaValidezEstado esValido = servicioFechaValidezEstado
+											.estadoPermitido(currentTimestamp,
+													"EN REVISION",
+													gradoAuxiliar);
+									if (esValido != null) {
+										btnEnEdicion.setVisible(true);
+										btnRevisada.setVisible(true);
+									} else {
+										btnEnEdicion.setVisible(false);
+										btnRevisada.setVisible(false);
+									}
+
+								} else if (evaluacion.getEstadoEvaluacion()
+										.equals("REVISADA")) {
+
+									FechaValidezEstado esValido = servicioFechaValidezEstado
+											.estadoPermitido(currentTimestamp,
+													"EN APROBACION",
+													gradoAuxiliar);
+									if (esValido != null) {
+										btnPendiente.setVisible(true);
+										btnAprobada.setVisible(true);
+									} else {
+										btnPendiente.setVisible(false);
+										btnAprobada.setVisible(false);
+									}
+
+								} else if (evaluacion.getEstadoEvaluacion()
+										.equals("APROBADA")) {
+									btnRevisada.setVisible(true);
+
+								}
+
+								txtCompromisos.setValue(evaluacion
+										.getCompromisos());
+								txtFortalezas.setValue(evaluacion
+										.getFortalezas());
+								txtOportunidades.setValue(evaluacion
+										.getOportunidades());
+								txtResumen.setValue(evaluacion.getResumen());
+								txtComentarios.setValue(evaluacion
+										.getComentario());
+								Authentication auth = SecurityContextHolder
+										.getContext().getAuthentication();
+								u = servicioUsuario.buscarUsuarioPorNombre(auth
+										.getName());
+								String ficha = evaluacion.getFicha();
+								Integer numeroEvaluacion = evaluacion
+										.getIdEvaluacionSecundario();
+								num = numeroEvaluacion;
+								numero = numeroEvaluacion;
+								empleado = servicioEmpleado
+										.buscarPorFicha(ficha);
+								evaluador = servicioEmpleado
+										.buscarPorFicha(empleado
+												.getFichaSupervisor());
+								// btnCambiarEstado
+								// String cargo =
+								// empleado.getCargo().getDescripcion();
+
+								// Permite saber el grado de la persona que se
+								// esta
+								// logueando
+								Empleado empleadoGrado = servicioEmpleado
+										.buscarPorFicha(u.getFicha());
+								Integer grado = empleadoGrado
+										.getGradoAuxiliar();
+
+								String cargo = evaluacion.getCargo()
+										.getDescripcion();
+								String unidadOrganizativa = empleado
+										.getUnidadOrganizativa()
+										.getDescripcion();
+								String gerenciaReporte = empleado
+										.getUnidadOrganizativa().getGerencia()
+										.getDescripcion();
+								String nombreTrabajador = empleado.getNombre();
+								lblRevision.setValue(evaluacion.getRevision()
+										.getDescripcion());
+								// Combo de Objetivos
+								List<EvaluacionObjetivo> evaluacionObjetivo = servicioEvaluacionObjetivo
+										.buscarObjetivos(ficha,
+												numeroEvaluacion);
+								cmbObjetivos
+										.setModel(new ListModelList<EvaluacionObjetivo>(
+												evaluacionObjetivo));
+
+								// Listbox que contiene los objetivos
+								objetivosG = servicioEvaluacionObjetivo
+										.buscarObjetivosEvaluar(idEvaluacion);
+								lbxObjetivosGuardados
+										.setModel(new ListModelList<EvaluacionObjetivo>(
+												objetivosG));
+
+								// Listbox que contine los indicadores
+								List<EvaluacionObjetivo> evaluacionObjetivoIndicadores = servicioEvaluacionObjetivo
+										.buscarObjetivosEvaluar(idEvaluacion);
+								cmbObjetivos
+										.setModel(new ListModelList<EvaluacionObjetivo>(
+												evaluacionObjetivoIndicadores));
+
+								List<NivelCompetenciaCargo> nivel = new ArrayList<NivelCompetenciaCargo>();
+								List<NivelCompetenciaCargo> nivel2 = new ArrayList<NivelCompetenciaCargo>();
+								List<NivelCompetenciaCargo> nivel3 = new ArrayList<NivelCompetenciaCargo>();
+								List<NivelCompetenciaCargo> nivel4 = new ArrayList<NivelCompetenciaCargo>();
+								NivelCompetenciaCargo nivelRectoras = new NivelCompetenciaCargo();
+								NivelCompetenciaCargo nivelEspecificas = new NivelCompetenciaCargo();
+
+								nivel = servicioNivelCompetenciaCargo
+										.buscar(evaluacion.getCargo());
+								for (int j = 0; j < nivel.size(); j++) {
+									if (nivel.get(j).getCompetencia()
+											.getNivel().equals("RECTORAS")) {
+
+										if (nivel.get(j).getCompetencia()
+												.getIdEmpresa() == 0) {
+											nivelRectoras = nivel.get(j);
+											nivel2.add(nivelRectoras);
+											nivelCompetencia = nivel2;
+										} else {
+											if (nivel.get(j).getCompetencia()
+													.getIdEmpresa() == empleado
+													.getEmpresa().getId()) {
+												nivelRectoras = nivel.get(j);
+												nivel2.add(nivelRectoras);
+												nivelCompetencia = nivel2;
+											} else {
+												nivel.remove(j);
+											}
+
+										}
+
+									} else {
+										nivel.remove(j);
+									}
+									lbxCompetenciaRectora
+											.setModel(new ListModelList<NivelCompetenciaCargo>(
+													nivel2));
+								}
+								nivel4 = servicioNivelCompetenciaCargo
+										.buscar(evaluacion.getCargo());
+								for (int j = 0; j < nivel4.size(); j++) {
+									if (nivel4.get(j).getCompetencia()
+											.getNivel().equals("ESPECIFICAS")) {
+
+										if (nivel.get(j).getCompetencia()
+												.getIdEmpresa() == 0) {
+											nivelEspecificas = nivel4.get(j);
+											nivel3.add(nivelEspecificas);
+											nivelCompetencia1 = nivel3;
+										} else {
+											if (nivel.get(j).getCompetencia()
+													.getIdEmpresa() == empleado
+													.getEmpresa().getId()) {
+												nivelEspecificas = nivel4
+														.get(j);
+												nivel3.add(nivelEspecificas);
+												nivelCompetencia1 = nivel3;
+											} else {
+												nivel4.remove(j);
+											}
+
+										}
+
+									} else {
+										nivel4.remove(j);
+									}
+									lbxCompetenciaEspecifica
+											.setModel(new ListModelList<NivelCompetenciaCargo>(
+													nivel3));
+								}
+
+								lblFicha.setValue(ficha);
+								lblNombreTrabajador.setValue(nombreTrabajador);
+								lblCargo.setValue(cargo);
+								lblUnidadOrganizativa
+										.setValue(unidadOrganizativa);
+								lblGerencia.setValue(gerenciaReporte);
+								lblEvaluacion.setValue(numeroEvaluacion
+										.toString());
+								lblFechaCreacion.setValue(formatoFecha
+										.format(fechaHora));
+
+								if (evaluacion.getRevision()
+										.getEstadoRevision()
+										.compareTo("ACTIVO") == 0) {
+
+								} else {
+
+									btnCambiarEstado.setVisible(false);
+									btnEnEdicion.setVisible(false);
+									btnPendiente.setVisible(false);
+									btnRevisada.setVisible(false);
+									btnAprobada.setVisible(false);
+									btnAgregar.setVisible(false);
+									btnEliminar.setVisible(false);
+									btnOk.setVisible(false);
+									btnOk2.setVisible(false);
+									btnAgregarIndicador.setVisible(false);
+									btnEliminarIndicador.setVisible(false);
+									btnAgregarAcciones.setVisible(false);
+									btnEliminarAcciones.setVisible(false);
+									btnCancelar.setVisible(true);
+									btnAgregarCapacitacion.setVisible(false);
+
+									/*
+									 * Messagebox .show(
+									 * "Esta evaluacion pertenece a una revision inactiva !, por tal razon no podra guardar ningun cambio !"
+									 * , "Información", Messagebox.OK,
+									 * Messagebox.INFORMATION);
+									 */
+
+								}
 
 							}
 
-
 						}
-						
-						
+
 					}
-					
-					
-				}
-				
+
 					gpxAgregar.setOpen(false);
 					gpxObjetivosAgregados.setOpen(true);
 					gpxAgregarIndicador.setOpen(false);
 					gpxAgregados.setOpen(false);
 					evaluacionconductas = servicioEvaluacionConducta
 							.buscarConductas(idEva);
-					
+
 					/*
 					 * if (evaluacionconductas.size() != 0) { }
 					 */
@@ -1018,14 +916,13 @@ public class CAgregarEvaluacion extends CGenerico {
 				}
 
 			}
-		}
-		else{
-			
+		} else {
+
 			if (map != null) {
 				if (map.get("id") != null) {
 					Integer idEvaluacion = (Integer) map.get("id");
 					idEva = idEvaluacion;
-					listbox =  (Listbox) map.get("listbox");
+					listbox = (Listbox) map.get("listbox");
 					item = (String) map.get("titulo");
 					revision = servicioRevision.buscarPorEstado("ACTIVO");
 					String fichaMap = (String) map.get("titulo");
@@ -1033,44 +930,35 @@ public class CAgregarEvaluacion extends CGenerico {
 
 					Evaluacion evaluacion = servicioEvaluacion
 							.buscarEvaluacion(idEvaluacion);
-					
-					txtCompromisos
-							.setValue(evaluacion.getCompromisos());
+
+					txtCompromisos.setValue(evaluacion.getCompromisos());
 					txtFortalezas.setValue(evaluacion.getFortalezas());
-					txtOportunidades.setValue(evaluacion
-							.getOportunidades());
+					txtOportunidades.setValue(evaluacion.getOportunidades());
 					txtResumen.setValue(evaluacion.getResumen());
 					txtComentarios.setValue(evaluacion.getComentario());
-					Authentication auth = SecurityContextHolder
-							.getContext().getAuthentication();
-					u = servicioUsuario.buscarUsuarioPorNombre(auth
-							.getName());
+					Authentication auth = SecurityContextHolder.getContext()
+							.getAuthentication();
+					u = servicioUsuario.buscarUsuarioPorNombre(auth.getName());
 					String ficha = evaluacion.getFicha();
 					Integer numeroEvaluacion = evaluacion
 							.getIdEvaluacionSecundario();
 					num = numeroEvaluacion;
 					numero = numeroEvaluacion;
 					empleado = servicioEmpleado.buscarPorFicha(ficha);
-					evaluador = servicioEmpleado
-							.buscarPorFicha(empleado
-									.getFichaSupervisor());
-					// btnCambiarEstado
-					// String cargo =
-					// empleado.getCargo().getDescripcion();
-
+					evaluador = servicioEmpleado.buscarPorFicha(empleado
+							.getFichaSupervisor());
+					
 					// Permite saber el grado de la persona que se esta
 					// logueando
-					Empleado empleadoGrado = servicioEmpleado
-							.buscarPorFicha(u.getFicha());
+					Empleado empleadoGrado = servicioEmpleado.buscarPorFicha(u
+							.getFicha());
 					Integer grado = empleadoGrado.getGradoAuxiliar();
 
-					String cargo = evaluacion.getCargo()
-							.getDescripcion();
+					String cargo = evaluacion.getCargo().getDescripcion();
 					String unidadOrganizativa = empleado
 							.getUnidadOrganizativa().getDescripcion();
-					String gerenciaReporte = empleado
-							.getUnidadOrganizativa().getGerencia()
-							.getDescripcion();
+					String gerenciaReporte = empleado.getUnidadOrganizativa()
+							.getGerencia().getDescripcion();
 					String nombreTrabajador = empleado.getNombre();
 					lblRevision.setValue(evaluacion.getRevision()
 							.getDescripcion());
@@ -1102,33 +990,29 @@ public class CAgregarEvaluacion extends CGenerico {
 					NivelCompetenciaCargo nivelRectoras = new NivelCompetenciaCargo();
 					NivelCompetenciaCargo nivelEspecificas = new NivelCompetenciaCargo();
 
-					nivel = servicioNivelCompetenciaCargo
-							.buscar(evaluacion.getCargo());
+					nivel = servicioNivelCompetenciaCargo.buscar(evaluacion
+							.getCargo());
 					for (int j = 0; j < nivel.size(); j++) {
 						if (nivel.get(j).getCompetencia().getNivel()
 								.equals("RECTORAS")) {
-							
-							if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-							{
+
+							if (nivel.get(j).getCompetencia().getIdEmpresa() == 0) {
 								nivelRectoras = nivel.get(j);
 								nivel2.add(nivelRectoras);
 								nivelCompetencia = nivel2;
-							}
-							else
-							{
-								if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-								{
+							} else {
+								if (nivel.get(j).getCompetencia()
+										.getIdEmpresa() == empleado
+										.getEmpresa().getId()) {
 									nivelRectoras = nivel.get(j);
 									nivel2.add(nivelRectoras);
 									nivelCompetencia = nivel2;
+								} else {
+									nivel.remove(j);
 								}
-								 else
-								 {
-										nivel.remove(j);
-								 }
-								
+
 							}
-							
+
 						} else {
 							nivel.remove(j);
 						}
@@ -1136,35 +1020,29 @@ public class CAgregarEvaluacion extends CGenerico {
 								.setModel(new ListModelList<NivelCompetenciaCargo>(
 										nivel2));
 					}
-					nivel4 = servicioNivelCompetenciaCargo
-							.buscar(evaluacion.getCargo());
+					nivel4 = servicioNivelCompetenciaCargo.buscar(evaluacion
+							.getCargo());
 					for (int j = 0; j < nivel4.size(); j++) {
 						if (nivel4.get(j).getCompetencia().getNivel()
 								.equals("ESPECIFICAS")) {
-							
-							if (nivel.get(j).getCompetencia().getIdEmpresa()==0)									
-							{
+
+							if (nivel.get(j).getCompetencia().getIdEmpresa() == 0) {
 								nivelEspecificas = nivel4.get(j);
 								nivel3.add(nivelEspecificas);
 								nivelCompetencia1 = nivel3;
-							}
-							else
-							{
-								if (nivel.get(j).getCompetencia().getIdEmpresa()==empleado.getEmpresa().getId())									
-								{
+							} else {
+								if (nivel.get(j).getCompetencia()
+										.getIdEmpresa() == empleado
+										.getEmpresa().getId()) {
 									nivelEspecificas = nivel4.get(j);
 									nivel3.add(nivelEspecificas);
 									nivelCompetencia1 = nivel3;
+								} else {
+									nivel4.remove(j);
 								}
-								 else
-								 {
-									 nivel4.remove(j);
-								 }
-								
-							}							
-							
-							
-							
+
+							}
+
 						} else {
 							nivel4.remove(j);
 						}
@@ -1179,72 +1057,80 @@ public class CAgregarEvaluacion extends CGenerico {
 					lblUnidadOrganizativa.setValue(unidadOrganizativa);
 					lblGerencia.setValue(gerenciaReporte);
 					lblEvaluacion.setValue(numeroEvaluacion.toString());
-					lblFechaCreacion.setValue(formatoFecha
-							.format(fechaHora));
-					
+					lblFechaCreacion.setValue(formatoFecha.format(fechaHora));
+
 				}
 			}
-			
-			
-		btnAgregar.setVisible(false);
-		btnEliminar.setVisible(false);
-		btnOk.setVisible(false);
-		btnOk2.setVisible(false);
-		btnAgregarIndicador.setVisible(false);
-		btnEliminarIndicador.setVisible(false);
-		btnAgregarAcciones.setVisible(false);
-		btnEliminarAcciones.setVisible(false);
-		btnCambiarEstado.setVisible(false);
-		btnCancelar.setVisible(true);
-		btnAgregarCapacitacion.setVisible(false);
-		btnPendiente.setVisible(false);
-		btnRevisada.setVisible(false);
-		btnAprobada.setVisible(false);
-		btnCalibrada.setVisible(false);
-		btnFinalizada.setVisible(false);
-		btnEnEdicion.setVisible(false);
-		
-		gpxAgregar.setOpen(false);
-		gpxObjetivosAgregados.setOpen(true);
-		gpxAgregarIndicador.setOpen(false);
-		gpxAgregados.setOpen(false);
-		evaluacionconductas = servicioEvaluacionConducta
-				.buscarConductas(idEva);
-		
-		/*
-		 * if (evaluacionconductas.size() != 0) { }
-		 */
-		mostrarDominioRectora();
-		mostrarDominioEspecifica();
 
-		// evaluarIndicadores();
-		txttotalIndicador.setValue(String.valueOf(tind));
-
-		listCapacitacion = servicioEvaluacionCapacitacion
-				.buscarPorEvaluacion(idEva);
-		lbxAccionesGuardadas
-				.setModel(new ListModelList<EvaluacionCapacitacion>(
-						listCapacitacion));
-		refrescarCalculosEvaluacion();
-		}
-
-		Revision re = servicioRevision.buscarPorEstado("ACTIVO");
-		
-		if (re==null){
-			btnEnEdicion.setVisible(false);
+			btnAgregar.setVisible(false);
+			btnEliminar.setVisible(false);
+			btnOk.setVisible(false);
+			btnOk2.setVisible(false);
+			btnAgregarIndicador.setVisible(false);
+			btnEliminarIndicador.setVisible(false);
+			btnAgregarAcciones.setVisible(false);
+			btnEliminarAcciones.setVisible(false);
+			btnCambiarEstado.setVisible(false);
+			btnCancelar.setVisible(true);
+			btnAgregarCapacitacion.setVisible(false);
 			btnPendiente.setVisible(false);
 			btnRevisada.setVisible(false);
 			btnAprobada.setVisible(false);
 			btnCalibrada.setVisible(false);
 			btnFinalizada.setVisible(false);
+			btnEnEdicion.setVisible(false);
+
+			gpxAgregar.setOpen(false);
+			gpxObjetivosAgregados.setOpen(true);
+			gpxAgregarIndicador.setOpen(false);
+			gpxAgregados.setOpen(false);
+			evaluacionconductas = servicioEvaluacionConducta
+					.buscarConductas(idEva);
+
+			/*
+			 * if (evaluacionconductas.size() != 0) { }
+			 */
+			mostrarDominioRectora();
+			mostrarDominioEspecifica();
+
+			// evaluarIndicadores();
+			txttotalIndicador.setValue(String.valueOf(tind));
+
+			listCapacitacion = servicioEvaluacionCapacitacion
+					.buscarPorEvaluacion(idEva);
+			lbxAccionesGuardadas
+					.setModel(new ListModelList<EvaluacionCapacitacion>(
+							listCapacitacion));
+			refrescarCalculosEvaluacion();
 		}
-		
+
+		Revision re = servicioRevision.buscarPorEstado("ACTIVO");
+
+		if (re == null) {
+			btnCambiarEstado.setVisible(false);
+			btnEnEdicion.setVisible(false);
+			btnPendiente.setVisible(false);
+			btnRevisada.setVisible(false);
+			btnAprobada.setVisible(false);
+			btnAgregar.setVisible(false);
+			btnEliminar.setVisible(false);
+			btnOk.setVisible(false);
+			btnOk2.setVisible(false);
+			btnAgregarIndicador.setVisible(false);
+			btnEliminarIndicador.setVisible(false);
+			btnAgregarAcciones.setVisible(false);
+			btnEliminarAcciones.setVisible(false);
+			btnCancelar.setVisible(true);
+			btnAgregarCapacitacion.setVisible(false);
+		}
+
 		// UTILIZADO PARA GENERAR ARCHIVO DE COMPETENCIAS.
-		/*for(Evaluacion evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
-		{
-			calcularResultadoFinal(evaluacionAuxiliar);
-		}*/
-		
+		/*
+		 * for(Evaluacion
+		 * evaluacionAuxiliar:servicioEvaluacion.buscarEvaluacionesRevision() )
+		 * { calcularResultadoFinal(evaluacionAuxiliar); }
+		 */
+
 	}
 	
 	private Date stripTimeFromDate(Date date) {

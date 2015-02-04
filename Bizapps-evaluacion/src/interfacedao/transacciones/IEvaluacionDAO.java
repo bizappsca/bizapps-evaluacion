@@ -24,6 +24,9 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 	@Query("select count(idEvaluacion) from Evaluacion e where  e.ficha = ?1 and e.revision.id = ?2 " )
 	public Long cantidadEvaluaciones(String ficha, Integer revision);
 	
+	@Query("select e from Evaluacion e where  e.ficha = ?1 and e.revision.id = ?2 " )
+	public List<Evaluacion> buscarEvaluacionesActivas(String ficha, Integer revision);
+	
 	public List<Evaluacion> findByFichaAndEstadoEvaluacion (String ficha, String estado);
 	
 	@Query("select max(idEvaluacion) from Evaluacion")

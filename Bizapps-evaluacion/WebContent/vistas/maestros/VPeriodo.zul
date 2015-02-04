@@ -79,7 +79,7 @@
 							</label>
 						</hbox>
 
-						<combobox id="cmbEstadoPeriodo" readonly="true"
+						<combobox id="cmbEstadoPeriodo" readonly="true" value="ACTIVO"
 							tooltiptext="Seleccione el estado del periodo" width="80%"
 							tabindex="5">
 							<comboitem label="ACTIVO" />

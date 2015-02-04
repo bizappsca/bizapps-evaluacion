@@ -11,61 +11,85 @@
 	</zscript>
 		<!-- Fin de Formato de fecha día-Mes-Año, sin hora -->
 		<separator />
-		<groupbox  width="auto" mold="3d" title="Evaluación Personal">
-		<separator />
-				<separator />
-				<div align="left">
-					<button id="btnAgregar" autodisable="self"
-						tooltiptext="Agregar"  class="btn"
-						label="Agregar" image="/public/imagenes/botones/annadir.png">
-					</button>
-					<button id="btnEliminar" label="Eliminar" class="btn"
-						tooltiptext="Eliminar"  autodisable="self"
-						image="/public/imagenes/botones/eliminar.png">
-					</button>
-					<!-- <button id="btnSalir" label="Salir"
-						style=" height:27px; width:90px " tooltiptext="Salir"
-						image="/public/imagenes/botones/salir.png">
+		<groupbox width="auto" mold="3d" title="Evaluación Personal">
+			<separator />
+			<separator />
+			<div align="left">
+				<button id="btnAgregar" autodisable="self"
+					tooltiptext="Agregar" class="btn" label="Agregar"
+					image="/public/imagenes/botones/annadir.png">
+				</button>
+				<button id="btnEliminar" label="Eliminar" class="btn"
+					tooltiptext="Eliminar" autodisable="self"
+					image="/public/imagenes/botones/eliminar.png">
+				</button>
+				<!-- <button id="btnSalir" label="Salir"
+					style=" height:27px; width:90px " tooltiptext="Salir"
+					image="/public/imagenes/botones/salir.png">
 					</button> -->
-					<button id="btnCopiar" class="btn" autodisable="self"
-						tooltiptext="Copiar"
-						label="Copiar" image="/public/imagenes/botones/copiar.png">
-					</button>
-					<separator />
+				<button id="btnCopiar" class="btn" autodisable="self"
+					tooltiptext="Copiar" label="Copiar"
+					image="/public/imagenes/botones/copiar.png">
+				</button>
+				<separator />
+				<separator />
+				<hbox>
+					<label class="etiqueta" value="Filtrar Evaluaciones que esten:" />
+					<space />
+
+					<combobox id="cmbEstado" readonly="true"
+						value="ACTIVAS" tooltiptext="Estado de la Evaluacion"
+						width="80%" tabindex="5">
+						<comboitem label="ACTIVAS" />
+						<comboitem label="INACTIVAS" />
+						<comboitem label="TODAS" />
+					</combobox>
+				</hbox>
+				<separator />
+			</div>
+			<separator></separator>
+			<groupbox id="gpxListaPersonal"
+				style="color: blue; color: red; font-style: Arial; font-weight: bold; font-size: 15px;">
+				<listbox height="auto" id="lbxEvaluacion" mold="paging"
+					pageSize="10" width="auto">
+					<listhead>
+						<listheader label="#Evaluación" width="15%" />
+						<listheader label="Revisión" width="20%" />
+						<listheader label="Fecha" width="20%" />
+						<listheader label="Estado" width="20%" />
+						<listheader label="Usuario" width="15%" />
+						<listheader label="Nombre Usuario" width="20%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell
+								label="${each.idEvaluacionSecundario}">
+							</listcell>
+							<listcell
+								label="${each.revision.descripcion}">
+							</listcell>
+							<listcell
+								label="${sdf.format(each.fechaCreacion)}">
+							</listcell>
+							<listcell
+								label="${each.estadoEvaluacion}">
+							</listcell>
+							<listcell>
+								<label></label>
+							</listcell>
+							<listcell>
+								<label></label>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<div align="right" height="100%" width="95%">
+					<label
+						value="* Para ver/modificar las evaluaciones debe hacer doble click sobre ellas ! "
+						style="color: black;font-size: 14px;font-weight:bold;">
+					</label>
 				</div>
-		<separator></separator>
-		<groupbox id="gpxListaPersonal"
-			style="color: blue; color: red; font-style: Arial; font-weight: bold; font-size: 15px;">
-			<listbox height="auto" id="lbxEvaluacion" mold="paging"
-				pageSize="10" width="auto">
-				<listhead >
-					<listheader label="#Evaluación" width="15%" />
-					<listheader label="Revisión" width="20%" />
-					<listheader label="Fecha" width="20%" />
-					<listheader label="Estado" width="20%" />
-					<listheader label="Usuario" width="15%" />
-					<listheader label="Nombre Usuario" width="20%" />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell label="${each.idEvaluacionSecundario}"></listcell>
-						<listcell label="${each.revision.descripcion}"></listcell>
-						<listcell
-							label="${sdf.format(each.fechaCreacion)}">
-						</listcell>
-						<listcell label="${each.estadoEvaluacion}">
-						</listcell>
-						<listcell> <label></label> </listcell>
-						<listcell> <label></label> </listcell>
-					</listitem>
-				</template>
-			</listbox>
-			<div align="right" height="100%" width="95%">
-						<label
-							value="* Para ver/modificar las evaluaciones debe hacer doble click sobre ellas ! "
-							style="color: black;font-size: 14px;font-weight:bold;"></label>
-					</div>
-		</groupbox>
+			</groupbox>
 		</groupbox>
 	</window>
 	<include id="contenido"></include>

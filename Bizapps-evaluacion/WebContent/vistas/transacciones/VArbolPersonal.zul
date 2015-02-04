@@ -63,6 +63,20 @@
 						image="/public/imagenes/botones/salir.png">
 					</button> -->
 					<separator />
+					<separator />
+				<hbox>
+					<label class="etiqueta" value="Filtrar Evaluaciones que esten:" />
+					<space />
+
+					<combobox id="cmbEstado" readonly="true"
+						value="ACTIVAS" tooltiptext="Estado de la Evaluacion"
+						width="80%" tabindex="5">
+						<comboitem label="ACTIVAS" />
+						<comboitem label="INACTIVAS" />
+						<comboitem label="TODAS" />
+					</combobox>
+				</hbox>
+				<separator />
 				</div>
 			</panelchildren>
 		</panel>

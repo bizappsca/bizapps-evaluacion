@@ -28,6 +28,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -65,6 +66,8 @@ public class CListaPersonal extends CGenerico {
 	private Window winEvaluacionEmpleado;
 	@Wire
 	private Groupbox gpxListaPersonal;
+	@Wire
+	private Combobox cmbEstado;
 	private int idEva;
 	private String fichaE;
 	private Evaluacion eva;
@@ -93,9 +96,13 @@ public class CListaPersonal extends CGenerico {
 		fichaE = ficha;
 		gpxListaPersonal.setTitle("(" + "  " + ficha + ")" + "   "
 				+ u.getNombre() + "   " + u.getApellido());
-		evaluacion = servicioEvaluacion.buscar(ficha);
-		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion));
+		
 		revision = servicioRevision.buscarPorEstado("ACTIVO");
+		
+		//evaluacion = servicioEvaluacion.buscar(ficha);
+		evaluacion = servicioEvaluacion.buscarEvaluacionesActivas(ficha, revision.getId());
+		
+		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion));
 		idEva = servicioEvaluacion.buscarId() + 1;
 
 		lbxEvaluacion.renderAll();
@@ -125,6 +132,11 @@ public class CListaPersonal extends CGenerico {
 	public void salir() {
 		cerrarVentana(winListaPersonal, titulo, tabs);
 	}
+	
+	@Listen("onChange = #cmbEstado")
+	public void seleccionarEstadoEvaluacion() {
+		Messagebox.show(cmbEstado.getText());
+	}
 
 	@Listen("onClick = #btnAgregar")
 	public void AgregarEvaluacion() {
@@ -144,7 +156,7 @@ public class CListaPersonal extends CGenerico {
 				numeroEvaluacion = 1;
 			}
 
-			if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) < 2) {
+			if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) <= 1) {
 
 				idEva = servicioEvaluacion.buscarId() + 1;
 				Empleado empleado = servicioEmpleado.buscarPorFicha(ficha);
