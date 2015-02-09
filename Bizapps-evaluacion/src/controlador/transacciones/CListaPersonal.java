@@ -39,6 +39,7 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 import servicio.maestros.SEmpleado;
+import servicio.maestros.SRevision;
 import servicio.seguridad.SUsuario;
 import servicio.transacciones.SEvaluacion;
 
@@ -50,7 +51,8 @@ public class CListaPersonal extends CGenerico {
 
 	private static final long serialVersionUID = -5393608637902961029L;
 	Mensaje msj = new Mensaje();
-
+	
+	@Wire
 	private Button btnAgregar;
 	@Wire
 	private Button btnEliminar;
@@ -101,6 +103,7 @@ public class CListaPersonal extends CGenerico {
 		
 		//evaluacion = servicioEvaluacion.buscar(ficha);
 		evaluacion = servicioEvaluacion.buscarEvaluacionesActivas(ficha, revision.getId());
+		cmbEstado.setText("ACTIVAS");
 		
 		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion));
 		idEva = servicioEvaluacion.buscarId() + 1;
@@ -135,7 +138,30 @@ public class CListaPersonal extends CGenerico {
 	
 	@Listen("onChange = #cmbEstado")
 	public void seleccionarEstadoEvaluacion() {
-		Messagebox.show(cmbEstado.getText());
+		
+		
+		if (cmbEstado.getText().compareTo("ACTIVAS")==0)
+		{
+			evaluacion = servicioEvaluacion.buscarEvaluacionesActivas(fichaE, revision.getId());
+			
+		}
+		else
+		{
+			if (cmbEstado.getText().compareTo("INACTIVAS")==0)
+			{
+				evaluacion = servicioEvaluacion.buscarEvaluacionesInactivas(fichaE, revision.getId());
+			}
+			else
+			{
+				evaluacion = servicioEvaluacion.buscar(fichaE);
+			}
+			
+		}
+		
+		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion));
+		lbxEvaluacion.renderAll();
+		
+
 	}
 
 	@Listen("onClick = #btnAgregar")
@@ -156,7 +182,7 @@ public class CListaPersonal extends CGenerico {
 				numeroEvaluacion = 1;
 			}
 
-			if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) <= 1) {
+			if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) < 1) {
 
 				idEva = servicioEvaluacion.buscarId() + 1;
 				Empleado empleado = servicioEmpleado.buscarPorFicha(ficha);
@@ -192,10 +218,12 @@ public class CListaPersonal extends CGenerico {
 				servicioEvaluacion.guardar(evaluacion);
 				String item = ficha;
 				servicioBitacora.guardar(bitacora);
+				cmbEstado.setText("ACTIVAS");
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("modo", "AGREGAR");
 				map.put("idEva", idEva);
 				map.put("listbox", lbxEvaluacion);
+				map.put("combobox", cmbEstado);
 				map.put("ficha", item);
 				Sessions.getCurrent().setAttribute("itemsCatalogo", map);
 				winEvaluacionEmpleado = (Window) Executions.createComponents(
@@ -268,12 +296,13 @@ public class CListaPersonal extends CGenerico {
 																.getItems()
 																.clear();
 														evaluacion = servicioEvaluacion
-																.buscar(fichaE);
+																.buscarEvaluacionesActivas(fichaE,revision.getId());
 														lbxEvaluacion
 																.setModel(new ListModelList<Evaluacion>(
 																		evaluacion));
 														lbxEvaluacion
 																.renderAll();
+														cmbEstado.setText("ACTIVAS");
 														for (int j = 0; j < lbxEvaluacion
 																.getItems()
 																.size(); j++) {
@@ -355,7 +384,7 @@ public class CListaPersonal extends CGenerico {
 										String ficha = u.getCedula();
 										Integer idUsuario = u.getIdUsuario();
 										
-										if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) < 2) {
+										if (servicioEvaluacion.cantidadEvaluaciones(ficha, revision.getId()) < 1) {
 										
 										Integer numeroEvaluacion = servicioEvaluacion
 												.buscarIdSecundario(eva
@@ -493,11 +522,12 @@ public class CListaPersonal extends CGenerico {
 
 										lbxEvaluacion.getItems().clear();
 										evaluacion = servicioEvaluacion
-												.buscar(fichaE);
+												.buscarEvaluacionesActivas(fichaE,revision.getId());
 										lbxEvaluacion
 												.setModel(new ListModelList<Evaluacion>(
 														evaluacion));
 										lbxEvaluacion.renderAll();
+										cmbEstado.setText("ACTIVAS");
 										for (int j = 0; j < lbxEvaluacion
 												.getItems().size(); j++) {
 											Listitem listItem = lbxEvaluacion
@@ -558,11 +588,13 @@ public class CListaPersonal extends CGenerico {
 									"Alerta", Messagebox.OK,
 									Messagebox.EXCLAMATION);
 				} else {
+					cmbEstado.setText("ACTIVAS");
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("modo", "EDITAR");
 					map.put("id", evaluacion.getIdEvaluacion());
 					map.put("titulo", evaluacion.getFicha());
 					map.put("listbox", lbxEvaluacion);
+					map.put("combobox", cmbEstado);
 					map.put("lista", evaluacion);
 					Sessions.getCurrent().setAttribute("itemsCatalogo", map);
 
@@ -582,8 +614,9 @@ public class CListaPersonal extends CGenerico {
 	}
 
 	public void actualizame(Listbox listbox, SUsuario servicio,
-			SEvaluacion servicioE, SEmpleado servicioEm) {
+			SEvaluacion servicioE, SEmpleado servicioEm, SRevision servicioR,Combobox comboBox) {
 		lbxEvaluacion = listbox;
+		cmbEstado= comboBox;
 		servicioUsuario = servicio;
 		servicioEvaluacion = servicioE;
 		servicioEmpleado = servicioEm;
@@ -594,9 +627,11 @@ public class CListaPersonal extends CGenerico {
 		Usuario u = servicioUsuario.buscarUsuarioPorNombre(auth.getName());
 		String ficha = u.getCedula();
 		fichaE = ficha;
-		evaluacion = servicioEvaluacion.buscar(ficha);
+		revision = servicioR.buscarPorEstado("ACTIVO");
+		evaluacion = servicioE.buscarEvaluacionesActivas(ficha,revision.getId());
 		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion));
 		lbxEvaluacion.renderAll();
+		
 		for (int j = 0; j < lbxEvaluacion.getItems().size(); j++) {
 			Listitem listItem = lbxEvaluacion.getItemAtIndex(j);
 			List<Listitem> listItem2 = lbxEvaluacion.getItems();

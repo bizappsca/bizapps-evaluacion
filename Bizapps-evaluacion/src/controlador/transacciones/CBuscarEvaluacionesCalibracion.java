@@ -430,7 +430,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 		evaluaciones = servicioEvaluacion.buscarEvaluacionesRevision();
 		catalogoEvaluacion = new Catalogo <Evaluacion> (catalogoEvaluaciones, "Catalogo", evaluaciones,
 				false, false, true,"Ficha", "Nombre Empleado", "Fecha Revisión","Estado Evaluacion","Ficha Evaluador", 
-				"Nombre Evaluador","Resultado Objetivos", "Resultado Competencias", "Resultado General", "Valoración", "Resultado Final") {
+				"Nombre Evaluador","Resultado Objetivos", "Resultado Competencias", "Resultado General", "Valoración", "Resultado Final","Revision") {
 			
 
 			@Override
@@ -462,7 +462,10 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 							&& String.valueOf(evaluacionCampos.getValoracion()).toLowerCase()
 									.contains(valores.get(9).toLowerCase())
 							&& String.valueOf(evaluacionCampos.getResultadoFinal()).toLowerCase()
-									.contains(valores.get(10).toLowerCase())){
+									.contains(valores.get(10).toLowerCase())
+							&& String.valueOf(evaluacionCampos.getRevision().getDescripcion()).toLowerCase()
+									.contains(valores.get(11).toLowerCase()
+							)){
 						evaluacion.add(evaluacionCampos);
 					}
 				}
@@ -473,7 +476,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 			protected String[] crearRegistros(Evaluacion evaluacionE) {
 				Empleado empleado = servicioEmpleado.buscarPorFicha(evaluacionE.getFicha());
 				Empleado empleado1 = servicioEmpleado.buscarPorFicha(evaluacionE.getFichaEvaluador());
-				String[] registros = new String[11];
+				String[] registros = new String[12];
 				registros[0] = evaluacionE.getFicha();
 				registros[1] = empleado.getNombre();
 				registros[2] = String.valueOf(evaluacionE.getFechaRevision());
@@ -485,6 +488,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				registros[8] = String.valueOf(evaluacionE.getResultadoGeneral());
 				registros[9] =String.valueOf(evaluacionE.getValoracion());
 				registros[10] =String.valueOf(evaluacionE.getResultadoFinal());
+				registros[11] =String.valueOf(evaluacionE.getRevision().getDescripcion());
 				return registros;
 				
 			}
@@ -523,7 +527,7 @@ public class CBuscarEvaluacionesCalibracion extends CGenerico {
 				fichaAux = eva.getFicha();
 			}
 			
-			evaluaciones= servicioEvaluacion.buscarEvaluacionCalibracion(empresa, nombreE, fichaAux, gerencia, valoracion, 0);
+			evaluaciones= servicioEvaluacion.buscarEvaluacionRevision(empresa, nombreE, fichaAux, gerencia, valoracion, 0);
 		}
 		
 		catalogoEvaluacion.actualizarLista(evaluaciones);

@@ -31,6 +31,11 @@ public class SEvaluacion {
 		return evaluacionDAO.buscarEvaluacionesActivas(ficha, revision);
 	}
 	
+	public List<Evaluacion> buscarEvaluacionesInactivas(String ficha, Integer revision)
+	{
+		return evaluacionDAO.buscarEvaluacionesInactivas(ficha, revision);
+	}
+	
 	public List<Evaluacion> buscarEstado(String ficha) {
 		return evaluacionDAO.buscarEstado(ficha);
 	}
@@ -103,6 +108,10 @@ public class SEvaluacion {
 	
 	public List<Evaluacion> buscarEvaluacionCalibracion (String empresa, String nombreE, String fichaE, String gerencia, String valoracion,Integer grado) {
 		return evaluacionDAO.buscarEvaluacionCalibracion(empresa, nombreE, fichaE, gerencia, valoracion,grado);
+	}
+	
+	public List<Evaluacion> buscarEvaluacionRevision (String empresa, String nombreE, String fichaE, String gerencia, String valoracion,Integer grado) {
+		return evaluacionDAO.buscarEvaluacionRevision(empresa, nombreE, fichaE, gerencia, valoracion,grado);
 	}
 	
 	

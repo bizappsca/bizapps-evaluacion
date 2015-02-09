@@ -43,6 +43,8 @@ public class CConfiguracionGeneral extends CGenerico {
 	private Div botoneraConfiguracionGeneral;
 	@Wire
 	private Combobox cmbConfiguracion;
+	@Wire
+	private Combobox cmbInterfaz;
 
 	Mensaje msj = new Mensaje();
 	Botonera botonera;
@@ -62,6 +64,7 @@ public class CConfiguracionGeneral extends CGenerico {
 		}
 		List<ConfiguracionGeneral> conf = servicioConfiguracionGeneral.buscar();
 		String valorConf = conf.get(0).getBandera();
+		String valorInterfaz = conf.get(0).getInterfaz();
 		
 		if (valorConf.compareTo("true")==0)
 		{
@@ -73,6 +76,7 @@ public class CConfiguracionGeneral extends CGenerico {
 		}
 		
 		cmbConfiguracion.setValue(valorConf);
+		cmbInterfaz.setValue(valorInterfaz);
 		botonera = new Botonera() {
 
 			@Override
@@ -101,6 +105,7 @@ public class CConfiguracionGeneral extends CGenerico {
 						}
 						ConfiguracionGeneral configuracionGeneral = servicioConfiguracionGeneral.buscarBandera(1);
 						configuracionGeneral.setBandera(bandera);
+						configuracionGeneral.setInterfaz(cmbInterfaz.getValue());
 						servicioConfiguracionGeneral.guardar(configuracionGeneral);
 						msj.mensajeInformacion(Mensaje.guardado);
 						limpiar();

@@ -1,0 +1,55 @@
+<zk>
+	<window id="winListaPersonal" border="normal" height="auto"
+		width="auto" style="background-color:#8A0808;"
+		apply="controlador.transacciones.CResultadoInterfaz">
+		<!-- Formato de fecha día-Mes-Año, sin hora -->
+		<zscript>
+	<![CDATA[
+	import java.text.SimpleDateFormat;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+]]>
+	</zscript>
+		<!-- Fin de Formato de fecha día-Mes-Año, sin hora -->
+		<separator />
+		<groupbox width="auto" mold="3d" title="Resultado Interfaz">
+			<separator />
+			<separator />
+			<div align="left">
+				<separator />
+				<separator />
+				<hbox>
+					<label class="etiqueta" value="Fecha de ultima ejecucion:" />
+					<space />
+					<label id="fecha" class="etiqueta" value="" />
+				</hbox>
+				<separator />
+			</div>
+			<separator></separator>
+			<groupbox id="gpxListaPersonal"
+				style="color: blue; color: red; font-style: Arial; font-weight: bold; font-size: 15px;">
+				<listbox height="auto" id="lbxInterfaz" mold="paging"
+					pageSize="10" width="auto">
+					<listhead>
+						<listheader label="Ficha" width="20%" />
+						<listheader label="Nombre" width="40%" />
+						<listheader label="Error" width="40%" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell
+								label="${each.ficha}">
+							</listcell>
+							<listcell
+								label="${each.nombre}">
+							</listcell>
+							<listcell
+								label="${each.error}">
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</groupbox>
+		</groupbox>
+	</window>
+	<include id="contenido"></include>
+</zk>

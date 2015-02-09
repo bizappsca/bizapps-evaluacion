@@ -14,8 +14,9 @@
 				<columns visible="false">
 					<column label="" width="15%" />
 					<column label="" width="40%" />
-					<column label="" width="17%" />
-					<column label="" width="20%" />
+					<column label="" width="15%" />
+					<column label="" width="15%" />
+					<column label="" width="15%" />
 				</columns>
 				<rows>
 					<row>

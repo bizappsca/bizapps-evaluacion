@@ -267,6 +267,7 @@ public class CAgregarEvaluacion extends CGenerico {
 	private Label txttotalCompetencia1;
 	@Wire
 	private Label txttotalCompetencia2;
+	private Combobox comboBox;
 	
 	String content="";
 	/*
@@ -383,6 +384,7 @@ public class CAgregarEvaluacion extends CGenerico {
 					if (map.get("modo").equals("AGREGAR")) {
 						agregarW = true;
 						listbox = (Listbox) map.get("listbox");
+						comboBox = (Combobox) map.get("combobox");
 						item = (String) map.get("ficha");
 						revision = servicioRevision.buscarPorEstado("ACTIVO");
 						btnCambiarEstado.setVisible(true);
@@ -1403,21 +1405,21 @@ public class CAgregarEvaluacion extends CGenerico {
 	public void salir() {
 		if(agregarW && !agregarW1){
 		
-			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado);
+			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,servicioRevision,comboBox);
 			agregarW = false;
 		}
 		if (agregarW1 && agregarW){
 
-			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
+			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item,servicioRevision);
 			agregarW1= false;
 		}
 		if (!agregarW1 && !agregarW && !agregarW2){
-			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado);
+			controlador.actualizame(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,servicioRevision,comboBox);
 		}
 		
 		if (!agregarW1 && !agregarW && agregarW2){
 			if (listbox != null)
-			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item);
+			controlador1.actualizame1(listbox, servicioUsuario, servicioEvaluacion, servicioEmpleado,item,servicioRevision);
 			agregarW2= false;
 		}
 		

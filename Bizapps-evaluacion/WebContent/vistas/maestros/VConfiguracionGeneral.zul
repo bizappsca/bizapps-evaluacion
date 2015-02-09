@@ -38,6 +38,24 @@
 						</combobox>
 						<hbox/>
 					</row>
+					<row>
+						<hbox>
+							<label value="Ejecutar interfaz de Datos con SPI ?:" class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+
+						<combobox id="cmbInterfaz"
+							readonly="true"
+							tooltiptext="bandera"
+							width="60%" tabindex="9">
+							<comboitem label="SI" />
+							<comboitem label="NO" />
+						</combobox>
+						<hbox/>
+					</row>
 				</rows>
 			</grid>
 		</groupbox>

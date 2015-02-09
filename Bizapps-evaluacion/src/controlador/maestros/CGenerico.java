@@ -59,6 +59,7 @@ import servicio.maestros.SParametro;
 import servicio.maestros.SPerfilCargo;
 import servicio.maestros.SPeriodo;
 import servicio.maestros.SPerspectiva;
+import servicio.maestros.SResultadoInterfaz;
 import servicio.maestros.SRevision;
 import servicio.maestros.STipoFormacion;
 import servicio.maestros.SUnidadMedida;
@@ -181,6 +182,8 @@ public abstract class CGenerico extends SelectorComposer<Component> {
 	protected SNombreCurso servicioNombreCurso;
 	@WireVariable("SFechaValidezEstado")
 	protected SFechaValidezEstado servicioFechaValidezEstado;
+	@WireVariable("SResultadoInterfaz")
+	protected SResultadoInterfaz servicioErrorInterfaz;
 
 	public Tabbox tabBox;
 	public Include contenido;

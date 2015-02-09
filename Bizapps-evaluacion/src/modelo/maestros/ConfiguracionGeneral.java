@@ -25,16 +25,23 @@ public class ConfiguracionGeneral implements Serializable {
 	@Column(name = "bandera")
 	private String bandera;
 
+	@Column(name = "interfaz")
+	private String interfaz;
+
 
 	public ConfiguracionGeneral() {
 	}
 
-	public ConfiguracionGeneral(int id, String bandera) {
+
+
+	public ConfiguracionGeneral(int id, String bandera, String interfaz) {
 		super();
 		this.id = id;
 		this.bandera = bandera;
-		
+		this.interfaz = interfaz;
 	}
+
+
 
 	public int getId() {
 		return this.id;
@@ -50,6 +57,18 @@ public class ConfiguracionGeneral implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+
+	public String getInterfaz() {
+		return interfaz;
+	}
+
+
+
+	public void setInterfaz(String interfaz) {
+		this.interfaz = interfaz;
 	}
 
 	

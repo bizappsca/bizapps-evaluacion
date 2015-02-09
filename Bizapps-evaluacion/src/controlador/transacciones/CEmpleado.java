@@ -37,6 +37,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
@@ -54,6 +55,7 @@ import org.zkoss.zul.West;
 import org.zkoss.zul.Window;
 
 import servicio.maestros.SEmpleado;
+import servicio.maestros.SRevision;
 import servicio.seguridad.SUsuario;
 import servicio.transacciones.SEvaluacion;
 
@@ -107,12 +109,16 @@ public class CEmpleado extends CGenerico {
 	private Button btnAgregar;
 	@Wire
 	private Button btnEliminar;
+	@Wire
+	private Combobox cmbEstado;
 	private static int numeroEvaluacion;
 	private static Empleado empleado;
 	Evaluacion evaluacion = new Evaluacion();
+	List<Evaluacion> listaEvaluacion = new ArrayList<Evaluacion>();
 	public Revision revisionActiva;
 	private String fichaE;
 	private boolean tienePersonal = false;
+	
 	List<Evaluacion> evaluacion1 = new ArrayList<Evaluacion>();
 	String bandera;
 
@@ -239,16 +245,18 @@ public class CEmpleado extends CGenerico {
 		if (arbolPersonal.getSelectedItem() != null) {
 			String item = String.valueOf(arbolPersonal.getSelectedItem()
 					.getContext());
+			fichaE=item;
 			boolean abrir = true;
+			cmbEstado.setText("ACTIVAS");
 			if (arbolPersonal.getSelectedItem().getLevel() > 0) {
 				if (abrir) {
 
 					List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
-					evaluacion = servicioEvaluacion.buscar(item);
+					evaluacion = servicioEvaluacion.buscarEvaluacionesActivas(item,revisionActiva.getId());
 
 					if (evaluacion.isEmpty()) {
 						Messagebox
-								.show("El empleado no tiene evaluaciones registradas",
+								.show("El empleado no tiene evaluaciones Activas registradas",
 										"Error", Messagebox.OK,
 										Messagebox.ERROR);
 					} else {
@@ -273,6 +281,34 @@ public class CEmpleado extends CGenerico {
 				}
 			}
 		}
+
+	}
+	
+	@Listen("onChange = #cmbEstado")
+	public void seleccionarEstadoEvaluacion() {
+		
+		
+		if (cmbEstado.getText().compareTo("ACTIVAS")==0)
+		{
+			listaEvaluacion = servicioEvaluacion.buscarEvaluacionesActivas(fichaE, revisionActiva.getId());
+			
+		}
+		else
+		{
+			if (cmbEstado.getText().compareTo("INACTIVAS")==0)
+			{
+				listaEvaluacion = servicioEvaluacion.buscarEvaluacionesInactivas(fichaE, revisionActiva.getId());
+			}
+			else
+			{
+				listaEvaluacion = servicioEvaluacion.buscar(fichaE);
+			}
+			
+		}
+		
+		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(listaEvaluacion));
+		lbxEvaluacion.renderAll();
+		
 
 	}
 
@@ -338,7 +374,8 @@ public class CEmpleado extends CGenerico {
 
 														List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
 														evaluacion = servicioEvaluacion
-																.buscarEstado(item);
+																.buscarEvaluacionesActivas(item, revisionActiva.getId());
+														cmbEstado.setText("ACTIVAS");
 
 														if (evaluacion
 																.isEmpty()) {
@@ -440,7 +477,7 @@ public class CEmpleado extends CGenerico {
 
 										if (servicioEvaluacion
 												.cantidadEvaluaciones(ficha,
-														revision.getId()) <= 1) {
+														revision.getId()) < 1) {
 
 											Integer numeroEvaluacion = servicioEvaluacion
 													.buscarIdSecundario(eva
@@ -478,13 +515,6 @@ public class CEmpleado extends CGenerico {
 											bitacora.setFechaAuditoria(fechaHora);
 											bitacora.setHoraAuditoria(horaAuditoria);
 											bitacora.setEstadoEvaluacion("EN EDICION");
-											System.out.println(bitacora
-													.getEvaluacion()
-													.getIdEvaluacion());
-											System.out.println(evaluacion + " "
-													+ u + " " + fechaHora
-													+ horaAuditoria);
-
 											servicioEvaluacion.guardar(eva);
 											servicioBitacora.guardar(bitacora);
 
@@ -589,7 +619,7 @@ public class CEmpleado extends CGenerico {
 														.valueOf(arbolPersonal
 																.getSelectedItem()
 																.getContext());
-												System.out.println(item);
+												
 												boolean abrir = true;
 												if (arbolPersonal
 														.getSelectedItem()
@@ -598,7 +628,8 @@ public class CEmpleado extends CGenerico {
 
 														List<Evaluacion> evaluacion = new ArrayList<Evaluacion>();
 														evaluacion = servicioEvaluacion
-																.buscarEstado(item);
+																.buscarEvaluacionesActivas(item, revision.getId());
+														cmbEstado.setText("ACTIVAS");
 
 														if (evaluacion
 																.isEmpty()) {
@@ -622,6 +653,7 @@ public class CEmpleado extends CGenerico {
 																			evaluacion));
 															lbxEvaluacion
 																	.renderAll();
+															
 															for (int j = 0; j < lbxEvaluacion
 																	.getItems()
 																	.size(); j++) {
@@ -686,7 +718,7 @@ public class CEmpleado extends CGenerico {
 									"Alerta", Messagebox.OK,
 									Messagebox.EXCLAMATION);
 				} else {
-
+					cmbEstado.setText("ACTIVAS");
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("modo", "EDITAR");
 					map.put("id", evaluacion.getIdEvaluacion());
@@ -766,6 +798,7 @@ public class CEmpleado extends CGenerico {
 					servicioEvaluacion.guardar(evaluacion);
 					servicioBitacora.guardar(bitacora);
 
+					cmbEstado.setText("ACTIVAS");
 					final HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("modo", "AGREGAR");
 					map.put("ficha", ficha);
@@ -798,17 +831,17 @@ public class CEmpleado extends CGenerico {
 	}
 
 	public void actualizame1(Listbox listbox, SUsuario servicio,
-			SEvaluacion servicioE, SEmpleado servicioEm, String item) {
+			SEvaluacion servicioE, SEmpleado servicioEm, String item, SRevision servicioR) {
 		lbxEvaluacion = listbox;
 		servicioUsuario = servicio;
 		servicioEvaluacion = servicioE;
 		servicioEmpleado = servicioEm;
 		fichaE = new String();
 		fichaE = item;
-		System.out.println("ojo" + item);
+		revisionActiva = servicioR.buscarPorEstado("ACTIVO");
 		evaluacion1 = new ArrayList<Evaluacion>();
-		evaluacion1 = servicioEvaluacion.buscar(item);
-		System.out.println("eva" + evaluacion1);
+		evaluacion1 = servicioEvaluacion.buscarEvaluacionesActivas(item,revisionActiva.getId());
+		
 		lbxEvaluacion.setModel(new ListModelList<Evaluacion>(evaluacion1));
 		lbxEvaluacion.renderAll();
 		for (int j = 0; j < lbxEvaluacion.getItems().size(); j++) {

@@ -356,7 +356,7 @@ public class CFechaValidezEstado extends CGenerico {
 		
 		catalogo = new Catalogo<FechaValidezEstado>(catalogoFechaValidezEstado,
 				"Catalogo de Estados", listaGeneral, false,false,false,"Estado",
-				"Fecha Desde", "Fecha Hasta") {
+				"Fecha Desde", "Fecha Hasta","Con grado mayor a") {
 
 			@Override
 			protected List<FechaValidezEstado> buscar(List<String> valores) {
@@ -375,10 +375,11 @@ public class CFechaValidezEstado extends CGenerico {
 
 			@Override
 			protected String[] crearRegistros(FechaValidezEstado fechaValidezEstado) {
-				String[] registros = new String[3];
+				String[] registros = new String[4];
 				registros[0] = fechaValidezEstado.getEstado();
 				registros[1] = formatoFecha.format(fechaValidezEstado.getFechaDesde());
 				registros[2] = formatoFecha.format(fechaValidezEstado.getFechaHasta());
+				registros[3] = fechaValidezEstado.getGrado().toString();
 
 				return registros;
 			}
