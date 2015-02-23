@@ -47,6 +47,10 @@ public class SFechaValidezEstado {
 		return fechaValidezEstadoDAO.estadoPermitido(fechaHoy, estado,grado);
 	}
 	
+	public FechaValidezEstado estadoActual(Timestamp fechaHoy) {
+		return fechaValidezEstadoDAO.estadoActual(fechaHoy);
+	}
+	
 	
 
 

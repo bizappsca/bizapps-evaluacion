@@ -745,7 +745,7 @@
 					<button id="btnCambiarEstado" tabindex="2" sclass="btn" visible="false" autodisable="self"
 						label="Guardar" image="/public/imagenes/botones/guardar.png">
 					</button>
-					<button id="btnEnEdicion" label="En Edición" visible="false" autodisable="self"
+					<!-- <button id="btnEnEdicion" label="En Edición" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/enedicion.png">
 					</button>
 					<button id="btnPendiente" label="A Pendiente" visible="false" autodisable="self"
@@ -762,7 +762,7 @@
 					</button>
 					<button id="btnFinalizada" label="Finalizada" visible="false" autodisable="self"
 						sclass="btn" tabindex="1" image="/public/imagenes/botones/finalizada.png">
-					</button>
+					</button>  -->
 					<button id="btnCancelar" label="Salir" sclass="btn" autodisable="self"
 						tabindex="2" image="/public/imagenes/botones/salir.png">
 					</button>

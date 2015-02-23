@@ -1,6 +1,6 @@
 <zk>
 	<style src="/public/Estilo.css" />
-	<div id="divUsuario" apply="controlador.maestros.CUsuario" width="80%">
+	<div id="divUsuario" apply="controlador.seguridad.CUsuario" width="80%">
 		<groupbox width="100%" mold="3d" title="Usuario">
 			<grid width="100%">
 				<columns visible="false">

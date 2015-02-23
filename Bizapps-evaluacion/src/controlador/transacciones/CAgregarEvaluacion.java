@@ -237,7 +237,7 @@ public class CAgregarEvaluacion extends CGenerico {
 	private Tab tbIndicadores;
 	@Wire
 	private Tab tbEvaluacionObjetivos;
-	@Wire
+	/*@Wire
 	private Button btnEnEdicion;
 	@Wire
 	private Button btnPendiente;
@@ -248,7 +248,7 @@ public class CAgregarEvaluacion extends CGenerico {
 	@Wire
 	private Button btnCalibrada;
 	@Wire
-	private Button btnFinalizada;
+	private Button btnFinalizada;*/
 	@Wire
 	private Label lblResultado1;
 	@Wire
@@ -659,50 +659,74 @@ public class CAgregarEvaluacion extends CGenerico {
 												.setVisible(false);
 									}
 
-									FechaValidezEstado esValido = servicioFechaValidezEstado
-											.estadoPermitido(currentTimestamp,
-													"PENDIENTE", gradoAuxiliar);
-									if (esValido != null) {
-										btnPendiente.setVisible(true);
-									} else {
-										btnPendiente.setVisible(false);
-
-									}
-
-								} else if (evaluacion.getEstadoEvaluacion()
-										.equals("PENDIENTE")) {
+								}  else if (evaluacion.getEstadoEvaluacion()
+										.equals("EN REVISION")) {
 
 									FechaValidezEstado esValido = servicioFechaValidezEstado
 											.estadoPermitido(currentTimestamp,
 													"EN REVISION",
 													gradoAuxiliar);
 									if (esValido != null) {
-										btnEnEdicion.setVisible(true);
-										btnRevisada.setVisible(true);
+										btnCambiarEstado.setVisible(true);
+										btnAgregar.setVisible(true);
+										btnEliminar.setVisible(true);
+										btnOk.setVisible(true);
+										btnOk2.setVisible(true);
+										btnAgregarIndicador.setVisible(true);
+										btnEliminarIndicador.setVisible(true);
+										btnAgregarAcciones.setVisible(true);
+										btnEliminarAcciones.setVisible(true);
+										btnCancelar.setVisible(true);
+										btnAgregarCapacitacion.setVisible(true);
 									} else {
-										btnEnEdicion.setVisible(false);
-										btnRevisada.setVisible(false);
+										btnCambiarEstado.setVisible(false);
+										btnAgregar.setVisible(false);
+										btnEliminar.setVisible(false);
+										btnOk.setVisible(false);
+										btnOk2.setVisible(false);
+										btnAgregarIndicador.setVisible(false);
+										btnEliminarIndicador.setVisible(false);
+										btnAgregarAcciones.setVisible(false);
+										btnEliminarAcciones.setVisible(false);
+										btnCancelar.setVisible(true);
+										btnAgregarCapacitacion
+												.setVisible(false);
 									}
 
 								} else if (evaluacion.getEstadoEvaluacion()
-										.equals("REVISADA")) {
-
+										.equals("EN APROBACION")) {
+									
 									FechaValidezEstado esValido = servicioFechaValidezEstado
 											.estadoPermitido(currentTimestamp,
 													"EN APROBACION",
 													gradoAuxiliar);
 									if (esValido != null) {
-										btnPendiente.setVisible(true);
-										btnAprobada.setVisible(true);
+										btnCambiarEstado.setVisible(true);
+										btnAgregar.setVisible(true);
+										btnEliminar.setVisible(true);
+										btnOk.setVisible(true);
+										btnOk2.setVisible(true);
+										btnAgregarIndicador.setVisible(true);
+										btnEliminarIndicador.setVisible(true);
+										btnAgregarAcciones.setVisible(true);
+										btnEliminarAcciones.setVisible(true);
+										btnCancelar.setVisible(true);
+										btnAgregarCapacitacion.setVisible(true);
 									} else {
-										btnPendiente.setVisible(false);
-										btnAprobada.setVisible(false);
+										btnCambiarEstado.setVisible(false);
+										btnAgregar.setVisible(false);
+										btnEliminar.setVisible(false);
+										btnOk.setVisible(false);
+										btnOk2.setVisible(false);
+										btnAgregarIndicador.setVisible(false);
+										btnEliminarIndicador.setVisible(false);
+										btnAgregarAcciones.setVisible(false);
+										btnEliminarAcciones.setVisible(false);
+										btnCancelar.setVisible(true);
+										btnAgregarCapacitacion
+												.setVisible(false);
 									}
-
-								} else if (evaluacion.getEstadoEvaluacion()
-										.equals("APROBADA")) {
-									btnRevisada.setVisible(true);
-
+									
 								}
 
 								txtCompromisos.setValue(evaluacion
@@ -862,10 +886,10 @@ public class CAgregarEvaluacion extends CGenerico {
 								} else {
 
 									btnCambiarEstado.setVisible(false);
-									btnEnEdicion.setVisible(false);
+									/*btnEnEdicion.setVisible(false);
 									btnPendiente.setVisible(false);
 									btnRevisada.setVisible(false);
-									btnAprobada.setVisible(false);
+									btnAprobada.setVisible(false);*/
 									btnAgregar.setVisible(false);
 									btnEliminar.setVisible(false);
 									btnOk.setVisible(false);
@@ -1075,12 +1099,12 @@ public class CAgregarEvaluacion extends CGenerico {
 			btnCambiarEstado.setVisible(false);
 			btnCancelar.setVisible(true);
 			btnAgregarCapacitacion.setVisible(false);
-			btnPendiente.setVisible(false);
+			/*btnPendiente.setVisible(false);
 			btnRevisada.setVisible(false);
 			btnAprobada.setVisible(false);
 			btnCalibrada.setVisible(false);
 			btnFinalizada.setVisible(false);
-			btnEnEdicion.setVisible(false);
+			btnEnEdicion.setVisible(false);*/
 
 			gpxAgregar.setOpen(false);
 			gpxObjetivosAgregados.setOpen(true);
@@ -1110,10 +1134,10 @@ public class CAgregarEvaluacion extends CGenerico {
 
 		if (re == null) {
 			btnCambiarEstado.setVisible(false);
-			btnEnEdicion.setVisible(false);
+			/*btnEnEdicion.setVisible(false);
 			btnPendiente.setVisible(false);
 			btnRevisada.setVisible(false);
-			btnAprobada.setVisible(false);
+			btnAprobada.setVisible(false);*/
 			btnAgregar.setVisible(false);
 			btnEliminar.setVisible(false);
 			btnOk.setVisible(false);
@@ -1178,12 +1202,12 @@ public class CAgregarEvaluacion extends CGenerico {
 				bitacora.setIdUsuario(u);
 				servicioBitacora.guardar(bitacora);
 				msj.mensajeInformacion(Mensaje.pendiente);
-				btnEnEdicion.setVisible(true);
+				/*btnEnEdicion.setVisible(true);
 				btnRevisada.setVisible(true);
-				btnPendiente.setVisible(false);
+				btnPendiente.setVisible(false);*/
 				//btnCalibrada.setVisible(false);
 				//btnFinalizada.setVisible(false);
-				btnAprobada.setVisible(false);
+				//btnAprobada.setVisible(false);
 				
 			}
 			else 
@@ -1208,12 +1232,12 @@ public class CAgregarEvaluacion extends CGenerico {
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.edicion);
 		btnCambiarEstado.setVisible(true);
-		btnEnEdicion.setVisible(false);
-		btnPendiente.setVisible(true);
-		btnRevisada.setVisible(false);
+		//btnEnEdicion.setVisible(false);
+		//btnPendiente.setVisible(true);
+		//btnRevisada.setVisible(false);
 		//btnCalibrada.setVisible(false);
 		//btnFinalizada.setVisible(false);
-		btnAprobada.setVisible(false);
+		//btnAprobada.setVisible(false);
 	}
 	
 	
@@ -1235,10 +1259,10 @@ public class CAgregarEvaluacion extends CGenerico {
 		bitacora.setIdUsuario(u);
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.revisada);
-		btnPendiente.setVisible(true);
+		/*btnPendiente.setVisible(true);
 		btnRevisada.setVisible(false);
 		btnAprobada.setVisible(true);
-		btnEnEdicion.setVisible(false);
+		btnEnEdicion.setVisible(false);*/
 		//btnCalibrada.setVisible(false);
 		//btnFinalizada.setVisible(false);
 		}
@@ -1262,11 +1286,11 @@ public class CAgregarEvaluacion extends CGenerico {
 		bitacora.setIdUsuario(u);
 		servicioBitacora.guardar(bitacora);
 		msj.mensajeInformacion(Mensaje.aprobada);
-		btnAprobada.setVisible(false);
+		//btnAprobada.setVisible(false);
 		//btnCalibrada.setVisible(true);
-		btnRevisada.setVisible(true);
+		/*btnRevisada.setVisible(true);
 		btnEnEdicion.setVisible(false);
-		btnPendiente.setVisible(false);
+		btnPendiente.setVisible(false);*/
 		//btnFinalizada.setVisible(false);
 		}
 		
@@ -1292,10 +1316,10 @@ public class CAgregarEvaluacion extends CGenerico {
 		msj.mensajeInformacion(Mensaje.calibrada);
 		//btnCalibrada.setVisible(false);
 		//btnFinalizada.setVisible(true);
-		btnAprobada.setVisible(true);
+		/*btnAprobada.setVisible(true);
 		btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
-		btnRevisada.setVisible(false);
+		btnRevisada.setVisible(false);*/
 		}
 	}
 	
@@ -1314,10 +1338,10 @@ public class CAgregarEvaluacion extends CGenerico {
 		msj.mensajeInformacion(Mensaje.finalizada);
 		//btnFinalizada.setVisible(false);
 		//btnCalibrada.setVisible(true);
-		btnEnEdicion.setVisible(false);
+		/*btnEnEdicion.setVisible(false);
 		btnPendiente.setVisible(false);
 		btnRevisada.setVisible(false);
-		btnAprobada.setVisible(false);
+		btnAprobada.setVisible(false);*/
 		
 	}
 

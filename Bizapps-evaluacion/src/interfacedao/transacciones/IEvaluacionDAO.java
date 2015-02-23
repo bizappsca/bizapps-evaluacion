@@ -5,6 +5,7 @@ import java.util.List;
 import modelo.maestros.Evaluacion;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
@@ -26,6 +27,9 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 	
 	@Query("select e from Evaluacion e where  e.ficha = ?1 and e.revision.id = ?2 order by e.revision.id desc, e.idEvaluacionSecundario desc " )
 	public List<Evaluacion> buscarEvaluacionesActivas(String ficha, Integer revision);
+	
+	@Query("select e from Evaluacion e where  e.revision.id = ?1 order by e.revision.id desc, e.idEvaluacionSecundario desc " )
+	public List<Evaluacion> buscarTodasEvaluacionesActivas(Integer revision);
 	
 	@Query("select e from Evaluacion e where  e.ficha = ?1 and e.revision.id <> ?2 order by e.revision.id desc, e.idEvaluacionSecundario desc " )
 	public List<Evaluacion> buscarEvaluacionesInactivas(String ficha, Integer revision);
@@ -121,8 +125,6 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 			"where r.id = e.revision.id and em.ficha=e.ficha and  " +
 			" r.estadoRevision = 'ACTIVO' order by em.gradoAuxiliar, em.nombre")
 	public List<Evaluacion> buscarEvaluacionesRevision();
-	
-	
 	
 	@Query("select ev from Empleado em, Evaluacion ev, Empresa e, Revision r , UnidadOrganizativa uo, Gerencia g " +
 			"where " +

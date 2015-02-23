@@ -66,8 +66,8 @@ public class Mensaje {
 	public static String noSePuedeCrear = "El periodo está inactivo no puede crear evaluaciones";
 	public static String noSePuedeEliminar = "El periodo está inactivo no puede eliminar evaluaciones";
 	public static String reinicioContrasenna = "Se envio un Correo Indicando los datos del Usuario";
-	public static String cedulaInvalida = "Formato de Cedula No Valido";
-	public static String cedulaNoExiste = "El Numero de Cedula que Ingreso No esta asociado a Ningun Usuario";
+	public static String cedulaInvalida = "Formato de Ficha No Valido";
+	public static String cedulaNoExiste = "El numero de ficha queingreso no esta asociado a ningun usuario";
 	public static String soloUnaEvaluacion = "Solo puede crear una evaluacion por periodo";
 
 	public void mensajeInformacion(String msj) {

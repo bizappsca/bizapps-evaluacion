@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,18 @@ public class CFechaValidezEstado extends CGenerico {
 	Catalogo<Periodo> catalogoPeriodo;
 	protected List<FechaValidezEstado> listaGeneral = new ArrayList<FechaValidezEstado>();
 	
+	private Date stripTimeFromDate(Date date) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+
+	    calendar.set(Calendar.HOUR_OF_DAY, 0);  
+	    calendar.set(Calendar.MINUTE, 0);  
+	    calendar.set(Calendar.SECOND, 0);  
+	    calendar.set(Calendar.MILLISECOND, 0);
+
+	    return calendar.getTime();
+	}
+	
 	@Override
 	public void inicializar() throws IOException {
 		// TODO Auto-generated method stub
@@ -139,13 +152,38 @@ public class CFechaValidezEstado extends CGenerico {
 							fechaValidezEstado.setFechaHasta(fechaHasta);
 							fechaValidezEstado.setGrado(spnGrado.getValue());
 							servicioFechaValidezEstado.guardar(fechaValidezEstado);
-							
 							msj.mensajeInformacion(Mensaje.guardado);
 							limpiar();
 							listaGeneral = servicioFechaValidezEstado
 									.buscarTodas();
 							catalogo.actualizarLista(listaGeneral);
 							abrirCatalogo();
+							
+
+							Calendar calendar = Calendar.getInstance();
+							java.util.Date now = stripTimeFromDate(calendar
+									.getTime());
+							java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(
+									now.getTime());
+							
+							FechaValidezEstado estadoActual=null;
+							try
+							{
+								estadoActual= servicioFechaValidezEstado
+										.estadoActual(currentTimestamp);
+							}
+							catch (Exception ex)
+							{
+								msj.mensajeError("Hay fechas que se solapan !, debe cambiar esta condicion para actualizar los estados de las evaluaciones !");
+							}
+							
+							 
+							if (estadoActual != null) {
+								Revision revision = servicioRevision.buscarPorEstado("ACTIVO");
+								servicioEvaluacion.actualizarEstado(estadoActual.getEstado(), revision.getId());
+							}
+							
+							
 			}
 
 			@Override

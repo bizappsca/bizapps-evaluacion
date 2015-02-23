@@ -17,6 +17,9 @@ public interface IFechaValidezEstadoDAO extends JpaRepository<FechaValidezEstado
 	
 	@Query("SELECT fve FROM FechaValidezEstado fve  WHERE ?1>= fve.fechaDesde  AND  ?1<= fve.fechaHasta  and estado = ?2 and ?3>=grado")
 	public FechaValidezEstado estadoPermitido (Timestamp fechaActual, String estado, Integer grado );
+	
+	@Query("SELECT fve FROM FechaValidezEstado fve  WHERE ?1>= fve.fechaDesde  AND  ?1<= fve.fechaHasta")
+	public FechaValidezEstado estadoActual (Timestamp fechaActual );
 
 	
 

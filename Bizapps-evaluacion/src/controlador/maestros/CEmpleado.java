@@ -69,7 +69,7 @@ public class CEmpleado extends CGenerico {
 	@Wire
 	private Label lblUnidadEmpleado;
 	@Wire
-	private Label lblNombre;
+	private Label lblNombreSupervisor;
 	@Wire
 	private Button btnBuscarUnidad;
 	@Wire
@@ -139,8 +139,7 @@ public class CEmpleado extends CGenerico {
 						idCargo = empleado.getCargo().getId();
 						idEmpresa = empleado.getEmpresa().getId();
 						idUnidad = empleado.getUnidadOrganizativa().getId();
-						idFichaSupervisor = Integer.parseInt(empleado
-								.getFichaSupervisor());
+						idFichaSupervisor = empleado.getId();
 						txtEmpresaEmpleado.setValue(String.valueOf(empleado.getEmpresa()
 								.getId()));
 						lblEmpresaEmpleado.setValue(empleado.getEmpresa()
@@ -153,8 +152,8 @@ public class CEmpleado extends CGenerico {
 								.getUnidadOrganizativa().getId()));
 						lblUnidadEmpleado.setValue(empleado
 								.getUnidadOrganizativa().getDescripcion());
-						txtNombreEmpleado.setValue(empleado.getFicha());
-						lblNombre.setValue(empleado.getNombre());
+						txtNombreEmpleado.setValue(empleado.getNombre());
+						
 						cmbNivelAcademicoEmpleado.setValue(empleado
 								.getNivelAcademico());
 						txtEspecialidadEmpleado.setValue(empleado
@@ -163,14 +162,20 @@ public class CEmpleado extends CGenerico {
 								.getEspecializacion());
 						txtFichaEmpleado.setValue(empleado.getFicha());
 						Empleado fichaSupervisor = servicioEmpleado
-								.buscar(Integer.parseInt(empleado
-										.getFichaSupervisor()));
+								.buscarPorFicha(empleado
+										.getFichaSupervisor());
 						if (fichaSupervisor != null)
-							txtFichaSupervisorEmpleado.setValue(fichaSupervisor
-									.getNombre());
+						{
+							idFichaSupervisor=fichaSupervisor.getId();
+							txtFichaSupervisorEmpleado.setValue(fichaSupervisor.getFicha());
+							lblNombreSupervisor.setValue(fichaSupervisor.getNombre());
+						}
 						else
-							txtFichaSupervisorEmpleado.setValue(empleado
-									.getFichaSupervisor());
+						{
+							idFichaSupervisor=0;
+							txtFichaSupervisorEmpleado.setValue("0");
+							lblNombreSupervisor.setValue("SIN SUPERVISOR");
+						}
 						spnGradoAuxiliarEmpleado.setValue(empleado
 								.getGradoAuxiliar());
 						txtEmpresaEmpleado.setFocus(true);
@@ -204,7 +209,7 @@ public class CEmpleado extends CGenerico {
 								.getValue();
 						String ficha = txtFichaEmpleado.getValue();
 						String fichaSupervisor = String
-								.valueOf(fichaSupervisorEmpleado.getId());
+								.valueOf(fichaSupervisorEmpleado.getFicha());
 						int gradoAuxiliar = spnGradoAuxiliarEmpleado.getValue();
 						String usuario = nombreUsuarioSesion();
 						Timestamp fechaAuditoria = new Timestamp(
@@ -366,7 +371,7 @@ public class CEmpleado extends CGenerico {
 		txtFichaSupervisorEmpleado.setValue("");
 		lblCargoEmpleado.setValue("");
 		lblEmpresaEmpleado.setValue("");
-		lblNombre.setValue("");
+		lblNombreSupervisor.setValue("");
 		lblUnidadEmpleado.setValue("");
 		catalogo.limpiarSeleccion();
 		txtEmpresaEmpleado.setFocus(true);
@@ -814,8 +819,8 @@ public class CEmpleado extends CGenerico {
 				registros[2] = empleado.getUnidadOrganizativa()
 						.getDescripcion();
 				registros[3] = empleado.getNombre();
-				registros[5] = empleado.getFicha();
-				registros[6] = empleado.getFichaSupervisor();
+				registros[4] = empleado.getFicha();
+				registros[5] = empleado.getFichaSupervisor();
 				registros[6] = String.valueOf(empleado.getGradoAuxiliar());
 
 				return registros;
@@ -835,7 +840,7 @@ public class CEmpleado extends CGenerico {
 		Empleado empleado = catalogoSupervisor.objetoSeleccionadoDelCatalogo();
 		idFichaSupervisor = empleado.getId();
 		txtFichaSupervisorEmpleado.setValue(empleado.getFicha());
-		lblNombre.setValue(empleado.getNombre());
+		lblNombreSupervisor.setValue(empleado.getNombre());
 		catalogoSupervisor.setParent(null);
 	}
 
@@ -847,12 +852,12 @@ public class CEmpleado extends CGenerico {
 			Empleado empleado = servicioEmpleado.buscarPorFicha(txtFichaSupervisorEmpleado.getValue());
 			if (empleado != null) {
 				txtFichaSupervisorEmpleado.setValue(empleado.getFicha());
-				lblNombre.setValue(empleado.getNombre());
-				idFichaSupervisor = Integer.valueOf(empleado.getFichaSupervisor());
+				lblNombreSupervisor.setValue(empleado.getNombre());
+				idFichaSupervisor = Integer.valueOf(empleado.getId());
 				return false;
 			} else {
 				txtFichaSupervisorEmpleado.setFocus(true);
-				lblNombre.setValue("");
+				lblNombreSupervisor.setValue("");
 				msj.mensajeError(Mensaje.codigoEmpleado);
 				return true;
 			}

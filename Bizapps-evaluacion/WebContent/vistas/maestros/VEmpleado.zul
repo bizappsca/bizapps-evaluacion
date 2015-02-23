@@ -80,6 +80,45 @@
 							<hbox />
 							<hbox />
 					</row>
+					
+					<row>
+						<label value="Ficha:" class="etiqueta" />
+
+						<textbox id="txtFichaEmpleado" width="100%"
+							maxlength="100" tabindex="9"
+							tooltiptext="Ingrese aqui la ficha del empleado" />
+							<hbox />
+							<hbox />
+					</row>
+					<row>
+						<hbox>
+							<label value="Ficha Supervisor:"
+								class="etiqueta" />
+							<space />
+							<label value="*"
+								style="font-weight:bold;color:red">
+							</label>
+						</hbox>
+
+						<textbox id="txtFichaSupervisorEmpleado"
+							tabindex="10" width="100%" maxlength="100"
+							tooltiptext="Ingrese aqui la ficha del supervisor del empleado" />
+						<button id="btnBuscarSupervisor" label="Buscar" autodisable="self"
+							tooltiptext="Catalogo de empleados" class="btn"
+							image="/public/imagenes/botones/buscar.png" />
+						<label id ="lblNombreSupervisor"></label>
+							<hbox />
+					</row>
+					<row>
+						<label value="Grado Auxiliar:" class="etiqueta" />
+
+						<spinner id="spnGradoAuxiliarEmpleado"
+							constraint="no negative" width="100%" maxlength="100"
+							tabindex="11" value="0"
+							tooltiptext="Ingrese aqui el grado auxiliar del empleado" />
+							<hbox />
+							<hbox />
+					</row>
 					<row>
 						<label value="Nivel Académico:"
 							class="etiqueta" />
@@ -114,44 +153,6 @@
 						<textbox id="txtEspecializacionEmpleado" rows="3" cols="100"
 							width="100%" maxlength="100" tabindex="8"
 							tooltiptext="Ingrese aqui la especializacion del empleado" />
-							<hbox />
-							<hbox />
-					</row>
-					<row>
-						<label value="Ficha:" class="etiqueta" />
-
-						<textbox id="txtFichaEmpleado" width="100%"
-							maxlength="100" tabindex="9"
-							tooltiptext="Ingrese aqui la ficha del empleado" />
-							<hbox />
-							<hbox />
-					</row>
-					<row>
-						<hbox>
-							<label value="Ficha Supervisor:"
-								class="etiqueta" />
-							<space />
-							<label value="*"
-								style="font-weight:bold;color:red">
-							</label>
-						</hbox>
-
-						<textbox id="txtFichaSupervisorEmpleado"
-							tabindex="10" width="100%" maxlength="100"
-							tooltiptext="Ingrese aqui la ficha del supervisor del empleado" />
-						<button id="btnBuscarSupervisor" label="Buscar" autodisable="self"
-							tooltiptext="Catalogo de empleados" class="btn"
-							image="/public/imagenes/botones/buscar.png" />
-						<label id ="lblNombre"></label>
-							<hbox />
-					</row>
-					<row>
-						<label value="Grado Auxiliar:" class="etiqueta" />
-
-						<spinner id="spnGradoAuxiliarEmpleado"
-							constraint="no negative" width="100%" maxlength="100"
-							tabindex="11" value="0"
-							tooltiptext="Ingrese aqui el grado auxiliar del empleado" />
 							<hbox />
 							<hbox />
 					</row>

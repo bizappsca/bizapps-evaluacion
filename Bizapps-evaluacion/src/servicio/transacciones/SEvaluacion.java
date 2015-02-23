@@ -122,4 +122,17 @@ public class SEvaluacion {
 	public List<Evaluacion> buscarEvaluacionesRevision() {
 		return evaluacionDAO.buscarEvaluacionesRevision();
 	}
+	
+	public int actualizarEstado(String estado, Integer revision) {
+		
+		for( Evaluacion evaluacion : evaluacionDAO.buscarTodasEvaluacionesActivas(revision))
+		{
+			evaluacion.setEstadoEvaluacion(estado);
+			evaluacionDAO.save(evaluacion);
+		}
+		
+		return 1;
+	}
+	
+	
 }
