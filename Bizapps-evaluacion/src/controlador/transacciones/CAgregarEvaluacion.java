@@ -1588,7 +1588,7 @@ public class CAgregarEvaluacion extends CGenerico {
 				|| txtValorMeta.getText().compareTo("") == 0)
 
 		{
-			Messagebox.show("Debe llenar todos los campos de Indicador",
+			Messagebox.show("Debe llenar todos los campos del Indicador",
 					"Advertencia", Messagebox.OK, Messagebox.EXCLAMATION);
 		} else {
 			if (idIndicador != 0) {
@@ -2775,9 +2775,15 @@ public class CAgregarEvaluacion extends CGenerico {
 				} else {
 					((Doublespinner) ((listItem.getChildren().get(7)))
 							.getFirstChild()).setDisabled(true);
+					
 					valor = ((valorResultado / EvaluacionI.getValorMeta()) * 100);
 
 					Integer valor1 = valor.intValue();
+					
+					if ((valor1==0) && (EvaluacionI.getValorMeta()==0))
+					{
+						valor1=100;
+					}
 
 					resultado = calcularPorcentajeMetaIndicado(valor1)
 							.toString();

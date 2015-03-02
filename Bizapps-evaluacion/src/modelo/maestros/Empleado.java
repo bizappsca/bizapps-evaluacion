@@ -50,6 +50,9 @@ public class Empleado implements Serializable {
 
 	@Column(name = "usuario")
 	private String usuario;
+	
+	@Column(name = "estado")
+	private String estado;
 
 	// bi-directional many-to-one association to Cargo
 	@ManyToOne
@@ -204,6 +207,14 @@ public class Empleado implements Serializable {
 
 	public void setEspecializacion(String especializacion) {
 		this.especializacion = especializacion;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	

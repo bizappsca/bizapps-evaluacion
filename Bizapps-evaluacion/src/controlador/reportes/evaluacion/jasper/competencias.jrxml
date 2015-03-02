@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEvaluacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8d939d0-56b3-4576-b273-d6b9fdb2c7fd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEvaluacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" uuid="b8d939d0-56b3-4576-b273-d6b9fdb2c7fd">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -14,6 +14,10 @@
 	<field name="decripcion_conducta" class="java.lang.String"/>
 	<field name="valor" class="java.lang.Boolean"/>
 	<field name="observacion" class="java.lang.String"/>
+	<variable name="contador_conducta" class="java.lang.Integer" resetType="Group" resetGroup="descripcion_competencia" calculation="Count">
+		<variableExpression><![CDATA[$F{descripcion_competencia}!='']]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
 	<group name="descripcion_competencia" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{descripcion_competencia}]]></groupExpression>
 		<groupHeader>
@@ -52,7 +56,7 @@
 						<bottomPen lineWidth="1.0"/>
 						<rightPen lineWidth="1.0"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{descripcion_competencia}]]></textFieldExpression>
@@ -71,7 +75,7 @@
 					<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement mode="Opaque" x="17" y="39" width="255" height="11" forecolor="#FFFFFF" backcolor="#666666" uuid="977b74f9-3eae-4283-a753-f95a927c1611"/>
+					<reportElement mode="Opaque" x="5" y="39" width="267" height="11" forecolor="#FFFFFF" backcolor="#666666" uuid="977b74f9-3eae-4283-a753-f95a927c1611"/>
 					<box>
 						<pen lineWidth="1.0" lineColor="#000000"/>
 						<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -177,7 +181,7 @@
 	<title>
 		<band height="11">
 			<staticText>
-				<reportElement mode="Opaque" x="-20" y="0" width="550" height="11" backcolor="#CCCCCC" uuid="8fad863d-19da-4f3e-8644-3356219a074e"/>
+				<reportElement mode="Opaque" x="-20" y="-1" width="550" height="11" backcolor="#CCCCCC" uuid="8fad863d-19da-4f3e-8644-3356219a074e"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
@@ -188,14 +192,14 @@
 	<detail>
 		<band height="18" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="17" y="0" width="255" height="18" isPrintWhenDetailOverflows="true" uuid="95dc10e7-951d-460d-922c-60a1bdf448c1"/>
+				<reportElement x="5" y="0" width="267" height="18" isPrintWhenDetailOverflows="true" uuid="95dc10e7-951d-460d-922c-60a1bdf448c1"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{decripcion_conducta}]]></textFieldExpression>
@@ -208,7 +212,7 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
@@ -225,6 +229,19 @@
 					<font fontName="Times New Roman" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{valor}==true ? "SI" : "NO" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="-20" y="0" width="25" height="18" forecolor="#FFFFFF" backcolor="#666666" uuid="a6f254d6-b18d-4d98-8710-6b4de4ba8eba"/>
+				<box>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contador_conducta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

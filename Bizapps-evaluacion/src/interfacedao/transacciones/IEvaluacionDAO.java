@@ -2,6 +2,7 @@ package interfacedao.transacciones;
 
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.Evaluacion;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -157,5 +158,20 @@ public interface IEvaluacionDAO extends JpaRepository<Evaluacion, Integer> {
 			"ev.valoracion like CONCAT('%' , ?5 , '%') and "+ 
 			"em.gradoAuxiliar >= ?6 order by em.gradoAuxiliar,em.nombre ")
 	public List<Evaluacion> buscarEvaluacionRevision(String empresa,String nombreE,String fichaE,String gerencia,String valoracion,Integer Grado);
+	
+	@Query("select  em from Empleado em, Empresa e, UnidadOrganizativa uo, Gerencia g " +
+			"where " +
+			"em.empresa.id = e.id and " +
+			"e.nombre like ?1 AND  " +
+			"em.unidadOrganizativa.id = uo.id and " +
+			"uo.gerencia.id = g.id  and em.estado='ACTIVO' and em.ficha not in (select eva.ficha from Evaluacion eva , Revision r where r.id = eva.revision.id and r.estadoRevision = 'ACTIVO'  )   order by em.gradoAuxiliar, em.nombre  "  )
+	public List<Empleado> buscarPersonalSinEvaluacion(String empresa);
+	
+	@Query("select eva from Evaluacion eva, Revision r , Empleado em,Empresa e " +
+			"where r.id = eva.revision.id and em.ficha=eva.ficha and  em.empresa.id = e.id and " +
+			" r.estadoRevision = 'ACTIVO'  and em.estado='ACTIVO' and e.nombre like ?1  order by eva.resultadoFinal, em.nombre")
+	public List<Evaluacion> buscarPersonalConEvaluacion(String empresa);
+	
+	
 	
 }

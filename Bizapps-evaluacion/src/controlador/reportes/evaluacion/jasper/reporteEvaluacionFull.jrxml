@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEvaluacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8d939d0-56b3-4576-b273-d6b9fdb2c7fd">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="29"/>
+	<property name="ireport.y" value="170"/>
 	<parameter name="evaluacion" class="java.lang.String"/>
 	<parameter name="evaluador" class="java.lang.String"/>
 	<parameter name="path_banner" class="java.lang.String"/>
@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA["C:\\Users\\nando\\workspace\\Bizapps-evaluacion\\src\\controlador\\reportes\\evaluacion\\jasper\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT eva.ficha, r.descripcion as revision, p.nombre as periodo, e.nombre as nombre_empleado, c.descripcion as cargo, unid.descripcion as unidad, ger.descripcion as gerencia, evi.linea as linea, evi.descripcion_indicador as indicador, umedida.descripcion as unidad_medida, med.descripcion_medicion as medicion, evi.peso as peso, evi.valor_meta as valor_meta, evi.valor_resultado as valor_resultado, evi.resultado_fy_anterior as valor_fy, evi.resultado_porc as resultado_porcentaje, evi.resultado_peso as resultado_peso, evi.id_objetivo as codigo_objetivo, evo.linea as linea_objetivo, persp.descripcion as pilar_estrategico, evo.descripcion_objetivo as objetivo, evo.corresponsables as corresponsables, evo.peso as peso_objetivo, evo.total_ind as total_objetivo, evo.resultado as resultado_objetivo,eva.resultado_objetivos, eva.resultado_competencias,eva.resultado_general,eva.comentario,eva.fortalezas,eva.oportunidades,eva.resumen,eva.compromisos  , eva.estado_evaluacion,eva.fecha_creacion,eva.fecha_revision,eva.fecha_aprobacion,valoracion FROM empleado e,evaluacion eva, revision r, periodo p, cargo c, unidad_organizativa unid, gerencia ger, evaluacion_objetivo evo, evaluacion_indicador evi, unidad_medida umedida, medicion med, perspectiva persp WHERE eva.id_evaluacion = $P{evaluacion} and eva.id_evaluacion = evo.id_evaluacion and evo.id_perspectiva = persp.id_perspectiva and  evo.id_objetivo = evi.id_objetivo and evi.id_unidad = umedida.id_unidad and evi.id_medicion = med.id_medicion and eva.id_revision = r.id_revision and r.id_periodo = p.id_periodo and eva.ficha = e.ficha and e.id_cargo = c.id_cargo and e.id_unidad_organizativa = unid.id_unidad_organizativa and unid.id_gerencia = ger.id_gerencia]]>
+		<![CDATA[SELECT eva.ficha, r.descripcion as revision, p.nombre as periodo, e.nombre as nombre_empleado, c.descripcion as cargo, unid.descripcion as unidad, ger.descripcion as gerencia, evi.linea as linea, evi.descripcion_indicador as indicador, umedida.descripcion as unidad_medida, med.descripcion_medicion as medicion, evi.peso as peso, evi.valor_meta as valor_meta, evi.valor_resultado as valor_resultado, evi.resultado_fy_anterior as valor_fy, evi.resultado_porc as resultado_porcentaje, evi.resultado_peso as resultado_peso, evi.id_objetivo as codigo_objetivo, evo.linea as linea_objetivo, persp.descripcion as pilar_estrategico, evo.descripcion_objetivo as objetivo, evo.corresponsables as corresponsables, evo.peso as peso_objetivo, evo.total_ind as total_objetivo, evo.resultado as resultado_objetivo,eva.resultado_objetivos, eva.resultado_competencias,eva.resultado_general,eva.comentario,eva.fortalezas,eva.oportunidades,eva.resumen,eva.compromisos  , eva.estado_evaluacion,eva.fecha_creacion,eva.fecha_revision,eva.fecha_aprobacion,valoracion FROM empleado e,evaluacion eva, revision r, periodo p, cargo c, unidad_organizativa unid, gerencia ger, evaluacion_objetivo evo, evaluacion_indicador evi, unidad_medida umedida, medicion med, perspectiva persp WHERE eva.id_evaluacion = $P{evaluacion} and eva.id_evaluacion = evo.id_evaluacion and evo.id_perspectiva = persp.id_perspectiva and  evo.id_objetivo = evi.id_objetivo and evi.id_unidad = umedida.id_unidad and evi.id_medicion = med.id_medicion and eva.id_revision = r.id_revision and r.id_periodo = p.id_periodo and eva.ficha = e.ficha and e.id_cargo = c.id_cargo and e.id_unidad_organizativa = unid.id_unidad_organizativa and unid.id_gerencia = ger.id_gerencia  order by linea_objetivo,linea]]>
 	</queryString>
 	<field name="ficha" class="java.lang.String"/>
 	<field name="revision" class="java.lang.String"/>
@@ -37,9 +37,9 @@
 	<field name="peso_objetivo" class="java.lang.Double"/>
 	<field name="total_objetivo" class="java.lang.Double"/>
 	<field name="resultado_objetivo" class="java.lang.Double"/>
-	<field name="resultado_objetivos" class="java.lang.Integer"/>
-	<field name="resultado_competencias" class="java.lang.Integer"/>
-	<field name="resultado_general" class="java.lang.Integer"/>
+	<field name="resultado_objetivos" class="java.lang.Double"/>
+	<field name="resultado_competencias" class="java.lang.Double"/>
+	<field name="resultado_general" class="java.lang.Double"/>
 	<field name="comentario" class="java.lang.String"/>
 	<field name="fortalezas" class="java.lang.String"/>
 	<field name="oportunidades" class="java.lang.String"/>
@@ -50,6 +50,10 @@
 	<field name="fecha_revision" class="java.sql.Timestamp"/>
 	<field name="fecha_aprobacion" class="java.sql.Timestamp"/>
 	<field name="valoracion" class="java.lang.String"/>
+	<variable name="contador_indicador" class="java.lang.Integer" resetType="Group" resetGroup="Objetivo" calculation="Count">
+		<variableExpression><![CDATA[$F{indicador}!='']]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
 	<group name="ficha">
 		<groupExpression><![CDATA[$F{ficha}]]></groupExpression>
 		<groupHeader>
@@ -216,12 +220,12 @@ SUPERVISOR
 						<subreportParameterExpression><![CDATA[$P{evaluacion}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "competencias.jasper"]]></subreportExpression>
+					<subreportExpression><![CDATA["controlador/reportes/evaluacion/jasper/competencias.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>
 	</group>
-	<group name="Objetivo" isReprintHeaderOnEachPage="true">
+	<group name="Objetivo">
 		<groupExpression><![CDATA[$F{codigo_objetivo}]]></groupExpression>
 		<groupHeader>
 			<band height="50">
@@ -545,7 +549,7 @@ SUPERVISOR
 	<title>
 		<band height="38" splitType="Stretch">
 			<staticText>
-				<reportElement x="212" y="3" width="338" height="35" uuid="5422294f-87ee-4d1f-b851-2d0af08f3f9c"/>
+				<reportElement x="101" y="3" width="449" height="35" uuid="5422294f-87ee-4d1f-b851-2d0af08f3f9c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="14" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
@@ -790,7 +794,7 @@ SUPERVISOR
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="7" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{linea_objetivo}+"."+$F{linea}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{linea_objetivo}+"."+$V{contador_indicador}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="477" y="0" width="33" height="18" uuid="6da69c47-eec5-43f8-b23f-4a6ba3e1bc3e"/>
@@ -920,13 +924,6 @@ SUPERVISOR
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="471" y="0" width="76" height="10" uuid="91e0b2e8-53f1-4e97-89b8-032f8ae19563"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+ " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
 			<textField pattern="h.mm a">
 				<reportElement x="75" y="0" width="100" height="10" uuid="c4859c53-876d-4e55-b6bf-7243784bfa8e"/>
 				<textElement verticalAlignment="Middle">
@@ -934,10 +931,24 @@ SUPERVISOR
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="433" y="0" width="80" height="10" uuid="c9ca7770-8e6d-4d44-804b-2b25da82cf5e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="0" width="40" height="10" uuid="1f5eb9fc-eb57-49e1-bef0-486f8d2967be"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<lastPageFooter>
-		<band height="50">
+		<band height="61">
 			<textField>
 				<reportElement x="1" y="13" width="73" height="10" uuid="8c685889-01f5-43c3-845c-d6674279ef55"/>
 				<box>
@@ -1142,9 +1153,23 @@ SUPERVISOR
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font size="7"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{evaluador}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="51" width="40" height="10" uuid="0ad34a72-726d-4130-b039-70d80fa135ae"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="51" width="80" height="10" uuid="6705d410-c693-492a-adc1-b3e7f57451f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 		</band>
 	</lastPageFooter>

@@ -5,8 +5,10 @@ package servicio.transacciones;
 import interfacedao.transacciones.IBitacoraDAO;
 import interfacedao.transacciones.IEvaluacionDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import modelo.maestros.Empleado;
 import modelo.maestros.Evaluacion;
 import modelo.maestros.EvaluacionObjetivo;
 
@@ -133,6 +135,34 @@ public class SEvaluacion {
 		
 		return 1;
 	}
+	
+	public List<Evaluacion> buscarPersonalConEvaluacion(String empresa) {
+		return evaluacionDAO.buscarPersonalConEvaluacion(empresa);
+	}
+	
+	public List<Evaluacion> buscarPersonalSinEvaluacion(String empresa) {
+		
+		List<Empleado> listaEmpleado=evaluacionDAO.buscarPersonalSinEvaluacion(empresa);
+		List<Evaluacion> listaEvaluaciones=new ArrayList<Evaluacion>();
+		for (Empleado empleado:listaEmpleado)
+		{
+			Evaluacion evaluacion = new Evaluacion();
+			evaluacion.setFicha(empleado.getFicha());
+			evaluacion.setFichaEvaluador(empleado.getFichaSupervisor());
+			evaluacion.setEstadoEvaluacion("");
+			evaluacion.setResultadoObjetivos(0);
+			evaluacion.setResultadoCompetencias(0);
+			evaluacion.setResultadoGeneral(0);
+			evaluacion.setValoracion("");
+			evaluacion.setResultadoFinal(0);
+			listaEvaluaciones.add(evaluacion);
+		}
+		
+		
+		return listaEvaluaciones;
+	}
+	
+	
 	
 	
 }

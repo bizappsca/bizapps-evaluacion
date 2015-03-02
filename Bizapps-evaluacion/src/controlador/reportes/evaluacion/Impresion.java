@@ -35,7 +35,7 @@ public class Impresion extends HttpServlet {
         
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "inline; filename=inventario.pdf");
+        response.setHeader("Content-disposition", "inline; filename=evaluacion.pdf");
         response.setHeader("Cache-Control", "max-age=30");
         response.setHeader("Pragma", "No-cache");
         response.setDateHeader("Expires", 0);
