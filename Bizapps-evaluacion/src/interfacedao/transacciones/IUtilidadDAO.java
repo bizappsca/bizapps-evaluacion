@@ -1,5 +1,10 @@
 package interfacedao.transacciones;
 
+import java.util.List;
+import java.util.Map;
+
+import modelo.beans.BeanCapacitacionRequerida;
+
 public interface IUtilidadDAO {
 	
 	public void eliminarConductaPorCompetencia(Integer eva, Integer com);
@@ -8,5 +13,6 @@ public interface IUtilidadDAO {
 	public String obtenerValoracionFinalSimple(double resultado);
 	public void eliminarCompetenciaPorEvaluacion(Integer eva);
 	public void eliminarCapacitacionPorEvaluacion(Integer eva);
+	public List<BeanCapacitacionRequerida> getListaCapacitacionRequerida(Integer idPeriodo);
 
 }

@@ -2511,7 +2511,7 @@ public class CAgregarEvaluacion extends CGenerico {
 			
 			
 			
-			Messagebox.show("Desea imprimir el reporte detallado con competencias y conductas ?", "Alerta",
+			Messagebox.show("Desea imprimir el reporte detallado con competencias, conductas y capacitacion ?", "Alerta",
 					Messagebox.YES | Messagebox.NO,
 					Messagebox.QUESTION,
 					new org.zkoss.zk.ui.event.EventListener<Event>() {

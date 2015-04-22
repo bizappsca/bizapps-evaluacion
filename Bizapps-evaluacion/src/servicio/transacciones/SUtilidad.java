@@ -1,5 +1,6 @@
 package servicio.transacciones;
 
+import java.util.List;
 import java.util.Map;
 
 import interfacedao.reportes.IReporteDAO;
@@ -8,6 +9,7 @@ import interfacedao.transacciones.IUtilidadDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zkoss.chart.model.CategoryModel;
+import modelo.beans.BeanCapacitacionRequerida;
 
 @Service
 public class SUtilidad {
@@ -47,6 +49,11 @@ public class SUtilidad {
 	@SuppressWarnings("unchecked")
 	public void eliminarCapacitacionPorEvaluacion(Integer eva)  {
 		servicioUtilidadDAO.eliminarCapacitacionPorEvaluacion(eva);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BeanCapacitacionRequerida> getListaCapacitacionRequerida(Integer idPeriodo)  {
+		return servicioUtilidadDAO.getListaCapacitacionRequerida(idPeriodo);
 	}
 	
 	

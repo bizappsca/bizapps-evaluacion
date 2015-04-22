@@ -291,7 +291,14 @@ public class CControlAsistencia extends CGenerico {
 					Listitem listItem = lsbEmpleado.getItemAtIndex(j);
 					if (empleadosCurso.get(j).getEstadoCurso()
 							.equals("APROBADO")) {
+						((Checkbox) ((listItem.getChildren().get(6)))
+								.getFirstChild()).setChecked(true);
 
+					}
+					
+					
+					if (empleadosCurso.get(j).getAsistio()
+							.equals("SI")) {
 						((Checkbox) ((listItem.getChildren().get(5)))
 								.getFirstChild()).setChecked(true);
 
@@ -325,8 +332,9 @@ public class CControlAsistencia extends CGenerico {
 								.get(0))).getFirstChild()).getValue();
 
 						String estadoCurso = null;
+						String asistio = "NO";
 
-						if (((Checkbox) ((listItem.getChildren().get(5)))
+						if (((Checkbox) ((listItem.getChildren().get(6)))
 								.getFirstChild()).isChecked()) {
 
 							estadoCurso = "APROBADO";
@@ -334,6 +342,16 @@ public class CControlAsistencia extends CGenerico {
 						} else {
 
 							estadoCurso = "REPROBADO";
+						}
+						
+						if (((Checkbox) ((listItem.getChildren().get(5)))
+								.getFirstChild()).isChecked()) {
+
+							asistio = "SI";
+
+						} else {
+
+							asistio = "NO";
 						}
 
 						Empleado empleado = servicioEmpleado
@@ -343,6 +361,7 @@ public class CControlAsistencia extends CGenerico {
 						EmpleadoCurso empleadosCurso = servicioEmpleadoCurso
 								.buscarPorempleadoYCurso(empleado, curso);
 						empleadosCurso.setEstadoCurso(estadoCurso);
+						empleadosCurso.setAsistio(asistio);
 						servicioEmpleadoCurso.guardar(empleadosCurso);
 
 					}

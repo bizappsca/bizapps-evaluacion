@@ -124,7 +124,7 @@ public class CBuscarEvaluacionSatisfaccion extends CGenerico {
 						Sessions.getCurrent()
 								.setAttribute("itemsCatalogo", map);
 						List<Arbol> arboles = servicioArbol
-								.buscarPorArbolPorNombre("Evaluacion  de Satisfacion");
+								.buscarPorArbolPorNombre("Evaluacion de Satisfacion");
 						if (!arboles.isEmpty()) {
 							Arbol arbolItem = arboles.get(0);
 							cArbol.abrirVentanas(arbolItem, tabBox, contenido,

@@ -84,7 +84,7 @@
 						<rows>
 							<row>
 								<hbox>
-									<label class="etiqueta" value="Periodo:" />
+									<label class="etiqueta" value="Revisiones:" />
 									<space />
 									<label value="*" style="font-weight:bold;color:red">
 									</label>
@@ -93,7 +93,7 @@
 									tabindex="1" width="100%" maxlength="100"
 									tooltiptext="Ingrese aqui el nombre del periodo" />
 								<button id="btnBuscarPeriodo" label="Buscar" style="margin-left:10px"
-									class="btn" tooltiptext="Catalogo de periodos" image="/public/imagenes/botones/buscar.png" />
+									class="btn" tooltiptext="Catalogo de Revisiones" image="/public/imagenes/botones/buscar.png" />
 							</row>
 						</rows>
 					</grid>
@@ -107,8 +107,8 @@
 							image="/public/imagenes/botones/exportar.png" />
 
 					</div>
-					<listbox id="lsbAdiestramientos" width="98%" mold="paging"
-						style="margin-left:5px;margin-right:5px" pageSize="10"
+					<listbox id="lsbAdiestramientos" width="98%" mold="default"
+						style="margin-left:5px;margin-right:5px" 
 						oddRowSclass="non-odd" emptyMessage="No ha seleccionado el periodo">
 						<listhead>
 							<listheader label="Ficha" width="70px" />
@@ -116,29 +116,36 @@
 							<listheader label="Capacitación" />
 							<listheader label="Área" />
 							<listheader label="Tipo Formación" />
-							<listheader label="Periodo" width="80px" />
+							<listheader label="Urgencia" />
 							<listheader label="Gerencia" />
 							<listheader label="Cargo" />
+							<listheader label="Grado" />
+							<listheader label="Revision" width="80px" />
+						
 						</listhead>
 						<template name="model">
 							<listitem>
-								<listcell label="${each.empleado.ficha}">
+								<listcell label="${each.ficha}">
 								</listcell>
-								<listcell label="${each.empleado.nombre}">
+								<listcell label="${each.nombre}">
 								</listcell>
-								<listcell label="${each.curso.nombreCurso.nombre}">
+								<listcell label="${each.capacitacion}">
 								</listcell>
-								<listcell label="${each.curso.nombreCurso.area.descripcion}">
-								</listcell>
-								<listcell
-									label="${each.curso.nombreCurso.area.tipoFormacion.descripcion}">
-								</listcell>
-								<listcell label="${each.curso.periodo.nombre}">
+								<listcell label="${each.area}">
 								</listcell>
 								<listcell
-									label="${each.empleado.unidadOrganizativa.gerencia.descripcion}">
+									label="${each.tipoFormacion}">
 								</listcell>
-								<listcell label="${each.empleado.cargo.descripcion}">
+								<listcell label="${each.urgencia}">
+								</listcell>
+								<listcell label="${each.gerencia}">
+								</listcell>
+								<listcell
+									label="${each.cargo}">
+								</listcell>
+								<listcell label="${each.grado}">
+								</listcell>
+								<listcell label="${each.revision}">
 								</listcell>
 							</listitem>
 						</template>

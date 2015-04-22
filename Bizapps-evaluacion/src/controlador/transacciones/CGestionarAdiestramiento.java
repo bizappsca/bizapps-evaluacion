@@ -18,6 +18,7 @@ import java.io.File;
 import jxl.*;
 import jxl.read.biff.BiffException;
 
+import modelo.beans.BeanCapacitacionRequerida;
 import modelo.maestros.Actividad;
 import modelo.maestros.ActividadCurso;
 import modelo.maestros.Area;
@@ -26,6 +27,7 @@ import modelo.maestros.Empleado;
 import modelo.maestros.EmpleadoCurso;
 import modelo.maestros.NombreCurso;
 import modelo.maestros.Periodo;
+import modelo.maestros.Revision;
 import modelo.seguridad.Arbol;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -44,10 +46,15 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listhead;
+import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
@@ -112,7 +119,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 	private int idRow = 0;
 	private int idNombreCurso = 0;
 	private int idCurso = 0;
-	private int idPeriodo = 0;
+	private int idRevision = 0;
 	Curso curso = new Curso();
 	NombreCurso nombreCurso = new NombreCurso();
 	Periodo periodo = new Periodo();
@@ -129,7 +136,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 	int errorLinea = 0;
 	boolean parar = false;
 
-	Catalogo<Periodo> catalogoPeriodo;
+	Catalogo<Revision> catalogoPeriodo;
 
 	private CArbol cArbol = new CArbol();
 
@@ -253,6 +260,14 @@ public class CGestionarAdiestramiento extends CGenerico {
 			ParseException {
 
 		lineasInvalidas = 0;
+		
+		periodo = servicioPeriodo.buscarPeriodoActivo();
+		
+		if (periodo!=null)
+		{
+			
+		
+		
 
 		if (mediaAdiestramiento != null) {
 
@@ -275,18 +290,17 @@ public class CGestionarAdiestramiento extends CGenerico {
 					errorLinea = 0;
 
 					String ficha = sheet.getCell(0, fila).getContents();
-					String nombreEmpleado = sheet.getCell(1, fila)
-							.getContents();
+					/*String nombreEmpleado = sheet.getCell(1, fila)
+							.getContents();*/
 					String nombrecurso = sheet.getCell(2, fila).getContents();
 					String nombreArea = sheet.getCell(3, fila).getContents();
 					String tipoFormacion = sheet.getCell(4, fila).getContents();
-					String nombrePeriodo = sheet.getCell(5, fila).getContents();
-					String gerencia = sheet.getCell(6, fila).getContents();
-					String cargo = sheet.getCell(7, fila).getContents();
+					//String nombrePeriodo = sheet.getCell(5, fila).getContents();
+					/*String gerencia = sheet.getCell(6, fila).getContents();
+					String cargo = sheet.getCell(7, fila).getContents();*/
 
 					// VALIDACION FICHA
-					empleado = servicioEmpleado.buscarPorFichaYNombre(ficha,
-							nombreEmpleado);
+					empleado = servicioEmpleado.buscarPorFicha(ficha);
 
 					if (empleado == null) {
 
@@ -299,34 +313,23 @@ public class CGestionarAdiestramiento extends CGenerico {
 							.buscarPorNombre(nombrecurso);
 
 					if (nombreCurso == null) {
+						//lineasInvalidas = lineasInvalidas + 1;
+						errores = errores + 1;
+						errorLinea = errorLinea + 1;
+					} 
+					
+					area = servicioArea.buscarPorNombresTipoFormacion(nombreArea,tipoFormacion);
 
-						// VALIDACION AREA
-						area = servicioArea.buscarPorNombre(nombreArea);
-
-						if (area == null) {
-
-							errores = errores + 1;
-							errorLinea = errorLinea + 1;
-
-						}
-
-					} else {
-
-						// VALIDACION AREA
-						area = servicioArea.buscarPorNombre(nombreArea);
-
-						if (area == null) {
-
-							errores = errores + 1;
-							errorLinea = errorLinea + 1;
-
-						}
+					if (area == null) {
+						//lineasInvalidas = lineasInvalidas + 1;
+						errores = errores + 1;
+						errorLinea = errorLinea + 1;
 
 					}
 
 					// VALIDACION PERIODO
 
-					periodo = servicioPeriodo.buscarPorNombre(nombrePeriodo);
+					/*periodo = servicioPeriodo.buscarPorNombre(nombrePeriodo);
 
 					if (periodo == null) {
 
@@ -340,7 +343,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 					} else {
 
 						lineasValidas = lineasValidas + 1;
-					}
+					}*/
 
 					filaEvaluada++;
 					fila++;
@@ -355,7 +358,7 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 			if (lineasInvalidas > 0) {
 
-				System.out.println("Entre 1");
+				
 
 				limpiarCampos();
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -375,12 +378,13 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 			} else {
 
-				System.out.println("Entre 2");
+				
+				// CUANDO NO HAY ERRORES ENTRA POR ACA A INSERTAR
 
 				// Copiar archivo excel en el directorio C:\files\
-				Files.copy(
+				/*Files.copy(
 						new File("C:\\files\\" + mediaAdiestramiento.getName()),
-						mediaAdiestramiento.getStreamData());
+						mediaAdiestramiento.getStreamData());*/
 
 				// Insercion de los datos en la base de datos
 
@@ -402,128 +406,65 @@ public class CGestionarAdiestramiento extends CGenerico {
 						errorLinea = 0;
 
 						String ficha = sheet.getCell(0, fila).getContents();
-						String nombreEmpleado = sheet.getCell(1, fila)
-								.getContents();
+						/*String nombreEmpleado = sheet.getCell(1, fila)
+								.getContents();*/
 						String nombrecurso = sheet.getCell(2, fila)
 								.getContents();
 						String nombreArea = sheet.getCell(3, fila)
 								.getContents();
 						String tipoFormacion = sheet.getCell(4, fila)
 								.getContents();
-						String nombrePeriodo = sheet.getCell(5, fila)
-								.getContents();
-						String gerencia = sheet.getCell(6, fila).getContents();
-						String cargo = sheet.getCell(7, fila).getContents();
+						/*String nombrePeriodo = sheet.getCell(5, fila)
+								.getContents();*/
+						/*String gerencia = sheet.getCell(6, fila).getContents();
+						String cargo = sheet.getCell(7, fila).getContents();*/
 
 						// VALIDACION FICHA
 						empleado = servicioEmpleado.buscarPorFicha(ficha);
 
-						if (empleado == null) {
-
-							errores = errores + 1;
-
-						}
-
-						// VALIDACION PERIODO
-
-						periodo = servicioPeriodo
-								.buscarPorNombre(nombrePeriodo);
-
-						if (periodo == null) {
-
-							errores = errores + 1;
-
-						}
-
-						// VALIDACION NOMBRE_CURSO
+					
 						nombreCurso = servicioNombreCurso
 								.buscarPorNombre(nombrecurso);
+						
+						
 
+						// SI CURSO NO EXISTE LO CREA
 						if (nombreCurso == null) {
-
-							// VALIDACION AREA
-							area = servicioArea.buscarPorNombre(nombreArea);
-
-							if (area == null) {
-
-								errores = errores + 1;
-
-							} else {
-
-								System.out.println("Entre 3");
-
-								NombreCurso curso = new NombreCurso(
-										idNombreCurso, area, nombrecurso,
-										fechaAuditoria, horaAuditoria, usuario);
-								servicioNombreCurso.guardar(curso);
-
-								System.out.println(periodo);
-
-								if (periodo != null) {
-
-									System.out.println("Entre 4");
-
-									NombreCurso ultimoCurso = servicioNombreCurso
-											.buscarUltimoCurso();
-
-									System.out.println(ultimoCurso);
-
-									Curso configurarCurso = new Curso(idCurso,
-											periodo, ultimoCurso, null, null,
-											0, null, null, "ACTIVO",
-											fechaAuditoria, horaAuditoria,
-											usuario);
-									servicioCurso.guardar(configurarCurso);
-
-									Curso ultimoCursoRegistrado = servicioCurso
-											.buscarUltimoCurso();
-
-									System.out.println(ultimoCursoRegistrado);
-
-									EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
-											ultimoCursoRegistrado, empleado,
-											"EN TRAMITE");
-									servicioEmpleadoCurso
-											.guardar(cursosEmpleado);
-
-								}
-
-							}
-
-						} else {
-
-							// VALIDACION AREA
-							Area area = servicioArea
-									.buscarPorNombre(nombreArea);
-
-							if (area == null) {
-
-								errores = errores + 1;
-
-							}
-
-							Curso configurarCurso = new Curso(idCurso, periodo,
-									nombreCurso, null, null, 0, null, null,
-									"ACTIVO", fechaAuditoria, horaAuditoria,
-									usuario);
-
-							Curso ultimoCursoRegistrado = servicioCurso
+							
+							area = servicioArea.buscarPorNombresTipoFormacion(nombreArea,tipoFormacion);
+							
+							NombreCurso curso = new NombreCurso(
+									idNombreCurso, area, nombrecurso,
+									fechaAuditoria, horaAuditoria, usuario);
+							servicioNombreCurso.guardar(curso);
+							
+							NombreCurso ultimoCurso = servicioNombreCurso
 									.buscarUltimoCurso();
 
-							EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
-									ultimoCursoRegistrado, empleado,
-									"EN TRAMITE");
-							servicioEmpleadoCurso.guardar(cursosEmpleado);
+							Curso configurarCurso = new Curso(idCurso,
+									periodo, ultimoCurso, null, null,
+									0, null, null, "ACTIVO",
+									fechaAuditoria, horaAuditoria,
+									usuario);
+							servicioCurso.guardar(configurarCurso);
 
-						}
+							
+							
 
-						if (errorLinea != 0) {
-							lineasInvalidas = lineasInvalidas + 1;
+						} 
+						
+						Curso ultimoCursoRegistrado = servicioCurso
+								.buscarUltimoCurso();
 
-						} else {
+						EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
+								ultimoCursoRegistrado, empleado,
+								"EN TRAMITE","NO");
+						servicioEmpleadoCurso.guardar(cursosEmpleado);
+						
+						/*Messagebox.show("Se importo correctamente la informacion de los cursos", "Advertencia",
+								Messagebox.OK, Messagebox.INFORMATION );*/
 
-							lineasValidas = lineasValidas + 1;
-						}
+						
 
 						fila++;
 						filaEvaluada++;
@@ -559,18 +500,27 @@ public class CGestionarAdiestramiento extends CGenerico {
 					Messagebox.OK, Messagebox.EXCLAMATION);
 
 		}
+		
+		}
+		else {
+
+			Messagebox.show("Debe existir un periodo activo para poder continuar", "Advertencia",
+					Messagebox.OK, Messagebox.EXCLAMATION);
+
+		}
+		
 
 	}
 
 	private void limpiarCampos() {
 		idRow = 0;
-		idPeriodo = 0;
+		idRevision = 0;
 		txtArchivoAdiestramiento.setText("");
 		txtArchivoAdiestramiento.setPlaceholder("Ningún archivo seleccionado");
 		txtArchivoAdiestramiento.setStyle("color:black !important;");
 		txtPeriodoGestionarAdiestramiento.setValue("");
 		rdgGestionarAdiestramiento.setSelectedItem(null);
-		lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>());
+		lsbAdiestramientos.setModel(new ListModelList<BeanCapacitacionRequerida>());
 		gbImportar.setVisible(false);
 		gbExportar.setVisible(false);
 
@@ -595,35 +545,23 @@ public class CGestionarAdiestramiento extends CGenerico {
 	@Listen("onClick = #btnBuscarPeriodo")
 	public void buscarPeriodo() {
 
-		final List<Periodo> listPeriodo = servicioPeriodo.buscarTodos();
-		catalogoPeriodo = new Catalogo<Periodo>(divCatalogoPeriodo,
-				"Catalogo de Periodos", listPeriodo, true, false, false,
-				"Nombre", "Descripción", "Fecha Inicio", "Fecha Fin", "Estado") {
+		final List<Revision> listPeriodo = servicioRevision.buscarTodas();
+		catalogoPeriodo =  new Catalogo<Revision>(divCatalogoPeriodo,
+				"Catalogo de Revisiones", listPeriodo, false,false,false,"Periodo",
+				"Descripción", "Estado") {
 
 			@Override
-			protected List<Periodo> buscar(List<String> valores) {
-				List<Periodo> lista = new ArrayList<Periodo>();
+			protected List<Revision> buscar(List<String> valores) {
+				List<Revision> lista = new ArrayList<Revision>();
 
-				for (Periodo periodo : listPeriodo) {
-					if (periodo.getNombre().toLowerCase()
+				for (Revision revision : listPeriodo) {
+					if (revision.getPeriodo().getDescripcion().toLowerCase()
 							.contains(valores.get(0).toLowerCase())
-							&& periodo.getDescripcion().toLowerCase()
+							&& revision.getDescripcion().toLowerCase()
 									.contains(valores.get(1).toLowerCase())
-							&& String
-									.valueOf(
-											formatoFecha.format(periodo
-													.getFechaInicio()))
-									.toLowerCase()
-									.contains(valores.get(2).toLowerCase())
-							&& String
-									.valueOf(
-											formatoFecha.format(periodo
-													.getFechaFin()))
-									.toLowerCase()
-									.contains(valores.get(3).toLowerCase())
-							&& periodo.getEstadoPeriodo().toLowerCase()
-									.contains(valores.get(4).toLowerCase())) {
-						lista.add(periodo);
+							&& revision.getEstadoRevision().toLowerCase()
+									.contains(valores.get(2).toLowerCase())) {
+						lista.add(revision);
 					}
 				}
 				return lista;
@@ -631,44 +569,42 @@ public class CGestionarAdiestramiento extends CGenerico {
 			}
 
 			@Override
-			protected String[] crearRegistros(Periodo periodo) {
-				String[] registros = new String[6];
-				registros[0] = periodo.getNombre();
-				registros[1] = periodo.getDescripcion();
-				registros[2] = formatoFecha.format(periodo.getFechaInicio());
-				registros[3] = formatoFecha.format(periodo.getFechaFin());
-				registros[4] = periodo.getEstadoPeriodo();
+			protected String[] crearRegistros(Revision revision) {
+				String[] registros = new String[3];
+				registros[0] = revision.getPeriodo().getDescripcion();
+				registros[1] = revision.getDescripcion();
+				registros[2] = revision.getEstadoRevision();
 
 				return registros;
 			}
+
 		};
+		
+		
 		catalogoPeriodo.setClosable(true);
 		catalogoPeriodo.setWidth("80%");
 		catalogoPeriodo.setParent(divCatalogoPeriodo);
-		catalogoPeriodo.setTitle("Catalogo de Periodos");
+		catalogoPeriodo.setTitle("Catalogo de Revisiones");
 		catalogoPeriodo.doModal();
 
 	}
 
 	@Listen("onSeleccion = #divCatalogoPeriodo")
 	public void seleccionPeriodo() {
-		Periodo periodo = catalogoPeriodo.objetoSeleccionadoDelCatalogo();
-		idPeriodo = periodo.getId();
-		txtPeriodoGestionarAdiestramiento.setValue(periodo.getNombre());
+		Revision revision = catalogoPeriodo.objetoSeleccionadoDelCatalogo();
+		idRevision = revision.getId();
+		txtPeriodoGestionarAdiestramiento.setValue(revision.getDescripcion());
 		llenarLista();
 		catalogoPeriodo.setParent(null);
 	}
 
 	public void llenarLista() {
 
-		if (idPeriodo != 0) {
-			Periodo periodoCursos = servicioPeriodo.buscarPeriodo(idPeriodo);
+		if (idRevision != 0) {
+			/*Periodo periodoCursos = servicioPeriodo.buscarPeriodo(idPeriodo);
 			cursos = servicioCurso.buscarPorPeriodo(periodoCursos);
 
 			empleadoCursos = servicioEmpleadoCurso.buscarTodos();
-
-			// metodo para buscar todos los DNA de acuerdo al periodo
-			// seleccionado
 
 			for (int i = 0; i < cursos.size(); i++) {
 
@@ -690,26 +626,70 @@ public class CGestionarAdiestramiento extends CGenerico {
 
 				}
 
-			}
+			}*/
+			
+			List<BeanCapacitacionRequerida> lista= servicioUtilidad.getListaCapacitacionRequerida(idRevision);
 
-			lsbAdiestramientos.setModel(new ListModelList<EmpleadoCurso>(
-					cursosPeriodo));
+			lsbAdiestramientos.setModel(new ListModelList<BeanCapacitacionRequerida>(lista));
 
 		}
 
 	}
-
+	
 	@Listen("onClick = #btnExportarAdiestramientos")
+	public void exportar() throws IOException {
+		System.out.println(lsbAdiestramientos.getItemCount());
+		if (lsbAdiestramientos.getItemCount() != 0) {
+			String s = ";";
+			final StringBuffer sb = new StringBuffer();
+
+			for (Object head : lsbAdiestramientos.getHeads()) {
+				String h = "";
+				if (head instanceof Listhead) {
+					for (Object header : ((Listhead) head).getChildren()) {
+						h += ((Listheader) header).getLabel() + s;
+					}
+					sb.append(h + "\n");
+				}
+			}
+			for (Object item : lsbAdiestramientos.getItems()) {
+				int x=1;
+				String i = "";
+				for (Object cell : ((Listitem) item).getChildren()) {
+					i += ((Listcell) cell).getLabel().trim().replaceAll("[\n\r]","") + s;
+				}
+				sb.append(i + "\n");
+				System.out.println("PASE: " + x);
+			}
+			
+			Messagebox.show(Mensaje.exportar, "Alerta", Messagebox.OK
+					| Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+						public void onEvent(Event evt)
+								throws InterruptedException {
+							if (evt.getName().equals("onOK")) {
+								Filedownload.save(sb.toString().getBytes(),
+										"text/plain", "CapacitacionRequeridaRevision.csv");
+							}
+						}
+					});
+		} else
+			msj.mensajeAlerta(Mensaje.noHayRegistros);
+	}
+
+	
 	public void exportarDatos() throws IOException {
+		
+		List<BeanCapacitacionRequerida> lista= servicioUtilidad.getListaCapacitacionRequerida(idRevision);
 
-		if (cursosPeriodo.size() != 0) {
+		if (lista.size() != 0) {
 
-			Periodo periodoSeleccionado = servicioPeriodo
-					.buscarPeriodo(idPeriodo);
+			/*Periodo periodoSeleccionado = servicioPeriodo
+					.buscarPeriodo(idRevision);*/
 
 			/* La ruta donde se creara el archivo */
 			String rutaArchivo = System.getProperty("user.home") + "/DNA" + "_"
-					+ periodoSeleccionado.getNombre() + ".xls";
+					+ lista.get(0).getRevision() + ".xls";
 			/* Se crea el objeto de tipo File con la ruta del archivo */
 			File archivoXLS = new File(rutaArchivo);
 			/* Si el archivo existe se elimina */
@@ -732,8 +712,8 @@ public class CGestionarAdiestramiento extends CGenerico {
 			 * Hacemos un ciclo para inicializar los valores de las filas de
 			 * celdas
 			 */
-			System.out.println(cursosPeriodo.size());
-			for (int f = 0; f <= cursosPeriodo.size(); f++) {
+			System.out.println(lista.size());
+			for (int f = 0; f <= lista.size(); f++) {
 				/* La clase Row nos permitira crear las filas */
 				Row fila = hoja.createRow(f);
 
@@ -746,6 +726,8 @@ public class CGestionarAdiestramiento extends CGenerico {
 				Cell celda5 = fila.createCell(5);
 				Cell celda6 = fila.createCell(6);
 				Cell celda7 = fila.createCell(7);
+				Cell celda8 = fila.createCell(8);
+				Cell celda9 = fila.createCell(9);
 
 				/* Si la fila es la numero 0, estableceremos los encabezados */
 				if (f == 0) {
@@ -754,29 +736,26 @@ public class CGestionarAdiestramiento extends CGenerico {
 					celda2.setCellValue("Capacitación");
 					celda3.setCellValue("Área");
 					celda4.setCellValue("Tipo Formación");
-					celda5.setCellValue("Periodo");
+					celda5.setCellValue("Urgencia");
 					celda6.setCellValue("Gerencia");
 					celda7.setCellValue("Cargo");
+					celda8.setCellValue("Grado");
+					celda9.setCellValue("Revision");
+					
 				} else {
 					/* Si no es la primera fila establecemos un valor */
-					celda0.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
-							.getFicha());
-					celda1.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
-							.getNombre());
-					celda2.setCellValue(cursosPeriodo.get(f - 1).getCurso()
-							.getNombreCurso().getNombre());
-					celda3.setCellValue(cursosPeriodo.get(f - 1).getCurso()
-							.getNombreCurso().getArea().getDescripcion());
-					celda4.setCellValue(cursosPeriodo.get(f - 1).getCurso()
-							.getNombreCurso().getArea().getTipoFormacion()
-							.getDescripcion());
-					celda5.setCellValue(cursosPeriodo.get(f - 1).getCurso()
-							.getPeriodo().getNombre());
-					celda6.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
-							.getUnidadOrganizativa().getGerencia()
-							.getDescripcion());
-					celda7.setCellValue(cursosPeriodo.get(f - 1).getEmpleado()
-							.getCargo().getDescripcion());
+					celda0.setCellValue(lista.get(f - 1).getFicha());
+					celda1.setCellValue(lista.get(f - 1).getNombre());
+					celda2.setCellValue(lista.get(f - 1).getCapacitacion());
+					celda3.setCellValue(lista.get(f - 1).getArea());
+					celda4.setCellValue(lista.get(f - 1).getTipoFormacion());
+					celda5.setCellValue(lista.get(f - 1).getUrgencia());
+					celda6.setCellValue(lista.get(f - 1).getGerencia());
+					celda7.setCellValue(lista.get(f - 1).getCargo());
+					celda8.setCellValue(lista.get(f - 1).getGrado());
+					celda9.setCellValue(lista.get(f - 1).getRevision());
+					
+					
 				}
 
 			}

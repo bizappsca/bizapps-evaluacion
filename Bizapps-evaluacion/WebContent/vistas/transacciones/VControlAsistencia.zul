@@ -82,7 +82,8 @@
 						<listheader label="Nombre" />
 						<listheader label="Cargo" />
 						<listheader label="Gerencia" />
-						<listheader label="Asistencia" width="10%" />
+						<listheader label="Asistió al Curso ? " width="20%" />
+						<listheader label="Aprobó el Curso ?" width="20%" />
 					</listhead>
 					<template name="model">
 						<listitem>
@@ -99,6 +100,9 @@
 							</listcell>
 							<listcell
 								label="${each.unidadOrganizativa.gerencia.descripcion}">
+							</listcell>
+							<listcell>
+								<checkbox />
 							</listcell>
 							<listcell>
 								<checkbox />

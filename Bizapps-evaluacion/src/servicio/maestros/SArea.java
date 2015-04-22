@@ -79,6 +79,14 @@ public class SArea {
 		area = areaDAO.findByDescripcionAllIgnoreCase(descripcion);
 		return area;
 	}
+	
+	/* Servicio que permite buscar un area de acuerdo al nombre */
+	public Area buscarPorNombresTipoFormacion(String descripcion,String tipoFormacion) {
+		Area area;
+		area = areaDAO.findByDescripcionAndTipoFormacionDescripcion(descripcion, tipoFormacion);
+		return area;
+	}
+	
 
 	public List<Area> buscarPorFormacion(int tipo) {
 		// TODO Auto-generated method stub

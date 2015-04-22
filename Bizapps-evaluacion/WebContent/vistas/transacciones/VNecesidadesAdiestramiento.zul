@@ -40,25 +40,25 @@
 						<column label="" width="55%" />
 						<column label="" width="30%" />
 					</columns>
-					<rows>
+					 <rows>
 						<row>
 							<hbox>
 								<label class="etiqueta"
-									value="Periodo:" />
+									value="Periodo:" visible="false" />
 								<space />
 								<label value="*"
-									style="font-weight:bold;color:red">
+									style="font-weight:bold;color:red" visible="false">
 								</label>
 							</hbox>
 							<textbox
 								id="txtPeriodoNecesidadesAdiestramiento" tabindex="1"
 								width="100%" maxlength="100"
-								tooltiptext="Ingrese aqui el nombre del periodo" />
+								tooltiptext="Ingrese aqui el nombre del periodo" visible="false" />
 							<button id="btnBuscarPeriodo" label="Buscar" class="btn"
 								tooltiptext="Catalogo de periodos" autodisable="self"
-								image="/public/imagenes/botones/buscar.png" />
+								image="/public/imagenes/botones/buscar.png" visible="false" />
 						</row>
-					</rows>
+					</rows> 
 				</grid>
 				<separator />
 				<div align="center" style="background-color:#F8E0E0">

@@ -501,7 +501,7 @@ public class CNecesidadesAdiestramiento extends CGenerico {
 									String estadoCurso = "EN TRAMITE";
 
 									EmpleadoCurso cursosEmpleado = new EmpleadoCurso(
-											curso, empleado, estadoCurso);
+											curso, empleado, estadoCurso,"NO");
 									servicioEmpleadoCurso
 											.guardar(cursosEmpleado);
 

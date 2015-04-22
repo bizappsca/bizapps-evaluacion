@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteEvaluacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8d939d0-56b3-4576-b273-d6b9fdb2c7fd">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="29"/>
-	<property name="ireport.y" value="170"/>
+	<property name="ireport.y" value="410"/>
 	<parameter name="evaluacion" class="java.lang.String"/>
 	<parameter name="evaluador" class="java.lang.String"/>
 	<parameter name="path_banner" class="java.lang.String"/>
@@ -68,7 +68,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="239">
+			<band height="274">
 				<staticText>
 					<reportElement mode="Opaque" x="1" y="3" width="550" height="11" backcolor="#CCCCCC" uuid="6ab692e5-7268-4998-add8-d5511f6a0df5"/>
 					<textElement textAlignment="Center">
@@ -221,6 +221,14 @@ SUPERVISOR
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression><![CDATA["controlador/reportes/evaluacion/jasper/competencias.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="239" width="544" height="35" uuid="d9cc555e-4a3f-41bd-9f92-ea380aa73211"/>
+					<subreportParameter name="evaluacion">
+						<subreportParameterExpression><![CDATA[$P{evaluacion}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["controlador/reportes/evaluacion/jasper/capacitacion.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>

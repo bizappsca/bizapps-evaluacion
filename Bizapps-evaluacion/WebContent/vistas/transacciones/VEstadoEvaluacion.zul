@@ -1,0 +1,61 @@
+<zk>
+	<div apply="controlador.transacciones.CEstadoEvaluacion" />
+	<separator />
+	<div id="botoneraUnidadOrganizativa" />
+	<separator />
+	
+	<groupbox id="gpxFiltros" width="auto" mold="3d" title="Buscar Evaluación">
+			
+			<grid width="100%">
+		<columns visible="false">
+			<column label="" width="10%" />
+			<column label="" width="20%" />
+			<column label="" width="20%" />
+			<column label="" width="50%" />
+		</columns>
+		<rows>
+			<row>
+				<hbox>
+					<label class="etiqueta" value="Empresa:" />
+					<space />
+				</hbox>
+				<textbox id="txtEmpresa" tabindex="1" width="100%"
+					maxlength="100" tooltiptext="Ingrese aqui la gerencia" readonly="true" />
+				<button id="btnBuscarEmpresa" class="btn" label="Buscar" autodisable="self"
+					tooltiptext="Catalogo de Empresas"  image="/public/imagenes/botones/buscar.png" />
+				<hbox />
+			</row>
+			<row>
+				<hbox>
+					<label class="etiqueta" value="Filtrar Personal:" />
+					<space />
+				</hbox>
+				<combobox id="cmbEstado" value="CON EVALUACIONES CREADAS" hflex="2" readonly="true">
+				    <comboitem id="CONEVAL" label="CON EVALUACIONES CREADAS"/>
+				    <comboitem id="SINEVAL" label="SIN EVALUACIONES CREADAS"/>
+				</combobox>
+				<hbox />
+			</row>
+		</rows>
+	</grid>
+		
+	</groupbox>
+	
+	
+	<separator />
+
+	<separator />
+	<div width="100%" align="right">
+		<button id="btnLimpiar" label="Limpiar" image="/public/imagenes/botones/limpiar.png" class="btn"/>
+		<button id="btnBuscar" label="Refrescar" image="/public/imagenes/botones/calibrada.png" class="btn" />
+	</div>
+	<separator />
+	<div id="divCatalogoEmpresa"
+		tooltiptext="Click para Seleccionar una Empresa" />
+	<groupbox id="gpxDatos" width="auto" title="">
+		<caption label="Registros" style="font-weight:bold"
+			tooltiptext="Presione para Visualizar las Evaluaciones" />
+		<div id="catalogoEvaluaciones"
+			tooltiptext="Seleccione la Evaluación para Realizar una Accion" />
+	</groupbox>
+</zk>

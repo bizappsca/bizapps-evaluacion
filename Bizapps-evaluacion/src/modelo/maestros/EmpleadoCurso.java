@@ -27,17 +27,21 @@ public class EmpleadoCurso implements Serializable {
 
 	@Column(name = "estado_curso")
 	private String estadoCurso;
+	
+	@Column(name = "asistio")
+	private String asistio;
 
 	public EmpleadoCurso() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public EmpleadoCurso(Curso curso, Empleado empleado, String estadoCurso) {
+	public EmpleadoCurso(Curso curso, Empleado empleado, String estadoCurso,String asistio) {
 		super();
 		this.curso = curso;
 		this.empleado = empleado;
 		this.estadoCurso = estadoCurso;
+		this.asistio= asistio;
 	}
 
 	public Curso getCurso() {
@@ -62,6 +66,14 @@ public class EmpleadoCurso implements Serializable {
 
 	public void setEstadoCurso(String estadoCurso) {
 		this.estadoCurso = estadoCurso;
+	}
+
+	public String getAsistio() {
+		return asistio;
+	}
+
+	public void setAsistio(String asistio) {
+		this.asistio = asistio;
 	}
 
 }
